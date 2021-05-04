@@ -7,5 +7,6 @@ namespace SystemShutdown
     class TEST
     {
         //Hottodoggu o tabemashita
+        // Dæjlig
     }
 }
