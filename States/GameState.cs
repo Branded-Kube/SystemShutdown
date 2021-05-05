@@ -17,7 +17,7 @@ namespace SystemShutdown.States
 
         private List<Player> players;
 
-        private List<GameObject> sprites;
+        private List<GameObject> gameObjects;
 
         public int playerCount;
 
@@ -33,21 +33,23 @@ namespace SystemShutdown.States
 
             font = _content.Load<SpriteFont>("Fonts/font");
 
-            sprites = new List<GameObject>()
+            gameObjects = new List<GameObject>()
             {
                 new GameObject(_content.Load<Texture2D>("Backgrounds/game"))
                 {
                     Layer = 0.0f,
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+                    Position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
+                    //Position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 }
             };
 
             if (playerCount >= 1)
             {
-                sprites.Add(new Player(playerTexture)
+                gameObjects.Add(new Player(playerTexture)
                 {
                     Colour = Color.Blue,
-                    Position = new Vector2(450, 600),
+                    Position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
+                    //Position = new Vector2(450, 600),
                     Layer = 0.3f,
                     //Bullet 
                     Input = new Input()
@@ -64,10 +66,11 @@ namespace SystemShutdown.States
 
             if (playerCount >= 2)
             {
-                sprites.Add(new Player(playerTexture)
+                gameObjects.Add(new Player(playerTexture)
                 {
                     Colour = Color.Green,
-                    Position = new Vector2(100, 600),
+                    Position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
+                    //Position = new Vector2(100, 600),
                     Layer = 0.4f,
                     //Bullet 
                     Input = new Input()
@@ -82,7 +85,7 @@ namespace SystemShutdown.States
                 });
             }
 
-            players = sprites.Where(c => c is Player).Select(c => (Player)c).ToList();
+            players = gameObjects.Where(c => c is Player).Select(c => (Player)c).ToList();
 
         }
 
@@ -93,7 +96,7 @@ namespace SystemShutdown.States
                 _game.ChangeState(new MenuState(_game, _content));
             }
 
-            foreach (var sprite in sprites)
+            foreach (var sprite in gameObjects)
             {
                 sprite.Update(gameTime);
             }
@@ -117,7 +120,7 @@ namespace SystemShutdown.States
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
-            foreach (var sprite in sprites)
+            foreach (var sprite in gameObjects)
             {
                 sprite.Draw(gameTime, spriteBatch);
             }

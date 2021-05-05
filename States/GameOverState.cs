@@ -39,7 +39,7 @@ namespace SystemShutdown.States
                 new Button(buttonTexture, buttonFont)
                 {
                     Text = "Main Menu",
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 560),
+                    Position = new Vector2(GameWorld.ScreenWidth / 2, 500),
                     Click = new EventHandler(Button_MainMenu_Clicked),
                     Layer = 0.1f
                 },

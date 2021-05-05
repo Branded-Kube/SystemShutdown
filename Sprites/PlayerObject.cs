@@ -21,7 +21,7 @@ namespace SystemShutdown.Sprites
             //bullet stuff
         }
 
-        public virtual void OnCollision(GameObject sprite)
+        public virtual void OnCollision(GameObject gameObject)
         {
             throw new NotImplementedException();
         }

@@ -15,6 +15,8 @@ namespace SystemShutdown.Sprites
         private KeyboardState previousKey;
 
         private float shootTimer = 0;
+
+        public float timePassed;
         #endregion
 
         #region Properties
@@ -35,12 +37,18 @@ namespace SystemShutdown.Sprites
         public Player(Texture2D texture)
             : base(texture)
         {
-            speed = 3f;
+            //speed = 3f;
         }
         #endregion
 
         public override void Update(GameTime gameTime)
         {
+            ///<summary>
+            /// Movement speed will be consistent no matter the framerate
+            ///</summary>
+            timePassed = gameTime.ElapsedGameTime.Milliseconds;
+            float movementSpeed = timePassed / 4;
+
             if (IsDead)
             {
                 return;
@@ -54,22 +62,22 @@ namespace SystemShutdown.Sprites
 
             if (currentKey.IsKeyDown(Input.Up))
             {
-                velocity.Y = -speed;
+                velocity.Y = -movementSpeed;
             }
             else if (currentKey.IsKeyDown(Input.Down))
             {
-                velocity.Y += speed;
+                velocity.Y += movementSpeed;
                 _rotation = MathHelper.ToRadians(180);
             }
 
             if (currentKey.IsKeyDown(Input.Left))
             {
-                velocity.X -= speed;
+                velocity.X -= movementSpeed;
                 _rotation = MathHelper.ToRadians(-90);
             }
             else if (currentKey.IsKeyDown(Input.Right))
             {
-                velocity.X += speed;
+                velocity.X += movementSpeed;
                 _rotation = MathHelper.ToRadians(90);
             }
 
@@ -77,7 +85,7 @@ namespace SystemShutdown.Sprites
 
             if (currentKey.IsKeyDown(Input.Shoot) && shootTimer > 0.25f)
             {
-                Shoot(speed * 2);
+                Shoot(movementSpeed);
                 shootTimer = 0f;
             }
 
