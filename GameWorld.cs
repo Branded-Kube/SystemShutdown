@@ -34,12 +34,12 @@ namespace SystemShutdown
         protected override void Initialize()
         {
             /// <summary>
-            /// Game now runs at 144 fps instead of 60 (for smoother gameplay testing)
+            /// Game runs at 60 fps
             /// </summary>
-            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 144.0f);
+            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60.0f);
             /// <summary>
-            /// It will make Update run consistenly at 144 fps, regardless of our Draw
-            /// It will try to draw frames to macth 144 fps, but update will allways run at 144
+            /// It will make Update run consistenly at 60 fps, regardless of our Draw
+            /// It will try to draw frames to macth 60 fps, but update will allways run at 60
             /// It will render the game at the same framerate as your monitor
             /// This will 'kindof' separate how the game runs (Update), and how the game renders (Draw)
             ///</ summary >
