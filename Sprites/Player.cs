@@ -63,22 +63,42 @@ namespace SystemShutdown.Sprites
             if (currentKey.IsKeyDown(Input.Up))
             {
                 velocity.Y = -movementSpeed;
+                velocity.Normalize();
             }
-            else if (currentKey.IsKeyDown(Input.Down))
+            if (currentKey.IsKeyDown(Input.Down))
             {
                 velocity.Y += movementSpeed;
                 _rotation = MathHelper.ToRadians(180);
+                velocity.Normalize();
             }
-
             if (currentKey.IsKeyDown(Input.Left))
             {
                 velocity.X -= movementSpeed;
                 _rotation = MathHelper.ToRadians(-90);
+                velocity.Normalize();
             }
-            else if (currentKey.IsKeyDown(Input.Right))
+            if (currentKey.IsKeyDown(Input.Right))
             {
                 velocity.X += movementSpeed;
                 _rotation = MathHelper.ToRadians(90);
+                velocity.Normalize();
+            }
+            
+            if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Right))
+            {
+                _rotation = MathHelper.ToRadians(45);
+            }
+            if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Left))
+            {
+                _rotation = MathHelper.ToRadians(-45);
+            }
+            if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Right))
+            {
+                _rotation = MathHelper.ToRadians(-225);
+            }
+            if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Left))
+            {
+                _rotation = MathHelper.ToRadians(225);
             }
 
             shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
