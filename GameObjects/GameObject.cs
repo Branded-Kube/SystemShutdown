@@ -12,14 +12,23 @@ namespace SystemShutdown.GameObjects
         #region Fields
         protected Texture2D _texture;
 
-        protected float rotation;
-
         public Vector2 origin;
 
+        protected float rotation;
+
         public Vector2 position;
+
+        protected float timePassed;
+
+        protected Vector2 velocity;
+        protected float rotationVelocity = 3f;
+        protected const float tangentialVelocity = 4f;
+        protected float friction = 0.1f;
         #endregion
 
         #region Properties
+
+        public int Health { get; set; }
         public Color Colour { get; set; }
 
         protected float _Layer { get; set; }

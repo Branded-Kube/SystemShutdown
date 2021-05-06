@@ -7,14 +7,12 @@ using System.Text;
 
 namespace SystemShutdown.GameObjects
 {
-    public class Player : PlayerObject
+    public class Player : GameObject
     {
         #region Fields
         private KeyboardState currentKey;
 
         private KeyboardState previousKey;
-
-        public float timePassed;
         #endregion
 
         #region Properties
@@ -71,52 +69,83 @@ namespace SystemShutdown.GameObjects
             previousKey = currentKey;
             currentKey = Keyboard.GetState();
 
-            var velocity = Vector2.Zero;
-            rotation = 0;
+            /// <summary>
+            /// Rotation rectangle, Player rotation, movement & speed
+            /// Frederik
+            /// </summary>
+            //Player is able to move
+            position = velocity + position;
 
-            if (currentKey.IsKeyDown(Input.Up))
+            if (currentKey.IsKeyDown(Input.Right))
             {
-                velocity.Y = -movementSpeed;
-                velocity.Normalize();
-            }
-            if (currentKey.IsKeyDown(Input.Down))
-            {
-                velocity.Y += movementSpeed;
-                rotation = MathHelper.ToRadians(180);
-                velocity.Normalize();
+                rotation += 0.1f;
             }
             if (currentKey.IsKeyDown(Input.Left))
             {
-                velocity.X -= movementSpeed;
-                rotation = MathHelper.ToRadians(-90);
-                velocity.Normalize();
-            }
-            if (currentKey.IsKeyDown(Input.Right))
-            {
-                velocity.X += movementSpeed;
-                rotation = MathHelper.ToRadians(90);
-                velocity.Normalize();
+                rotation -= 0.1f;
             }
 
-            if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Right))
+            if (currentKey.IsKeyDown(Input.Up))
             {
-                rotation = MathHelper.ToRadians(45);
+                velocity.X = (float)Math.Cos(rotation) * movementSpeed;
+                velocity.Y = (float)Math.Sin(rotation) * movementSpeed;
             }
-            if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Left))
+            //Stops movement when key released & adds friction
+            else if (velocity != Vector2.Zero)
             {
-                rotation = MathHelper.ToRadians(-45);
-            }
-            if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Right))
-            {
-                rotation = MathHelper.ToRadians(-225);
-            }
-            if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Left))
-            {
-                rotation = MathHelper.ToRadians(225);
+                float k = velocity.X;
+                float l = velocity.Y;
+
+                velocity.X = k -= friction * k;
+                velocity.Y = l -= friction * l;
             }
 
-            // Movement
-            position += velocity;
+            //var velocity = Vector2.Zero;
+            //rotation = 0;
+
+            //if (currentKey.IsKeyDown(Input.Up))
+            //{
+            //    velocity.Y = -movementSpeed;
+            //    velocity.Normalize();
+            //}
+            //if (currentKey.IsKeyDown(Input.Down))
+            //{
+            //    velocity.Y += movementSpeed;
+            //    rotation = MathHelper.ToRadians(180);
+            //    velocity.Normalize();
+            //}
+            //if (currentKey.IsKeyDown(Input.Left))
+            //{
+            //    velocity.X -= movementSpeed;
+            //    rotation = MathHelper.ToRadians(-90);
+            //    velocity.Normalize();
+            //}
+            //if (currentKey.IsKeyDown(Input.Right))
+            //{
+            //    velocity.X += movementSpeed;
+            //    rotation = MathHelper.ToRadians(90);
+            //    velocity.Normalize();
+            //}
+
+            //if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Right))
+            //{
+            //    rotation = MathHelper.ToRadians(45);
+            //}
+            //if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Left))
+            //{
+            //    rotation = MathHelper.ToRadians(-45);
+            //}
+            //if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Right))
+            //{
+            //    rotation = MathHelper.ToRadians(-225);
+            //}
+            //if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Left))
+            //{
+            //    rotation = MathHelper.ToRadians(225);
+            //}
+
+            //// Movement
+            //position += velocity;
         }
 
         // Frederik
