@@ -64,7 +64,7 @@ namespace SystemShutdown.GameObjects
             /// Frederik
             ///</summary>
             timePassed = gameTime.ElapsedGameTime.Milliseconds;
-            float movementSpeed = timePassed / 4;
+            float tangentialVelocity = timePassed / 4;
 
             previousKey = currentKey;
             currentKey = Keyboard.GetState();
@@ -87,8 +87,8 @@ namespace SystemShutdown.GameObjects
 
             if (currentKey.IsKeyDown(Input.Up))
             {
-                velocity.X = (float)Math.Cos(rotation) * movementSpeed;
-                velocity.Y = (float)Math.Sin(rotation) * movementSpeed;
+                velocity.X = (float)Math.Cos(rotation) * tangentialVelocity;
+                velocity.Y = (float)Math.Sin(rotation) * tangentialVelocity;
             }
             //Stops movement when key released & adds friction
             else if (velocity != Vector2.Zero)

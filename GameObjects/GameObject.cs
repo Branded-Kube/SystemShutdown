@@ -22,7 +22,6 @@ namespace SystemShutdown.GameObjects
 
         protected Vector2 velocity;
         protected float rotationVelocity = 3f;
-        protected const float tangentialVelocity = 4f;
         protected float friction = 0.1f;
         #endregion
 
