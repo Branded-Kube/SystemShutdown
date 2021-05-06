@@ -34,6 +34,7 @@ namespace SystemShutdown.States
 
         public override void LoadContent()
         {
+            // Frederik
             var playerTexture = _content.Load<Texture2D>("Textures/pl1");
 
             font = _content.Load<SpriteFont>("Fonts/font");
@@ -47,6 +48,7 @@ namespace SystemShutdown.States
                 }
             };
 
+            // Frederik
             if (playerCount >= 1)
             {
                 gameObjects.Add(new Player(playerTexture)
@@ -66,6 +68,7 @@ namespace SystemShutdown.States
                 });
             }
 
+            // Frederik
             if (playerCount >= 2)
             {
                 gameObjects.Add(new Player(playerTexture)
@@ -91,6 +94,7 @@ namespace SystemShutdown.States
 
         public override void Update(GameTime gameTime)
         {
+            // Frederik
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 _game.ChangeState(new MenuState(_game, _content));
@@ -107,6 +111,7 @@ namespace SystemShutdown.States
             // When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
 
             // If player is dead, show game over screen
+            // Frederik
             if (players.All(c => c.IsDead))
             {
                 //highscores can also be added here (to be shown in the game over screen)
@@ -120,6 +125,7 @@ namespace SystemShutdown.States
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
+            // Frederik
             foreach (var sprite in gameObjects)
             {
                 sprite.Draw(gameTime, spriteBatch);
@@ -129,6 +135,7 @@ namespace SystemShutdown.States
 
             spriteBatch.Begin();
 
+            // Frederik
             float x = 10f;
             foreach (var player in players)
             {

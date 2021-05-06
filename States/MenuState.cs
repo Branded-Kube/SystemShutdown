@@ -27,6 +27,7 @@ namespace SystemShutdown
 
         public override void LoadContent()
         {
+            // Frederik
             var buttonTexture = _content.Load<Texture2D>("Controls/button");
             var buttonFont = _content.Load<SpriteFont>("Fonts/font");
 
@@ -64,6 +65,7 @@ namespace SystemShutdown
             };
         }
 
+        // Frederik
         private void Button_1Player_Clicked(object sender, EventArgs e)
         {
             _game.ChangeState(new GameState(_game, _content)
@@ -72,6 +74,7 @@ namespace SystemShutdown
             });
         }
 
+        // Frederik
         private void Button_2Player_Clicked(object sender, EventArgs e)
         {
             _game.ChangeState(new GameState(_game, _content)
@@ -80,6 +83,7 @@ namespace SystemShutdown
             });
         }
 
+        // Frederik
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
             _game.Exit();
@@ -87,6 +91,7 @@ namespace SystemShutdown
 
         public override void Update(GameTime gameTime)
         {
+            // Frederik
             foreach (var component in components)
             {
                 component.Update(gameTime);
@@ -100,6 +105,7 @@ namespace SystemShutdown
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            // Frederik
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             foreach (var component in components)

@@ -10,6 +10,7 @@ namespace SystemShutdown
 {
     public abstract class Component
     {
+        // Frederik
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
         public abstract void Update(GameTime gameTime);

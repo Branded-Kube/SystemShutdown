@@ -50,6 +50,7 @@ namespace SystemShutdown.GameObjects
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            // Frederik
             if (IsDead)
             {
                 return;
@@ -62,6 +63,7 @@ namespace SystemShutdown.GameObjects
         {
             ///<summary>
             /// Movement speed will be consistent no matter the framerate
+            /// Frederik
             ///</summary>
             timePassed = gameTime.ElapsedGameTime.Milliseconds;
             float movementSpeed = timePassed / 4;
@@ -117,6 +119,7 @@ namespace SystemShutdown.GameObjects
             position += velocity;
         }
 
+        // Frederik
         public override void OnCollision(GameObject sprite)
         {
             if (IsDead)

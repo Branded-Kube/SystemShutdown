@@ -34,6 +34,11 @@ namespace SystemShutdown
         }
         #endregion
 
+        /// <summary>
+        /// ChangeState changes GameState
+        /// </summary>
+        /// <param name="state"></param>
+        /// Frederik
         public void ChangeState(State state)
         {
             nextGameState = state;
@@ -43,6 +48,7 @@ namespace SystemShutdown
         {
             /// <summary>
             /// Game runs at 60 fps
+            /// Frederik
             /// </summary>
             TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60.0f);
             /// <summary>
@@ -50,6 +56,7 @@ namespace SystemShutdown
             /// It will try to draw frames to macth 60 fps, but update will allways run at 60
             /// It will render the game at the same framerate as your monitor
             /// This will 'kindof' separate how the game runs (Update), and how the game renders (Draw)
+            /// Frederik
             ///</ summary >
             IsFixedTimeStep = true;
 
@@ -66,17 +73,20 @@ namespace SystemShutdown
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Loads all GameStates
+            //Loads all GameStates
+            //Frederik
             currentGameState = new MenuState(this, Content);
             currentGameState.LoadContent();
             nextGameState = null;
 
             // Loads Target Renderer: to run the game in the same resolution, no matter the pc
+            // Frederik
             renderTarget = new RenderTarget2D(GraphicsDevice, 1920, 1080);
         }
 
         protected override void Update(GameTime gameTime)
         {
+            // Frederik
             if (nextGameState != null)
             {
                 currentGameState = nextGameState;
@@ -100,6 +110,7 @@ namespace SystemShutdown
             /// <summary>
             /// This will scale and adjust everything in game to our scale and no matter the size of the window,
             /// the game will always be running in 1080p resolution (or what resolution we choose)
+            /// Frederik
             /// </summary>
             scale = 1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
 

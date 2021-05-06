@@ -30,6 +30,7 @@ namespace SystemShutdown.States
 
         public override void LoadContent()
         {
+            //Frederik
             font = _content.Load<SpriteFont>("Fonts/font");
 
             var buttonTexture = _content.Load<Texture2D>("Controls/button");
@@ -53,6 +54,7 @@ namespace SystemShutdown.States
             };
         }
 
+        // Frederik
         private void Button_MainMenu_Clicked(object sender, EventArgs e)
         {
             _game.ChangeState(new MenuState(_game, _content));
@@ -60,6 +62,7 @@ namespace SystemShutdown.States
 
         public override void Update(GameTime gameTime)
         {
+            // Frederik
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Button_MainMenu_Clicked(this, new EventArgs());
@@ -78,6 +81,7 @@ namespace SystemShutdown.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            // Frederik
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             foreach (var component in components)

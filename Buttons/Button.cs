@@ -35,6 +35,7 @@ namespace SystemShutdown.Buttons
 
         public float Layer { get; set; }
 
+        // Frederik
         public Vector2 Origin
         {
             get
@@ -47,6 +48,8 @@ namespace SystemShutdown.Buttons
 
         public Vector2 Position { get; set; }
 
+
+        // Frederik
         public Rectangle Rectangle
         {
             get
@@ -61,6 +64,7 @@ namespace SystemShutdown.Buttons
 
         #region Methods
 
+        // Frederik
         public Button(Texture2D texture, SpriteFont font)
         {
             _texture = texture;
@@ -72,12 +76,11 @@ namespace SystemShutdown.Buttons
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            // Frederik
             var color = Color.White;
 
             if (isHovering)
                 color = Color.Gray;
-
-            //spriteBatch.Draw(_texture, Position, null, color, 0f, Origin, 1f, SpriteEffects.None, Layer);
 
             spriteBatch.Draw(_texture, Rectangle, color);
 
@@ -87,12 +90,12 @@ namespace SystemShutdown.Buttons
                 var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
 
                 spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, Layer + 0.01f);
-                //spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColor);
             }
         }
 
         public override void Update(GameTime gameTime)
         {
+            // Frederik
             previousMouse = currentMouse;
             currentMouse = Mouse.GetState();
 

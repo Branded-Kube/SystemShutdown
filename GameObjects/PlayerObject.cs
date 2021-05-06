@@ -15,6 +15,7 @@ namespace SystemShutdown.GameObjects
         {
         }
 
+        // Frederik
         public virtual void OnCollision(GameObject gameObject)
         {
             throw new NotImplementedException();

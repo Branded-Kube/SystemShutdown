@@ -24,6 +24,7 @@ namespace SystemShutdown.GameObjects
 
         protected float _Layer { get; set; }
 
+        // Frederik
         public float Layer
         {
             get { return _Layer; }
@@ -38,6 +39,7 @@ namespace SystemShutdown.GameObjects
 
         #region Constructor
 
+        // Frederik
         public GameObject(Texture2D texture)
         {
             _texture = texture;
@@ -56,6 +58,7 @@ namespace SystemShutdown.GameObjects
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            // Frederik
             spriteBatch.Draw(_texture, position, null, Colour, rotation, origin, 1, SpriteEffects.None, 0);
         }
 
