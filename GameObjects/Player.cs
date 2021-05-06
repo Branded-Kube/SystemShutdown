@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SystemShutdown.Sprites
+namespace SystemShutdown.GameObjects
 {
     public class Player : PlayerObject
     {
@@ -13,8 +13,6 @@ namespace SystemShutdown.Sprites
         private KeyboardState currentKey;
 
         private KeyboardState previousKey;
-
-        private float shootTimer = 0;
 
         public float timePassed;
         #endregion
@@ -37,80 +35,17 @@ namespace SystemShutdown.Sprites
         public Player(Texture2D texture)
             : base(texture)
         {
-            //speed = 3f;
         }
         #endregion
 
         public override void Update(GameTime gameTime)
         {
-            ///<summary>
-            /// Movement speed will be consistent no matter the framerate
-            ///</summary>
-            timePassed = gameTime.ElapsedGameTime.Milliseconds;
-            float movementSpeed = timePassed / 4;
-
             if (IsDead)
             {
                 return;
             }
 
-            previousKey = currentKey;
-            currentKey = Keyboard.GetState();
-
-            var velocity = Vector2.Zero;
-            _rotation = 0;
-
-            if (currentKey.IsKeyDown(Input.Up))
-            {
-                velocity.Y = -movementSpeed;
-                velocity.Normalize();
-            }
-            if (currentKey.IsKeyDown(Input.Down))
-            {
-                velocity.Y += movementSpeed;
-                _rotation = MathHelper.ToRadians(180);
-                velocity.Normalize();
-            }
-            if (currentKey.IsKeyDown(Input.Left))
-            {
-                velocity.X -= movementSpeed;
-                _rotation = MathHelper.ToRadians(-90);
-                velocity.Normalize();
-            }
-            if (currentKey.IsKeyDown(Input.Right))
-            {
-                velocity.X += movementSpeed;
-                _rotation = MathHelper.ToRadians(90);
-                velocity.Normalize();
-            }
-            
-            if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Right))
-            {
-                _rotation = MathHelper.ToRadians(45);
-            }
-            if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Left))
-            {
-                _rotation = MathHelper.ToRadians(-45);
-            }
-            if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Right))
-            {
-                _rotation = MathHelper.ToRadians(-225);
-            }
-            if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Left))
-            {
-                _rotation = MathHelper.ToRadians(225);
-            }
-
-            shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (currentKey.IsKeyDown(Input.Shoot) && shootTimer > 0.25f)
-            {
-                Shoot(movementSpeed);
-                shootTimer = 0f;
-            }
-
-            // Movement
-            Position += velocity;
+            Move(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -123,24 +58,71 @@ namespace SystemShutdown.Sprites
             base.Draw(gameTime, spriteBatch);
         }
 
+        private void Move(GameTime gameTime)
+        {
+            ///<summary>
+            /// Movement speed will be consistent no matter the framerate
+            ///</summary>
+            timePassed = gameTime.ElapsedGameTime.Milliseconds;
+            float movementSpeed = timePassed / 4;
+
+            previousKey = currentKey;
+            currentKey = Keyboard.GetState();
+
+            var velocity = Vector2.Zero;
+            rotation = 0;
+
+            if (currentKey.IsKeyDown(Input.Up))
+            {
+                velocity.Y = -movementSpeed;
+                velocity.Normalize();
+            }
+            if (currentKey.IsKeyDown(Input.Down))
+            {
+                velocity.Y += movementSpeed;
+                rotation = MathHelper.ToRadians(180);
+                velocity.Normalize();
+            }
+            if (currentKey.IsKeyDown(Input.Left))
+            {
+                velocity.X -= movementSpeed;
+                rotation = MathHelper.ToRadians(-90);
+                velocity.Normalize();
+            }
+            if (currentKey.IsKeyDown(Input.Right))
+            {
+                velocity.X += movementSpeed;
+                rotation = MathHelper.ToRadians(90);
+                velocity.Normalize();
+            }
+
+            if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Right))
+            {
+                rotation = MathHelper.ToRadians(45);
+            }
+            if (currentKey.IsKeyDown(Input.Up) && currentKey.IsKeyDown(Input.Left))
+            {
+                rotation = MathHelper.ToRadians(-45);
+            }
+            if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Right))
+            {
+                rotation = MathHelper.ToRadians(-225);
+            }
+            if (currentKey.IsKeyDown(Input.Down) && currentKey.IsKeyDown(Input.Left))
+            {
+                rotation = MathHelper.ToRadians(225);
+            }
+
+            // Movement
+            position += velocity;
+        }
+
         public override void OnCollision(GameObject sprite)
         {
             if (IsDead)
             {
                 return;
             }
-
-            // Damage dealt by Bullets
-
-            //if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
-            //{
-            //    Health--;
-            //}
-
-            //if (sprite is Enemy)
-            //{
-            //    Health -= 3;
-            //}
         }
         #endregion
     }

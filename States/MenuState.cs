@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SystemShutdown.Buttons;
-using SystemShutdown.Sprites;
+using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
 namespace SystemShutdown
@@ -16,11 +16,14 @@ namespace SystemShutdown
     {
         private List<Component> components;
 
+        #region Methods
+
+        #region Constructor
         public MenuState(GameWorld game, ContentManager content)
           : base(game, content)
         {
-            
         }
+        #endregion
 
         public override void LoadContent()
         {
@@ -32,7 +35,7 @@ namespace SystemShutdown
                 new GameObject(_content.Load<Texture2D>("Backgrounds/mainmenu"))
                 {
                     Layer = 0f,
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+                    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 },
 
                 new Button(buttonTexture, buttonFont)
@@ -92,7 +95,7 @@ namespace SystemShutdown
 
         public override void PostUpdate(GameTime gameTime)
         {
-            
+            //(unload game - specific content)
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -106,5 +109,6 @@ namespace SystemShutdown
 
             spriteBatch.End();
         }
+        #endregion
     }
 }

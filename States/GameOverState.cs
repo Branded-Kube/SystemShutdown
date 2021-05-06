@@ -6,20 +6,27 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SystemShutdown.Buttons;
-using SystemShutdown.Sprites;
+using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.States
 {
     public class GameOverState : State
     {
+        #region Fields
         private List<Component> components;
 
         private SpriteFont font;
 
+        #endregion
+
+        #region Methods
+
+        #region Constructor
         public GameOverState(GameWorld game, ContentManager content)
             : base(game, content)
         {
         }
+        #endregion
 
         public override void LoadContent()
         {
@@ -33,7 +40,7 @@ namespace SystemShutdown.States
                 new GameObject(_content.Load<Texture2D>("Backgrounds/gameover"))
                 {
                     Layer = 0f,
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+                    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 },
 
                 new Button(buttonTexture, buttonFont)
@@ -66,7 +73,7 @@ namespace SystemShutdown.States
 
         public override void PostUpdate(GameTime gameTime)
         {
-            
+            //(unload game-specific content)
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -80,5 +87,6 @@ namespace SystemShutdown.States
 
             spriteBatch.End();
         }
+        #endregion
     }
 }

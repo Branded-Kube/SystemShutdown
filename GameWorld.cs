@@ -11,6 +11,8 @@ namespace SystemShutdown
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        #region Fields
+
         public static RenderTarget2D renderTarget;
         public float scale = 0.4444f;
 
@@ -20,15 +22,21 @@ namespace SystemShutdown
         private State currentGameState;
         private State nextGameState;
 
-        public void ChangeState(State state)
-        {
-            nextGameState = state;
-        }
+        #endregion
 
+        #region Methods
+
+        #region Constructor
         public GameWorld()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+        }
+        #endregion
+
+        public void ChangeState(State state)
+        {
+            nextGameState = state;
         }
 
         protected override void Initialize()
@@ -88,7 +96,6 @@ namespace SystemShutdown
 
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
 
             /// <summary>
             /// This will scale and adjust everything in game to our scale and no matter the size of the window,
@@ -102,6 +109,7 @@ namespace SystemShutdown
             currentGameState.Draw(gameTime, spriteBatch);
 
             GraphicsDevice.SetRenderTarget(null);
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // Draw TargetRenderer
@@ -111,5 +119,6 @@ namespace SystemShutdown
 
             base.Draw(gameTime);
         }
+        #endregion
     }
 }
