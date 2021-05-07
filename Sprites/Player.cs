@@ -17,6 +17,10 @@ namespace SystemShutdown.Sprites
         private float shootTimer = 0;
 
         public float timePassed;
+
+        private float speed;
+        private Vector2 position;
+        private Vector2 origin;
         #endregion
 
         #region Properties
