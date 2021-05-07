@@ -7,6 +7,7 @@ namespace SystemShutdown
 {
     public class Input
     {
+        //Frederik
         public Keys Up { get; set; }
 
         public Keys Down { get; set; }

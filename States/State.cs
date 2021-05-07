@@ -24,6 +24,7 @@ namespace SystemShutdown
         #region Constructor
         public State(GameWorld game, ContentManager content)
         {
+            // Frederik
             _game = game;
 
             _content = content;

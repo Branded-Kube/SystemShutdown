@@ -7,12 +7,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SystemShutdown.Sprites;
+using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.States
 {
     public class GameState : State
     {
+        #region Fields
         private SpriteFont font;
 
         private List<Player> players;
@@ -20,16 +21,21 @@ namespace SystemShutdown.States
         private List<GameObject> gameObjects;
 
         public int playerCount;
+        #endregion
 
+        #region Methods
+
+        #region Constructor
         public GameState(GameWorld game, ContentManager content)
           : base(game, content)
         {
         }
+        #endregion
 
         public override void LoadContent()
         {
+            // Frederik
             var playerTexture = _content.Load<Texture2D>("Textures/pl1");
-            //var bulletTexture = _content.Load<Texture2D>("");
 
             font = _content.Load<SpriteFont>("Fonts/font");
 
@@ -38,20 +44,18 @@ namespace SystemShutdown.States
                 new GameObject(_content.Load<Texture2D>("Backgrounds/game"))
                 {
                     Layer = 0.0f,
-                    Position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
-                    //Position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+                    position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
                 }
             };
 
+            // Frederik
             if (playerCount >= 1)
             {
                 gameObjects.Add(new Player(playerTexture)
                 {
                     Colour = Color.Blue,
-                    Position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
-                    //Position = new Vector2(450, 600),
+                    position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
                     Layer = 0.3f,
-                    //Bullet 
                     Input = new Input()
                     {
                         Up = Keys.W,
@@ -64,15 +68,14 @@ namespace SystemShutdown.States
                 });
             }
 
+            // Frederik
             if (playerCount >= 2)
             {
                 gameObjects.Add(new Player(playerTexture)
                 {
                     Colour = Color.Green,
-                    Position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
-                    //Position = new Vector2(100, 600),
+                    position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
                     Layer = 0.4f,
-                    //Bullet 
                     Input = new Input()
                     {
                         Up = Keys.Up,
@@ -91,6 +94,7 @@ namespace SystemShutdown.States
 
         public override void Update(GameTime gameTime)
         {
+            // Frederik
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 _game.ChangeState(new MenuState(_game, _content));
@@ -104,9 +108,10 @@ namespace SystemShutdown.States
 
         public override void PostUpdate(GameTime gameTime)
         {
-            // When sprites collide = bullet colliding with enemy/player (unload game-specific content)
+            // When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
 
             // If player is dead, show game over screen
+            // Frederik
             if (players.All(c => c.IsDead))
             {
                 //highscores can also be added here (to be shown in the game over screen)
@@ -120,6 +125,7 @@ namespace SystemShutdown.States
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
+            // Frederik
             foreach (var sprite in gameObjects)
             {
                 sprite.Draw(gameTime, spriteBatch);
@@ -129,6 +135,7 @@ namespace SystemShutdown.States
 
             spriteBatch.Begin();
 
+            // Frederik
             float x = 10f;
             foreach (var player in players)
             {
@@ -140,5 +147,6 @@ namespace SystemShutdown.States
             }
             spriteBatch.End();
         }
+        #endregion
     }
 }
