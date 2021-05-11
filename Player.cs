@@ -33,8 +33,7 @@ namespace SystemShutdown.GameObjects
         #region Methods
 
         #region Constructor
-        public Player(Texture2D texture)
-            : base(texture)
+        public Player()
         {
         }
         #endregion
@@ -64,7 +63,7 @@ namespace SystemShutdown.GameObjects
             base.Draw(gameTime, spriteBatch);
         }
 
-        private void Move(GameTime gameTime)
+        public void Move(GameTime gameTime)
         {
             ///<summary>
             /// Movement speed will be consistent no matter the framerate
