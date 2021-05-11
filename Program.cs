@@ -1,4 +1,5 @@
 ﻿using System;
+using SystemShutdown.AStar;
 
 namespace SystemShutdown
 {
@@ -7,7 +8,7 @@ namespace SystemShutdown
         [STAThread]
         static void Main()
         {
-            using (var game = new GameWorld())
+            using (var game = new GameWorld1())
                 game.Run();
         }
     }
