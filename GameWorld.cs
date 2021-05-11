@@ -99,19 +99,12 @@ namespace SystemShutdown
 
                 nextGameState = null;
 
-
             }
-
-
-
             //Updates game
             currentGameState.Update(gameTime);
 
             currentGameState.PostUpdate(gameTime);
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-
-            inputHandler.Execute();
 
             base.Update(gameTime);
         }

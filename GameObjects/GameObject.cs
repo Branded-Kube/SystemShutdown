@@ -50,7 +50,7 @@ namespace SystemShutdown.GameObjects
         #region Constructor
 
         // Frederik
-        public GameObject(Texture2D texture)
+        public GameObject()
         {
             //_texture = texture;
 
