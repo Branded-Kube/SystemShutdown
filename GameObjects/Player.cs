@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -13,6 +14,7 @@ namespace SystemShutdown.GameObjects
         private KeyboardState currentKey;
 
         private KeyboardState previousKey;
+        private Texture sprite;
         #endregion
 
         #region Properties
@@ -46,6 +48,10 @@ namespace SystemShutdown.GameObjects
             Move(gameTime);
         }
 
+        public void LoadContent(ContentManager content)
+        {
+            sprite = content.Load<Texture2D>("Textures/pl1");
+        }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Frederik

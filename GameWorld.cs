@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
 namespace SystemShutdown
@@ -21,7 +22,8 @@ namespace SystemShutdown
 
         private State currentGameState;
         private State nextGameState;
-
+        private InputHandler inputHandler;
+        private Player player;
         #endregion
 
         #region Methods
@@ -64,6 +66,9 @@ namespace SystemShutdown
             graphics.PreferredBackBufferHeight = ScreenHeight;
             graphics.ApplyChanges();
 
+            player = new Player();
+            inputHandler = new InputHandler();
+
             IsMouseVisible = true;
 
             base.Initialize();
@@ -95,6 +100,8 @@ namespace SystemShutdown
                 nextGameState = null;
             }
 
+
+            inputHandler.Execute(player);
 
             //Updates game
             currentGameState.Update(gameTime);
