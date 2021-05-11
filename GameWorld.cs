@@ -22,8 +22,9 @@ namespace SystemShutdown
 
         private State currentGameState;
         private State nextGameState;
-        private InputHandler inputHandler;
-        private Player player;
+
+        public static float DeltaTime { get; set; }
+
         #endregion
 
         #region Methods
@@ -66,8 +67,6 @@ namespace SystemShutdown
             graphics.PreferredBackBufferHeight = ScreenHeight;
             graphics.ApplyChanges();
 
-            player = new Player();
-            inputHandler = new InputHandler();
 
             IsMouseVisible = true;
 
@@ -80,13 +79,15 @@ namespace SystemShutdown
 
             //Loads all GameStates
             //Frederik
+
             currentGameState = new MenuState(this, Content);
+
             currentGameState.LoadContent();
             nextGameState = null;
-
             // Loads Target Renderer: to run the game in the same resolution, no matter the pc
             // Frederik
             renderTarget = new RenderTarget2D(GraphicsDevice, 1920, 1080);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -98,10 +99,11 @@ namespace SystemShutdown
                 currentGameState.LoadContent();
 
                 nextGameState = null;
+
+
             }
 
 
-            inputHandler.Execute(player);
 
             //Updates game
             currentGameState.Update(gameTime);
