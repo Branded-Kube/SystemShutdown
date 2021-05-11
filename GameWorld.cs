@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
 namespace SystemShutdown
@@ -21,6 +22,10 @@ namespace SystemShutdown
 
         private State currentGameState;
         private State nextGameState;
+
+        private InputHandler inputHandler;
+
+        public static float DeltaTime { get; set; }
 
         #endregion
 
@@ -64,6 +69,8 @@ namespace SystemShutdown
             graphics.PreferredBackBufferHeight = ScreenHeight;
             graphics.ApplyChanges();
 
+            inputHandler = new InputHandler();
+
             IsMouseVisible = true;
 
             base.Initialize();
@@ -100,6 +107,10 @@ namespace SystemShutdown
             currentGameState.Update(gameTime);
 
             currentGameState.PostUpdate(gameTime);
+            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
+            inputHandler.Execute();
 
             base.Update(gameTime);
         }

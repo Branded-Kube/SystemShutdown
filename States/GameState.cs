@@ -44,9 +44,9 @@ namespace SystemShutdown.States
         #region Methods
 
         #region Constructor
-        public GameState(GameWorld game, ContentManager content)
-          : base(game, content)
+        public GameState(GameWorld game, ContentManager content) : base(game, content)
         {
+
         }
         #endregion
 
@@ -71,14 +71,6 @@ namespace SystemShutdown.States
                 Colour = Color.Blue,
                 position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
                 Layer = 0.3f,
-                Input = new Input()
-                {
-                    Up = Keys.W,
-                    Down = Keys.S,
-                    Left = Keys.A,
-                    Right = Keys.D,
-                    Shoot = Keys.Space,
-                },
                 Health = 10,
             };
 
@@ -87,14 +79,6 @@ namespace SystemShutdown.States
                 Colour = Color.Green,
                 position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
                 Layer = 0.4f,
-                Input = new Input()
-                {
-                    Up = Keys.Up,
-                    Down = Keys.Down,
-                    Left = Keys.Left,
-                    Right = Keys.Right,
-                    Shoot = Keys.Enter,
-                },
                 Health = 10,
             };
 

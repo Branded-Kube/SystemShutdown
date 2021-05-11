@@ -13,6 +13,7 @@ namespace SystemShutdown.GameObjects
         private KeyboardState currentKey;
 
         private KeyboardState previousKey;
+        private float speed;
         #endregion
 
         #region Properties
@@ -24,15 +25,14 @@ namespace SystemShutdown.GameObjects
             }
         }
 
-        public Input Input { get; set; }
         #endregion
 
         #region Methods
 
         #region Constructor
-        public Player(Texture2D texture)
-            : base(texture)
+        public Player(Texture2D texture) : base(texture)
         {
+            this.speed = 1000;
         }
         #endregion
 
@@ -43,7 +43,7 @@ namespace SystemShutdown.GameObjects
                 return;
             }
 
-            Move(gameTime);
+            Move(velocity);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -57,49 +57,64 @@ namespace SystemShutdown.GameObjects
             base.Draw(gameTime, spriteBatch);
         }
 
-        private void Move(GameTime gameTime)
+        public void Move(Vector2 velocity)
         {
-            ///<summary>
-            /// Movement speed will be consistent no matter the framerate
-            /// Frederik
-            ///</summary>
-            timePassed = gameTime.ElapsedGameTime.Milliseconds;
-            float tangentialVelocity = timePassed / 4;
-
-            previousKey = currentKey;
-            currentKey = Keyboard.GetState();
-
-            /// <summary>
-            /// Rotation rectangle, Player rotation, movement & speed
-            /// Frederik
-            /// </summary>
-            //Player is able to move
-            position = velocity + position;
-
-            if (currentKey.IsKeyDown(Input.Right))
+            if (velocity != Vector2.Zero)
             {
-                rotation += 0.1f;
+                velocity.Normalize();
             }
-            if (currentKey.IsKeyDown(Input.Left))
-            {
-                rotation -= 0.1f;
-            }
+            velocity *= speed;
 
-            if (currentKey.IsKeyDown(Input.Up))
-            {
-                velocity.X = (float)Math.Cos(rotation) * tangentialVelocity;
-                velocity.Y = (float)Math.Sin(rotation) * tangentialVelocity;
-            }
-            //Stops movement when key released & adds friction
-            else if (velocity != Vector2.Zero)
-            {
-                float k = velocity.X;
-                float l = velocity.Y;
+            position += (velocity * GameWorld.DeltaTime);
+        }
+        //public void Move(Vector2 velocity)
+        //{
+        //    ///<summary>
+        //    /// Movement speed will be consistent no matter the framerate
+        //    /// Frederik
+        //    ///</summary>
+        //    //timePassed = gameTime.ElapsedGameTime.Milliseconds;
+        //    //float tangentialVelocity = timePassed / 4;
+        //
+        //    previousKey = currentKey;
+        //    currentKey = Keyboard.GetState();
+        //
+        //    /// <summary>
+        //    /// Rotation rectangle, Player rotation, movement & speed
+        //    /// Frederik
+        //    /// </summary>
+        //    //Player is able to move
+        //    if (velocity != Vector2.Zero)
+        //    {
+        //        velocity.Normalize();
+        //    }
+        //
+        //    position = velocity + position;
 
-                velocity.X = k -= friction * k;
-                velocity.Y = l -= friction * l;
-            }
-
+            //if (currentKey.IsKeyDown(Input.Right))
+            //{
+            //    rotation += 0.1f;
+            //}
+            //if (currentKey.IsKeyDown(Input.Left))
+            //{
+            //    rotation -= 0.1f;
+            //}
+            //
+            //if (currentKey.IsKeyDown(Input.Up))
+            //{
+            //    velocity.X = (float)Math.Cos(rotation) * tangentialVelocity;
+            //    velocity.Y = (float)Math.Sin(rotation) * tangentialVelocity;
+            //}
+            ////Stops movement when key released & adds friction
+            //else if (velocity != Vector2.Zero)
+            //{
+            //    float k = velocity.X;
+            //    float l = velocity.Y;
+            //
+            //    velocity.X = k -= friction * k;
+            //    velocity.Y = l -= friction * l;
+            //}
+            //
             //var velocity = Vector2.Zero;
             //rotation = 0;
 
@@ -146,7 +161,7 @@ namespace SystemShutdown.GameObjects
 
             //// Movement
             //position += velocity;
-        }
+        //}
 
         // Frederik
         public override void OnCollision(GameObject sprite)
