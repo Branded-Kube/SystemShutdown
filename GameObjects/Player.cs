@@ -53,7 +53,7 @@ namespace SystemShutdown.GameObjects
 
         public void LoadContent(ContentManager content)
         {
-            sprite = content.Load<Texture2D>("Textures/pl1");
+            //sprite = content.Load<Texture2D>("Textures/pl1");
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

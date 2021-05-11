@@ -17,6 +17,7 @@ namespace SystemShutdown.States
         private SpriteFont font;
 
         private List<Player> players;
+        private List<Player> player1;
 
         private List<GameObject> gameObjects;
 
@@ -75,33 +76,33 @@ namespace SystemShutdown.States
             player1Test = new Player()
             {
                 sprite = content.Load<Texture2D>("Textures/pl1"),
-            Colour = Color.Blue,
-                position = new Vector2(GameWorld.renderTarget.Width / 2 - (player1Test.sprite.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (player1Test.sprite.Height / 2)),
+                Colour = Color.Blue,
+                position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
                 Layer = 0.3f,
-                Input = new Input()
-                {
-                    Up = Keys.W,
-                    Down = Keys.S,
-                    Left = Keys.A,
-                    Right = Keys.D,
-                    Shoot = Keys.Space,
-                },
+                //Input = new Input()
+                //{
+                //    Up = Keys.W,
+                //    Down = Keys.S,
+                //    Left = Keys.A,
+                //    Right = Keys.D,
+                //    Shoot = Keys.Space,
+                //},
                 Health = 10,
             };
 
             player2Test = new Player()
             {
                 Colour = Color.Green,
-                position = new Vector2(GameWorld.renderTarget.Width / 2 - (player2Test.sprite.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (player2Test.sprite.Height / 2)),
+                position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
                 Layer = 0.4f,
-                Input = new Input()
-                {
-                    Up = Keys.Up,
-                    Down = Keys.Down,
-                    Left = Keys.Left,
-                    Right = Keys.Right,
-                    Shoot = Keys.Enter,
-                },
+                //Input = new Input()
+                //{
+                //    Up = Keys.Up,
+                //    Down = Keys.Down,
+                //    Left = Keys.Left,
+                //    Right = Keys.Right,
+                //    Shoot = Keys.Enter,
+                //},
                 Health = 10,
             };
 
