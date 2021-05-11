@@ -28,13 +28,14 @@ namespace SystemShutdown
         public override void LoadContent()
         {
             // Frederik
-            var buttonTexture = _content.Load<Texture2D>("Controls/button");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/font");
+            var buttonTexture = content.Load<Texture2D>("Controls/button");
+            var buttonFont = content.Load<SpriteFont>("Fonts/font");
 
             components = new List<Component>()
             {
-                new GameObject(_content.Load<Texture2D>("Backgrounds/mainmenu"))
+                new GameObject()
                 {
+                    sprite = content.Load<Texture2D>("Backgrounds/mainmenu"),
                     Layer = 0f,
                     position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 },
@@ -68,7 +69,7 @@ namespace SystemShutdown
         // Frederik
         private void Button_1Player_Clicked(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _content)
+            _game.ChangeState(new GameState(_game, content)
             {
                 playerCount = 1,
             });
@@ -77,7 +78,7 @@ namespace SystemShutdown
         // Frederik
         private void Button_2Player_Clicked(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _content)
+            _game.ChangeState(new GameState(_game, content)
             {
                 playerCount = 2,
             });

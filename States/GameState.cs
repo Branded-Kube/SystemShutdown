@@ -26,6 +26,9 @@ namespace SystemShutdown.States
 
         private Player player2Test;
 
+        private InputHandler inputHandler;
+
+
         public Player Player1Test
         {
             get { return player1Test; }
@@ -53,31 +56,35 @@ namespace SystemShutdown.States
         public override void LoadContent()
         {
             // Frederik
-            var playerTexture = _content.Load<Texture2D>("Textures/pl1");
+            //var playerTexture = _content.Load<Texture2D>("Textures/pl1");
+            inputHandler = new InputHandler();
 
-            font = _content.Load<SpriteFont>("Fonts/font");
+            font = content.Load<SpriteFont>("Fonts/font");
 
             gameObjects = new List<GameObject>()
             {
-                new GameObject(_content.Load<Texture2D>("Backgrounds/game"))
+                new GameObject()
                 {
+                    sprite = content.Load<Texture2D>("Backgrounds/game"),
                     Layer = 0.0f,
                     position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
                 }
             };
 
-            player1Test = new Player(playerTexture)
+
+            player1Test = new Player()
             {
-                Colour = Color.Blue,
-                position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
+                sprite = content.Load<Texture2D>("Textures/pl1"),
+            Colour = Color.Blue,
+                position = new Vector2(GameWorld.renderTarget.Width / 2 - (player1Test.sprite.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (player1Test.sprite.Height / 2)),
                 Layer = 0.3f,
                 Health = 10,
             };
 
-            player2Test = new Player(playerTexture)
+            player2Test = new Player()
             {
                 Colour = Color.Green,
-                position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
+                position = new Vector2(GameWorld.renderTarget.Width / 2 - (player2Test.sprite.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (player2Test.sprite.Height / 2)),
                 Layer = 0.4f,
                 Health = 10,
             };
@@ -105,8 +112,9 @@ namespace SystemShutdown.States
             // Frederik
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                _game.ChangeState(new MenuState(_game, _content));
+                _game.ChangeState(new MenuState(_game, content));
             }
+            inputHandler.Execute(player1Test);
 
             foreach (var sprite in gameObjects)
             {
@@ -124,7 +132,7 @@ namespace SystemShutdown.States
             {
                 //highscores can also be added here (to be shown in the game over screen)
 
-                _game.ChangeState(new GameOverState(_game, _content));
+                _game.ChangeState(new GameOverState(_game, content));
             }
         }
 
