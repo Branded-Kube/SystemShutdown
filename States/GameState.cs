@@ -21,6 +21,24 @@ namespace SystemShutdown.States
         private List<GameObject> gameObjects;
 
         public int playerCount;
+
+        private Player player1Test;
+
+        private Player player2Test;
+
+        public Player Player1Test
+        {
+            get { return player1Test; }
+            set { player1Test = value; }
+        }
+
+        public Player Player2Test
+        {
+            get { return player2Test; }
+            set { player2Test = value; }
+        }
+
+
         #endregion
 
         #region Methods
@@ -48,44 +66,50 @@ namespace SystemShutdown.States
                 }
             };
 
+            player1Test = new Player(playerTexture)
+            {
+                Colour = Color.Blue,
+                position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
+                Layer = 0.3f,
+                Input = new Input()
+                {
+                    Up = Keys.W,
+                    Down = Keys.S,
+                    Left = Keys.A,
+                    Right = Keys.D,
+                    Shoot = Keys.Space,
+                },
+                Health = 10,
+            };
+
+            player2Test = new Player(playerTexture)
+            {
+                Colour = Color.Green,
+                position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
+                Layer = 0.4f,
+                Input = new Input()
+                {
+                    Up = Keys.Up,
+                    Down = Keys.Down,
+                    Left = Keys.Left,
+                    Right = Keys.Right,
+                    Shoot = Keys.Enter,
+                },
+                Health = 10,
+            };
+
+
             // Frederik
             if (playerCount >= 1)
             {
-                gameObjects.Add(new Player(playerTexture)
-                {
-                    Colour = Color.Blue,
-                    position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 + 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
-                    Layer = 0.3f,
-                    Input = new Input()
-                    {
-                        Up = Keys.W,
-                        Down = Keys.S,
-                        Left = Keys.A,
-                        Right = Keys.D,
-                        Shoot = Keys.Space,
-                    },
-                    Health = 10,
-                });
+                gameObjects.Add(player1Test);
+ 
             }
 
             // Frederik
             if (playerCount >= 2)
             {
-                gameObjects.Add(new Player(playerTexture)
-                {
-                    Colour = Color.Green,
-                    position = new Vector2(GameWorld.renderTarget.Width / 2 - (playerTexture.Width / 2 - 200), GameWorld.renderTarget.Height / 2 - (playerTexture.Height / 2)),
-                    Layer = 0.4f,
-                    Input = new Input()
-                    {
-                        Up = Keys.Up,
-                        Down = Keys.Down,
-                        Left = Keys.Left,
-                        Right = Keys.Right,
-                        Shoot = Keys.Enter,
-                    },
-                    Health = 10,
-                });
+                gameObjects.Add(player2Test);
             }
 
             players = gameObjects.Where(c => c is Player).Select(c => (Player)c).ToList();
