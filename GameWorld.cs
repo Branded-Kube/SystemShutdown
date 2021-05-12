@@ -114,7 +114,6 @@ namespace SystemShutdown
 
             if (currentGameState is GameState)
             {
-                // Debug.WriteLine("This is a gamestate");
                 isGameState = true;
                 camera.Follow((GameState)currentGameState);
 
@@ -122,13 +121,8 @@ namespace SystemShutdown
 
             else
             {
-                //   Debug.WriteLine("This is NOT a gamestate");
                 isGameState = false;
             }
-
-            Debug.WriteLine(camera.Transform.Translation);
-
-
 
             base.Update(gameTime);
         }
