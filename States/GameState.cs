@@ -16,6 +16,7 @@ namespace SystemShutdown.States
     public class GameState : State
     {
         #region Fields
+        //e
         public static SpriteFont font;
         private List<Enemy> enemies;
         private List<Enemy> delEnemies;
