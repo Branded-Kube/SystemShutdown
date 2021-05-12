@@ -28,7 +28,6 @@ namespace SystemShutdown.GameObjects
         #endregion
 
         #region Properties
-        public Transform Transform { get; private set; }
         public int Health { get; set; }
         public Color Colour { get; set; }
 
