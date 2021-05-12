@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SystemShutdown.Buttons
 {
-    public class Button : Component
+    internal class Button : Component
     {
         #region Fields
 

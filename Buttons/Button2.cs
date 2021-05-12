@@ -4,11 +4,15 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SystemShutdown.States;
 
 namespace SystemShutdown.Buttons
 {
     internal class Button2
     {
+        /// <summary>
+        /// USED FOR TESTING THREADS
+        /// </summary>
         private Color hoverColor;
         private Color currentColor;
         private MouseState mouseCurrent;
@@ -70,9 +74,9 @@ namespace SystemShutdown.Buttons
         {
 
             _spriteBatch.Draw(sprite, buttonRectangle, currentColor);
-            var x = (buttonRectangle.X + (buttonRectangle.Width / 2)) - (GameWorld.font.MeasureString(buttonDescription).X / 2);
-            var y = (buttonRectangle.Y + (buttonRectangle.Height / 2)) - (GameWorld.font.MeasureString(buttonDescription).Y / 2);
-            _spriteBatch.DrawString(GameWorld.font, buttonDescription, new Vector2(x, y), Color.Black);
+            var x = (buttonRectangle.X + (buttonRectangle.Width / 2)) - (GameState.font.MeasureString(buttonDescription).X / 2);
+            var y = (buttonRectangle.Y + (buttonRectangle.Height / 2)) - (GameState.font.MeasureString(buttonDescription).Y / 2);
+            _spriteBatch.DrawString(GameState.font, buttonDescription, new Vector2(x, y), Color.Black);
         }
     }
 }

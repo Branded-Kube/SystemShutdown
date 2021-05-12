@@ -20,20 +20,6 @@ namespace SystemShutdown
         #region Fields
 
         public static ContentManager content;
-        public static SpriteFont font;
-        private List<Enemy> enemies;
-        private List<Enemy> delEnemies;
-        private List<Button2> buttons;
-        private Enemy enemy;
-        public static bool running = true;
-        private Button2 spawnEnemyBtn;
-        private Button2 cpuBtn;
-        private Button2 activeThreadsBtn;
-        private Button2 shutdownThreadsBtn;
-        private CPU cpu;
-        private string enemyID = "";
-        private Texture2D cpuTexture;
-        private Texture2D standardBtn;
 
         public static RenderTarget2D renderTarget;
         public float scale = 0.4444f;
@@ -59,11 +45,7 @@ namespace SystemShutdown
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
             content = Content;
-            enemies = new List<Enemy>();
-            delEnemies = new List<Enemy>();
-            buttons = new List<Button2>();
         }
         #endregion
 
@@ -79,22 +61,6 @@ namespace SystemShutdown
 
         protected override void Initialize()
         {
-            cpu = new CPU();
-
-            /// <summary>
-            /// Game runs at 60 fps
-            /// Frederik
-            /// </summary>
-            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60.0f);
-            /// <summary>
-            /// It will make Update run consistenly at 60 fps, regardless of our Draw
-            /// It will try to draw frames to macth 60 fps, but update will allways run at 60
-            /// It will render the game at the same framerate as your monitor
-            /// This will 'kindof' separate how the game runs (Update), and how the game renders (Draw)
-            /// Frederik
-            ///</ summary >
-            IsFixedTimeStep = true;
-
             graphics.PreferredBackBufferWidth = ScreenWidth;
             graphics.PreferredBackBufferHeight = ScreenHeight;
             graphics.ApplyChanges();
@@ -107,22 +73,6 @@ namespace SystemShutdown
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            font = content.Load<SpriteFont>("Fonts/font");
-            standardBtn = content.Load<Texture2D>("Controls/button");
-            cpuTexture = content.Load<Texture2D>("Textures/box");
-            shutdownThreadsBtn = new Button2(800, 840, "Shutdown Threads", standardBtn);
-            activeThreadsBtn = new Button2(1000, 840, "Thread info", standardBtn);
-            spawnEnemyBtn = new Button2(500, 660, "Spawn Enemy", standardBtn);
-            cpuBtn = new Button2(700, 700, "CPU", cpuTexture);
-
-            spawnEnemyBtn.Click += SpawnEnemyBtn_Clicked;
-            shutdownThreadsBtn.Click += ShutdownBtn_Clicked;
-            activeThreadsBtn.Click += ActiveThreadsBtn_Clicked;
-            buttons.Add(shutdownThreadsBtn);
-            buttons.Add(activeThreadsBtn);
-            buttons.Add(cpuBtn);
-
 
             //Loads all GameStates
             //Frederik
@@ -140,6 +90,11 @@ namespace SystemShutdown
 
         protected override void Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
             // Frederik
             if (nextGameState != null)
             {
@@ -167,36 +122,6 @@ namespace SystemShutdown
                 isGameState = false;
             }
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                ShutdownThreads();
-                Exit();
-            }
-
-            foreach (var button in buttons)
-            {
-                button.Update();
-            }
-
-            if (!enemies.Any())
-            {
-
-            }
-            else
-            {
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.ThreadRunning == false)
-                    {
-                        enemies.Remove(enemy);
-                    }
-                }
-                foreach (Enemy enemy in enemies)
-                {
-                    enemy.Update();
-                }
-            }
-
             base.Update(gameTime);
         }
 
@@ -217,8 +142,6 @@ namespace SystemShutdown
 
             GraphicsDevice.SetRenderTarget(null);
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // Draw TargetRenderer
 
             if (isGameState)
@@ -231,113 +154,11 @@ namespace SystemShutdown
                 spriteBatch.Begin();
             }
 
-            foreach (var button in buttons)
-            {
-                button.Draw(spriteBatch);
-            }
-            //Draw selected Enemy ID
-            spriteBatch.DrawString(font, $"Enemy: {enemyID} selected", new Vector2(300, 100), Color.Black);
-
-            if (!enemies.Any())
-            {
-
-            }
-            else
-            {
-                foreach (Enemy enemy in enemies)
-                {
-                    enemy.Draw(spriteBatch);
-                }
-            }
-
-
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        /// <summary>
-        /// Adds an enemy when button is clicked, and also adds enemy to the other list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SpawnEnemyBtn_Clicked(object sender, EventArgs e)
-        {
-            running = true;
-
-            enemy = new Enemy($"Enemy ");
-            enemy.Start();
-            enemy.ClickSelect += Enemy_ClickSelect;
-            enemies.Add(enemy);
-            delEnemies.Add(enemy);
-        }
-
-        /// <summary>
-        /// Enables clicking on the CPU, and sets enemy ID
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Enemy_ClickSelect(object sender, EventArgs e)
-        {
-            cpuBtn.Click += CPU_Clicked;
-
-            enemy = (Enemy)sender;
-            int ID = enemy.id;
-            Debug.WriteLine(ID);
-            enemyID = ID.ToString();
-        }
-
-        /// <summary>
-        /// Toggles bool on latest clicked enemy and removes click events on CPU
-        /// Enemy thread enters CPU 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CPU_Clicked(object sender, EventArgs e)
-        {
-            enemy.Harvesting = true;
-
-            cpuBtn.Click -= CPU_Clicked;
-        }
-
-        /// <summary>
-        /// Shows all threads aktive and Total number
-        /// Used for debugging purpose only and is not part of the game. 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ActiveThreadsBtn_Clicked(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process procces = System.Diagnostics.Process.GetCurrentProcess();
-            System.Diagnostics.ProcessThreadCollection threadCollection = procces.Threads;
-            string threads = string.Empty;
-            foreach (System.Diagnostics.ProcessThread proccessThread in threadCollection)
-            {
-                threads += string.Format("Thread Id: {0}, ThreadState: {1}\r\n", proccessThread.Id, proccessThread.ThreadState);
-            }
-            Debug.WriteLine($"{threads}");
-            int number = Process.GetCurrentProcess().Threads.Count;
-            Debug.WriteLine($"Total number of aktive threads: {number}");
-        }
-
-        /// <summary>
-        /// Shutdown all enemy threads and clears enemies from draw/update list
-        /// Used both as a button for testing and at game exit
-        /// </summary>
-        public void ShutdownThreads()
-        {
-            running = false;
-            enemies.Clear();
-        }
-        /// <summary>
-        /// Calls ShutdownThreads method on click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShutdownBtn_Clicked(object sender, EventArgs e)
-        {
-            ShutdownThreads();
         }
         #endregion
     }

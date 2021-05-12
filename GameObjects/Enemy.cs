@@ -55,7 +55,7 @@ namespace SystemShutdown.GameObjects
             this.WorkerRectangle = new Rectangle(x, y);
             this.name = data;
 
-            //LoadContent(Game1.content);
+            LoadContent(GameWorld.content);
         }
         private void LoadContent(ContentManager content)
         {
@@ -87,9 +87,9 @@ namespace SystemShutdown.GameObjects
         public void Draw(SpriteBatch _spriteBatch)
         {
             _spriteBatch.Draw(workersprite, WorkerRectangle, currentColor);
-            var x = (WorkerRectangle.X + (WorkerRectangle.Width / 2)) - (GameWorld.font.MeasureString(name).X / 2);
-            var y = (WorkerRectangle.Y + (WorkerRectangle.Height / 2)) - (GameWorld.font.MeasureString(name).Y / 2);
-            _spriteBatch.DrawString(GameWorld.font, name, new Vector2(x, y), Color.Black);
+            var x = (WorkerRectangle.X + (WorkerRectangle.Width / 2)) - (GameState.font.MeasureString(name).X / 2);
+            var y = (WorkerRectangle.Y + (WorkerRectangle.Height / 2)) - (GameState.font.MeasureString(name).Y / 2);
+            _spriteBatch.DrawString(GameState.font, name, new Vector2(x, y), Color.Black);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace SystemShutdown.GameObjects
         {
             this.id = Thread.CurrentThread.ManagedThreadId;
 
-            while (GameWorld.running == true)
+            while (GameState.running == true)
             {
                 if (harvesting == true)
                 {
