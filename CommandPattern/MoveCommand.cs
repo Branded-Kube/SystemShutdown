@@ -15,6 +15,7 @@ namespace SystemShutdown
             this.velocity = velocity;
         }
 
+
         public void Execute(Player player)
         {
             player.Move(velocity);

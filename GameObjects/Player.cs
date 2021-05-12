@@ -14,8 +14,9 @@ namespace SystemShutdown.GameObjects
         private KeyboardState currentKey;
 
         private KeyboardState previousKey;
-        private float speed;
-        
+
+        public float speed { get; set; }
+
 
         #endregion
 
@@ -48,7 +49,8 @@ namespace SystemShutdown.GameObjects
                 return;
             }
 
-           // Move(gameTime);
+
+            // Move(gameTime);
         }
 
         public void LoadContent(ContentManager content)
