@@ -7,12 +7,12 @@ using System.Text;
 
 namespace SystemShutdown.AStar
 {
-    public class Enemy
+    public class EnemyAstar
     {
         private Texture2D sprite;
         private Rectangle rectangle;
 
-        public Enemy(Rectangle Rectangle)
+        public EnemyAstar(Rectangle Rectangle)
         {
             this.rectangle = Rectangle;
         }

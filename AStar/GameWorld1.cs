@@ -16,8 +16,8 @@ namespace SystemShutdown.AStar
         SpriteBatch spriteBatch;
         Texture2D rectTexture;
 
-        int ScreenWidth = 800;
-        int ScreenHeight = 800;
+        int ScreenWidth = 1900;
+        int ScreenHeight = 1000;
 
         double updateTimer = 0.0;
 
@@ -34,7 +34,7 @@ namespace SystemShutdown.AStar
         MouseState PrevMS;
 
         AStar AStar;
-        Enemy enemy;
+        EnemyAstar enemy;
 
         public GameWorld1()
         {
@@ -45,23 +45,13 @@ namespace SystemShutdown.AStar
             this.IsMouseVisible = true;
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
+      
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
             KeyboardState PrevKS = Keyboard.GetState();
@@ -86,7 +76,7 @@ namespace SystemShutdown.AStar
             goal = Grid.Node(0, 0);
 
             
-            enemy = new Enemy(new Rectangle(Point.Zero, new Point(NodeSize,NodeSize)));
+            enemy = new EnemyAstar(new Rectangle(Point.Zero, new Point(NodeSize,NodeSize)));
             enemy.LoadContent(Content);
         }
 
@@ -100,11 +90,7 @@ namespace SystemShutdown.AStar
         }
 
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+     
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -113,10 +99,6 @@ namespace SystemShutdown.AStar
             KeyboardState ks = Keyboard.GetState();
             MouseState ms = Mouse.GetState();
 
-            if (ks.IsKeyDown(Keys.Space))
-            {
-                Searching = true;// !Searching;
-            }
 
             // on left click set a new goal and restart search from current player position
             if (ms.LeftButton == ButtonState.Pressed && !Searching && PrevMS.LeftButton == ButtonState.Released)
@@ -125,10 +107,10 @@ namespace SystemShutdown.AStar
                 int my = ms.Y;
 
                 // mouse coords to grid index
-                int i = mx / NodeSize; ;
-                int j = my / NodeSize;
+                int x = mx / NodeSize; ;
+                int y = my / NodeSize;
 
-                goal = Grid.Node(i, j);
+                goal = Grid.Node(x, y);
 
                 Node start = null;
                 start = Grid.Node(enemy.position.X / NodeSize, enemy.position.Y / NodeSize);
@@ -136,8 +118,8 @@ namespace SystemShutdown.AStar
                 // if clicked on non passable node, then march in direction of player till passable found
                 while (!goal.Passable)
                 {
-                    int di = start.i - goal.i;
-                    int dj = start.j - goal.j;
+                    int di = start.x - goal.x;
+                    int dj = start.y - goal.y;
 
                     int di2 = di * di;
                     int dj2 = dj * dj;
@@ -145,7 +127,7 @@ namespace SystemShutdown.AStar
                     int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
                     int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
 
-                    goal = Grid.Node(goal.i + ni, goal.j + nj);
+                    goal = Grid.Node(goal.x + ni, goal.y + nj);
                 }
 
 
@@ -176,8 +158,8 @@ namespace SystemShutdown.AStar
                 if (path.Count > 0)
                 {
                     Node node = path.Pop();
-                    int x = node.i * NodeSize;
-                    int y = node.j * NodeSize;
+                    int x = node.x * NodeSize;
+                    int y = node.y * NodeSize;
                     enemy.Move(x, y);
                 }
                 updateTimer = 0.0;
@@ -211,7 +193,7 @@ namespace SystemShutdown.AStar
                     pos.X = i * (NodeSize + margin) + gridPosition.X;
                     if (Grid.Node(i, j).Passable)
                     {
-                        if (goal.i == i && goal.j == j)
+                        if (goal.x == i && goal.y == j)
                         {
                             spriteBatch.Draw(rectTexture, pos, Color.Blue);
                         }

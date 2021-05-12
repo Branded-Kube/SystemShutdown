@@ -4,27 +4,14 @@ using System.Text;
 
 namespace SystemShutdown.AStar
 {
-    enum Heuristics
-    {
-        Euclid,
-        Manhatten,
-        Dijkstra
-    }
-
-
+   
     class AStar
     {
         private List<Node> closedList = new List<Node>();
         private List<Node> openList = new List<Node>();
 
         bool finished = true;
-        Heuristics h;
-
-        public AStar(Heuristics h = Heuristics.Euclid)
-        {
-            this.h = h;
-        }
-
+      
         public void Start(Node start)
         {
             if (finished)
@@ -38,118 +25,112 @@ namespace SystemShutdown.AStar
 
         private Node[] GetNeighbors(Grid grid, Node node)
         {
-            int i = node.i;
-            int j = node.j;
-
-            int w = grid.Width;
-            int h = grid.Height;
 
             Node[] neighbors = { null, null, null, null, null, null, null, null };
-            if (j - 1 > 0)
+            // Sets top neighbor
+            // if y bigger than 0, (screen top border)
+            if (node.y - 1 > 0)
             {
-                neighbors[0] = grid.Node(i, j - 1);
+                neighbors[0] = grid.Node(node.x, node.y - 1);
             }
-            if (j + 1 < h)
+            // Sets bottom neighbor
+            // if y is less than grid height
+            if (node.y + 1 < grid.Height)
             {
-                neighbors[1] = grid.Node(i, j + 1);
+                neighbors[1] = grid.Node(node.x, node.y + 1);
             }
-            if (i - 1 > 0)
+            // Sets left neighbor
+            // if x is bigger than 0 (screen left border)
+            if (node.x - 1 > 0)
             {
-                neighbors[2] = grid.Node(i - 1, j);
+                neighbors[2] = grid.Node(node.x - 1, node.y);
             }
-            if (i + 1 < w)
+            // Sets right neighbor
+            // if x is less than width
+            if (node.x + 1 < grid.Width)
             {
-                neighbors[3] = grid.Node(i + 1, j);
+                neighbors[3] = grid.Node(node.x + 1, node.y);
             }
+            // Sets top-left neighbor
+            // if bigger than 0 (screen border) on both axis
+            if (node.y - 1 > 0 && node.x - 1 > 0)
+            {
+                if (!neighbors[0].Passable && !neighbors[2].Passable)
+                {
+                }
+                else
+                {
+                    neighbors[4] = grid.Node(node.x - 1, node.y - 1);
 
-            if (j - 1 > 0 && i - 1 > 0)
-            {
-                neighbors[4] = grid.Node(i - 1, j - 1);
+                }
             }
-            if (i + 1 < w && j + 1 < h)
+            // Sets bottom-right neighbor
+            // if less than grid height and width on both axis
+            if (node.x + 1 < grid.Width && node.y + 1 < grid.Height)
             {
-                neighbors[5] = grid.Node(i + 1, j + 1);
+                if (!neighbors[1].Passable && !neighbors[3].Passable)
+                {
+                }
+                else
+                {
+                    neighbors[5] = grid.Node(node.x + 1, node.y + 1);
+                }
             }
-            if (i - 1 > 0 && j + 1 < h)
+            // Sets bottom-left neighbor
+            // if less than grid height and bigger than 0 (screen border)
+            if (node.x - 1 > 0 && node.y + 1 < grid.Height)
             {
-                neighbors[6] = grid.Node(i - 1, j + 1);
+                if (!neighbors[1].Passable && !neighbors[2].Passable)
+                {
+                }
+                else
+                {
+                    neighbors[6] = grid.Node(node.x - 1, node.y + 1);
+                }
             }
-            if (i + 1 < w && j - 1 > 0)
+            // Sets top-right neighbor
+            // if inside border
+            if (node.x + 1 < grid.Width && node.y - 1 > 0)
             {
-                neighbors[7] = grid.Node(i + 1, j - 1);
+                if (!neighbors[0].Passable && !neighbors[3].Passable)
+                {
+                }
+                else
+                {
+                    neighbors[7] = grid.Node(node.x + 1, node.y - 1);
+                }
+               
             }
             return neighbors;
         }
 
 
-        private void UpdateNeighbors(ref Node current, Grid grid, Node end)
-        {
-
-            Node[] neighbors = GetNeighbors(grid, current);
-
-            foreach (Node neighbor in neighbors)
-            {
-                if (neighbor == null)
-                {
-                    continue;
-                }
-                else if (!neighbor.Passable)
-                {
-                    continue;
-                }
-                else if (closedList.Contains(neighbor))
-                {
-                    continue;
-                }
-                else
-                {
-                    int tempG = current.g + neighbor.Cost;
-
-                    if (!openList.Contains(neighbor))
-                    {
-                        openList.Add(neighbor);
-                    }
-                    else if (tempG >= neighbor.g)
-                    {
-                        // not a better path
-                        continue;
-                    }
-
-                    neighbor.g = tempG;
-
-                    neighbor.h = this.h == Heuristics.Euclid ? EuclidDistance(neighbor.i, neighbor.j, end.i, end.j) : 0;
-                    neighbor.f = neighbor.g + neighbor.h;
-
-                    neighbor.Previous = current;
-                }
-            }
-        }
-
-        // Heuristics
-        private int EuclidDistance(int x0, int y0, int x1, int y1)
+        // Heuristics used
+        // Euclidean Distance
+        private int EuclideanDistance(int x0, int y0, int x1, int y1)
         {
             int x = Math.Abs(x1 - x0);
             int y = Math.Abs(y1 - y0);
             return (int)Math.Sqrt(x * x + y * y);
         }
-        private int ManhattenDistance(int x0, int y0, int x1, int y1)
-        {
-            return Math.Abs(x1 - x0) + Math.Abs(y1 - y0);
-        }
 
-        private int Dijkstra(int x0, int y0, int x1, int y1)
-        {
-            return 0;
-        }
 
+        /// <summary>
+        ///  Sets "start" location for astar, finds and sets the node in the openlist with lowest f value to currentnode 
+        ///  
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="path"></param>
         public void Search(Grid grid, Node start, Node end, Stack<Node> path)
         {
 
-            start.f = this.h == Heuristics.Euclid ? EuclidDistance(start.i, start.j, end.i, end.j) : 0;
+            start.f = EuclideanDistance(start.x, start.y, end.x, end.y);
 
             while (!finished)
             {
-                // find the node in open list with the lowest f
+                // Sets lowestIndex to the node with the lowest f value
                 int lowestIndex = 0;
                 for (int i = 0; i < openList.Count; i++)
                 {
@@ -168,14 +149,14 @@ namespace SystemShutdown.AStar
                 }
 
 
-                // node with lowest f becomes the current node
+                // current node is set to the node with the lowest f value in openlist
                 Node current = openList[lowestIndex];
                 if (current == end)
                 {
                     Finish(current, path);
                 }
 
-                // could use better data structures for these
+                // removes current node from openList and adds it to closedList, flips bools 
                 openList.Remove(current);
                 closedList.Add(current);
 
@@ -186,7 +167,7 @@ namespace SystemShutdown.AStar
 
 
                 // solution not found, return path to node with greatest g value
-                // 
+
                 if (closedList.Count > (grid.Width * grid.Height) / 4)
                 {
                     int greatestG = 0;
@@ -207,120 +188,78 @@ namespace SystemShutdown.AStar
             }
 
         }
-        /*
-                public void Search(Node[,] grid, Node start, Node end, Stack<Node> path)
+
+
+        private void UpdateNeighbors(ref Node current, Grid grid, Node end)
+        {
+
+            Node[] neighbors = GetNeighbors(grid, current);
+
+            // checks every neighbor in neighbors list and skips current neighbor if it is null, not !passable or in closedList.
+            // else sets current neighbor f / g / h values and adds neighbor to openlist
+            foreach (Node neighbor in neighbors)
+            {
+                if (neighbor == null)
                 {
-                    start.f = this.h == Heuristics.Euclid ? EuclidDistance(start.i, start.j, end.i, end.j) : 0;
-                    while (!finished)
-                    {
-                        // find the node in open list with the lowest f
-                        int lowestIndex = 0;
-                        for (int i = 0; i < openList.Count; i++)
-                        {
-                            if (openList[i].f < openList[lowestIndex].f)
-                            {
-                                lowestIndex = i;
-                            }
-                            if (openList[i].f == openList[lowestIndex].f)
-                            {
-                                if (openList[i].g > openList[lowestIndex].g)
-                                {
-                                    lowestIndex = i;
-                                }
-                            }
-                        }
-                        // node with lowest f becomes the current node
-                        Node current = openList[lowestIndex];
-                        if (current == end)
-                        {
-                            Finish(current, path);
-                        }
-                        // could use better data structures for these
-                        openList.Remove(current);
-                        closedList.Add(current);
-                        current.Open = false;
-                        current.Closed = true;
-                        UpdateNeighbors(ref current, grid, end);
-                        // solution not found, return path to node with greatest g value
-                        // 
-                        if (closedList.Count > grid.Length / 4)
-                        {
-                            int greatestG = 0;
-                            for (int i = 0; i < openList.Count; i++)
-                            {
-                                if (openList[i].g > openList[greatestG].g)
-                                {
-                                    greatestG = i;
-                                }
-                            }
-                            current = openList[greatestG];
-                            Finish(current, path);
-                            return;
-                        } 
-                    }
+                    continue;
                 }
-        */
+                else if (!neighbor.Passable)
+                {
+                    continue;
+                }
+                else if (closedList.Contains(neighbor))
+                {
+                    continue;
+                }
+                else
+                {
+                    // (tmpG is the distance from start to neighbor though current)
+                    int tmpG = current.g + neighbor.Cost;
+
+                    // adds neighbor to open list if it is not added already
+                    // else skips if neighbor g value is equal or lower than current g value + neighbor cost (path is not better)
+                    if (!openList.Contains(neighbor))
+                    {
+                        openList.Add(neighbor);
+                    }
+                    else if (tmpG >= neighbor.g)
+                    {
+                        continue;
+                    }
+
+                    // if neighbor is already added to open list and its g value is greater than tmpG  
+                    // set g / h and f values on neighbor, also sets cameFrom node to current node 
+
+                    neighbor.g = tmpG;
+
+                    neighbor.h = EuclideanDistance(neighbor.x, neighbor.y, end.x, end.y);
+
+                    neighbor.f = neighbor.g + neighbor.h;
+
+                    neighbor.cameFrom = current;
+                }
+            }
+        }
+
+      
+        /// <summary>
+        /// Stops the astar, 
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="path"></param>
         private void Finish(Node current, Stack<Node> path)
         {
-            while (current.Previous != null)
+            while (current.cameFrom != null)
             {
                 current.Path = true;
                 path.Push(current);
-                current = current.Previous;
+                current = current.cameFrom;
             }
             openList.Clear();
             closedList.Clear();
             finished = true;
         }
 
-        /*
-        public void SearchStep(Node[,] grid, Node start, Node end, ref Node current)
-        {
-            if (!finished)
-            {
-                // find the node in open list with the lowest f
-                int lowestIndex = 0;
-                for (int i = 0; i < openList.Count; i++)
-                {
-                    if (openList[i].f < openList[lowestIndex].f)
-                    {
-                        lowestIndex = i;
-                    }
-                }
-                // node with lowest f becomes the current node
-                current = openList[lowestIndex];
-                if (current == end)
-                {
-                    // done
-                    while (current.Previous != null)
-                    {
-                        current.Path = true;
-                        current = current.Previous;
-                    }
-                    finished = true;
-                    foreach (Node n in openList)
-                    {
-                        n.Open = false;
-                    }
-                    foreach (Node n in closedList)
-                    {
-                        n.Closed = false;
-                    }
-                    openList.Clear();
-                    closedList.Clear();
-                }
-                openList.Remove(current);
-                closedList.Add(current);
-                current.Open = false;
-                current.Closed = true;
-                UpdateNeighbors(ref current, grid, end);
-            }
-            else
-            {
-                return;
-                // no solution
-            }
-        }
-        */
+    
     }
 }

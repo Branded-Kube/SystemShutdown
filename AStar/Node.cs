@@ -15,13 +15,13 @@ namespace SystemShutdown.AStar
 
             public int Cost = 1;
 
-            public int i = 0;
-            public int j = 0;
+            public int x = 0;
+            public int y = 0;
             public double f = 0;
             public int g = 0;
             public double h = 0;
 
-            public Node Previous = null;
+            public Node cameFrom = null;
 
        
 
