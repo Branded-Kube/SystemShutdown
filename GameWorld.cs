@@ -1,7 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using SystemShutdown.Buttons;
+using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
 namespace SystemShutdown
@@ -13,6 +19,8 @@ namespace SystemShutdown
 
         #region Fields
 
+        public static ContentManager content;
+
         public static RenderTarget2D renderTarget;
         public float scale = 0.4444f;
 
@@ -21,6 +29,12 @@ namespace SystemShutdown
 
         private State currentGameState;
         private State nextGameState;
+
+        private Camera camera;
+
+        private bool isGameState;
+
+        public static float DeltaTime { get; set; }
 
         #endregion
 
@@ -31,6 +45,7 @@ namespace SystemShutdown
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            content = Content;
         }
         #endregion
 
@@ -46,20 +61,6 @@ namespace SystemShutdown
 
         protected override void Initialize()
         {
-            /// <summary>
-            /// Game runs at 60 fps
-            /// Frederik
-            /// </summary>
-            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60.0f);
-            /// <summary>
-            /// It will make Update run consistenly at 60 fps, regardless of our Draw
-            /// It will try to draw frames to macth 60 fps, but update will allways run at 60
-            /// It will render the game at the same framerate as your monitor
-            /// This will 'kindof' separate how the game runs (Update), and how the game renders (Draw)
-            /// Frederik
-            ///</ summary >
-            IsFixedTimeStep = true;
-
             graphics.PreferredBackBufferWidth = ScreenWidth;
             graphics.PreferredBackBufferHeight = ScreenHeight;
             graphics.ApplyChanges();
@@ -75,17 +76,25 @@ namespace SystemShutdown
 
             //Loads all GameStates
             //Frederik
+
             currentGameState = new MenuState(this, Content);
+
             currentGameState.LoadContent();
             nextGameState = null;
-
             // Loads Target Renderer: to run the game in the same resolution, no matter the pc
             // Frederik
             renderTarget = new RenderTarget2D(GraphicsDevice, 1920, 1080);
+            camera = new Camera();
+
         }
 
         protected override void Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
             // Frederik
             if (nextGameState != null)
             {
@@ -93,13 +102,25 @@ namespace SystemShutdown
                 currentGameState.LoadContent();
 
                 nextGameState = null;
+
             }
-
-
             //Updates game
             currentGameState.Update(gameTime);
 
             currentGameState.PostUpdate(gameTime);
+            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (currentGameState is GameState)
+            {
+                isGameState = true;
+                camera.Follow((GameState)currentGameState);
+
+            }
+
+            else
+            {
+                isGameState = false;
+            }
 
             base.Update(gameTime);
         }
@@ -121,11 +142,20 @@ namespace SystemShutdown
 
             GraphicsDevice.SetRenderTarget(null);
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // Draw TargetRenderer
-            spriteBatch.Begin();
+
+            if (isGameState)
+            {
+                spriteBatch.Begin(transformMatrix: camera.Transform);
+            }
+
+            else
+            {
+                spriteBatch.Begin();
+            }
+
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
             spriteBatch.End();
 
             base.Draw(gameTime);

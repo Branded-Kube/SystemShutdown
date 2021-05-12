@@ -13,7 +13,7 @@ namespace SystemShutdown
     {
         #region Fields
 
-        protected ContentManager _content;
+        protected ContentManager content;
 
         protected GameWorld _game;
 
@@ -27,7 +27,7 @@ namespace SystemShutdown
             // Frederik
             _game = game;
 
-            _content = content;
+            this.content = content;
         }
         #endregion
 
@@ -38,6 +38,8 @@ namespace SystemShutdown
         public abstract void PostUpdate(GameTime gameTime);
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+
+
         #endregion
     }
 }

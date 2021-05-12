@@ -10,7 +10,9 @@ namespace SystemShutdown.GameObjects
     public class GameObject : Component, ICloneable
     {
         #region Fields
-        protected Texture2D _texture;
+        //protected Texture2D _texture;
+        public Texture2D sprite;
+
 
         public Vector2 origin;
 
@@ -26,7 +28,6 @@ namespace SystemShutdown.GameObjects
         #endregion
 
         #region Properties
-
         public int Health { get; set; }
         public Color Colour { get; set; }
 
@@ -48,12 +49,12 @@ namespace SystemShutdown.GameObjects
         #region Constructor
 
         // Frederik
-        public GameObject(Texture2D texture)
+        public GameObject()
         {
-            _texture = texture;
+            //_texture = texture;
 
             // Default origin in the centre of the sprite
-            origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
+            //origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
             Colour = Color.White;
         }
@@ -67,7 +68,7 @@ namespace SystemShutdown.GameObjects
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Frederik
-            spriteBatch.Draw(_texture, position, null, Colour, rotation, origin, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprite, position, Colour);
         }
 
         public virtual void OnCollision(GameObject gameObject)
