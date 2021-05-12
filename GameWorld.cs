@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
@@ -22,6 +23,10 @@ namespace SystemShutdown
 
         private State currentGameState;
         private State nextGameState;
+
+        private Camera camera;
+
+        private bool isGameState;
 
         public static float DeltaTime { get; set; }
 
@@ -86,6 +91,7 @@ namespace SystemShutdown
             // Loads Target Renderer: to run the game in the same resolution, no matter the pc
             // Frederik
             renderTarget = new RenderTarget2D(GraphicsDevice, 1920, 1080);
+            camera = new Camera();
 
         }
 
@@ -105,6 +111,24 @@ namespace SystemShutdown
 
             currentGameState.PostUpdate(gameTime);
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (currentGameState is GameState)
+            {
+                // Debug.WriteLine("This is a gamestate");
+                isGameState = true;
+                camera.Follow((GameState)currentGameState);
+
+            }
+
+            else
+            {
+                //   Debug.WriteLine("This is NOT a gamestate");
+                isGameState = false;
+            }
+
+            Debug.WriteLine(camera.Transform.Translation);
+
+
 
             base.Update(gameTime);
         }
@@ -129,12 +153,24 @@ namespace SystemShutdown
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // Draw TargetRenderer
-            spriteBatch.Begin();
+
+            if (isGameState)
+            {
+                spriteBatch.Begin(transformMatrix: camera.Transform);
+            }
+
+            else
+            {
+                spriteBatch.Begin();
+            }
+
+
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
         #endregion
     }
 }

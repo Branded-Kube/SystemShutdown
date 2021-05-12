@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -92,6 +92,7 @@ namespace SystemShutdown.States
 
             player2Test = new Player()
             {
+                sprite = content.Load<Texture2D>("Textures/pl1"),
                 Colour = Color.Green,
                 position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
                 Layer = 0.4f,
