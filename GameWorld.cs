@@ -29,6 +29,8 @@ namespace SystemShutdown
 
         private State currentGameState;
         private State nextGameState;
+        public static GameState gameState;
+
 
         private Camera camera;
 
@@ -76,7 +78,7 @@ namespace SystemShutdown
 
             //Loads all GameStates
             //Frederik
-
+            gameState = new GameState(this, Content);
             currentGameState = new MenuState(this, Content);
 
             currentGameState.LoadContent();

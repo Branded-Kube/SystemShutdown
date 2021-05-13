@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SystemShutdown.AStar
 {
-    class Grid
+    public class Grid
     {
+        public static int NodeSize = 100;
 
-            public int Width = 200;
+        public int Width = 100;
             public int Height = 50;
-            private Node[,] nodes;
-
+            public Node[,] nodes;
+            
             public Grid()
             {
                 Random rand = new Random();
@@ -22,21 +24,36 @@ namespace SystemShutdown.AStar
                         nodes[x, y].x = x;
                         nodes[x, y].y = y;
                         if ((x != 0 && y != 0) &&
-                            rand.Next(0, 100) < 25)
+                            rand.Next(1, 100) < 25)
                         {
                             nodes[x, y].Passable = false;
                         }
 
-                        //if (x > Width / 4 && x < 7 * Width / 8 && y == Height / 2)
-                        //{
-                        //    nodes[x, y].Passable = false;
-                        //}
-                        //if (x == 7 * Width / 8 && y < 7 * Height / 8 && y > Height / 4)
-                        //{
-                        //    nodes[x, y].Passable = false;
-                        //}
+                    if (y == 0 || y == Height)
+                    {
+                        nodes[x, y].Passable = false;
                     }
-            }
+                    if (x == 0 || x == Width)
+                    {
+                        nodes[x, y].Passable = false;
+                    }
+                    //if (nodes[x, y].Passable == false)
+                    //{
+                    //    nodes[x, y].rectangle(new Point(x, y));
+                    //}
+
+
+
+                    //if (x > Width / 4 && x < 7 * Width / 8 && y == Height / 2)
+                    //{
+                    //    nodes[x, y].Passable = false;
+                    //}
+                    //if (x == 7 * Width / 8 && y < 7 * Height / 8 && y > Height / 4)
+                    //{
+                    //    nodes[x, y].Passable = false;
+                    //}
+                }
+        }
 
             public Node Node(int x, int y)
             {

@@ -69,10 +69,8 @@ namespace SystemShutdown
         // Frederik
         private void Button_1Player_Clicked(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, content)
-            {
-                playerCount = 1,
-            });
+            GameWorld.gameState = new GameState(_game, content);
+            _game.ChangeState(GameWorld.gameState);
         }
 
         // Frederik

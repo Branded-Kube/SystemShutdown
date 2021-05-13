@@ -7,7 +7,6 @@ namespace SystemShutdown.AStar
 {
     public class Node
     {
-   
             public bool Passable = true;
             public bool Closed = false;
             public bool Open = false;
@@ -22,10 +21,12 @@ namespace SystemShutdown.AStar
             public double h = 0;
 
             public Node cameFrom = null;
+            public Rectangle collisionRectangle;
 
-       
-
-
-
+        public void rectangle(Point position)
+        {
+            collisionRectangle = new Rectangle(position, new Point(Grid.NodeSize, Grid.NodeSize));
+            
+        }
     }
 }

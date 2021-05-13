@@ -37,7 +37,7 @@ namespace SystemShutdown.States
 
         private List<GameObject> gameObjects;
 
-        public int playerCount;
+        public int playerCount = 1;
 
         private Player player1Test;
 
@@ -53,9 +53,8 @@ namespace SystemShutdown.States
 
         bool Searching = false;
 
-        int NodeSize = 100;
 
-        Grid Grid;
+        public Grid grid;
 
         Stack<Node> path = new Stack<Node>();
         Node goal;
@@ -65,7 +64,7 @@ namespace SystemShutdown.States
         Astar aStar;
         EnemyAstar enemyA;
         //
-
+       int NodeSize = Grid.NodeSize;
 
 
         public Player Player1Test
@@ -91,7 +90,7 @@ namespace SystemShutdown.States
             enemies = new List<Enemy>();
             delEnemies = new List<Enemy>();
             buttons = new List<Button2>();
-            cpu = new CPU();
+           // cpu = new CPU();
         }
         #endregion
 
@@ -134,13 +133,17 @@ namespace SystemShutdown.States
 
             player1Test = new Player()
             {
-                sprite = content.Load<Texture2D>("Textures/pl1"),
+                //sprite = content.Load<Texture2D>("Textures/pl1"),
                 Colour = Color.Blue,
-                position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
+               // position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
+                position = new Vector2(105,205),
+
                 //position = new Vector2(GameWorld.ScreenWidth/ 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.ScreenHeight / 2/* - (player1Test.sprite.Height / 2)*/),
                 Layer = 0.3f,
                 Health = 10,
             };
+
+            player1Test.LoadContent(content);
 
             player2Test = new Player()
             {
@@ -151,7 +154,6 @@ namespace SystemShutdown.States
                 Layer = 0.4f,
                 Health = 10,
             };
-
 
             // Frederik
             if (playerCount >= 1)
@@ -172,10 +174,10 @@ namespace SystemShutdown.States
             // astar
             MouseState PrevMS = Mouse.GetState();
 
-            Grid = new Grid();
+            grid = new Grid();
 
             // set up a white texture
-            rectTexture = new Texture2D(GameWorld.graphics.GraphicsDevice, NodeSize, NodeSize);
+            rectTexture = new Texture2D(GameWorld.graphics.GraphicsDevice,  NodeSize, NodeSize);
             Color[] data = new Color[NodeSize * NodeSize];
 
             for (int i = 0; i < data.Length; ++i)
@@ -184,10 +186,10 @@ namespace SystemShutdown.States
 
             aStar = new Astar();
 
-            goal = Grid.Node(0, 0);
+            goal = grid.Node(1, 1);
 
 
-            enemyA = new EnemyAstar(new Rectangle(Point.Zero, new Point(NodeSize, NodeSize)));
+            enemyA = new EnemyAstar(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
             enemyA.LoadContent(content);
             //
 
@@ -248,13 +250,16 @@ namespace SystemShutdown.States
                 int my = ms.Y;
 
                 // mouse coords to grid index
-                int x = mx / NodeSize; ;
+                int x = mx / NodeSize; 
                 int y = my / NodeSize;
 
-                goal = Grid.Node(x, y);
+
+                goal = grid.Node((int)player1Test.position.X / 100, (int)player1Test.position.Y / 100);
+
+                //goal = grid.Node(x, y);
 
                 Node start = null;
-                start = Grid.Node(enemyA.position.X / NodeSize, enemyA.position.Y / NodeSize);
+                start = grid.Node(enemyA.position.X / NodeSize, enemyA.position.Y / NodeSize);
 
                 // if clicked on non passable node, then march in direction of player till passable found
                 while (!goal.Passable)
@@ -268,7 +273,7 @@ namespace SystemShutdown.States
                     int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
                     int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
 
-                    goal = Grid.Node(goal.x + ni, goal.y + nj);
+                    goal = grid.Node(goal.x + ni, goal.y + nj);
                 }
 
 
@@ -277,7 +282,7 @@ namespace SystemShutdown.States
                 Searching = true;
 
                 while (path.Count > 0) path.Pop();
-                Grid.ResetState();
+                grid.ResetState();
             }
 
             // use update timer to slow down animation
@@ -290,9 +295,9 @@ namespace SystemShutdown.States
                 if (Searching)
                 {
                     Node current = null;
-                    current = Grid.Node(enemyA.position.X / NodeSize, enemyA.position.Y / NodeSize);
+                    current = grid.Node(enemyA.position.X / NodeSize, enemyA.position.Y / NodeSize);
 
-                    aStar.Search(Grid, current, goal, path);
+                    aStar.Search(grid, current, goal, path);
 
                     Searching = false;
                 }
@@ -362,6 +367,11 @@ namespace SystemShutdown.States
                     enemy.Draw(spriteBatch);
                 }
             }
+               // Frederik
+            foreach (var sprite in gameObjects)
+            {
+                sprite.Draw(gameTime, spriteBatch);
+            }
 
 
             // astar
@@ -372,38 +382,56 @@ namespace SystemShutdown.States
             Vector2 pos = gridPosition;
             int margin = 0;
 
-            for (int j = 0; j < Grid.Height; j++)
+            for (int j = 0; j < grid.Height; j++)
             {
                 pos.Y = j * (NodeSize + margin) + gridPosition.Y;
-                for (int i = 0; i < Grid.Width; i++)
+                for (int i = 0; i < grid.Width; i++)
                 {
+                    grid.Node(i, j).rectangle(new Point(i*100, j*100));
+
                     pos.X = i * (NodeSize + margin) + gridPosition.X;
-                    if (Grid.Node(i, j).Passable)
+                     //grid.Node(i, j).rectangle((int)pos.X, (int)pos.Y, rectTexture.Width, rectTexture.Height);
+
+                    if (grid.Node(i, j).Passable)
                     {
                         if (goal.x == i && goal.y == j)
                         {
-                            spriteBatch.Draw(rectTexture, pos, Color.Blue);
+                            //spriteBatch.Draw(rectTexture, pos, Color.Blue);
+                            spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Blue);
+
                         }
-                        else if (Grid.Node(i, j).Path)
+                        else if (grid.Node(i, j).Path)
                         {
-                            spriteBatch.Draw(rectTexture, pos, Color.LightBlue);
+                            //spriteBatch.Draw(rectTexture, pos, Color.LightBlue);
+                            spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightBlue);
+
                         }
-                        else if (Grid.Node(i, j).Open)
+                        else if (grid.Node(i, j).Open)
                         {
-                            spriteBatch.Draw(rectTexture, pos, Color.LightCoral);
+                            //spriteBatch.Draw(rectTexture, pos, Color.LightCoral);
+                            spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightCoral);
+
                         }
-                        else if (Grid.Node(i, j).Closed)
+                        else if (grid.Node(i, j).Closed)
                         {
-                            spriteBatch.Draw(rectTexture, pos, Color.RosyBrown);
+                            //spriteBatch.Draw(rectTexture, pos, Color.RosyBrown);
+                            spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.RosyBrown);
+
                         }
                         else
                         {
-                            spriteBatch.Draw(rectTexture, pos, Color.White);
+                            //spriteBatch.Draw(rectTexture, pos, Color.White);
+                           // spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.White);
+
                         }
                     }
                     else
                     {
-                        spriteBatch.Draw(rectTexture, pos, Color.Gray);
+
+                        //spriteBatch.Draw(rectTexture, pos, Color.Gray);
+                        spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Gray);
+
+
                     }
                 }
             }
@@ -411,12 +439,7 @@ namespace SystemShutdown.States
             enemyA.Draw(spriteBatch);
             //
 
-             // Frederik
-            foreach (var sprite in gameObjects)
-            {
-                sprite.Draw(gameTime, spriteBatch);
-            }
-
+          
             
 
             spriteBatch.End();

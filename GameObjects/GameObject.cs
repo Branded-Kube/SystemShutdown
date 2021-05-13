@@ -25,6 +25,8 @@ namespace SystemShutdown.GameObjects
         protected Vector2 velocity;
         protected float rotationVelocity = 3f;
         protected float friction = 0.1f;
+
+
         #endregion
 
         #region Properties
@@ -57,6 +59,7 @@ namespace SystemShutdown.GameObjects
             //origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
             Colour = Color.White;
+
         }
         #endregion
 

@@ -15,7 +15,8 @@ namespace SystemShutdown.GameObjects
 
         private KeyboardState previousKey;
         private float speed;
-        
+        public Vector2 previousPosition;
+        public Rectangle rectangle;
 
         #endregion
 
@@ -36,7 +37,7 @@ namespace SystemShutdown.GameObjects
         #region Constructor
         public Player()
         {
-            this.speed = 100;
+            this.speed = 300;
 
         }
         #endregion
@@ -47,13 +48,15 @@ namespace SystemShutdown.GameObjects
             {
                 return;
             }
-
-           // Move(gameTime);
+          
+            // Move(gameTime);
         }
 
         public void LoadContent(ContentManager content)
         {
-            //sprite = content.Load<Texture2D>("Textures/pl1");
+            sprite = content.Load<Texture2D>("Textures/pl1");
+            rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
+
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -62,6 +65,7 @@ namespace SystemShutdown.GameObjects
             {
                 return;
             }
+            //spriteBatch.Draw(sprite, rectangle, Colour);
 
             base.Draw(gameTime, spriteBatch);
         }
@@ -69,12 +73,18 @@ namespace SystemShutdown.GameObjects
 
         public void Move(Vector2 velocity)
         {
+
+
+
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
             }
             velocity *= speed;
             position += (velocity * GameWorld.DeltaTime);
+            rectangle.X = (int)position.X;
+            rectangle.Y = (int)position.Y;
+
         }
 
 
