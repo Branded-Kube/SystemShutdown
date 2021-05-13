@@ -5,7 +5,7 @@ using System.Text;
 namespace SystemShutdown.AStar
 {
    
-    class AStar
+    class Astar
     {
         private List<Node> closedList = new List<Node>();
         private List<Node> openList = new List<Node>();

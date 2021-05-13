@@ -14,7 +14,7 @@ namespace SystemShutdown
 {
     public class GameWorld : Game
     {
-        GraphicsDeviceManager graphics;
+        public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         #region Fields
@@ -24,8 +24,8 @@ namespace SystemShutdown
         public static RenderTarget2D renderTarget;
         public float scale = 0.4444f;
 
-        public static int ScreenWidth = 1920;
-        public static int ScreenHeight = 1080;
+        public static int ScreenWidth = 800;
+        public static int ScreenHeight = 800;
 
         private State currentGameState;
         private State nextGameState;
@@ -133,14 +133,14 @@ namespace SystemShutdown
             /// the game will always be running in 1080p resolution (or what resolution we choose)
             /// Frederik
             /// </summary>
-            scale = 1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
+           // scale = 1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
 
-            GraphicsDevice.SetRenderTarget(renderTarget);
+           // GraphicsDevice.SetRenderTarget(renderTarget);
 
             // Draw game
             currentGameState.Draw(gameTime, spriteBatch);
 
-            GraphicsDevice.SetRenderTarget(null);
+           // GraphicsDevice.SetRenderTarget(null);
 
             // Draw TargetRenderer
 
@@ -154,7 +154,7 @@ namespace SystemShutdown
                 spriteBatch.Begin();
             }
 
-            spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+           // spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             spriteBatch.End();
 

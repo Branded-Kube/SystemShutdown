@@ -16,8 +16,8 @@ namespace SystemShutdown.AStar
         SpriteBatch spriteBatch;
         Texture2D rectTexture;
 
-        int ScreenWidth = 1900;
-        int ScreenHeight = 1000;
+        int ScreenWidth = 800;
+        int ScreenHeight = 000;
 
         double updateTimer = 0.0;
 
@@ -30,10 +30,9 @@ namespace SystemShutdown.AStar
         Stack<Node> path = new Stack<Node>();
         Node goal;
 
-        KeyboardState PrevKS;
         MouseState PrevMS;
 
-        AStar AStar;
+        Astar AStar;
         EnemyAstar enemy;
 
         public GameWorld1()
@@ -54,11 +53,7 @@ namespace SystemShutdown.AStar
 
         protected override void LoadContent()
         {
-            KeyboardState PrevKS = Keyboard.GetState();
             MouseState PrevMS = Mouse.GetState();
-
-            
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Grid = new Grid();
@@ -71,7 +66,7 @@ namespace SystemShutdown.AStar
                 data[i] = Color.White;
             rectTexture.SetData(data);
 
-            AStar = new AStar();
+            AStar = new Astar();
 
             goal = Grid.Node(0, 0);
 
@@ -96,7 +91,6 @@ namespace SystemShutdown.AStar
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            KeyboardState ks = Keyboard.GetState();
             MouseState ms = Mouse.GetState();
 
 
@@ -166,7 +160,6 @@ namespace SystemShutdown.AStar
             }
 
 
-            PrevKS = ks;
             PrevMS = ms;
 
             base.Update(gameTime);

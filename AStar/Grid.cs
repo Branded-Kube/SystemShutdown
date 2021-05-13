@@ -7,7 +7,7 @@ namespace SystemShutdown.AStar
     class Grid
     {
 
-            public int Width = 100;
+            public int Width = 200;
             public int Height = 50;
             private Node[,] nodes;
 

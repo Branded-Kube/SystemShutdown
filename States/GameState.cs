@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SystemShutdown.AStar;
 using SystemShutdown.Buttons;
 using SystemShutdown.GameObjects;
 
@@ -43,6 +44,28 @@ namespace SystemShutdown.States
         private Player player2Test;
 
         private InputHandler inputHandler;
+
+
+        // Astar 
+        Texture2D rectTexture;
+
+        double updateTimer = 0.0;
+
+        bool Searching = false;
+
+        int NodeSize = 100;
+
+        Grid Grid;
+
+        Stack<Node> path = new Stack<Node>();
+        Node goal;
+
+        MouseState PrevMS;
+
+        Astar aStar;
+        EnemyAstar enemyA;
+        //
+
 
 
         public Player Player1Test
@@ -112,7 +135,8 @@ namespace SystemShutdown.States
             {
                 sprite = content.Load<Texture2D>("Textures/pl1"),
                 Colour = Color.Blue,
-                position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
+                //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
+                position = new Vector2(GameWorld.ScreenWidth/ 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.ScreenHeight / 2/* - (player1Test.sprite.Height / 2)*/),
                 Layer = 0.3f,
                 Health = 10,
             };
@@ -141,6 +165,35 @@ namespace SystemShutdown.States
             }
 
             players = gameObjects.Where(c => c is Player).Select(c => (Player)c).ToList();
+
+
+            // astar
+            MouseState PrevMS = Mouse.GetState();
+
+            Grid = new Grid();
+
+            // set up a white texture
+            rectTexture = new Texture2D(GameWorld.graphics.GraphicsDevice, NodeSize, NodeSize);
+            Color[] data = new Color[NodeSize * NodeSize];
+
+            for (int i = 0; i < data.Length; ++i)
+                data[i] = Color.White;
+            rectTexture.SetData(data);
+
+            aStar = new Astar();
+
+            goal = Grid.Node(0, 0);
+
+
+            enemyA = new EnemyAstar(new Rectangle(Point.Zero, new Point(NodeSize, NodeSize)));
+            enemyA.LoadContent(content);
+            //
+
+
+
+
+
+
 
         }
 
@@ -182,6 +235,78 @@ namespace SystemShutdown.States
                     enemy.Update();
                 }
             }
+
+
+            // Astar
+            MouseState ms = Mouse.GetState();
+            // on left click set a new goal and restart search from current player position
+            if (ms.LeftButton == ButtonState.Pressed && !Searching && PrevMS.LeftButton == ButtonState.Released)
+            {
+                int mx = ms.X;
+                int my = ms.Y;
+
+                // mouse coords to grid index
+                int x = mx / NodeSize; ;
+                int y = my / NodeSize;
+
+                goal = Grid.Node(x, y);
+
+                Node start = null;
+                start = Grid.Node(enemyA.position.X / NodeSize, enemyA.position.Y / NodeSize);
+
+                // if clicked on non passable node, then march in direction of player till passable found
+                while (!goal.Passable)
+                {
+                    int di = start.x - goal.x;
+                    int dj = start.y - goal.y;
+
+                    int di2 = di * di;
+                    int dj2 = dj * dj;
+
+                    int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
+                    int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
+
+                    goal = Grid.Node(goal.x + ni, goal.y + nj);
+                }
+
+
+                aStar.Start(start);
+
+                Searching = true;
+
+                while (path.Count > 0) path.Pop();
+                Grid.ResetState();
+            }
+
+            // use update timer to slow down animation
+            updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            if (updateTimer >= 0.1)
+            {
+
+                // begin the search to goal from player's position
+                // search function pushs path onto the stack
+                if (Searching)
+                {
+                    Node current = null;
+                    current = Grid.Node(enemyA.position.X / NodeSize, enemyA.position.Y / NodeSize);
+
+                    aStar.Search(Grid, current, goal, path);
+
+                    Searching = false;
+                }
+                if (path.Count > 0)
+                {
+                    Node node = path.Pop();
+                    int x = node.x * NodeSize;
+                    int y = node.y * NodeSize;
+                    enemyA.Move(x, y);
+                }
+                updateTimer = 0.0;
+            }
+
+            PrevMS = ms;
+
+            //
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -201,17 +326,10 @@ namespace SystemShutdown.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.FrontToBack);
-
-            // Frederik
-            foreach (var sprite in gameObjects)
-            {
-                sprite.Draw(gameTime, spriteBatch);
-            }
-
-            spriteBatch.End();
-
+            //spriteBatch.Begin(SpriteSortMode.FrontToBack);
             spriteBatch.Begin();
+
+           
 
             // Frederik
             float x = 10f;
@@ -243,7 +361,67 @@ namespace SystemShutdown.States
                 }
             }
 
+
+            // astar
+
+            //GraphicsDevice.Clear(Color.Black);
+
+            Vector2 gridPosition = new Vector2(0, 0);
+            Vector2 pos = gridPosition;
+            int margin = 0;
+
+            for (int j = 0; j < Grid.Height; j++)
+            {
+                pos.Y = j * (NodeSize + margin) + gridPosition.Y;
+                for (int i = 0; i < Grid.Width; i++)
+                {
+                    pos.X = i * (NodeSize + margin) + gridPosition.X;
+                    if (Grid.Node(i, j).Passable)
+                    {
+                        if (goal.x == i && goal.y == j)
+                        {
+                            spriteBatch.Draw(rectTexture, pos, Color.Blue);
+                        }
+                        else if (Grid.Node(i, j).Path)
+                        {
+                            spriteBatch.Draw(rectTexture, pos, Color.LightBlue);
+                        }
+                        else if (Grid.Node(i, j).Open)
+                        {
+                            spriteBatch.Draw(rectTexture, pos, Color.LightCoral);
+                        }
+                        else if (Grid.Node(i, j).Closed)
+                        {
+                            spriteBatch.Draw(rectTexture, pos, Color.RosyBrown);
+                        }
+                        else
+                        {
+                            spriteBatch.Draw(rectTexture, pos, Color.White);
+                        }
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(rectTexture, pos, Color.Gray);
+                    }
+                }
+            }
+
+            enemyA.Draw(spriteBatch);
+            //
+
+             // Frederik
+            foreach (var sprite in gameObjects)
+            {
+                sprite.Draw(gameTime, spriteBatch);
+            }
+
+            
+
             spriteBatch.End();
+
+            
+
+
         }
 
         /// <summary>
