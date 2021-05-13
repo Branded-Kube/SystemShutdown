@@ -126,7 +126,8 @@ namespace SystemShutdown.States
                 {
                     sprite = content.Load<Texture2D>("Backgrounds/game"),
                     Layer = 0.0f,
-                    position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
+                    //position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
+                    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 }
             };
 
@@ -135,8 +136,8 @@ namespace SystemShutdown.States
             {
                 sprite = content.Load<Texture2D>("Textures/pl1"),
                 Colour = Color.Blue,
-                //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
-                position = new Vector2(GameWorld.ScreenWidth/ 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.ScreenHeight / 2/* - (player1Test.sprite.Height / 2)*/),
+                position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
+                //position = new Vector2(GameWorld.ScreenWidth/ 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.ScreenHeight / 2/* - (player1Test.sprite.Height / 2)*/),
                 Layer = 0.3f,
                 Health = 10,
             };
@@ -145,7 +146,8 @@ namespace SystemShutdown.States
             {
                 sprite = content.Load<Texture2D>("Textures/pl1"),
                 Colour = Color.Green,
-                position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
+                //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
+                position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 Layer = 0.4f,
                 Health = 10,
             };
