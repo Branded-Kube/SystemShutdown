@@ -38,6 +38,7 @@ namespace SystemShutdown.GameObjects
         public Player()
         {
             this.speed = 300;
+            fps = 10f;
 
         }
         #endregion
@@ -48,15 +49,65 @@ namespace SystemShutdown.GameObjects
             {
                 return;
             }
-          
-            // Move(gameTime);
+
+            Animate(gametime: gameTime);
+
+            //Move(gameTime);
         }
 
         public void LoadContent(ContentManager content)
         {
-            sprite = content.Load<Texture2D>("Textures/pl1");
+            sprite = content.Load<Texture2D>("1GuyUp");
             rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
 
+            //Load sprite sheet
+            upWalk = new Texture2D[3];
+
+            //Loop animaiton
+            for (int g = 0; g < upWalk.Length; g++)
+            {
+                upWalk[g] = content.Load<Texture2D>(g + 1 + "GuyUp");
+            }
+            //When loop is finished return to first sprite/Sets default sprite
+            sprite = upWalk[0];
+
+            //Load sprite sheet
+            downWalk = new Texture2D[3];
+
+            //Loop animaiton
+            for (int h = 0; h < downWalk.Length; h++)
+            {
+                downWalk[h] = content.Load<Texture2D>(h + 1 + "GuyDown");
+            }
+            //When loop is finished return to first sprite/Sets default sprite
+            sprite = downWalk[0];
+
+            //Load sprite sheet
+            rightWalk = new Texture2D[3];
+
+            //Loop animaiton
+            for (int i = 0; i < rightWalk.Length; i++)
+            {
+                rightWalk[i] = content.Load<Texture2D>(i + 1 + "GuyRight");
+            }
+            //When loop is finished return to first sprite/Sets default sprite
+            sprite = rightWalk[0];
+
+            //Load sprite sheet
+            leftWalk = new Texture2D[3];
+
+            //Loop animaiton
+            for (int j = 0; j < leftWalk.Length; j++)
+            {
+                leftWalk[j] = content.Load<Texture2D>(j + 1 + "GuyLeft");
+            }
+            //When loop is finished return to first sprite/Sets default sprite
+            sprite = leftWalk[0];
+
+            //this.position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight - sprite.Height / 2);
+            this.origin = new Vector2(sprite.Height / 2, sprite.Width / 2);
+            this.offset.X = (-sprite.Width / 2) - 20;
+            this.offset.Y = -sprite.Height / 2;
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -73,8 +124,6 @@ namespace SystemShutdown.GameObjects
 
         public void Move(Vector2 velocity)
         {
-
-
 
             if (velocity != Vector2.Zero)
             {
