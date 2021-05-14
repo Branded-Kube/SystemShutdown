@@ -26,6 +26,7 @@ namespace SystemShutdown.States
         public static bool running = true;
         private Button2 spawnEnemyBtn;
         private Button2 cpuBtn;
+        private Texture2D laser;
         private Button2 activeThreadsBtn;
         private Button2 shutdownThreadsBtn;
         private CPU cpu;
@@ -104,6 +105,7 @@ namespace SystemShutdown.States
             activeThreadsBtn = new Button2(1000, 840, "Thread info", standardBtn);
             spawnEnemyBtn = new Button2(150, 10, "Spawn Enemy", standardBtn);
             cpuBtn = new Button2(700, 700, "CPU", cpuTexture);
+            laser = content.Load<Texture2D>("Textures/Laser");
 
             spawnEnemyBtn.Click += SpawnEnemyBtn_Clicked;
             shutdownThreadsBtn.Click += ShutdownBtn_Clicked;
