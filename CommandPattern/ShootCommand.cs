@@ -6,11 +6,11 @@ using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.CommandPattern
 {
-    class MoveCommand : ICommand
-{
-        private Vector2 velocity;
-       
-        public MoveCommand(Vector2 velocity)
+    class ShootCommand : ICommand
+    {
+
+
+        public ShootCommand(Vector2 velocity)
         {
             this.velocity = velocity;
         }
@@ -30,8 +30,6 @@ namespace SystemShutdown.CommandPattern
                 }
 
             }
-
-
         }
     }
 }

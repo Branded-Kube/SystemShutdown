@@ -15,6 +15,7 @@ namespace SystemShutdown.GameObjects
 
         private KeyboardState previousKey;
         private float speed;
+        private float laserSpeed;
         public Vector2 previousPosition;
         public Rectangle rectangle;
 
@@ -73,9 +74,6 @@ namespace SystemShutdown.GameObjects
 
         public void Move(Vector2 velocity)
         {
-
-
-
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
@@ -85,6 +83,16 @@ namespace SystemShutdown.GameObjects
             rectangle.X = (int)position.X;
             rectangle.Y = (int)position.Y;
 
+        }
+
+        public void Shoot(Vector2 velocity, Vector2 position)
+        {
+            
+
+            velocity *= laserSpeed;
+            position += (velocity * GameWorld.DeltaTime);
+            rectangle.X = (int)position.X;
+            rectangle.Y = (int)position.Y;
         }
 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SystemShutdown.GameObjects;
 
-namespace SystemShutdown
+namespace SystemShutdown.CommandPattern
 {
     interface ICommand
     {
