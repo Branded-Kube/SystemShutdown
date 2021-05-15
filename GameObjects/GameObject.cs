@@ -13,7 +13,6 @@ namespace SystemShutdown.GameObjects
         //protected Texture2D _texture;
         public Texture2D sprite;
 
-
         public Vector2 origin;
 
         protected float rotation;
@@ -59,7 +58,6 @@ namespace SystemShutdown.GameObjects
             //origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
             Colour = Color.White;
-
         }
         #endregion
 

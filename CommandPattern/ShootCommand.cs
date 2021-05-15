@@ -19,7 +19,7 @@ namespace SystemShutdown.CommandPattern
         {
 
             player.previousPosition = player.position;
-            player.Move(velocity);
+            player.Shoot(velocity);
 
             foreach (var item in GameWorld.gameState.grid.nodes)
             {

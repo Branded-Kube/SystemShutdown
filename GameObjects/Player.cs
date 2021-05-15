@@ -88,7 +88,6 @@ namespace SystemShutdown.GameObjects
         public void Shoot(Vector2 velocity, Vector2 position)
         {
             
-
             velocity *= laserSpeed;
             position += (velocity * GameWorld.DeltaTime);
             rectangle.X = (int)position.X;
