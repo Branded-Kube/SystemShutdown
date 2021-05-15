@@ -32,7 +32,7 @@ namespace SystemShutdown.CommandPattern
                         player.position = player.previousPosition;
                 }
 
-}
+            }
         }
     }
 }

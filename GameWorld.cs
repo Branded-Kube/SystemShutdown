@@ -18,6 +18,19 @@ namespace SystemShutdown
         SpriteBatch spriteBatch;
 
         #region Fields
+        private static GameWorld instance;
+
+        public static GameWorld Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameWorld();
+                }
+                return instance;
+            }
+        }
 
         public static ContentManager content;
 
@@ -26,6 +39,10 @@ namespace SystemShutdown
 
         public static int ScreenWidth = 1920;
         public static int ScreenHeight = 1080;
+
+        private List<GameObject> gameObjects = new List<GameObject>();
+
+        public List<Collider> Colliders { get; set; } = new List<Collider>();
 
         private State currentGameState;
         private State nextGameState;

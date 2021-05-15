@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SystemShutdown
+namespace SystemShutdown.Components
 {
-    public abstract class Component
+    public abstract class ButtonComponent
     {
         // Frederik
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);

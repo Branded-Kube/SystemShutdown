@@ -14,7 +14,7 @@ namespace SystemShutdown
 {
     public class MenuState : State
     {
-        private List<Component> components;
+        private List<ButtonComponent> components;
 
         #region Methods
 
@@ -31,7 +31,7 @@ namespace SystemShutdown
             var buttonTexture = content.Load<Texture2D>("Controls/button");
             var buttonFont = content.Load<SpriteFont>("Fonts/font");
 
-            components = new List<Component>()
+            components = new List<ButtonComponent>()
             {
                 new GameObject()
                 {

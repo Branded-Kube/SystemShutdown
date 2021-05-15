@@ -13,7 +13,7 @@ namespace SystemShutdown.States
     public class GameOverState : State
     {
         #region Fields
-        private List<Component> components;
+        private List<ButtonComponent> components;
 
         private SpriteFont font;
 
@@ -36,7 +36,7 @@ namespace SystemShutdown.States
             var buttonTexture = content.Load<Texture2D>("Controls/button");
             var buttonFont = content.Load<SpriteFont>("Fonts/font");
 
-            components = new List<Component>()
+            components = new List<ButtonComponent>()
             {
                 new GameObject()
                 {
