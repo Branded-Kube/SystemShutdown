@@ -38,6 +38,9 @@ namespace SystemShutdown.GameObjects
 
         protected float _Layer { get; set; }
 
+        private Dictionary<string, Component> components = new Dictionary<string, Component>();
+
+
         // Frederik
         public float Layer
         {
@@ -64,6 +67,12 @@ namespace SystemShutdown.GameObjects
             Colour = Color.White;
         }
         #endregion
+
+        public void AddComponent(Component component)
+        {
+            components.Add(component.ToString(), component);
+            component.GameObject = this;
+        }
 
         public override void Update(GameTime gameTime)
         {

@@ -12,7 +12,7 @@ namespace SystemShutdown.GameObjects
         public Rectangle laserRectangle;
         private float speed;
 
-        public Projectile()
+        public Projectile(float speed, Vector2 velocity)
         {
             this.speed = 100;
         }
