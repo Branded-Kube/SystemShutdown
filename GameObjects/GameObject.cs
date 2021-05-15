@@ -18,6 +18,7 @@ namespace SystemShutdown.GameObjects
         private int currentIndex;
 
         public Vector2 origin;
+        public Vector2 currentDir;
 
         protected float rotation;
         protected Vector2 offset;

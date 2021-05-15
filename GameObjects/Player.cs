@@ -151,12 +151,14 @@ namespace SystemShutdown.GameObjects
             //currentDirY = 0;
             if (velocity.X == 0 && velocity.Y != 0)
             {
-                currentDirY = velocity.Y;
+                currentDir.Y = velocity.Y;
+                //currentDirY = velocity.Y;
                 //currentDirX = 0;
             }
             if (velocity.Y == 0 && velocity.X != 0)
             {
-                currentDirX = velocity.X;
+                currentDir.X = velocity.X;
+                //currentDirX = velocity.X;
                 //currentDirY = 0;
             }
             //currentDir = velocity;
@@ -169,36 +171,36 @@ namespace SystemShutdown.GameObjects
             position += (velocity * GameWorld.DeltaTime);
             rectangle.X = (int)position.X;
             rectangle.Y = (int)position.Y;
-            if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDirY == -1 && currentDirX == 1)
+            if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
             {
                 rotation = (float)Math.PI / 4;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDirY == -1 && currentDirX == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == -1 && currentDir.X == -1)
             {
                 rotation = (float)Math.PI / 4 * 7;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDirY == 1 && currentDirX == 1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == 1 && currentDir.X == 1)
             {
                 rotation = (float)Math.PI * 3 / 4;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDirY == 1 && currentDirX == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == 1 && currentDir.X == -1)
             {
                 rotation = (float)Math.PI / 4 * 5;
             }
 
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDirX == 1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
             {
                 rotation = (float)Math.PI / 2;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDirX == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
             {
                 rotation = (float)Math.PI * 3 / 2;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDirY == 1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDir.Y == 1)
             {
                 rotation = (float)Math.PI;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDirY == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
             {
                 rotation = (float)Math.PI * 2;
             }
