@@ -23,11 +23,11 @@ namespace SystemShutdown.AStar
                         nodes[x, y] = new Node();
                         nodes[x, y].x = x;
                         nodes[x, y].y = y;
-                        if ((x != 0 && y != 0) &&
-                            rand.Next(1, 25) < 5)
-                        {
-                            nodes[x, y].Passable = false;
-                        }
+                        //if ((x != 0 && y != 0) &&
+                        //    rand.Next(1, 25) < 5)
+                        //{
+                        //    nodes[x, y].Passable = false;
+                        //}
 
                     if (y == 0 || y == Height)
                     {
