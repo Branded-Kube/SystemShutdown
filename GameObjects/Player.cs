@@ -40,7 +40,7 @@ namespace SystemShutdown.GameObjects
         #region Constructor
         public Player()
         {
-            this.speed = 300;
+            this.speed = 600;
             fps = 10f;
 
         }
