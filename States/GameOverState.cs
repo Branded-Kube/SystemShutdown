@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SystemShutdown.Buttons;
+using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.States
@@ -13,7 +14,7 @@ namespace SystemShutdown.States
     public class GameOverState : State
     {
         #region Fields
-        private List<ButtonComponent> components;
+        private List<ComponentMenu> components;
 
         private SpriteFont font;
 
@@ -36,14 +37,14 @@ namespace SystemShutdown.States
             var buttonTexture = content.Load<Texture2D>("Controls/button");
             var buttonFont = content.Load<SpriteFont>("Fonts/font");
 
-            components = new List<ButtonComponent>()
+            components = new List<ComponentMenu>()
             {
-                new GameObject()
-                {
-                    sprite = content.Load<Texture2D>("Backgrounds/gameover"),
-                    Layer = 0f,
-                    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
-                },
+                //new GameObject()
+                //{
+                //    sprite = content.Load<Texture2D>("Backgrounds/gameover"),
+                //    Layer = 0f,
+                //    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+                //},
 
                 new Button(buttonTexture, buttonFont)
                 {

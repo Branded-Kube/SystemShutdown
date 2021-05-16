@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SystemShutdown.Buttons;
+using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
@@ -14,7 +15,7 @@ namespace SystemShutdown
 {
     public class MenuState : State
     {
-        private List<ButtonComponent> components;
+        private List<ComponentMenu> components;
 
         #region Methods
 
@@ -31,7 +32,7 @@ namespace SystemShutdown
             var buttonTexture = content.Load<Texture2D>("Controls/button");
             var buttonFont = content.Load<SpriteFont>("Fonts/font");
 
-            components = new List<ButtonComponent>()
+            components = new List<ComponentMenu>()
             {
                 new GameObject()
                 {

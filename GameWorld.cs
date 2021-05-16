@@ -6,7 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using SystemShutdown.BuildPattern;
 using SystemShutdown.Buttons;
+using SystemShutdown.CommandPattern;
+using SystemShutdown.ComponentPattern;
+using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
@@ -40,7 +44,7 @@ namespace SystemShutdown
         public static int ScreenWidth = 1920;
         public static int ScreenHeight = 1080;
 
-        private List<GameObject> gameObjects = new List<GameObject>();
+        private List<GameObject1> gameObjects = new List<GameObject1>();
 
         public List<Collider> Colliders { get; set; } = new List<Collider>();
 
@@ -86,6 +90,13 @@ namespace SystemShutdown
 
             IsMouseVisible = true;
 
+            Director director = new Director(new PlayerBuilder());
+            gameObjects.Add(director.Contruct());
+
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Awake();
+            }
             base.Initialize();
         }
 
@@ -105,6 +116,10 @@ namespace SystemShutdown
             renderTarget = new RenderTarget2D(GraphicsDevice, 4096, 4096);
             camera = new Camera();
 
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Start();
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -141,6 +156,22 @@ namespace SystemShutdown
                 isGameState = false;
             }
 
+            InputHandler.Instance.Execute();
+
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Update(gameTime);
+            }
+
+            Collider[] tmpColliders = Colliders.ToArray();
+            for (int i = 0; i < tmpColliders.Length; i++)
+            {
+                for (int j = 0; j < tmpColliders.Length; j++)
+                {
+                    tmpColliders[i].OnCollisionEnter(tmpColliders[j]);
+                }
+            }
+
             base.Update(gameTime);
         }
 
@@ -166,6 +197,11 @@ namespace SystemShutdown
             if (isGameState)
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
+
+                for (int i = 0; i < gameObjects.Count; i++)
+                {
+                    gameObjects[i].Draw(spriteBatch);
+                }
             }
 
             else
@@ -178,6 +214,22 @@ namespace SystemShutdown
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void AddGameObject(GameObject1 go)
+        {
+            go.Awake();
+            go.Start();
+            gameObjects.Add(go);
+            Collider c = (Collider)go.GetComponent("Collider");
+            if (c != null)
+            {
+                Colliders.Add(c);
+            }
+        }
+        public void RemoveGameObject(GameObject1 go)
+        {
+            gameObjects.Remove(go);
         }
         #endregion
     }

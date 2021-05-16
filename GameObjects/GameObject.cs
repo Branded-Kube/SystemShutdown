@@ -5,16 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SystemShutdown.Components;
+using SystemShutdown.States;
 
 namespace SystemShutdown.GameObjects
 {
-    public class GameObject : ButtonComponent, ICloneable
+    public class GameObject : ComponentMenu/*, ICloneable*/
     {
         #region Fields & Properties
         //protected Texture2D _texture;
-        public Transform Transform { get; private set; }
-        private Dictionary<string, Component> components = new Dictionary<string, Component>();
-        public string Tag { get; set; }
+        //public Transform Transform { get; private set; }
+        //private Dictionary<string, Component> components = new Dictionary<string, Component>();
+        //public string Tag { get; set; }
 
         public Texture2D sprite;
         protected Texture2D[] sprites, upWalk;
@@ -40,9 +41,6 @@ namespace SystemShutdown.GameObjects
 
         protected float _Layer { get; set; }
 
-        private Dictionary<string, Component> components = new Dictionary<string, Component>();
-
-
         // Frederik
         public float Layer
         {
@@ -65,71 +63,71 @@ namespace SystemShutdown.GameObjects
 
             // Default origin in the centre of the sprite
             //origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
-            Transform = new Transform();
+            //Transform = new Transform();
             Colour = Color.White;
         }
         #endregion
 
-        public void AddComponent(Component component)
-        {
-            components.Add(component.ToString(), component);
-            component.GameObject = this;
-        }
+        //public void AddComponent(Component component)
+        //{
+        //    components.Add(component.ToString(), component);
+        //    component.GameObject = this;
+        //}
 
-        public Component GetComponent(string component)
-        {
-            return components[component];
-        }
+        //public Component GetComponent(string component)
+        //{
+        //    return components[component];
+        //}
 
-        public void Awake()
-        {
-            foreach (Component component in components.Values)
-            {
-                component.Awake();
-            }
-        }
+        //public void Awake()
+        //{
+        //    foreach (Component component in components.Values)
+        //    {
+        //        component.Awake();
+        //    }
+        //}
 
-        public void Start()
-        {
-            foreach (Component component in components.Values)
-            {
-                component.Start();
-            }
-        }
+        //public void Start()
+        //{
+        //    foreach (Component component in components.Values)
+        //    {
+        //        component.Start();
+        //    }
+        //}
 
         public override void Update(GameTime gameTime)
         {
             //origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
-            foreach (Component component in components.Values)
-            {
-                if (component.IsEnabled)
-                {
-                    component.Update(gameTime);
-                }
-            }
+            //foreach (Component component in components.Values)
+            //{
+            //    if (component.IsEnabled)
+            //    {
+            //        component.Update(gameTime);
+            //    }
+            //}
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Frederik
             spriteBatch.Draw(sprite, position, null, Colour, rotation, origin, 1f, SpriteEffects.None, 0);
-            foreach (Component component in components.Values)
-            {
-                if (component.IsEnabled)
-                {
-                    component.Draw(spriteBatch);
-                }
-            }
+            //foreach (Component component in components.Values)
+            //{
+            //    if (component.IsEnabled)
+            //    {
+            //        component.Draw(spriteBatch);
+            //    }
+            //}
         }
 
-        public void Destroy()
-        {
-            foreach (Component component in components.Values)
-            {
-                component.Destroy();
-            }
-            GameWorld.Instance.RemoveGameObject(this);
-        }
+        //public void Destroy()
+        //{
+        //    foreach (Component component in components.Values)
+        //    {
+        //        component.Destroy();
+        //    }
+        //    GameState.Instance.RemoveGameObject(this);
+        //}
 
         protected void Animate(GameTime gametime)
         {
@@ -208,10 +206,10 @@ namespace SystemShutdown.GameObjects
 
         }
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+        //public object Clone()
+        //{
+        //    return this.MemberwiseClone();
+        //}
         #endregion
     }
 }

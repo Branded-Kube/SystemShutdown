@@ -15,7 +15,7 @@ namespace SystemShutdown.CommandPattern
             this.velocity = velocity;
         }
 
-        public void Execute(Player player)
+        public void Execute(Player1 player)
         {
 
             player.previousPosition = player.position;

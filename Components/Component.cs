@@ -3,15 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SystemShutdown.GameObjects;
+using SystemShutdown.ComponentPattern;
 
 namespace SystemShutdown.Components
 {
     public abstract class Component
     {
+        public Vector2 position;
+        public Rectangle rectangle;
+        public Vector2 previousPosition;
+        public Vector2 currentDir;
+
         public bool IsEnabled { get; set; } = true;
 
-        public GameObject GameObject { get; set; }
+        public GameObject1 GameObject { get; set; }
 
         public virtual void Awake()
         {

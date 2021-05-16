@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SystemShutdown.ComponentPattern;
 using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.CommandPattern
 {
-    class ShootCommand : GameObject, ICommand
+    class ShootCommand : GameObject1, ICommand
     {
         private Vector2 velocity;
 
@@ -15,7 +16,7 @@ namespace SystemShutdown.CommandPattern
             currentDir = velocity;
         }
 
-        public void Execute(Player player)
+        public void Execute(Player1 player)
         {
 
             player.previousPosition = player.position;

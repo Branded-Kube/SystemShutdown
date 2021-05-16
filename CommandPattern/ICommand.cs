@@ -7,6 +7,6 @@ namespace SystemShutdown.CommandPattern
 {
     interface ICommand
     {
-        void Execute(Player player);
+        void Execute(Player1 player);
     }
 }

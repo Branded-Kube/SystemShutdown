@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SystemShutdown.ComponentPattern;
+using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.FactoryPattern
@@ -20,26 +22,27 @@ namespace SystemShutdown.FactoryPattern
                 return instance;
             }
         }
-        private Projectile playerLaser;
-        //private SpriteRenderer playerRenderer;
+        private Projectile1 playerProjectile;
+        private SpriteRenderer playerRenderer;
         //private SpriteRenderer enemyRenderer;
+
         private LaserFactory()
         {
-            CreatePrototype(ref playerRenderer, ref playerLaser, "Laser", 500, new Vector2(0, -1));
+            CreatePrototype(ref playerRenderer, ref playerProjectile, "Laser", 500, new Vector2(0, -1));
         }
-        private void CreatePrototype(ref SpriteRenderer spriteRenderer, ref Projectile laser, string sprite, float speed, Vector2 velocity)
+        private void CreatePrototype(ref SpriteRenderer spriteRenderer, ref Projectile1 laser, string sprite, float speed, Vector2 velocity)
         {
-            laser = new Projectile(speed, velocity);
-            //spriteRenderer = new SpriteRenderer(sprite);
+            //laser = new Projectile1(speed, velocity);
+            spriteRenderer = new SpriteRenderer(sprite);
 
         }
-        public override GameObject Create(string type)
+        public override GameObject1 Create(string type)
         {
-            GameObject go = new GameObject();
+            GameObject1 go = new GameObject1();
             switch (type)
             {
                 case "Player":
-                    Projectile laserClone = playerLaser.Clone();
+                    Projectile1 laserClone = playerProjectile.Clone();
                     go.AddComponent(new Collider(playerRenderer, laserClone) { CheckCollisionEvents = true });
                     go.AddComponent(laserClone);
                     go.AddComponent(playerRenderer.Clone());

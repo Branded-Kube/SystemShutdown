@@ -9,8 +9,10 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SystemShutdown.AStar;
+using SystemShutdown.BuildPattern;
 using SystemShutdown.Buttons;
 using SystemShutdown.CommandPattern;
+using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.States
@@ -18,7 +20,21 @@ namespace SystemShutdown.States
     public class GameState : State
     {
         #region Fields
-        //e
+        //private static GameState instance;
+
+        //public static GameState Instance
+        //{
+        //    get
+        //    {
+        //        if (instance == null)
+        //        {
+        //            instance = new GameState();
+        //        }
+        //        return instance;
+        //    }
+        //}
+
+
         public static SpriteFont font;
         private List<Enemy> enemies;
         private List<Enemy> delEnemies;
@@ -36,7 +52,10 @@ namespace SystemShutdown.States
 
         private List<Player> players;
 
-        private List<GameObject> gameObjects;
+        //private List<GameObject> gameObjects;
+        private List<GameObject> gameObjects/* = new List<GameObject>()*/;
+
+        //public List<Collider> Colliders { get; set; } = new List<Collider>();
 
         public int playerCount = 1;
 
@@ -91,7 +110,15 @@ namespace SystemShutdown.States
             enemies = new List<Enemy>();
             delEnemies = new List<Enemy>();
             buttons = new List<Button2>();
-           // cpu = new CPU();
+            // cpu = new CPU();
+
+            //Director director = new Director(new PlayerBuilder());
+            //gameObjects.Add(director.Contruct());
+
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Awake();
+            //}
         }
         #endregion
 
@@ -114,6 +141,11 @@ namespace SystemShutdown.States
             buttons.Add(activeThreadsBtn);
             buttons.Add(cpuBtn);
 
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Start();
+            //}
+
             // Frederik
             //var playerTexture = _content.Load<Texture2D>("Textures/pl1");
             inputHandler = new InputHandler();
@@ -125,7 +157,7 @@ namespace SystemShutdown.States
                 new GameObject()
                 {
                     sprite = content.Load<Texture2D>("Backgrounds/game"),
-                    Layer = 0.0f,
+                    //Layer = 0.0f,
                     //position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
                     position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 }
@@ -135,13 +167,13 @@ namespace SystemShutdown.States
             player1Test = new Player()
             {
                 //sprite = content.Load<Texture2D>("Textures/pl1"),
-                Colour = Color.Blue,
+                //Colour = Color.Blue,
                // position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
                 position = new Vector2(105,205),
 
                 //position = new Vector2(GameWorld.ScreenWidth/ 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.ScreenHeight / 2/* - (player1Test.sprite.Height / 2)*/),
-                Layer = 0.3f,
-                Health = 10,
+                //Layer = 0.3f,
+                //Health = 10,
             };
 
             player1Test.LoadContent(content);
@@ -149,11 +181,11 @@ namespace SystemShutdown.States
             player2Test = new Player()
             {
                 sprite = content.Load<Texture2D>("Textures/pl1"),
-                Colour = Color.Green,
+                //Colour = Color.Green,
                 //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
                 position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
-                Layer = 0.4f,
-                Health = 10,
+                //Layer = 0.4f,
+                //Health = 10,
             };
 
             // Frederik
@@ -193,13 +225,6 @@ namespace SystemShutdown.States
             enemyA = new EnemyAstar(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
             enemyA.LoadContent(content);
             //
-
-
-
-
-
-
-
         }
 
         public override void Update(GameTime gameTime)
@@ -210,7 +235,24 @@ namespace SystemShutdown.States
                 ShutdownThreads();
                 _game.ChangeState(new MenuState(_game, content));
             }
-            inputHandler.Execute(player1Test);
+            //inputHandler.Execute(player1Test);
+            /////
+
+
+            //InputHandler.Instance.Execute();
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Update(gameTime);
+            //}
+            //Collider[] tmpColliders = Colliders.ToArray();
+            //for (int i = 0; i < tmpColliders.Length; i++)
+            //{
+            //    for (int j = 0; j < tmpColliders.Length; j++)
+            //    {
+            //        tmpColliders[i].OnCollisionEnter(tmpColliders[j]);
+            //    }
+            //}
+
 
             foreach (var sprite in gameObjects)
             {
@@ -336,6 +378,11 @@ namespace SystemShutdown.States
         {
             //spriteBatch.Begin(SpriteSortMode.FrontToBack);
             spriteBatch.Begin();
+
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Draw(gameTime, spriteBatch);
+            //}
 
            
 
@@ -532,6 +579,24 @@ namespace SystemShutdown.States
         {
             ShutdownThreads();
         }
+
+
+        //public void AddGameObject(GameObject go)
+        //{
+        //    go.Awake();
+        //    go.Start();
+        //    gameObjects.Add(go);
+        //    Collider collider = (Collider)go.GetComponent("Collider");
+        //    if (collider != null)
+        //    {
+        //        Colliders.Add(collider);
+        //    }
+        //}
+
+        //public void RemoveGameObject(GameObject go)
+        //{
+        //    gameObjects.Remove(go);
+        //}
         #endregion
     }
 }
