@@ -19,7 +19,7 @@ namespace SystemShutdown.BuildPattern
 
             //go.AddComponent(new Player1);
             //go.AddComponent(new SpriteRenderer());
-            SpriteRenderer sr = new SpriteRenderer();
+            SpriteRenderer sr = new SpriteRenderer("1GuyUp");
 
             go.AddComponent(sr);
             sr.SetSprite("1GuyUp");

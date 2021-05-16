@@ -40,7 +40,8 @@ namespace SystemShutdown.States
         private List<Player1> players;
 
         //private List<GameObject> gameObjects;
-        private List<MenuObject> gameObjects/* = new List<GameObject>()*/;
+        private List<MenuObject> menuObjects/* = new List<GameObject>()*/;
+        private List<GameObject1> gameObjects = new List<GameObject1>();
 
         private List<Component> playerObjects;
 
@@ -76,6 +77,22 @@ namespace SystemShutdown.States
        int NodeSize = Grid.NodeSize;
 
 
+
+        public Texture2D sprite;
+        protected Texture2D[] sprites, upWalk;
+        protected float fps;
+        private float timeElapsed;
+        private int currentIndex;
+
+        public Vector2 position;
+        public Rectangle rectangle;
+        public Vector2 previousPosition;
+        public Vector2 currentDir;
+        protected float rotation;
+        protected Vector2 velocity;
+
+
+
         public Player1 Player1Test
         {
             get { return player1Test; }
@@ -108,6 +125,13 @@ namespace SystemShutdown.States
             //{
             //    gameObjects[i].Awake();
             //}
+            Director director = new Director(new PlayerBuilder());
+            gameObjects.Add(director.Contruct());
+
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Awake();
+            }
         }
         #endregion
 
@@ -134,6 +158,10 @@ namespace SystemShutdown.States
             //{
             //    gameObjects[i].Start();
             //}
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Start();
+            }
 
             // Frederik
             //var playerTexture = _content.Load<Texture2D>("Textures/pl1");
@@ -141,7 +169,7 @@ namespace SystemShutdown.States
 
             font = content.Load<SpriteFont>("Fonts/font");
 
-            gameObjects = new List<MenuObject>()
+            menuObjects = new List<MenuObject>()
             {
                 new MenuObject()
                 {
@@ -154,7 +182,7 @@ namespace SystemShutdown.States
 
             //playerObjects = new List<Component>()
             //{
-            player1Test = new Player1();
+            //player1Test = new Player1();
             //};
             
             //{
@@ -181,19 +209,19 @@ namespace SystemShutdown.States
             //};
 
             // Frederik
-            if (playerCount >= 1)
-            {
-                playerObjects.Add(player1Test);
+            //if (playerCount >= 1)
+            //{
+            //    playerObjects.Add(player1Test);
  
-            }
+            //}
 
-            // Frederik
-            if (playerCount >= 2)
-            {
-                playerObjects.Add(player2Test);
-            }
+            //// Frederik
+            //if (playerCount >= 2)
+            //{
+            //    playerObjects.Add(player2Test);
+            //}
 
-            players = playerObjects.Where(c => c is Player1).Select(c => (Player1)c).ToList();
+            //players = playerObjects.Where(c => c is Player1).Select(c => (Player1)c).ToList();
 
 
             // astar
@@ -221,11 +249,19 @@ namespace SystemShutdown.States
 
         public override void Update(GameTime gameTime)
         {
+            //Animate(gametime: gameTime);
             // Frederik
             if (Keyboard.GetState().IsKeyDown(Keys.Back))
             {
                 ShutdownThreads();
                 _game.ChangeState(new MenuState(_game, content));
+            }
+
+            InputHandler.Instance.Execute();
+
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Update(gameTime);
             }
             //inputHandler.Execute(player1Test);
             /////
@@ -379,15 +415,15 @@ namespace SystemShutdown.States
            
 
             // Frederik
-            float x = 10f;
-            foreach (var player in players)
-            {
-                spriteBatch.DrawString(font, "Player: ", /*+ player name,*/ new Vector2(x, 10f), Color.White);
-                spriteBatch.DrawString(font, "Health: ", /*+ health,*/ new Vector2(x, 30f), Color.White);
-                spriteBatch.DrawString(font, "Score: ", /*+ score,*/ new Vector2(x, 50f), Color.White);
+            //float x = 10f;
+            //foreach (var player in players)
+            //{
+            //    spriteBatch.DrawString(font, "Player: ", /*+ player name,*/ new Vector2(x, 10f), Color.White);
+            //    spriteBatch.DrawString(font, "Health: ", /*+ health,*/ new Vector2(x, 30f), Color.White);
+            //    spriteBatch.DrawString(font, "Score: ", /*+ score,*/ new Vector2(x, 50f), Color.White);
 
-                x += 150;
-            }
+            //    x += 150;
+            //}
 
             foreach (var item in buttons)
             {
@@ -408,11 +444,15 @@ namespace SystemShutdown.States
                 }
             }
                // Frederik
-            foreach (var sprite in gameObjects)
+            foreach (var sprite in menuObjects)
             {
                 sprite.Draw(gameTime, spriteBatch);
             }
 
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Draw(spriteBatch);
+            }
 
             // astar
 
@@ -588,6 +628,26 @@ namespace SystemShutdown.States
         //public void RemoveGameObject(GameObject go)
         //{
         //    gameObjects.Remove(go);
+        //}
+        //protected void Animate(GameTime gametime)
+        //{
+        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+        //    {
+        //        //Giver tiden, der er gået, siden sidste update
+        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+        //        //Beregner currentIndex
+        //        currentIndex = (int)(timeElapsed * fps);
+        //        sprite = upWalk[currentIndex];
+
+        //        //Checks if animation needs to restart
+        //        if (currentIndex >= upWalk.Length - 1)
+        //        {
+        //            //Resets animation
+        //            timeElapsed = 0;
+        //            currentIndex = 0;
+        //        }
+        //    }
         //}
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -114,7 +115,7 @@ namespace SystemShutdown.GameObjects
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 
-        public void LoadContent()
+        public void LoadContent(ContentManager content)
         {
             rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
 
@@ -144,7 +145,7 @@ namespace SystemShutdown.GameObjects
                 return;
             }
 
-            Animate(gametime: gameTime);
+            //Animate(gametime: gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

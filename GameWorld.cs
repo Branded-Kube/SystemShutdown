@@ -156,7 +156,7 @@ namespace SystemShutdown
             if (currentGameState is GameState)
             {
                 isGameState = true;
-                camera.Follow((GameState)currentGameState);
+                //camera.Follow((GameState)currentGameState);
 
             }
 
@@ -203,21 +203,19 @@ namespace SystemShutdown
 
             // Draw TargetRenderer
 
-            if (isGameState)
-            {
-                spriteBatch.Begin(transformMatrix: camera.Transform);
+            //if (isGameState)
+            //{
+            //    //spriteBatch.Begin(transformMatrix: camera.Transform);
+            //}
 
-                for (int i = 0; i < gameObjects.Count; i++)
-                {
-                    gameObjects[i].Draw(spriteBatch);
-                }
-            }
-
-            else
-            {
+            //else
+            //{
                 spriteBatch.Begin();
+            //}
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Draw(spriteBatch);
             }
-
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             spriteBatch.End();

@@ -16,9 +16,9 @@ namespace SystemShutdown.Components
             SetSprite(spriteName);
         }
 
-        public SpriteRenderer()
-        {
-        }
+        //public SpriteRenderer()
+        //{
+        //}
 
         public void SetSprite(string spriteName)
         {
