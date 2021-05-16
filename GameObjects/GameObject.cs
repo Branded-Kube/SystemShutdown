@@ -40,6 +40,9 @@ namespace SystemShutdown.GameObjects
 
         protected float _Layer { get; set; }
 
+        private Dictionary<string, Component> components = new Dictionary<string, Component>();
+
+
         // Frederik
         public float Layer
         {

@@ -8,7 +8,7 @@ namespace SystemShutdown.CommandPattern
 {
     class ShootCommand : GameObject, ICommand
     {
-        //private Vector2 velocity;
+        private Vector2 velocity;
 
         public ShootCommand(Vector2 velocity)
         {
@@ -35,4 +35,5 @@ namespace SystemShutdown.CommandPattern
             }
         }
     }
-}
+
+} 
