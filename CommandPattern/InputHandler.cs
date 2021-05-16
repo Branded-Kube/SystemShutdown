@@ -7,7 +7,7 @@ using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.CommandPattern
 {
-    public class InputHandler
+    class InputHandler
     {
         private Dictionary<Keys, ICommand> keybinds = new Dictionary<Keys, ICommand>();
 
@@ -37,10 +37,10 @@ namespace SystemShutdown.CommandPattern
             keybinds.Add(Keys.W, new MoveCommand(new Vector2(0, -1)));
             keybinds.Add(Keys.S, new MoveCommand(new Vector2(0, 1)));
 
-            //keybinds.Add(Keys.Space, new ShootCommand())
+            keybinds.Add(Keys.Space, new ShootCommand());
         }
    
-        public void Execute(Player1 player)
+        public void Execute()
         {
             KeyboardState keyState = Keyboard.GetState();
    
