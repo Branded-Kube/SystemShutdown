@@ -12,6 +12,7 @@ using SystemShutdown.AStar;
 using SystemShutdown.BuildPattern;
 using SystemShutdown.Buttons;
 using SystemShutdown.CommandPattern;
+using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 
@@ -20,20 +21,6 @@ namespace SystemShutdown.States
     public class GameState : State
     {
         #region Fields
-        //private static GameState instance;
-
-        //public static GameState Instance
-        //{
-        //    get
-        //    {
-        //        if (instance == null)
-        //        {
-        //            instance = new GameState();
-        //        }
-        //        return instance;
-        //    }
-        //}
-
 
         public static SpriteFont font;
         private List<Enemy> enemies;
@@ -50,18 +37,20 @@ namespace SystemShutdown.States
         private Texture2D cpuTexture;
         private Texture2D standardBtn;
 
-        private List<Player> players;
+        private List<Player1> players;
 
         //private List<GameObject> gameObjects;
-        private List<GameObject> gameObjects/* = new List<GameObject>()*/;
+        private List<MenuObject> gameObjects/* = new List<GameObject>()*/;
+
+        private List<Component> playerObjects;
 
         //public List<Collider> Colliders { get; set; } = new List<Collider>();
 
         public int playerCount = 1;
 
-        private Player player1Test;
+        private Player1 player1Test;
 
-        private Player player2Test;
+        private Player1 player2Test;
 
         private InputHandler inputHandler;
 
@@ -87,13 +76,13 @@ namespace SystemShutdown.States
        int NodeSize = Grid.NodeSize;
 
 
-        public Player Player1Test
+        public Player1 Player1Test
         {
             get { return player1Test; }
             set { player1Test = value; }
         }
 
-        public Player Player2Test
+        public Player1 Player2Test
         {
             get { return player2Test; }
             set { player2Test = value; }
@@ -152,9 +141,9 @@ namespace SystemShutdown.States
 
             font = content.Load<SpriteFont>("Fonts/font");
 
-            gameObjects = new List<GameObject>()
+            gameObjects = new List<MenuObject>()
             {
-                new GameObject()
+                new MenuObject()
                 {
                     sprite = content.Load<Texture2D>("Backgrounds/game"),
                     //Layer = 0.0f,
@@ -163,45 +152,48 @@ namespace SystemShutdown.States
                 }
             };
 
+            //playerObjects = new List<Component>()
+            //{
+            player1Test = new Player1();
+            //};
+            
+            //{
+            //    //sprite = content.Load<Texture2D>("Textures/pl1"),
+            //    //Colour = Color.Blue,
+            //   // position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
+            //    position = new Vector2(105,205),
 
-            player1Test = new Player()
-            {
-                //sprite = content.Load<Texture2D>("Textures/pl1"),
-                //Colour = Color.Blue,
-               // position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
-                position = new Vector2(105,205),
+            //    //position = new Vector2(GameWorld.ScreenWidth/ 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.ScreenHeight / 2/* - (player1Test.sprite.Height / 2)*/),
+            //    //Layer = 0.3f,
+            //    //Health = 10,
+            //};
 
-                //position = new Vector2(GameWorld.ScreenWidth/ 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.ScreenHeight / 2/* - (player1Test.sprite.Height / 2)*/),
-                //Layer = 0.3f,
-                //Health = 10,
-            };
+            ////player1Test.LoadContent(content);
 
-            player1Test.LoadContent(content);
-
-            player2Test = new Player()
-            {
-                sprite = content.Load<Texture2D>("Textures/pl1"),
-                //Colour = Color.Green,
-                //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
-                position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
-                //Layer = 0.4f,
-                //Health = 10,
-            };
+            //player2Test = new Player()
+            //{
+            //    sprite = content.Load<Texture2D>("Textures/pl1"),
+            //    //Colour = Color.Green,
+            //    //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
+            //    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+            //    //Layer = 0.4f,
+            //    //Health = 10,
+            //};
 
             // Frederik
             if (playerCount >= 1)
             {
-                gameObjects.Add(player1Test);
+                playerObjects.Add(player1Test);
  
             }
 
             // Frederik
             if (playerCount >= 2)
             {
-                gameObjects.Add(player2Test);
+                playerObjects.Add(player2Test);
             }
 
-            players = gameObjects.Where(c => c is Player).Select(c => (Player)c).ToList();
+            players = playerObjects.Where(c => c is Player1).Select(c => (Player1)c).ToList();
 
 
             // astar
@@ -361,16 +353,16 @@ namespace SystemShutdown.States
 
         public override void PostUpdate(GameTime gameTime)
         {
-            // When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
+            //// When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
 
-            // If player is dead, show game over screen
-            // Frederik
-            if (players.All(c => c.IsDead))
-            {
-                //highscores can also be added here (to be shown in the game over screen)
+            //// If player is dead, show game over screen
+            //// Frederik
+            //if (players.All(c => c.IsDead))
+            //{
+            //    //highscores can also be added here (to be shown in the game over screen)
 
-                _game.ChangeState(new GameOverState(_game, content));
-            }
+            //    _game.ChangeState(new GameOverState(_game, content));
+            //}
         }
 
 

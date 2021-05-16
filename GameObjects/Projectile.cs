@@ -8,7 +8,7 @@ using SystemShutdown.ComponentPattern;
 
 namespace SystemShutdown.GameObjects
 {
-    class Projectile : GameObject
+    class Projectile : MenuObject
     {
         //public Rectangle laserRectangle;
         //private float speed;

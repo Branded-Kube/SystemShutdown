@@ -45,7 +45,7 @@ namespace SystemShutdown
         public static int ScreenHeight = 1080;
 
         private List<GameObject1> gameObjects = new List<GameObject1>();
-
+        private Player1 player;
         public List<Collider> Colliders { get; set; } = new List<Collider>();
 
         private State currentGameState;
@@ -57,7 +57,7 @@ namespace SystemShutdown
 
         private bool isGameState;
 
-        public static float DeltaTime { get; set; }
+        public float DeltaTime { get; set; }
 
         #endregion
 
@@ -89,6 +89,15 @@ namespace SystemShutdown
             graphics.ApplyChanges();
 
             IsMouseVisible = true;
+
+            //GameObject1 go = new GameObject1();
+
+            //player = new Player1();
+
+            //go.AddComponent(player);
+            //go.AddComponent(new SpriteRenderer());
+
+            //gameObjects.Add(go);
 
             Director director = new Director(new PlayerBuilder());
             gameObjects.Add(director.Contruct());
