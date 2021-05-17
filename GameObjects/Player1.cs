@@ -83,12 +83,12 @@ namespace SystemShutdown.GameObjects
             }
             velocity *= speed;
             GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
-            rectangle.X = (int)position.X;
-            rectangle.Y = (int)position.Y;
+            rectangle.X = (int)GameObject.Transform.Position.X;
+            rectangle.Y = (int)GameObject.Transform.Position.Y;
 
             if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
             {
-                rotation = (float)Math.PI / 4;
+                GameObject.Transform.rotation = (float)Math.PI / 4;
             }
             else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == -1 && currentDir.X == -1)
             {
