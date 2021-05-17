@@ -33,7 +33,6 @@ namespace SystemShutdown.GameObjects
             }
         }
 
-        public Input Input { get; set; }
         #endregion
 
         #region Methods

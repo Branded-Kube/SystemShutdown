@@ -18,7 +18,7 @@ namespace SystemShutdown.BuildPattern
             go = new GameObject1();
             SpriteRenderer sr = new SpriteRenderer();
             go.AddComponent(sr);
-            sr.SetSprite("Player");
+            sr.SetSprite("1GuyUp");
             sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height) - 10);
             //sr.Origin = new Vector2(go.Transform.Position.X, go.Transform.Position.Y);
 
