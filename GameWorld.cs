@@ -52,6 +52,15 @@ namespace SystemShutdown
         private State nextGameState;
         public static GameState gameState;
 
+        private PlayerBuilder playerBuilder;
+
+        private Director director;
+
+        public Director Director
+        {
+            get { return director; }
+            set { director = value; }
+        }
 
         private Camera camera;
 
@@ -98,8 +107,8 @@ namespace SystemShutdown
             //go.AddComponent(new SpriteRenderer());
 
             //gameObjects.Add(go);
-
-            Director director = new Director(new PlayerBuilder());
+            playerBuilder = new PlayerBuilder();
+            director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
 
             for (int i = 0; i < gameObjects.Count; i++)
@@ -156,7 +165,7 @@ namespace SystemShutdown
             if (currentGameState is GameState)
             {
                 isGameState = true;
-                //camera.Follow((GameState)currentGameState);
+                camera.Follow(playerBuilder);  
 
             }
 
@@ -203,15 +212,15 @@ namespace SystemShutdown
 
             // Draw TargetRenderer
 
-            //if (isGameState)
-            //{
-            //    //spriteBatch.Begin(transformMatrix: camera.Transform);
-            //}
+            if (isGameState)
+            {
+                spriteBatch.Begin(transformMatrix: camera.Transform);
+            }
 
-            //else
-            //{
+            else
+            {
                 spriteBatch.Begin();
-            //}
+            }
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].Draw(spriteBatch);

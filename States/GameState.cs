@@ -92,6 +92,7 @@ namespace SystemShutdown.States
         protected float rotation;
         protected Vector2 velocity;
 
+        private PlayerBuilder playerBuilder;
 
 
         public Player1 Player1Test
@@ -126,8 +127,8 @@ namespace SystemShutdown.States
             //{
             //    gameObjects[i].Awake();
             //}
-            Director director = new Director(new PlayerBuilder());
-            gameObjects.Add(director.Contruct());
+
+            gameObjects.Add(GameWorld.Instance.Director.Contruct());
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
@@ -258,7 +259,7 @@ namespace SystemShutdown.States
                 _game.ChangeState(new MenuState(_game, content));
             }
 
-            InputHandler.Instance.Execute();
+           // InputHandler.Instance.Execute();
 
             for (int i = 0; i < gameObjects.Count; i++)
             {

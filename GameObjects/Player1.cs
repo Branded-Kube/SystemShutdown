@@ -63,18 +63,18 @@ namespace SystemShutdown.GameObjects
         {
             //currentDirX = 0;
             //currentDirY = 0;
-            if (velocity.X == 0 && velocity.Y != 0)
-            {
-                currentDir.Y = velocity.Y;
-                //currentDirY = velocity.Y;
-                //currentDirX = 0;
-            }
-            if (velocity.Y == 0 && velocity.X != 0)
-            {
-                currentDir.X = velocity.X;
-                //currentDirX = velocity.X;
-                //currentDirY = 0;
-            }
+            //if (velocity.X == 0 && velocity.Y != 0)
+            //{
+            //    currentDir.Y = velocity.Y;
+            //    //currentDirY = velocity.Y;
+            //    //currentDirX = 0;
+            //}
+            //if (velocity.Y == 0 && velocity.X != 0)
+            //{
+            //    currentDir.X = velocity.X;
+            //    //currentDirX = velocity.X;
+            //    //currentDirY = 0;
+            //}
             //currentDir = velocity;
 
             if (velocity != Vector2.Zero)

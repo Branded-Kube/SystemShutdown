@@ -5,7 +5,7 @@ using SystemShutdown.ComponentPattern;
 
 namespace SystemShutdown.BuildPattern
 {
-    class Director
+   public class Director
     {
         private IBuilder builder;
 
