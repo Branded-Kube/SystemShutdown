@@ -31,6 +31,18 @@ namespace SystemShutdown.GameObjects
         private float currentDirY;
         private float currentDirX;
 
+        public Texture2D sprite;
+        protected Texture2D[] sprites, upWalk;
+        protected float fps;
+        private float timeElapsed;
+        private int currentIndex;
+
+        public Vector2 position;
+        public Rectangle rectangle;
+        public Vector2 currentDir;
+        protected float rotation;
+        protected Vector2 velocity;
+
         public bool IsDead
         {
             get
@@ -125,7 +137,7 @@ namespace SystemShutdown.GameObjects
             //Loop animaiton
             for (int g = 0; g < upWalk.Length; g++)
             {
-                upWalk[g] = GameWorld.content.Load<Texture2D>(g + 1 + "GuyUp");
+                upWalk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
             }
             //When loop is finished return to first sprite/Sets default sprite
             sprite = upWalk[0];
@@ -145,7 +157,7 @@ namespace SystemShutdown.GameObjects
                 return;
             }
 
-            //Animate(gametime: gameTime);
+            Animate(gametime: gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -193,6 +205,27 @@ namespace SystemShutdown.GameObjects
                 if (IsDead)
                 {
                     return;
+                }
+            }
+        }
+
+        protected void Animate(GameTime gametime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                //Giver tiden, der er gået, siden sidste update
+                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+                //Beregner currentIndex
+                currentIndex = (int)(timeElapsed * fps);
+                spriteRenderer.Sprite = upWalk[currentIndex];
+
+                //Checks if animation needs to restart
+                if (currentIndex >= upWalk.Length - 1)
+                {
+                    //Resets animation
+                    timeElapsed = 0;
+                    currentIndex = 0;
                 }
             }
         }

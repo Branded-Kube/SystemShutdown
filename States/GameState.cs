@@ -631,23 +631,23 @@ namespace SystemShutdown.States
         //}
         //protected void Animate(GameTime gametime)
         //{
-        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-        //    {
-        //        //Giver tiden, der er gået, siden sidste update
-        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+            //if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+            //{
+            //    //Giver tiden, der er gået, siden sidste update
+            //    timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-        //        //Beregner currentIndex
-        //        currentIndex = (int)(timeElapsed * fps);
-        //        sprite = upWalk[currentIndex];
+            //    //Beregner currentIndex
+            //    currentIndex = (int)(timeElapsed * fps);
+            //    sprite = upWalk[currentIndex];
 
-        //        //Checks if animation needs to restart
-        //        if (currentIndex >= upWalk.Length - 1)
-        //        {
-        //            //Resets animation
-        //            timeElapsed = 0;
-        //            currentIndex = 0;
-        //        }
-        //    }
+            //    //Checks if animation needs to restart
+            //    if (currentIndex >= upWalk.Length - 1)
+            //    {
+            //        //Resets animation
+            //        timeElapsed = 0;
+            //        currentIndex = 0;
+            //    }
+            //}
         //}
         #endregion
     }
