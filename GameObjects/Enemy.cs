@@ -47,13 +47,15 @@ namespace SystemShutdown.GameObjects
         private Texture2D sprite;
         private Rectangle rectangle;
 
+        bool playerTarget = false;
+
 
         // Astar 
         //Texture2D rectTexture;
 
-        double updateTimerA = 0.0;
+        private double updateTimerA = 0.0;
 
-        bool Searching = false;
+        private bool Searching = false;
 
 
         //public Grid grid;
@@ -108,43 +110,50 @@ namespace SystemShutdown.GameObjects
 
         public void Update(GameTime gameTime)
         {
-            //updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
-            //if (updateTimer >= 1.0)
-            //{
-            //    if (IsPlayerInRange(GameWorld.gameState.Player1Test.position))
-            //    {
+            if (updateTimer >= 1.0)
+            {
+                if (IsPlayerInRange(GameWorld.gameState.Player1Test.position))
+                {
 
-            //        //  better handling of walls is needed
+                    //        //  better handling of walls is needed
 
-            //        //foreach (var item in GameWorld.gameState.grid.nodes)
-            //        //{
-            //        //    if (!item.Passable)
-            //        //    {
-            //        //        if (item.position.X < GameWorld.gameState.Player1Test.position.X && item.position.X > rectangle.X)
-            //        //        {
+                    //        //foreach (var item in GameWorld.gameState.grid.nodes)
+                    //        //{
+                    //        //    if (!item.Passable)
+                    //        //    {
+                    //        //        if (item.position.X < GameWorld.gameState.Player1Test.position.X && item.position.X > rectangle.X)
+                    //        //        {
 
-            //        Debug.WriteLine("Enemy can see player!");
+                    Debug.WriteLine("Enemy can see player!");
+                    playerTarget = true;
+                //        //        }
+                //        //    }
+                //        //}
 
-            //        //        }
-            //        //    }
-            //        //}
+                }
+                    else
+                    {
+                        Debug.WriteLine("Enemy can not see player!");
 
-            //    }
-            //    else
-            //    {
-            //        Debug.WriteLine("Enemy can not see player!");
-
-            //    }
-            //    updateTimer = 0.0;
-            //}
+                    }
+                    updateTimer = 0.0;
+            }
 
 
             // Astar
             ms = Mouse.GetState();
             // on left click set a new goal and restart search from current player position
-            if (ms.LeftButton == ButtonState.Pressed && !Searching && PrevMS.LeftButton == ButtonState.Released)
-            {
+            //if (ms.LeftButton == ButtonState.Pressed && !Searching && PrevMS.LeftButton == ButtonState.Released)
+            //{
+
+            if (playerTarget)
+          {
+
+                
+                Searching = true;
+
                 //int mx = ms.X;
                 //int my = ms.Y;
 
@@ -178,7 +187,6 @@ namespace SystemShutdown.GameObjects
 
                 aStar.Start(start);
 
-                Searching = true;
 
                 while (path.Count > 0) path.Pop();
                 aStar.ResetState();
@@ -224,14 +232,14 @@ namespace SystemShutdown.GameObjects
             //
         }
 
-       
-        //public bool IsPlayerInRange(Vector2 target)
-        //{
-        //    Vector2 thisPos = new Vector2(rectangle.X, rectangle.Y);
-        //    return vision >= Vector2.Distance(thisPos, target);
-        //}
 
-      
+        public bool IsPlayerInRange(Vector2 target)
+        {
+            Vector2 thisPos = new Vector2(rectangle.X, rectangle.Y);
+            return vision >= Vector2.Distance(thisPos, target);
+        }
+
+
 
         public Rectangle Rectangle
         {

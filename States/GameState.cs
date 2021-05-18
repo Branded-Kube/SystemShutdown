@@ -23,7 +23,7 @@ namespace SystemShutdown.States
         private List<Enemy> enemies;
         private List<Enemy> delEnemies;
         private List<Button2> buttons;
-        private Enemy enemy;
+        //private Enemy enemy;
         public static bool running = true;
         private Button2 spawnEnemyBtn;
         private Button2 cpuBtn;
@@ -461,12 +461,11 @@ namespace SystemShutdown.States
         private void SpawnEnemy()
         {
             running = true;
-
-            enemy = new Enemy(new Rectangle(new Point(100, 100), new Point(100, 100)));
+            Enemy enemy =  new Enemy(new Rectangle(new Point(100, 100), new Point(100, 100)));
             //enemy = new Enemy($"Enemy ");
 
            // enemy.Start();
-           enemy.ClickSelect += Enemy_ClickSelect;
+          // enemy.ClickSelect += Enemy_ClickSelect;
             enemies.Add(enemy);
             delEnemies.Add(enemy);
         }
@@ -492,15 +491,15 @@ namespace SystemShutdown.States
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Enemy_ClickSelect(object sender, EventArgs e)
-        {
-           // cpuBtn.Click += CPU_Clicked;
+        //private void Enemy_ClickSelect(object sender, EventArgs e)
+        //{
+        //   // cpuBtn.Click += CPU_Clicked;
 
-            enemy = (Enemy)sender;
-            int ID = enemy.id;
-            Debug.WriteLine(ID);
-            enemyID = ID.ToString();
-        }
+        //    enemy = (Enemy)sender;
+        //    int ID = enemy.id;
+        //    Debug.WriteLine(ID);
+        //    enemyID = ID.ToString();
+        //}
 
         ///// <summary>
         ///// Toggles bool on latest clicked enemy and removes click events on CPU
