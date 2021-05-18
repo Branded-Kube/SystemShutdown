@@ -10,16 +10,16 @@ namespace SystemShutdown.Components
 {
     public abstract class Component
     {
-        public Texture2D sprite;
-        protected Texture2D[] sprites, upWalk;
+        protected Texture2D sprite;
+        //protected Texture2D[] sprites, upWalk;
         protected float fps;
-        private float timeElapsed;
-        private int currentIndex;
+        protected float timeElapsed;
+        protected int currentIndex;
 
         public Vector2 position;
         public Rectangle rectangle;
         public Vector2 previousPosition;
-        public Vector2 currentDir;
+        protected Vector2 currentDir;
         protected float rotation;
         protected Vector2 velocity;
         

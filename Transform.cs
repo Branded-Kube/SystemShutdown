@@ -9,8 +9,11 @@ namespace SystemShutdown
     {
         public Vector2 Position { get; set; }
 
-        public Vector2 Rotation { get; set; }
-
+        /// <summary>
+        /// This will move the transform in the direction and distance of the translation.
+        /// IsNaN checks if X & Y position already exists (is instantiated). To make sure we don't get an exception.
+        /// </summary>
+        /// <param name="translation"></param>
         public void Translate(Vector2 translation)
         {
             if (!float.IsNaN(translation.X) && !float.IsNaN(translation.Y))

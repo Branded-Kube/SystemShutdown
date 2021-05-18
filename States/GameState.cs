@@ -389,8 +389,8 @@ namespace SystemShutdown.States
             //
         }
 
-        public override void PostUpdate(GameTime gameTime)
-        {
+        //public override void PostUpdate(GameTime gameTime)
+        //{
             //// When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
 
             //// If player is dead, show game over screen
@@ -401,7 +401,7 @@ namespace SystemShutdown.States
 
             //    _game.ChangeState(new GameOverState(_game, content));
             //}
-        }
+        //}
 
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

@@ -24,8 +24,8 @@ namespace SystemShutdown.Components
             {
                 return new Rectangle
                     (
-                        (int)(GameObject.Transform.Position.X - origin.X),
-                        (int)(GameObject.Transform.Position.Y - origin.Y),
+                        (int)(GameObject.Transform.Position.X),
+                        (int)(GameObject.Transform.Position.Y),
                         (int)size.X,
                         (int)size.Y
                     );

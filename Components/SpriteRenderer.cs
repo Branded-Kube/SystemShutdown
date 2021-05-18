@@ -9,11 +9,11 @@ namespace SystemShutdown.Components
     public class SpriteRenderer : Component
     {
         public Texture2D Sprite { get; set; }
+
+        public Texture2D[] sprites, upWalk;
         public Vector2 Origin { get; set; }
 
-        public SpriteRenderer()
-        {
-        }
+        public float Rotation { get; set; }
 
         public SpriteRenderer(string spriteName)
         {
@@ -31,7 +31,7 @@ namespace SystemShutdown.Components
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprite, GameObject.Transform.Position, null, Color.White, 0, Origin, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(Sprite, GameObject.Transform.Position, null, Color.White, Rotation, Origin, 1, SpriteEffects.None, 0);
         }
 
         public override string ToString()

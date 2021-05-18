@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SystemShutdown.BuildPattern;
 using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
@@ -16,7 +17,8 @@ namespace SystemShutdown.GameObjects
     public class Player1 : Component, IGameListener
     {
         private float speed;
-        private SpriteRenderer spriteRenderer;
+        private SpriteRenderer sr;
+        private PlayerBuilder playerBuilder;
         private bool canShoot;
         private float shootTime;
         private float cooldown = 1f;
@@ -26,22 +28,6 @@ namespace SystemShutdown.GameObjects
         private KeyboardState previousKey;
 
         private float laserSpeed;
-        public Vector2 previousPosition;
-
-        private float currentDirY;
-        private float currentDirX;
-
-        public Texture2D sprite;
-        protected Texture2D[] sprites, upWalk;
-        protected float fps;
-        private float timeElapsed;
-        private int currentIndex;
-
-        public Vector2 position;
-        public Rectangle rectangle;
-        public Vector2 currentDir;
-        protected float rotation;
-        protected Vector2 velocity;
 
         public bool IsDead
         {
@@ -75,7 +61,7 @@ namespace SystemShutdown.GameObjects
             //    //currentDirX = velocity.X;
             //    //currentDirY = 0;
             //}
-            //currentDir = velocity;
+            currentDir = velocity;
 
             if (velocity != Vector2.Zero)
             {
@@ -85,62 +71,79 @@ namespace SystemShutdown.GameObjects
             GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
             rectangle.X = (int)GameObject.Transform.Position.X;
             rectangle.Y = (int)GameObject.Transform.Position.Y;
+            //rectangle.X = (int)position.X;
+            //rectangle.Y = (int)position.Y;
+            RotatePlayer(sr);
+        }
 
-            if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
+        private void RotatePlayer(SpriteRenderer rotate)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.Y == -1 && currentDir.X == 1*/)
             {
-                GameObject.Transform.rotation = (float)Math.PI / 4;
+                rotate.Rotation = (float)Math.PI / 4;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == -1 && currentDir.X == -1)
+            else if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.Y == -1 && currentDir.X == -1*/)
             {
-                rotation = (float)Math.PI / 4 * 7;
+                rotate.Rotation = (float)Math.PI / 4 * 7;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == 1 && currentDir.X == 1)
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.Y == 1 && currentDir.X == 1*/)
             {
-                rotation = (float)Math.PI * 3 / 4;
+                rotate.Rotation = (float)Math.PI * 3 / 4;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == 1 && currentDir.X == -1)
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.Y == 1 && currentDir.X == -1*/)
             {
-                rotation = (float)Math.PI / 4 * 5;
+                rotate.Rotation = (float)Math.PI / 4 * 5;
             }
 
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
             {
-                rotation = (float)Math.PI / 2;
-            }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
-            {
-                rotation = (float)Math.PI * 3 / 2;
+                rotate.Rotation = (float)Math.PI * 2;
             }
             else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDir.Y == 1)
             {
-                rotation = (float)Math.PI;
+                rotate.Rotation = (float)Math.PI;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
             {
-                rotation = (float)Math.PI * 2;
+                rotate.Rotation = (float)Math.PI / 2;
+            }
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
+            {
+                rotate.Rotation = (float)Math.PI * 3 / 2;
             }
         }
 
         public override void Awake()
         {
             GameObject.Transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height);
-            spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            sr = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 
         public void LoadContent(ContentManager content)
         {
             rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
 
+            ////Load sprite sheet
+            //upWalk = new Texture2D[3];
+
+            ////Loop animaiton
+            //for (int g = 0; g < upWalk.Length; g++)
+            //{
+            //    upWalk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
+            //}
+            ////When loop is finished return to first sprite/Sets default sprite
+            //sr.Sprite = upWalk[0];
+
             //Load sprite sheet
-            upWalk = new Texture2D[3];
+            sr.sprites = new Texture2D[3];
 
             //Loop animaiton
-            for (int g = 0; g < upWalk.Length; g++)
+            for (int g = 0; g < sr.sprites.Length; g++)
             {
-                upWalk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
+                sr.sprites[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
             }
             //When loop is finished return to first sprite/Sets default sprite
-            sprite = upWalk[0];
+            sr.Sprite = sr.sprites[0];
         }
 
         public override void Update(GameTime gameTime)
@@ -157,7 +160,7 @@ namespace SystemShutdown.GameObjects
                 return;
             }
 
-            Animate(gametime: gameTime);
+            /*playerBuilder.*/Animate(gametime: gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -188,7 +191,7 @@ namespace SystemShutdown.GameObjects
                 shootTime = 0;
                 GameObject1 projectileObject = LaserFactory.Instance.Create("Player");
                 projectileObject.Transform.Position = GameObject.Transform.Position;
-                projectileObject.Transform.Position += new Vector2(-3, -(spriteRenderer.Sprite.Height + 40));
+                projectileObject.Transform.Position += new Vector2(-3, -(sr.Sprite.Height + 40));
                 GameWorld.Instance.AddGameObject(projectileObject);
 
                 velocity *= laserSpeed;
@@ -211,17 +214,29 @@ namespace SystemShutdown.GameObjects
 
         protected void Animate(GameTime gametime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Keyboard.GetState().IsKeyDown(Keys.W)/*currentDir.Y == -1*/ || Keyboard.GetState().IsKeyDown(Keys.S)/*currentDir.Y == 1*/ || Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.X == 1*/ || Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.X == -1*/)
             {
                 //Giver tiden, der er gået, siden sidste update
                 timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
+                ////Beregner currentIndex
+                //currentIndex = (int)(timeElapsed * fps);
+                //sr.Sprite = upWalk[currentIndex];
+
+                ////Checks if animation needs to restart
+                //if (currentIndex >= upWalk.Length - 1)
+                //{
+                //    //Resets animation
+                //    timeElapsed = 0;
+                //    currentIndex = 0;
+                //}
+
                 //Beregner currentIndex
                 currentIndex = (int)(timeElapsed * fps);
-                spriteRenderer.Sprite = upWalk[currentIndex];
+                sr.Sprite = sr.sprites[currentIndex];
 
                 //Checks if animation needs to restart
-                if (currentIndex >= upWalk.Length - 1)
+                if (currentIndex >= sr.sprites.Length - 1)
                 {
                     //Resets animation
                     timeElapsed = 0;

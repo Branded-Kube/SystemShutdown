@@ -110,10 +110,10 @@ namespace SystemShutdown
             }
         }
 
-        public override void PostUpdate(GameTime gameTime)
-        {
-            //(unload game - specific content)
-        }
+        //public override void PostUpdate(GameTime gameTime)
+        //{
+        //    //(unload game - specific content)
+        //}
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

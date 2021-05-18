@@ -28,7 +28,11 @@ namespace SystemShutdown.ObjectPool
         {
             GameWorld.Instance.RemoveGameObject(gameObject);
             active.Remove(gameObject);
-            inac
+            inactive.Push(gameObject);
         }
+
+        protected abstract GameObject1 Create();
+
+        protected abstract void Cleanup(GameObject1 gameObject);
     }
 }

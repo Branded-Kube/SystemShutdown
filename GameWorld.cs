@@ -73,7 +73,7 @@ namespace SystemShutdown
         #region Methods
 
         #region Constructor
-        public GameWorld()
+        private GameWorld()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -159,14 +159,13 @@ namespace SystemShutdown
             //Updates game
             currentGameState.Update(gameTime);
 
-            currentGameState.PostUpdate(gameTime);
+            //currentGameState.PostUpdate(gameTime);
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (currentGameState is GameState)
             {
                 isGameState = true;
-                camera.Follow(playerBuilder);  
-
+                camera.Follow(playerBuilder);
             }
 
             else

@@ -21,7 +21,7 @@ namespace SystemShutdown.CommandPattern
             player.previousPosition = player.position;
             player.Move(velocity);
 
-            foreach (var item in GameWorld.gameState.grid.nodes)
+            foreach (var item in wGameWorld.gameState.grid.nodes)
             {
                 if (item.Passable == false)
                 {
