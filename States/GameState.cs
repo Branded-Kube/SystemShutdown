@@ -19,7 +19,7 @@ namespace SystemShutdown.States
     {
         #region Fields
         //e
-        public static SpriteFont font;
+        public SpriteFont font;
         private List<Enemy> enemies;
         private List<Enemy> delEnemies;
         private List<Button2> buttons;
@@ -40,34 +40,27 @@ namespace SystemShutdown.States
 
         public int playerCount = 1;
 
-        private Player player1Test;
+        public Player player1Test;
 
         private Player player2Test;
 
         private InputHandler inputHandler;
 
 
-        // Astar 
+        //// Astar 
         Texture2D rectTexture;
 
-        double updateTimer = 0.0;
-
-        bool Searching = false;
 
 
         public Grid grid;
 
-        Stack<Node> path = new Stack<Node>();
-        Node goal;
+        public int NodeSize = Grid.NodeSize;
 
-        MouseState PrevMS;
+        //Astar aStar;
+        ////
 
-        Astar aStar;
-        EnemyAstar enemyA;
-        //
-       int NodeSize = Grid.NodeSize;
-
-
+        static KeyboardState currentKeyState;
+        static KeyboardState previousKeyState;
         public Player Player1Test
         {
             get { return player1Test; }
@@ -91,7 +84,7 @@ namespace SystemShutdown.States
             enemies = new List<Enemy>();
             delEnemies = new List<Enemy>();
             buttons = new List<Button2>();
-           // cpu = new CPU();
+            //cpu = new CPU();
         }
         #endregion
 
@@ -106,7 +99,7 @@ namespace SystemShutdown.States
             spawnEnemyBtn = new Button2(150, 10, "Spawn Enemy", standardBtn);
             cpuBtn = new Button2(700, 700, "CPU", cpuTexture);
 
-            spawnEnemyBtn.Click += SpawnEnemyBtn_Clicked;
+            //spawnEnemyBtn.Click += SpawnEnemyBtn_Clicked;
             shutdownThreadsBtn.Click += ShutdownBtn_Clicked;
             activeThreadsBtn.Click += ActiveThreadsBtn_Clicked;
             buttons.Add(spawnEnemyBtn);
@@ -146,15 +139,15 @@ namespace SystemShutdown.States
 
             player1Test.LoadContent(content);
 
-            player2Test = new Player()
-            {
-                sprite = content.Load<Texture2D>("Textures/pl1"),
-                Colour = Color.Green,
-                //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
-                position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
-                Layer = 0.4f,
-                Health = 10,
-            };
+            //player2Test = new Player()
+            //{
+            //    sprite = content.Load<Texture2D>("Textures/pl1"),
+            //    Colour = Color.Green,
+            //    //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
+            //    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+            //    Layer = 0.4f,
+            //    Health = 10,
+            //};
 
             // Frederik
             if (playerCount >= 1)
@@ -178,20 +171,20 @@ namespace SystemShutdown.States
             grid = new Grid();
 
             // set up a white texture
-            rectTexture = new Texture2D(GameWorld.graphics.GraphicsDevice,  NodeSize, NodeSize);
+            rectTexture = new Texture2D(GameWorld.graphics.GraphicsDevice, NodeSize, NodeSize);
             Color[] data = new Color[NodeSize * NodeSize];
 
             for (int i = 0; i < data.Length; ++i)
                 data[i] = Color.White;
             rectTexture.SetData(data);
 
-            aStar = new Astar();
+            //aStar = new Astar();
 
-            goal = grid.Node(1, 1);
+            //goal = grid.Node(1, 1);
 
 
-            enemyA = new EnemyAstar(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
-            enemyA.LoadContent(content);
+            //enemy = new Enemy(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
+            //enemy.LoadContent(content);
             //
 
 
@@ -204,12 +197,21 @@ namespace SystemShutdown.States
 
         public override void Update(GameTime gameTime)
         {
+            previousKeyState = currentKeyState;
+
+            currentKeyState = Keyboard.GetState();
             // Frederik
             if (Keyboard.GetState().IsKeyDown(Keys.Back))
             {
                 ShutdownThreads();
                 _game.ChangeState(new MenuState(_game, content));
             }
+            if (currentKeyState.IsKeyDown(Keys.P) && !previousKeyState.IsKeyDown(Keys.P))
+            {
+                SpawnEnemy();
+
+            }
+
             inputHandler.Execute(player1Test);
 
             foreach (var sprite in gameObjects)
@@ -237,84 +239,84 @@ namespace SystemShutdown.States
                 }
                 foreach (Enemy enemy in enemies)
                 {
-                    enemy.Update();
+                   enemy.Update(gameTime);
                 }
             }
 
 
-            // Astar
-            MouseState ms = Mouse.GetState();
-            // on left click set a new goal and restart search from current player position
-            if (ms.LeftButton == ButtonState.Pressed && !Searching && PrevMS.LeftButton == ButtonState.Released)
-            {
-                int mx = ms.X;
-                int my = ms.Y;
+            //// Astar
+            //MouseState ms = Mouse.GetState();
+            //// on left click set a new goal and restart search from current player position
+            //if (ms.LeftButton == ButtonState.Pressed && !Searching && PrevMS.LeftButton == ButtonState.Released)
+            //{
+            //    int mx = ms.X;
+            //    int my = ms.Y;
 
-                // mouse coords to grid index
-                int x = mx / NodeSize; 
-                int y = my / NodeSize;
-
-
-                goal = grid.Node((int)player1Test.position.X / 100, (int)player1Test.position.Y / 100);
-
-                //goal = grid.Node(x, y);
-
-                Node start = null;
-                start = grid.Node(enemyA.position.X / NodeSize, enemyA.position.Y / NodeSize);
-
-                // if clicked on non passable node, then march in direction of player till passable found
-                while (!goal.Passable)
-                {
-                    int di = start.x - goal.x;
-                    int dj = start.y - goal.y;
-
-                    int di2 = di * di;
-                    int dj2 = dj * dj;
-
-                    int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
-                    int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
-
-                    goal = grid.Node(goal.x + ni, goal.y + nj);
-                }
+            //    // mouse coords to grid index
+            //    int x = mx / NodeSize; 
+            //    int y = my / NodeSize;
 
 
-                aStar.Start(start);
+            //    goal = grid.Node((int)player1Test.position.X / 100, (int)player1Test.position.Y / 100);
 
-                Searching = true;
+            //    //goal = grid.Node(x, y);
 
-                while (path.Count > 0) path.Pop();
-                grid.ResetState();
-            }
+            //    Node start = null;
+            //    start = grid.Node(enemy.position.X / NodeSize, enemy.position.Y / NodeSize);
 
-            // use update timer to slow down animation
-            updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            if (updateTimer >= 0.1)
-            {
+            //    // if clicked on non passable node, then march in direction of player till passable found
+            //    while (!goal.Passable)
+            //    {
+            //        int di = start.x - goal.x;
+            //        int dj = start.y - goal.y;
 
-                // begin the search to goal from player's position
-                // search function pushs path onto the stack
-                if (Searching)
-                {
-                    Node current = null;
-                    current = grid.Node(enemyA.position.X / NodeSize, enemyA.position.Y / NodeSize);
+            //        int di2 = di * di;
+            //        int dj2 = dj * dj;
 
-                    aStar.Search(grid, current, goal, path);
+            //        int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
+            //        int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
 
-                    Searching = false;
-                }
-                if (path.Count > 0)
-                {
-                    Node node = path.Pop();
-                    int x = node.x * NodeSize;
-                    int y = node.y * NodeSize;
-                    enemyA.Move(x, y);
-                }
-                updateTimer = 0.0;
-            }
+            //        goal = grid.Node(goal.x + ni, goal.y + nj);
+            //    }
 
-            PrevMS = ms;
 
-            //
+            //    aStar.Start(start);
+
+            //    Searching = true;
+
+            //    while (path.Count > 0) path.Pop();
+            //    grid.ResetState();
+            //}
+
+            //// use update timer to slow down animation
+            //updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            //if (updateTimer >= 0.1)
+            //{
+
+            //    // begin the search to goal from player's position
+            //    // search function pushs path onto the stack
+            //    if (Searching)
+            //    {
+            //        Node current = null;
+            //        current = grid.Node(enemy.position.X / NodeSize, enemy.position.Y / NodeSize);
+
+            //        aStar.Search(grid, current, goal, path);
+
+            //        Searching = false;
+            //    }
+            //    if (path.Count > 0)
+            //    {
+            //        Node node = path.Pop();
+            //        int x = node.x * NodeSize;
+            //        int y = node.y * NodeSize;
+            //        enemy.Move(x, y);
+            //    }
+            //    updateTimer = 0.0;
+            //}
+
+            //PrevMS = ms;
+
+            ////
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -375,56 +377,52 @@ namespace SystemShutdown.States
             }
 
 
-            // astar
-
-            //GraphicsDevice.Clear(Color.Black);
-
             Vector2 gridPosition = new Vector2(0, 0);
             Vector2 pos = gridPosition;
             int margin = 0;
 
-            for (int j = 0; j < grid.Height; j++)
+            for (int j = 0; j < GameWorld.gameState.grid.Height; j++)
             {
-                pos.Y = j * (NodeSize + margin) + gridPosition.Y;
-                for (int i = 0; i < grid.Width; i++)
+                pos.Y = j * (GameWorld.gameState.NodeSize + margin) + gridPosition.Y;
+                for (int i = 0; i < GameWorld.gameState.grid.Width; i++)
                 {
-                    grid.Node(i, j).rectangle(new Point(i*100, j*100));
+                    GameWorld.gameState.grid.Node(i, j).rectangle(new Point(i * 100, j * 100));
 
-                    pos.X = i * (NodeSize + margin) + gridPosition.X;
-                     //grid.Node(i, j).rectangle((int)pos.X, (int)pos.Y, rectTexture.Width, rectTexture.Height);
+                    pos.X = i * (GameWorld.gameState.NodeSize + margin) + gridPosition.X;
+                    //grid.Node(i, j).rectangle((int)pos.X, (int)pos.Y, rectTexture.Width, rectTexture.Height);
 
-                    if (grid.Node(i, j).Passable)
+                    if (GameWorld.gameState.grid.Node(i, j).Passable)
                     {
-                        if (goal.x == i && goal.y == j)
-                        {
-                            //spriteBatch.Draw(rectTexture, pos, Color.Blue);
-                            spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Blue);
+                        //if (goal.x == i && goal.y == j)
+                        //{
+                        //    //spriteBatch.Draw(rectTexture, pos, Color.Blue);
+                        //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Blue);
 
-                        }
-                        else if (grid.Node(i, j).Path)
-                        {
-                            //spriteBatch.Draw(rectTexture, pos, Color.LightBlue);
-                            spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightBlue);
+                        //}
+                        //else if (grid.Node(i, j).Path)
+                        //{
+                        //    //spriteBatch.Draw(rectTexture, pos, Color.LightBlue);
+                        //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightBlue);
 
-                        }
-                        else if (grid.Node(i, j).Open)
-                        {
-                            //spriteBatch.Draw(rectTexture, pos, Color.LightCoral);
-                            spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightCoral);
+                        //}
+                        //else if (grid.Node(i, j).Open)
+                        //{
+                        //    //spriteBatch.Draw(rectTexture, pos, Color.LightCoral);
+                        //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightCoral);
 
-                        }
-                        else if (grid.Node(i, j).Closed)
-                        {
-                            //spriteBatch.Draw(rectTexture, pos, Color.RosyBrown);
-                            spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.RosyBrown);
+                        //}
+                        //else if (grid.Node(i, j).Closed)
+                        //{
+                        //    //spriteBatch.Draw(rectTexture, pos, Color.RosyBrown);
+                        //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.RosyBrown);
 
-                        }
-                        else
-                        {
-                            //spriteBatch.Draw(rectTexture, pos, Color.White);
-                           // spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.White);
+                        //}
+                        //else
+                        //{
+                        //    //spriteBatch.Draw(rectTexture, pos, Color.White);
+                        //spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.White);
 
-                        }
+                        //}
                     }
                     else
                     {
@@ -434,14 +432,23 @@ namespace SystemShutdown.States
 
 
                     }
+                    //if (grid.Node(i, j).nodeOccupiedByEnemy)
+                    //{
+                    //    grid.Node(i, j).Passable = false;
+                    //}
+                    //else if (true)
+                    //{
+                    //    grid.Node(i, j).Passable = true;
+
+                    //}
+                    
                 }
             }
 
-            enemyA.Draw(spriteBatch);
+            //enemy.Draw(spriteBatch);
             //
+           
 
-          
-            
 
             spriteBatch.End();
 
@@ -450,21 +457,35 @@ namespace SystemShutdown.States
 
         }
 
+
+        private void SpawnEnemy()
+        {
+            running = true;
+
+            enemy = new Enemy(new Rectangle(new Point(100, 100), new Point(100, 100)));
+            //enemy = new Enemy($"Enemy ");
+
+           // enemy.Start();
+           enemy.ClickSelect += Enemy_ClickSelect;
+            enemies.Add(enemy);
+            delEnemies.Add(enemy);
+        }
+
         /// <summary>
         /// Adds an enemy when button is clicked, and also adds enemy to the other list
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SpawnEnemyBtn_Clicked(object sender, EventArgs e)
-        {
-            running = true;
+        //private void SpawnEnemyBtn_Clicked(object sender, EventArgs e)
+        //{
+        //    running = true;
 
-            enemy = new Enemy($"Enemy ");
-            enemy.Start();
-            enemy.ClickSelect += Enemy_ClickSelect;
-            enemies.Add(enemy);
-            delEnemies.Add(enemy);
-        }
+        //    enemy = new Enemy($"Enemy ");
+        //    enemy.Start();
+        //    enemy.ClickSelect += Enemy_ClickSelect;
+        //    enemies.Add(enemy);
+        //    delEnemies.Add(enemy);
+        //}
 
         /// <summary>
         /// Enables clicking on the CPU, and sets enemy ID
@@ -473,7 +494,7 @@ namespace SystemShutdown.States
         /// <param name="e"></param>
         private void Enemy_ClickSelect(object sender, EventArgs e)
         {
-            cpuBtn.Click += CPU_Clicked;
+           // cpuBtn.Click += CPU_Clicked;
 
             enemy = (Enemy)sender;
             int ID = enemy.id;
@@ -481,18 +502,18 @@ namespace SystemShutdown.States
             enemyID = ID.ToString();
         }
 
-        /// <summary>
-        /// Toggles bool on latest clicked enemy and removes click events on CPU
-        /// Enemy thread enters CPU 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CPU_Clicked(object sender, EventArgs e)
-        {
-            enemy.Harvesting = true;
+        ///// <summary>
+        ///// Toggles bool on latest clicked enemy and removes click events on CPU
+        ///// Enemy thread enters CPU 
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void CPU_Clicked(object sender, EventArgs e)
+        //{
+        //    enemy.AttackingPlayer = true;
 
-            cpuBtn.Click -= CPU_Clicked;
-        }
+        //    cpuBtn.Click -= CPU_Clicked;
+        //}
 
         /// <summary>
         /// Shows all threads aktive and Total number

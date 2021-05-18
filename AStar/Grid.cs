@@ -29,6 +29,13 @@ namespace SystemShutdown.AStar
                         nodes[x, y].Passable = false;
                     }
 
+                    // for testing only clears y 2 where player spawns
+                    if (y == 2 )
+                    {
+                        nodes[x, y].Passable = true;
+                    }
+
+
                     if (y == 0 || y == Height -1 )
                     {
                         nodes[x, y].Passable = false;

@@ -4,12 +4,18 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace SystemShutdown.GameObjects
 {
     public class Player : GameObject
     {
+
+        static Semaphore MySemaphore = new Semaphore(0, 3);
+
+
         #region Fields
         private KeyboardState currentKey;
 
@@ -21,6 +27,11 @@ namespace SystemShutdown.GameObjects
 
         private float currentDirY;
         private float currentDirX;
+        private Vector2 currentDir;
+        private string debug1 = "";
+        private string debug2 = "";
+
+
 
         #endregion
 
@@ -44,8 +55,29 @@ namespace SystemShutdown.GameObjects
             this.speed = 600;
             fps = 10f;
 
+            Debug.WriteLine("Players semaphore releases (3)");
+            MySemaphore.Release();
+
         }
         #endregion
+
+
+
+        //tells worker to wait for empty space using semaphore, and then start harvesting from the palmtree
+        public void Enter(Object id)
+        {
+            int tmp = Thread.CurrentThread.ManagedThreadId;
+
+            Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+            MySemaphore.WaitOne();
+            Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+            Random randomNumber = new Random();
+            Thread.Sleep(100 * randomNumber.Next(0, 150));
+            Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            MySemaphore.Release();
+
+        }
+
 
         public override void Update(GameTime gameTime)
         {
@@ -142,6 +174,10 @@ namespace SystemShutdown.GameObjects
             }
             //spriteBatch.Draw(sprite, rectangle, Colour);
 
+            spriteBatch.DrawString(GameWorld.gameState.font, debug1, new Vector2(300,500), Color.White);
+            spriteBatch.DrawString(GameWorld.gameState.font, debug2, new Vector2(300, 300), Color.White);
+
+
             base.Draw(gameTime, spriteBatch);
         }
 
@@ -149,60 +185,76 @@ namespace SystemShutdown.GameObjects
         {
             //currentDirX = 0;
             //currentDirY = 0;
-            if (velocity.X == 0 && velocity.Y != 0)
+            currentDir += velocity;
+
+            if (velocity.Y == 0)
             {
-                currentDirY = velocity.Y;
+                //currentDirY = velocity.Y;
                 //currentDirX = 0;
+
+                currentDir.X = velocity.X;
             }
-            if (velocity.Y == 0 && velocity.X != 0)
+            if (velocity.X == 0)
             {
-                currentDirX = velocity.X;
+                //currentDirX = velocity.X;
                 //currentDirY = 0;
+                currentDir.Y = velocity.Y;
+
             }
             //currentDir = velocity;
 
-            if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-            }
-            velocity *= speed;
-            position += (velocity * GameWorld.DeltaTime);
-            rectangle.X = (int)position.X;
-            rectangle.Y = (int)position.Y;
-            if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDirY == -1 && currentDirX == 1)
+
+
+            if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
             {
                 rotation = (float)Math.PI / 4;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDirY == -1 && currentDirX == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == -1 && currentDir.X == -1)
             {
                 rotation = (float)Math.PI / 4 * 7;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDirY == 1 && currentDirX == 1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == 1 && currentDir.X == 1)
             {
                 rotation = (float)Math.PI * 3 / 4;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDirY == 1 && currentDirX == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == 1 && currentDir.X == -1)
             {
                 rotation = (float)Math.PI / 4 * 5;
             }
 
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDirX == 1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
             {
                 rotation = (float)Math.PI / 2;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDirX == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
             {
                 rotation = (float)Math.PI * 3 / 2;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDirY == 1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDir.Y == 1)
             {
                 rotation = (float)Math.PI;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDirY == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
             {
                 rotation = (float)Math.PI * 2;
             }
-            
+
+            debug1 = $"{velocity}";
+            debug2 = $"{currentDir}";
+
+
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+              // currentDir.Normalize();
+            }
+            velocity *= speed;
+
+            position += (velocity * GameWorld.DeltaTime);
+
+            rectangle.X = (int)position.X;
+            rectangle.Y = (int)position.Y;
+
         }
 
         public void Shoot(Vector2 velocity, Vector2 position)

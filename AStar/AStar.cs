@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.AStar
 {
@@ -9,9 +11,16 @@ namespace SystemShutdown.AStar
     {
         private List<Node> closedList = new List<Node>();
         private List<Node> openList = new List<Node>();
+        private Node[,] enemyNodes;
 
         bool finished = true;
-      
+        
+        public Astar()
+        {
+            enemyNodes = GameWorld.gameState.grid.nodes;
+        }
+
+
         public void Start(Node start)
         {
             if (finished)
@@ -20,9 +29,31 @@ namespace SystemShutdown.AStar
                 closedList.Clear();
                 openList.Add(start);
                 finished = false;
+
             }
         }
+        public Node Node(int x, int y)
+        {
+            if (x >= 0 && x < GameWorld.gameState.grid.Width && y >= 0 && y < GameWorld.gameState.grid.Height)
+                return enemyNodes[x, y];
+            else
+                return null;
+        }
 
+        public void ResetState()
+        {
+            for (int y = 0; y < GameWorld.gameState.grid.Height; y++)
+                for (int x = 0; x < GameWorld.gameState.grid.Width; x++)
+                {
+                    enemyNodes[x, y].f = int.MaxValue;
+                    enemyNodes[x, y].g = 0;
+                    enemyNodes[x, y].h = 0;
+                    enemyNodes[x, y].cameFrom = null;
+                    enemyNodes[x, y].Path = false;
+                    enemyNodes[x, y].Open = false;
+                    enemyNodes[x, y].Closed = false;
+                }
+        }
         private Node[] GetNeighbors(Grid grid, Node node)
         {
 
@@ -31,25 +62,25 @@ namespace SystemShutdown.AStar
             // if y bigger than 0, (screen top border)
             if (node.y - 1 > 0)
             {
-                neighbors[0] = grid.Node(node.x, node.y - 1);
+                neighbors[0] = Node(node.x, node.y - 1);
             }
             // Sets bottom neighbor
             // if y is less than grid height
             if (node.y + 1 < grid.Height)
             {
-                neighbors[1] = grid.Node(node.x, node.y + 1);
+                neighbors[1] = Node(node.x, node.y + 1);
             }
             // Sets left neighbor
             // if x is bigger than 0 (screen left border)
             if (node.x - 1 > 0)
             {
-                neighbors[2] = grid.Node(node.x - 1, node.y);
+                neighbors[2] = Node(node.x - 1, node.y);
             }
             // Sets right neighbor
             // if x is less than width
             if (node.x + 1 < grid.Width)
             {
-                neighbors[3] = grid.Node(node.x + 1, node.y);
+                neighbors[3] = Node(node.x + 1, node.y);
             }
             // Sets top-left neighbor
             // if bigger than 0 (screen border) on both axis
@@ -60,7 +91,7 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    neighbors[4] = grid.Node(node.x - 1, node.y - 1);
+                    neighbors[4] = Node(node.x - 1, node.y - 1);
 
                 }
             }
@@ -73,7 +104,7 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    neighbors[5] = grid.Node(node.x + 1, node.y + 1);
+                    neighbors[5] = Node(node.x + 1, node.y + 1);
                 }
             }
             // Sets bottom-left neighbor
@@ -85,7 +116,7 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    neighbors[6] = grid.Node(node.x - 1, node.y + 1);
+                    neighbors[6] = Node(node.x - 1, node.y + 1);
                 }
             }
             // Sets top-right neighbor
@@ -97,7 +128,7 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    neighbors[7] = grid.Node(node.x + 1, node.y - 1);
+                    neighbors[7] = Node(node.x + 1, node.y - 1);
                 }
                
             }
@@ -155,7 +186,7 @@ namespace SystemShutdown.AStar
                 {
                     Finish(current, path);
                 }
-
+              
                 // removes current node from openList and adds it to closedList, flips bools 
                 openList.Remove(current);
                 closedList.Add(current);
@@ -199,6 +230,7 @@ namespace SystemShutdown.AStar
             // else sets current neighbor f / g / h values and adds neighbor to openlist
             foreach (Node neighbor in neighbors)
             {
+                
                 if (neighbor == null)
                 {
                     continue;
@@ -211,6 +243,10 @@ namespace SystemShutdown.AStar
                 {
                     continue;
                 }
+                //else if (neighbor.alreadyOccupied)
+                //{
+                //    continue;
+                //}
                 else
                 {
                     // (tmpG is the distance from start to neighbor though current)
@@ -254,12 +290,14 @@ namespace SystemShutdown.AStar
                 current.Path = true;
                 path.Push(current);
                 current = current.cameFrom;
+
             }
             openList.Clear();
             closedList.Clear();
             finished = true;
+
         }
 
-    
+
     }
 }
