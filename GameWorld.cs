@@ -46,20 +46,28 @@ namespace SystemShutdown
         public static int ScreenHeight = 1080;
 
         private List<GameObject1> gameObjects = new List<GameObject1>();
-
+        private Player1 player;
         public List<Collider> Colliders { get; set; } = new List<Collider>();
 
         private State currentGameState;
         private State nextGameState;
         public static GameState gameState;
 
-        public static Repository repo;
+        private PlayerBuilder playerBuilder;
+
+        private Director director;
+
+        public Director Director
+        {
+            get { return director; }
+            set { director = value; }
+        }
 
         private Camera camera;
 
         private bool isGameState;
 
-        public static float DeltaTime { get; set; }
+        public float DeltaTime { get; set; }
 
         #endregion
 
@@ -106,7 +114,16 @@ namespace SystemShutdown
 
             IsMouseVisible = true;
 
-            Director director = new Director(new PlayerBuilder());
+            //GameObject1 go = new GameObject1();
+
+            //player = new Player1();
+
+            //go.AddComponent(player);
+            //go.AddComponent(new SpriteRenderer());
+
+            //gameObjects.Add(go);
+            playerBuilder = new PlayerBuilder();
+            director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
 
             for (int i = 0; i < gameObjects.Count; i++)
@@ -163,7 +180,7 @@ namespace SystemShutdown
             if (currentGameState is GameState)
             {
                 isGameState = true;
-                camera.Follow((GameState)currentGameState);
+                camera.Follow(playerBuilder);  
 
             }
 
@@ -213,18 +230,16 @@ namespace SystemShutdown
             if (isGameState)
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
-
-                for (int i = 0; i < gameObjects.Count; i++)
-                {
-                    gameObjects[i].Draw(spriteBatch);
-                }
             }
 
             else
             {
                 spriteBatch.Begin();
             }
-
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Draw(spriteBatch);
+            }
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             spriteBatch.End();

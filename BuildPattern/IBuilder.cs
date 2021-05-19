@@ -5,7 +5,7 @@ using SystemShutdown.ComponentPattern;
 
 namespace SystemShutdown.BuildPattern
 {
-    interface IBuilder
+   public interface IBuilder
     {
         GameObject1 GetResult();
 

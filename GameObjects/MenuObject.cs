@@ -9,7 +9,7 @@ using SystemShutdown.States;
 
 namespace SystemShutdown.GameObjects
 {
-    public class GameObject : ComponentMenu/*, ICloneable*/
+    public class MenuObject : ComponentMenu/*, ICloneable*/
     {
         #region Fields & Properties
         //protected Texture2D _texture;
@@ -18,23 +18,23 @@ namespace SystemShutdown.GameObjects
         //public string Tag { get; set; }
 
         public Texture2D sprite;
-        protected Texture2D[] sprites, upWalk;
-        protected float fps;
-        private float timeElapsed;
-        private int currentIndex;
+        //protected Texture2D[] sprites, upWalk;
+        //protected float fps;
+        //private float timeElapsed;
+        //private int currentIndex;
 
         public Vector2 origin;
-        public Vector2 currentDir;
+        //public Vector2 currentDir;
 
         protected float rotation;
-        protected Vector2 offset;
+        //protected Vector2 offset;
         public Vector2 position;
-        public Rectangle rectangle;
+        //public Rectangle rectangle;
 
-        protected float timePassed;
+        //protected float timePassed;
 
-        protected Vector2 velocity;
-        protected float friction = 0.1f;
+        //protected Vector2 velocity;
+        //protected float friction = 0.1f;
 
         public int Health { get; set; }
         public Color Colour { get; set; }
@@ -57,7 +57,7 @@ namespace SystemShutdown.GameObjects
         #region Constructor
 
         // Frederik
-        public GameObject()
+        public MenuObject()
         {
             //_texture = texture;
 
@@ -129,25 +129,25 @@ namespace SystemShutdown.GameObjects
         //    GameState.Instance.RemoveGameObject(this);
         //}
 
-        protected void Animate(GameTime gametime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                //Giver tiden, der er gået, siden sidste update
-                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+        //protected void Animate(GameTime gametime)
+        //{
+        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+        //    {
+        //        //Giver tiden, der er gået, siden sidste update
+        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-                //Beregner currentIndex
-                currentIndex = (int)(timeElapsed * fps);
-                sprite = upWalk[currentIndex];
+        //        //Beregner currentIndex
+        //        currentIndex = (int)(timeElapsed * fps);
+        //        sprite = upWalk[currentIndex];
 
-                //Checks if animation needs to restart
-                if (currentIndex >= upWalk.Length - 1)
-                {
-                    //Resets animation
-                    timeElapsed = 0;
-                    currentIndex = 0;
-                }
-            }
+        //        //Checks if animation needs to restart
+        //        if (currentIndex >= upWalk.Length - 1)
+        //        {
+        //            //Resets animation
+        //            timeElapsed = 0;
+        //            currentIndex = 0;
+        //        }
+        //    }
             //else if (Keyboard.GetState().IsKeyDown(Keys.S))
             //{
             //    //Giver tiden, der er gået, siden sidste update
@@ -199,12 +199,12 @@ namespace SystemShutdown.GameObjects
             //        currentIndex = 0;
             //    }
             //}
-        }
+        //}
 
-        public virtual void OnCollision(GameObject gameObject)
-        {
+        //public virtual void OnCollision(MenuObject gameObject)
+        //{
 
-        }
+        //}
 
         //public object Clone()
         //{

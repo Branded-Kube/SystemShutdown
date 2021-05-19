@@ -61,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:1GuyUp.png
 
-#begin 1GuyUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:1GuyUp.png
-
 #begin 2GuyDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -247,6 +235,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/box.png
+
+#begin Textures/CollisionBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/CollisionBox.png
 
 #begin Textures/Laser.jpg
 /importer:TextureImporter

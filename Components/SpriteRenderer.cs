@@ -11,14 +11,18 @@ namespace SystemShutdown.Components
         public Texture2D Sprite { get; set; }
         public Vector2 Origin { get; set; }
 
+        public SpriteRenderer()
+        {
+        }
+
         public SpriteRenderer(string spriteName)
         {
             SetSprite(spriteName);
         }
 
-        public SpriteRenderer()
-        {
-        }
+        //public SpriteRenderer()
+        //{
+        //}
 
         public void SetSprite(string spriteName)
         {

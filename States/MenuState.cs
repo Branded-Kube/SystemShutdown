@@ -17,6 +17,18 @@ namespace SystemShutdown
     {
         private List<ComponentMenu> components;
 
+        protected float _Layer { get; set; }
+
+        // Frederik
+        public float Layer
+        {
+            get { return _Layer; }
+            set
+            {
+                _Layer = value;
+            }
+        }
+
         #region Methods
 
         #region Constructor
@@ -34,7 +46,7 @@ namespace SystemShutdown
 
             components = new List<ComponentMenu>()
             {
-                new GameObject()
+                new MenuObject()
                 {
                     sprite = content.Load<Texture2D>("Backgrounds/mainmenu"),
                     Layer = 0f,

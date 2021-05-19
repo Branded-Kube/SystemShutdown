@@ -40,7 +40,7 @@ namespace SystemShutdown.CommandPattern
             keybinds.Add(Keys.Space, new ShootCommand());
         }
    
-        public void Execute()
+        public void Execute(/*Player1 player*/)
         {
             KeyboardState keyState = Keyboard.GetState();
    
