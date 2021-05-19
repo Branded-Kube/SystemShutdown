@@ -66,6 +66,7 @@ namespace SystemShutdown
         private Camera camera;
 
         private bool isGameState;
+        private Repository repo;
 
         public float DeltaTime { get; set; }
 

@@ -27,7 +27,7 @@ namespace SystemShutdown.Database
             cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Player (PlayerID INTEGER PRIMARY KEY, Scrap INTEGER, UNIQUE(PlayerId));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
 
-            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Mods (ModID INTEGER PRIMARY KEY, Name VARCHAR(50), Effect INTEGER, UNIQUE(Name);", (SQLiteConnection)connection);
+            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Mods (ModID INTEGER PRIMARY KEY, Name VARCHAR(50), Effect INTEGER, UNIQUE(Name));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
 
@@ -42,7 +42,7 @@ namespace SystemShutdown.Database
 
         public void AddMods(string name, int effect)
         {
-            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Fish (Name,Effect) VALUES ('{name}',{effect})", (SQLiteConnection)connection);
+            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Mods (Name,Effect) VALUES ('{name}',{effect})", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
 
