@@ -11,6 +11,7 @@ using SystemShutdown.Buttons;
 using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
+using SystemShutdown.Database;
 using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
@@ -52,6 +53,7 @@ namespace SystemShutdown
         private State nextGameState;
         public static GameState gameState;
 
+        public static Repository repo;
 
         private Camera camera;
 
@@ -69,6 +71,20 @@ namespace SystemShutdown
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             content = Content;
+
+            var mapper = new Mapper();
+            var provider = new SQLiteDatabaseProvider("Data Source=SystemShutdown.db;Version=3;new=true");
+
+            repo = new Repository(provider, mapper);
+
+            repo.Open();
+
+            repo.AddMods("Dmg", 10);
+            repo.AddMods("Movespeed", 10);
+            repo.AddMods("Attackspeed", 10);
+            repo.AddMods("Health", 10);
+
+            repo.Close();
         }
         #endregion
 
