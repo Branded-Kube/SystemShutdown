@@ -23,7 +23,6 @@ namespace SystemShutdown.States
         private List<Enemy> enemies;
         private List<Enemy> delEnemies;
         private List<Button2> buttons;
-        //private Enemy enemy;
         public static bool running = true;
         private Button2 spawnEnemyBtn;
         private Button2 cpuBtn;
@@ -56,8 +55,6 @@ namespace SystemShutdown.States
 
         public int NodeSize = Grid.NodeSize;
 
-        //Astar aStar;
-        ////
 
         static KeyboardState currentKeyState;
         static KeyboardState previousKeyState;
@@ -178,20 +175,6 @@ namespace SystemShutdown.States
                 data[i] = Color.White;
             rectTexture.SetData(data);
 
-            //aStar = new Astar();
-
-            //goal = grid.Node(1, 1);
-
-
-            //enemy = new Enemy(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
-            //enemy.LoadContent(content);
-            //
-
-
-
-
-
-
 
         }
 
@@ -244,79 +227,6 @@ namespace SystemShutdown.States
             }
 
 
-            //// Astar
-            //MouseState ms = Mouse.GetState();
-            //// on left click set a new goal and restart search from current player position
-            //if (ms.LeftButton == ButtonState.Pressed && !Searching && PrevMS.LeftButton == ButtonState.Released)
-            //{
-            //    int mx = ms.X;
-            //    int my = ms.Y;
-
-            //    // mouse coords to grid index
-            //    int x = mx / NodeSize; 
-            //    int y = my / NodeSize;
-
-
-            //    goal = grid.Node((int)player1Test.position.X / 100, (int)player1Test.position.Y / 100);
-
-            //    //goal = grid.Node(x, y);
-
-            //    Node start = null;
-            //    start = grid.Node(enemy.position.X / NodeSize, enemy.position.Y / NodeSize);
-
-            //    // if clicked on non passable node, then march in direction of player till passable found
-            //    while (!goal.Passable)
-            //    {
-            //        int di = start.x - goal.x;
-            //        int dj = start.y - goal.y;
-
-            //        int di2 = di * di;
-            //        int dj2 = dj * dj;
-
-            //        int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
-            //        int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
-
-            //        goal = grid.Node(goal.x + ni, goal.y + nj);
-            //    }
-
-
-            //    aStar.Start(start);
-
-            //    Searching = true;
-
-            //    while (path.Count > 0) path.Pop();
-            //    grid.ResetState();
-            //}
-
-            //// use update timer to slow down animation
-            //updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            //if (updateTimer >= 0.1)
-            //{
-
-            //    // begin the search to goal from player's position
-            //    // search function pushs path onto the stack
-            //    if (Searching)
-            //    {
-            //        Node current = null;
-            //        current = grid.Node(enemy.position.X / NodeSize, enemy.position.Y / NodeSize);
-
-            //        aStar.Search(grid, current, goal, path);
-
-            //        Searching = false;
-            //    }
-            //    if (path.Count > 0)
-            //    {
-            //        Node node = path.Pop();
-            //        int x = node.x * NodeSize;
-            //        int y = node.y * NodeSize;
-            //        enemy.Move(x, y);
-            //    }
-            //    updateTimer = 0.0;
-            //}
-
-            //PrevMS = ms;
-
-            ////
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -445,9 +355,6 @@ namespace SystemShutdown.States
                 }
             }
 
-            //enemy.Draw(spriteBatch);
-            //
-           
 
 
             spriteBatch.End();
@@ -464,7 +371,7 @@ namespace SystemShutdown.States
             Enemy enemy =  new Enemy(new Rectangle(new Point(100, 100), new Point(100, 100)));
             //enemy = new Enemy($"Enemy ");
 
-           // enemy.Start();
+            enemy.Start();
           // enemy.ClickSelect += Enemy_ClickSelect;
             enemies.Add(enemy);
             delEnemies.Add(enemy);

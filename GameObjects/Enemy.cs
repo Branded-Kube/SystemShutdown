@@ -20,8 +20,6 @@ namespace SystemShutdown.GameObjects
         private bool attackingCPU = false;
         double updateTimer = 0.0;
 
-       // private Node[,] enemyNodes;
-
         public bool AttackingCPU
         {
             get { return attackingCPU; }
@@ -33,15 +31,9 @@ namespace SystemShutdown.GameObjects
             set { attackingPlayer = value; }
         }
         public int id { get; set; }
-       // private Texture2D workersprite;
         private string name = "Enemy";
-       // private Rectangle WorkerRectangle;
         public event EventHandler ClickSelect;
         private Random randomNumber;
-        private int positionX;
-        private int positionY;
-        private Point x;
-        private Point y;
         private float vision;
 
         private Texture2D sprite;
@@ -51,22 +43,15 @@ namespace SystemShutdown.GameObjects
 
 
         // Astar 
-        //Texture2D rectTexture;
 
         private double updateTimerA = 0.0;
 
         private bool Searching = false;
 
-
-        //public Grid grid;
-
         Stack<Node> path = new Stack<Node>();
         Node goal;
 
-        MouseState PrevMS;
-        MouseState ms;
         Astar aStar;
-        //int NodeSize = Grid.NodeSize;
 
         //
 
@@ -85,11 +70,10 @@ namespace SystemShutdown.GameObjects
         {
             this.vision = 500;
             this.rectangle = Rectangle;
-            //internalThread = new Thread(ThreadMethod);
+            internalThread = new Thread(ThreadMethod);
             LoadContent(GameWorld.content);
 
 
-            //    enemyNodes = GameWorld.gameState.grid.nodes;
 
 
             //    randomNumber = new Random();
@@ -100,13 +84,7 @@ namespace SystemShutdown.GameObjects
             //    this.rectangle = new Rectangle(x, y);
 
         }
-        //private Node Node(int x, int y)
-        //{
-        //    if (x >= 0 && x < GameWorld.gameState.grid.Width && y >= 0 && y < GameWorld.gameState.grid.Height)
-        //        return enemyNodes[x, y];
-        //    else
-        //        return null;
-        //}
+      
 
         public void Update(GameTime gameTime)
         {
@@ -126,7 +104,7 @@ namespace SystemShutdown.GameObjects
                     //        //        if (item.position.X < GameWorld.gameState.Player1Test.position.X && item.position.X > rectangle.X)
                     //        //        {
 
-                    Debug.WriteLine("Enemy can see player!");
+                   // Debug.WriteLine("Enemy can see player!");
                     playerTarget = true;
                 //        //        }
                 //        //    }
@@ -135,18 +113,15 @@ namespace SystemShutdown.GameObjects
                 }
                     else
                     {
-                        Debug.WriteLine("Enemy can not see player!");
+                    // Debug.WriteLine("Enemy can not see player!");
+                    playerTarget = false;
 
-                    }
-                    updateTimer = 0.0;
+                }
+                updateTimer = 0.0;
             }
 
 
             // Astar
-            ms = Mouse.GetState();
-            // on left click set a new goal and restart search from current player position
-            //if (ms.LeftButton == ButtonState.Pressed && !Searching && PrevMS.LeftButton == ButtonState.Released)
-            //{
 
             if (playerTarget)
           {
@@ -154,20 +129,11 @@ namespace SystemShutdown.GameObjects
                 
                 Searching = true;
 
-                //int mx = ms.X;
-                //int my = ms.Y;
+                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.player1Test.position.X / 100, (int)GameWorld.gameState.player1Test.position.Y / 100);
 
-                // mouse coords to grid index
-                // int x = mx / NodeSize;
-                //int y = my / NodeSize;
-
-                //enemyNodes =
-                goal = aStar.Node((int)GameWorld.gameState.player1Test.position.X / 100, (int)GameWorld.gameState.player1Test.position.Y / 100);
-
-                //goal = grid.Node(x, y);
 
                 Node start = null;
-                start = aStar.Node(Rectangle.X / GameWorld.gameState.NodeSize, Rectangle.Y / GameWorld.gameState.NodeSize);
+                start = GameWorld.gameState.grid.Node(Rectangle.X / GameWorld.gameState.NodeSize, Rectangle.Y / GameWorld.gameState.NodeSize);
 
                 // if clicked on non passable node, then march in direction of player till passable found
                 //while (!goal.Passable)
@@ -189,7 +155,7 @@ namespace SystemShutdown.GameObjects
 
 
                 while (path.Count > 0) path.Pop();
-                aStar.ResetState();
+                GameWorld.gameState.grid.ResetState();
             }
 
             // use update timer to slow down animation
@@ -202,7 +168,7 @@ namespace SystemShutdown.GameObjects
                 if (Searching)
                 {
                     Node current = null;
-                    current = aStar.Node(Rectangle.X / GameWorld.gameState.NodeSize, Rectangle.Y / GameWorld.gameState.NodeSize);
+                    current = GameWorld.gameState.grid.Node(Rectangle.X / GameWorld.gameState.NodeSize, Rectangle.Y / GameWorld.gameState.NodeSize);
                     //current.alreadyOccupied = true;
                     //if (current.cameFrom != null)
                     //{
@@ -227,9 +193,6 @@ namespace SystemShutdown.GameObjects
                 updateTimerA = 0.0;
             }
 
-            PrevMS = ms;
-
-            //
         }
 
 
@@ -253,50 +216,38 @@ namespace SystemShutdown.GameObjects
             // astar
             MouseState PrevMS = Mouse.GetState();
 
-            //grid = new Grid();
-
-            // set up a white texture
-            //rectTexture = new Texture2D(GameWorld.graphics.GraphicsDevice, NodeSize, NodeSize);
-            //Color[] data = new Color[NodeSize * NodeSize];
-
-            //for (int i = 0; i < data.Length; ++i)
-            //    data[i] = Color.White;
-            //rectTexture.SetData(data);
 
             aStar = new Astar();
 
-            goal = aStar.Node(1, 1);
+            goal = GameWorld.gameState.grid.Node(1, 1);
 
 
-            //enemy = new Enemy(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
-            //enemy.LoadContent(content);
-            //
         }
 
         public void Move(int x, int y)
         {
             rectangle.X = x;
             rectangle.Y = y;
-            //Vector2 position = new Vector2(rectangle.X,rectangle.Y);
-            //if (position == goal.position)
-            //{
-            //    Debug.Write("!");
-            //    ////attackingPlayer = true;
+            Vector2 position = new Vector2(rectangle.X,rectangle.Y);
+            if (position == goal.position)
+            {
+                //Debug.Write("!");
+                attackingPlayer = true;
 
-            //}
+            }
         }
       
         public void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Draw(sprite, rectangle, Color.Red);
-            //var x = (rectangle.X + (rectangle.Width / 2)) - (GameWorld.gameState.font.MeasureString(name).X / 2);
-            //var y = (rectangle.Y + (rectangle.Height / 2)) - (GameWorld.gameState.font.MeasureString(name).Y / 2);
-            //spritebatch.DrawString(GameWorld.gameState.font, name, new Vector2(x, y), Color.Black);
-            //// astar
+            var x = (rectangle.X + (rectangle.Width / 2)) - (GameWorld.gameState.font.MeasureString(name).X / 2);
+            var y = (rectangle.Y + (rectangle.Height / 2)) - (GameWorld.gameState.font.MeasureString(name).Y / 2);
+            spritebatch.DrawString(GameWorld.gameState.font, name, new Vector2(x, y), Color.Black);
+            // astar
 
             //GraphicsDevice.Clear(Color.Black);
 
-            
+
 
 
         }
@@ -306,53 +257,53 @@ namespace SystemShutdown.GameObjects
         /// Sets Thread id
         /// If any of the 3 bools are true, worker enters corresponding building (Volcano/PalmTree/MainBuilding)
         /// </summary>
-        //private void ThreadMethod()
-        //{
-        //    this.id = Thread.CurrentThread.ManagedThreadId;
+        private void ThreadMethod()
+        {
+            this.id = Thread.CurrentThread.ManagedThreadId;
 
-        //    while (GameState.running == true)
-        //    {
-        //        if (attackingPlayer == true)
-        //        {
-        //            Debug.WriteLine($"{data}{id} is Running;");
-        //            Thread.Sleep(2000);
+            while (GameState.running == true)
+            {
+                if (attackingPlayer == true)
+                {
+                    Debug.WriteLine($"{data}{id} is Running;");
+                    Thread.Sleep(2000);
 
-        //            Debug.WriteLine($"{data}{id} Trying to enter CPU");
+                    Debug.WriteLine($"{data}{id} Trying to enter CPU");
 
-        //             GameWorld.gameState.player1Test.Enter(internalThread);
+                    GameWorld.gameState.player1Test.Enter(internalThread);
 
-        //            attackingPlayer = false;
-        //            //delivering = true;
+                    attackingPlayer = false;
+                    //delivering = true;
 
-        //            Debug.WriteLine(string.Format($"{data}{id} shutdown"));
+                    Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
-        //        }
-        //        else if (attackingCPU == true)
-        //        {
-        //            Debug.WriteLine($"{data}{id} is Running;");
-        //            Thread.Sleep(2000);
+                }
+                else if (attackingCPU == true)
+                {
+                    Debug.WriteLine($"{data}{id} is Running;");
+                    Thread.Sleep(2000);
 
-        //            Debug.WriteLine($"{data}{id} Trying to enter CPU");
+                    Debug.WriteLine($"{data}{id} Trying to enter CPU");
 
-        //            CPU.Enter(internalThread);
+                    CPU.Enter(internalThread);
 
-        //            attackingPlayer = false;
-        //            //delivering = true;
+                    attackingPlayer = false;
+                    //delivering = true;
 
-        //            Debug.WriteLine(string.Format($"{data}{id} shutdown"));
-        //        }
-        //        else
-        //        {
-        //            Thread.Sleep(1000);
-        //        }
-        //    }
-        //}
+                    Debug.WriteLine(string.Format($"{data}{id} shutdown"));
+                }
+                else
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+        }
 
-        
-        //public void Start()
-        //{
-        //    internalThread.IsBackground = true;
-        //    internalThread.Start();
-        //}
+
+        public void Start()
+        {
+            internalThread.IsBackground = true;
+            internalThread.Start();
+        }
     }
 }
