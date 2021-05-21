@@ -41,7 +41,10 @@ namespace SystemShutdown
 
 
         public static RenderTarget2D renderTarget;
+        public static RenderTarget2D minimap;
         public float scale = 0.4444f;
+
+        public float miniMapScale;
 
         public static int ScreenWidth = 1920;
         public static int ScreenHeight = 1080;
@@ -151,6 +154,9 @@ namespace SystemShutdown
             // Loads Target Renderer: to run the game in the same resolution, no matter the pc
             // Frederik
             renderTarget = new RenderTarget2D(GraphicsDevice, 4096, 4096);
+
+            minimap = renderTarget;
+
             camera = new Camera();
 
             //for (int i = 0; i < gameObjects.Count; i++)
@@ -222,6 +228,8 @@ namespace SystemShutdown
             /// Frederik
             /// </summary>
             scale = 1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
+            miniMapScale = 0.1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
+            
 
             GraphicsDevice.SetRenderTarget(renderTarget);
 
@@ -235,6 +243,7 @@ namespace SystemShutdown
             if (isGameState)
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
+
             }
             else
             {
@@ -245,6 +254,11 @@ namespace SystemShutdown
             //    gameObjects[i].Draw(spriteBatch);
             //}
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
+            if (isGameState)
+            {
+                spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
+            }
 
             spriteBatch.End();
 
