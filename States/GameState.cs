@@ -385,6 +385,7 @@ namespace SystemShutdown.States
 
             PrevMS = ms;
 
+
             //
         }
 
@@ -518,15 +519,11 @@ namespace SystemShutdown.States
             }
 
             enemyA.Draw(spriteBatch);
-            //
 
-          
-            
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp}", new Vector2(100, 100), Color.White);
+
 
             spriteBatch.End();
-
-            
-
 
         }
 

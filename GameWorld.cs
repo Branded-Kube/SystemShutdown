@@ -243,9 +243,16 @@ namespace SystemShutdown
             }
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
+
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+
+        public void CollectMod()
+        {
+
         }
 
         public void AddGameObject(GameObject1 go)
