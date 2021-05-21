@@ -25,7 +25,6 @@ namespace SystemShutdown
                 0);
             Transform = position * offset;
 
-
         }
 
     }
