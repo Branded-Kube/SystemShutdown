@@ -272,21 +272,21 @@ namespace SystemShutdown
 
         }
 
-        public void AddGameObject(GameObject1 go)
-        {
-            go.Awake();
-            go.Start();
-            gameObjects.Add(go);
-            Collider c = (Collider)go.GetComponent("Collider");
-            if (c != null)
-            {
-                Colliders.Add(c);
-            }
-        }
-        public void RemoveGameObject(GameObject1 go)
-        {
-            gameObjects.Remove(go);
-        }
+        //public void AddGameObject(GameObject1 go)
+        //{
+        //    go.Awake();
+        //    go.Start();
+        //    gameObjects.Add(go);
+        //    Collider c = (Collider)go.GetComponent("Collider");
+        //    if (c != null)
+        //    {
+        //        Colliders.Add(c);
+        //    }
+        //}
+        //public void RemoveGameObject(GameObject1 go)
+        //{
+        //    gameObjects.Remove(go);
+        //}
         #endregion
     }
 }

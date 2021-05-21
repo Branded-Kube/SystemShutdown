@@ -522,11 +522,13 @@ namespace SystemShutdown.States
                 }
             }
 
-            enemyA.Draw(spriteBatch);
             //
 
-          
-            
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(500, 800), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(500, 820), Color.White);
+
+
+
 
             spriteBatch.End();
 
