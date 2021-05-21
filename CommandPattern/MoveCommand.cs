@@ -27,6 +27,7 @@ namespace SystemShutdown.CommandPattern
                 {
                     if (player.rectangle.Intersects(item.collisionRectangle))
                         player.position = player.previousPosition;
+                    
                 }
 
             }

@@ -74,9 +74,9 @@ namespace SystemShutdown.Buttons
         {
 
             _spriteBatch.Draw(sprite, buttonRectangle, currentColor);
-            var x = (buttonRectangle.X + (buttonRectangle.Width / 2)) - (GameWorld.gameState.font.MeasureString(buttonDescription).X / 2);
-            var y = (buttonRectangle.Y + (buttonRectangle.Height / 2)) - (GameWorld.gameState.font.MeasureString(buttonDescription).Y / 2);
-            _spriteBatch.DrawString(GameWorld.gameState.font, buttonDescription, new Vector2(x, y), Color.Black);
+            var x = (buttonRectangle.X + (buttonRectangle.Width / 2)) - (GameState.font.MeasureString(buttonDescription).X / 2);
+            var y = (buttonRectangle.Y + (buttonRectangle.Height / 2)) - (GameState.font.MeasureString(buttonDescription).Y / 2);
+            _spriteBatch.DrawString(GameState.font, buttonDescription, new Vector2(x, y), Color.Black);
         }
     }
 }

@@ -15,6 +15,7 @@ using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
+using SystemShutdown.ObjectPool;
 
 namespace SystemShutdown.States
 {
@@ -48,12 +49,21 @@ namespace SystemShutdown.States
 
         public int playerCount = 1;
 
-        private Player1 player1Test;
+        //public Player1 player1Test;
 
-        private Player1 player2Test;
+        //private Player1 player2Test;
 
         private InputHandler inputHandler;
 
+        public PlayerBuilder playerBuilder;
+
+       // private Director director;
+
+        //public Director Director
+        //{
+        //    get { return director; }
+        //    set { director = value; }
+        //}
 
         //// Astar 
         Texture2D rectTexture;
@@ -65,14 +75,17 @@ namespace SystemShutdown.States
         public int NodeSize = Grid.NodeSize;
 
 
+
+        public List<Collider> Colliders { get; set; } = new List<Collider>();
+
+
         Astar aStar;
-        EnemyAstar enemyA;
+        //EnemyAstar enemyA;
         //
-       int NodeSize = Grid.NodeSize;
 
 
 
-        public Texture2D sprite;
+        //public Texture2D sprite;
         protected Texture2D[] sprites, upWalk;
         protected float fps;
         private float timeElapsed;
@@ -85,28 +98,45 @@ namespace SystemShutdown.States
         protected float rotation;
         protected Vector2 velocity;
 
-        private PlayerBuilder playerBuilder;
+
+        private KeyboardState currentKeyState;
+        private KeyboardState previousKeyState;
 
 
-        public Player1 Player1Test
-        {
-            get { return player1Test; }
-            set { player1Test = value; }
-        }
+       // private Camera camera;
 
-        public Player1 Player2Test
-        {
-            get { return player2Test; }
-            set { player2Test = value; }
-        }
 
+        //public Player1 Player1Test
+        //{
+        //    get { return player1Test; }
+        //    set { player1Test = value; }
+        //}
+
+        //public Player1 Player2Test
+        //{
+        //    get { return player2Test; }
+        //    set { player2Test = value; }
+        //}
+
+        //private static GameState instance;
+        //public static GameState Instance
+        //{
+        //    get
+        //    {
+        //        if (instance == null)
+        //        {
+        //            instance = new GameState();
+        //        }
+        //        return instance;
+        //    }
+        //}
 
         #endregion
 
         #region Methods
 
         #region Constructor
-        public GameState(GameWorld game, ContentManager content) : base(game, content)
+        public GameState()
         {
             enemies = new List<Enemy>();
             delEnemies = new List<Enemy>();
@@ -121,17 +151,33 @@ namespace SystemShutdown.States
             //    gameObjects[i].Awake();
             //}
 
-            gameObjects.Add(GameWorld.Instance.Director.Contruct());
+            //gameObjects.Add(GameWorld.Instance.Director.Contruct());
 
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                gameObjects[i].Awake();
-            }
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Awake();
+            //}
+
+            playerBuilder = new PlayerBuilder();
+            ////director = new Director(playerBuilder);
+            //gameObjects.Add(director.Contruct());
+
+
+
         }
         #endregion
 
         public override void LoadContent()
         {
+
+            Director director = new Director(playerBuilder);
+            gameObjects.Add(director.Contruct());
+
+
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                gameObjects[i].Awake();
+            }
             //Frederik
             font = content.Load<SpriteFont>("Fonts/font");
             standardBtn = content.Load<Texture2D>("Controls/button");
@@ -149,6 +195,9 @@ namespace SystemShutdown.States
             buttons.Add(activeThreadsBtn);
             buttons.Add(cpuBtn);
 
+            //camera = new Camera();
+            //camera.Follow(playerBuilder);
+
             //for (int i = 0; i < gameObjects.Count; i++)
             //{
             //    gameObjects[i].Start();
@@ -157,7 +206,7 @@ namespace SystemShutdown.States
             {
                 gameObjects[i].Start();
             }
-
+            
             // Frederik
             //var playerTexture = _content.Load<Texture2D>("Textures/pl1");
             inputHandler = new InputHandler();
@@ -168,7 +217,9 @@ namespace SystemShutdown.States
             {
                 new MenuObject()
                 {
-                    sprite = content.Load<Texture2D>("Backgrounds/game"),
+                   // sprite = content.Load<Texture2D>("Backgrounds/game"),
+                    //sprite = content.Load<Texture2D>(""),
+
                     //Layer = 0.0f,
                     //position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
                     position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
@@ -232,13 +283,13 @@ namespace SystemShutdown.States
                 data[i] = Color.White;
             rectTexture.SetData(data);
 
-            aStar = new Astar();
+            //aStar = new Astar();
 
-            goal = grid.Node(1, 1);
+            //goal = grid.Node(1, 1);
 
 
-            enemyA = new EnemyAstar(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
-            enemyA.LoadContent(content);
+            //enemyA = new EnemyAstar(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
+            //enemyA.LoadContent(content);
             //
         }
 
@@ -251,22 +302,39 @@ namespace SystemShutdown.States
             if (Keyboard.GetState().IsKeyDown(Keys.Back))
             {
                 ShutdownThreads();
-                _game.ChangeState(new MenuState(_game, content));
+                GameWorld.ChangeState(new MenuState());
             }
             if (currentKeyState.IsKeyDown(Keys.P) && !previousKeyState.IsKeyDown(Keys.P))
             {
-                SpawnEnemy();
+                //SpawnEnemy();
+                SpawnEnemies();
+
 
             }
 
-            inputHandler.Execute(player1Test);
+            //inputHandler.Execute(player1Test);
+            //inputHandler.Execute();
 
-           // InputHandler.Instance.Execute();
+
+            // InputHandler.Instance.Execute();
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].Update(gameTime);
             }
+            InputHandler.Instance.Execute();
+
+
+            Collider[] tmpColliders = Colliders.ToArray();
+            for (int i = 0; i < tmpColliders.Length; i++)
+            {
+                for (int j = 0; j < tmpColliders.Length; j++)
+                {
+                    tmpColliders[i].OnCollisionEnter(tmpColliders[j]);
+                }
+            }
+
+
             //inputHandler.Execute(player1Test);
             /////
 
@@ -343,7 +411,8 @@ namespace SystemShutdown.States
             //    gameObjects[i].Draw(gameTime, spriteBatch);
             //}
 
-           
+
+            //spriteBatch.Begin(transformMatrix: camera.Transform);
 
             // Frederik
             //float x = 10f;
@@ -389,17 +458,17 @@ namespace SystemShutdown.States
             Vector2 pos = gridPosition;
             int margin = 0;
 
-            for (int j = 0; j < GameWorld.gameState.grid.Height; j++)
+            for (int j = 0; j < grid.Height; j++)
             {
-                pos.Y = j * (GameWorld.gameState.NodeSize + margin) + gridPosition.Y;
-                for (int i = 0; i < GameWorld.gameState.grid.Width; i++)
+                pos.Y = j * (NodeSize + margin) + gridPosition.Y;
+                for (int i = 0; i < grid.Width; i++)
                 {
-                    GameWorld.gameState.grid.Node(i, j).rectangle(new Point(i * 100, j * 100));
+                    grid.Node(i, j).rectangle(new Point(i * 100, j * 100));
 
-                    pos.X = i * (GameWorld.gameState.NodeSize + margin) + gridPosition.X;
+                    pos.X = i * (NodeSize + margin) + gridPosition.X;
                     //grid.Node(i, j).rectangle((int)pos.X, (int)pos.Y, rectTexture.Width, rectTexture.Height);
 
-                    if (GameWorld.gameState.grid.Node(i, j).Passable)
+                    if (grid.Node(i, j).Passable)
                     {
                         //if (goal.x == i && goal.y == j)
                         //{
@@ -455,7 +524,7 @@ namespace SystemShutdown.States
 
 
 
-            spriteBatch.End();
+           spriteBatch.End();
 
             
 
@@ -474,6 +543,38 @@ namespace SystemShutdown.States
             enemies.Add(enemy);
             delEnemies.Add(enemy);
         }
+        private void SpawnEnemies()
+        {
+            //spawnTime += delta;
+            //if (spawnTime >= cooldown)
+            //{
+            Random rnd = new Random(0);
+                GameObject1 go = EnemyPool.Instance.GetObject();
+                go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.ScreenWidth), 0);
+
+
+                AddGameObject(go);
+               // spawnTime = 0;
+            //}
+        }
+
+        public void AddGameObject(GameObject1 go)
+        {
+            go.Awake();
+            go.Start();
+            gameObjects.Add(go);
+            Collider c = (Collider)go.GetComponent("Collider");
+            if (c != null)
+            {
+                Colliders.Add(c);
+            }
+        }
+
+        public void RemoveGameObject(GameObject1 go)
+        {
+            gameObjects.Remove(go);
+        }
+
 
         /// <summary>
         /// Adds an enemy when button is clicked, and also adds enemy to the other list

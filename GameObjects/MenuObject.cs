@@ -110,7 +110,7 @@ namespace SystemShutdown.GameObjects
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Frederik
-            spriteBatch.Draw(sprite, position, null, Colour, rotation, origin, 1f, SpriteEffects.None, 0);
+            //spriteBatch.Draw(sprite, position, null, Colour, rotation, origin, 1f, SpriteEffects.None, 0);
             //foreach (Component component in components.Values)
             //{
             //    if (component.IsEnabled)

@@ -9,7 +9,7 @@ using SystemShutdown.States;
 
 namespace SystemShutdown
 {
-    class Camera
+   public class Camera
 
     {
         public Matrix Transform { get; private set; }

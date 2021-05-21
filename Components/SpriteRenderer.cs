@@ -11,6 +11,9 @@ namespace SystemShutdown.Components
         public Texture2D Sprite { get; set; }
         public Vector2 Origin { get; set; }
 
+       // public Rectangle rectangle { get; set; }
+
+
         public SpriteRenderer()
         {
         }
@@ -26,12 +29,14 @@ namespace SystemShutdown.Components
 
         public void SetSprite(string spriteName)
         {
-            Sprite = GameWorld.Instance.Content.Load<Texture2D>(spriteName);
+            Sprite = GameWorld.content.Load<Texture2D>(spriteName);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Sprite, GameObject.Transform.Position, null, Color.White, 0, Origin, 1, SpriteEffects.None, 0);
+            //spriteBatch.Draw(Sprite, GameObject.Transform.Position, rectangle, Color.White, 0, Origin, 1, SpriteEffects.None, 0);
+            
         }
 
         public override string ToString()

@@ -8,17 +8,21 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using SystemShutdown.AStar;
+using SystemShutdown.Components;
+using SystemShutdown.ObjectPool;
+using SystemShutdown.ObserverPattern;
 using SystemShutdown.States;
 
 namespace SystemShutdown.GameObjects
 {
-    class Enemy /*: GameObject*/
+   public class Enemy : Component, IGameListener
     {
         Thread internalThread;
         string data;
         private bool attackingPlayer = false;
         private bool attackingCPU = false;
         double updateTimer = 0.0;
+        private SpriteRenderer spriteRenderer;
 
         public bool AttackingCPU
         {
@@ -84,15 +88,22 @@ namespace SystemShutdown.GameObjects
             //    this.rectangle = new Rectangle(x, y);
 
         }
-      
-
-        public void Update(GameTime gameTime)
+        public Enemy( )
+        {
+           // this.speed = speed;
+            //this.velocity = velocity;
+        }
+        public override void Destroy()
+        {
+            EnemyPool.Instance.RealeaseObject(GameObject);
+        }
+        public override void Update(GameTime gameTime)
         {
             updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
             if (updateTimer >= 1.0)
             {
-                if (IsPlayerInRange(GameWorld.gameState.Player1Test.position))
+                if (IsPlayerInRange(GameWorld.gameState.playerBuilder.player.position))
                 {
 
                     //        //  better handling of walls is needed
@@ -129,7 +140,7 @@ namespace SystemShutdown.GameObjects
                 
                 Searching = true;
 
-                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.player1Test.position.X / 100, (int)GameWorld.gameState.player1Test.position.Y / 100);
+                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.playerBuilder.player.position.X / 100, (int)GameWorld.gameState.playerBuilder.player.position.Y / 100);
 
 
                 Node start = null;
@@ -239,10 +250,10 @@ namespace SystemShutdown.GameObjects
       
         public void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(sprite, rectangle, Color.Red);
-            var x = (rectangle.X + (rectangle.Width / 2)) - (GameWorld.gameState.font.MeasureString(name).X / 2);
-            var y = (rectangle.Y + (rectangle.Height / 2)) - (GameWorld.gameState.font.MeasureString(name).Y / 2);
-            spritebatch.DrawString(GameWorld.gameState.font, name, new Vector2(x, y), Color.Black);
+            //spritebatch.Draw(sprite, rectangle, Color.Red);
+            //var x = (rectangle.X + (rectangle.Width / 2)) - (GameState.font.MeasureString(name).X / 2);
+            //var y = (rectangle.Y + (rectangle.Height / 2)) - (GameState.font.MeasureString(name).Y / 2);
+            //spritebatch.DrawString(GameState.font, name, new Vector2(x, y), Color.Black);
             // astar
 
             //GraphicsDevice.Clear(Color.Black);
@@ -270,7 +281,7 @@ namespace SystemShutdown.GameObjects
 
                     Debug.WriteLine($"{data}{id} Trying to enter CPU");
 
-                    GameWorld.gameState.player1Test.Enter(internalThread);
+                    GameWorld.gameState.playerBuilder.player.Enter(internalThread);
 
                     attackingPlayer = false;
                     //delivering = true;
@@ -300,10 +311,29 @@ namespace SystemShutdown.GameObjects
         }
 
 
-        public void Start()
+        //public void Start()
+        //{
+        //    internalThread.IsBackground = true;
+        //    internalThread.Start();
+        //}
+        public override void Awake()
         {
-            internalThread.IsBackground = true;
-            internalThread.Start();
+            GameObject.Tag = "Enemy";
+
+            GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            this.position = GameObject.Transform.Position;
+            //spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+        }
+        public override string ToString()
+        {
+            return "Enemy";
+        }
+        public void Notify(GameEvent gameEvent, Component component)
+        {
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

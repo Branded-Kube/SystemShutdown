@@ -23,8 +23,7 @@ namespace SystemShutdown.States
         #region Methods
 
         #region Constructor
-        public GameOverState(GameWorld game, ContentManager content)
-            : base(game, content)
+        public GameOverState()
         {
         }
         #endregion
@@ -59,7 +58,7 @@ namespace SystemShutdown.States
         // Frederik
         private void Button_MainMenu_Clicked(object sender, EventArgs e)
         {
-            _game.ChangeState(new MenuState(_game, content));
+            GameWorld. ChangeState(new MenuState());
         }
 
         public override void Update(GameTime gameTime)
