@@ -91,8 +91,8 @@ namespace SystemShutdown.GameObjects
             }
             velocity *= speed;
             GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
-            //rectangle.X = (int)GameObject.Transform.Position.X;
-            //rectangle.Y = (int)GameObject.Transform.Position.Y;
+            rectangle.X = (int)GameObject.Transform.Position.X;
+            rectangle.Y = (int)GameObject.Transform.Position.Y;
 
             if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
             {
@@ -157,6 +157,7 @@ namespace SystemShutdown.GameObjects
         public override void Update(GameTime gameTime)
         {
             shootTime += GameWorld.DeltaTime;
+            //rectangle = new Rectangle((int)spriteRenderer.Origin.X, (int)spriteRenderer.Origin.Y,  spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
 
             if (shootTime >= cooldown)
             {

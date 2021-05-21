@@ -17,7 +17,7 @@ namespace SystemShutdown.CommandPattern
 
         public void Execute(Player1 player)
         {
-
+            
             player.previousPosition = player.position;
             player.Move(velocity);
 
@@ -27,7 +27,7 @@ namespace SystemShutdown.CommandPattern
                 {
                     if (player.rectangle.Intersects(item.collisionRectangle))
                         player.position = player.previousPosition;
-                    
+
                 }
 
             }
