@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SystemShutdown.ComponentPattern;
+using SystemShutdown.Components;
 
 namespace SystemShutdown.AStar
 {
@@ -23,6 +25,12 @@ namespace SystemShutdown.AStar
                         nodes[x, y] = new Node();
                         nodes[x, y].x = x;
                         nodes[x, y].y = y;
+                    //
+
+
+                    //
+
+
                     if ((x != 0 && y != 0) &&
                         rand.Next(1, 25) < 5)
                     {
@@ -36,14 +44,32 @@ namespace SystemShutdown.AStar
                     }
 
 
-                    if (y == 0 || y == Height -1 )
+                    //if (y == 0 || y == Height - 1)
+                    //{
+                    //    nodes[x, y].Passable = false;
+                    //}
+                    //if (x == 0 || x == Width - 1)
+                    //{
+                    //    nodes[x, y].Passable = false;
+                    //}
+
+                    if (nodes[x, y].Passable == false)
                     {
-                        nodes[x, y].Passable = false;
+                        GameObject1 go = new GameObject1();
+                        SpriteRenderer sr = new SpriteRenderer();
+                        go.AddComponent(sr);
+                        //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
+                        go.Transform.Position = new Vector2(x * 100, y * 100);
+
+                        sr.SetSprite("1GuyDown");
+                        // nodes[x, y] = new Node(new Rectangle(new Point(100, 100), new Point(100, 100)));
+                        go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = true });
+                        go.AddComponent(nodes[x, y]);
+                        GameWorld.gameState.AddGameObject(go);
                     }
-                    if (x == 0 || x == Width -1 )
-                    {
-                        nodes[x, y].Passable = false;
-                    }
+
+
+
                     //if (nodes[x, y].Passable == false)
                     //{
                     //    nodes[x, y].rectangle(new Point(x, y));

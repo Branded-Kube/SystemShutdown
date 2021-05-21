@@ -1,13 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using SystemShutdown.Components;
+using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.AStar
 {
-    public class Node
+    public class Node : Component, IGameListener
     {
-            public bool Passable = true;
+
+        public bool Passable = true;
             public bool Closed = false;
             public bool Open = false;
             public bool Path = false;
@@ -21,7 +25,7 @@ namespace SystemShutdown.AStar
             public int g = 0;
             public double h = 0;
                 // position til detection af walls imellem player og enemy
-            public Vector2 position;
+           public Vector2 position;
 
              public Node cameFrom = null;
             public Rectangle collisionRectangle;
@@ -30,7 +34,29 @@ namespace SystemShutdown.AStar
         {
             this.position = new Vector2(position.X, position.Y);
             collisionRectangle = new Rectangle(position, new Point(Grid.NodeSize, Grid.NodeSize));
-            
+
+        }
+
+        public override void Awake()
+        {
+            GameObject.Tag = "Node";
+
+            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            // this.position = GameObject.Transform.Position;
+            // spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+        }
+        public override string ToString()
+        {
+            return "Node";
+        }
+        public void Notify(GameEvent gameEvent, Component component)
+        {
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
+            {
+                throw new NotImplementedException();
+                Debug.WriteLine("!");
+
+            }
         }
     }
 }

@@ -464,7 +464,7 @@ namespace SystemShutdown.States
                 pos.Y = j * (NodeSize + margin) + gridPosition.Y;
                 for (int i = 0; i < grid.Width; i++)
                 {
-                    grid.Node(i, j).rectangle(new Point(i * 100, j * 100));
+                   // grid.Node(i, j).rectangle(new Point(i * 100, j * 100));
 
                     pos.X = i * (NodeSize + margin) + gridPosition.X;
                     //grid.Node(i, j).rectangle((int)pos.X, (int)pos.Y, rectTexture.Width, rectTexture.Height);
@@ -505,8 +505,8 @@ namespace SystemShutdown.States
                     else
                     {
 
-                        //spriteBatch.Draw(rectTexture, pos, Color.Gray);
-                        spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Gray);
+                       // spriteBatch.Draw(rectTexture, pos, Color.Gray);
+                       //spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Gray);
 
 
                     }
