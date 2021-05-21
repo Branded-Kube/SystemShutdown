@@ -13,21 +13,21 @@ namespace SystemShutdown
     {
         #region Fields
 
-        protected ContentManager content;
+        protected ContentManager content = GameWorld.content;
 
-        protected GameWorld _game;
+      //  protected GameWorld _game;
 
         #endregion
 
         #region Methods
 
         #region Constructor
-        public State(GameWorld game, ContentManager content)
+        public State()
         {
             // Frederik
-            _game = game;
+            //_game = game;
 
-            this.content = content;
+            //this.content = content;
         }
         #endregion
 

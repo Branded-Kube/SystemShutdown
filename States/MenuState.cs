@@ -32,8 +32,7 @@ namespace SystemShutdown
         #region Methods
 
         #region Constructor
-        public MenuState(GameWorld game, ContentManager content)
-          : base(game, content)
+        public MenuState()
         {
         }
         #endregion
@@ -82,14 +81,14 @@ namespace SystemShutdown
         // Frederik
         private void Button_1Player_Clicked(object sender, EventArgs e)
         {
-            GameWorld.gameState = new GameState(_game, content);
-            _game.ChangeState(GameWorld.gameState);
+            //GameWorld.gameState = new GameState();
+            GameWorld.ChangeState(GameWorld.gameState);
         }
 
         // Frederik
         private void Button_2Player_Clicked(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, content)
+            GameWorld.ChangeState(new GameState()
             {
                 playerCount = 2,
             });
@@ -98,7 +97,7 @@ namespace SystemShutdown
         // Frederik
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            _game.Exit();
+           // GameWorld.Exit();
         }
 
         public override void Update(GameTime gameTime)
@@ -125,7 +124,7 @@ namespace SystemShutdown
                 component.Draw(gameTime, spriteBatch);
             }
 
-            spriteBatch.End();
+           spriteBatch.End();
         }
         #endregion
     }
