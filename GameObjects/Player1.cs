@@ -96,7 +96,7 @@ namespace SystemShutdown.GameObjects
 
             if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
             {
-                GameObject.Transform.rotation = (float)Math.PI / 4;
+                //GameObject.Transform.rotation = (float)Math.PI / 4;
             }
             else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == -1 && currentDir.X == -1)
             {
