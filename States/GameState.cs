@@ -35,7 +35,7 @@ namespace SystemShutdown.States
         private CPU cpu;
         private string enemyID = "";
         private Texture2D cpuTexture;
-        private Texture2D standardBtn;
+        private Texture2D standardBtn;        
 
         private List<Player1> players;
 
