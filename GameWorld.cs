@@ -23,21 +23,22 @@ namespace SystemShutdown
         SpriteBatch spriteBatch;
 
         #region Fields
-        private static GameWorld instance;
+        //private static GameWorld instance;
 
-        public static GameWorld Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new GameWorld();
-                }
-                return instance;
-            }
-        }
+        //public static GameWorld Instance
+        //{
+        //    get
+        //    {
+        //        if (instance == null)
+        //        {
+        //            instance = new GameWorld();
+        //        }
+        //        return instance;
+        //    }
+        //}
 
         public static ContentManager content;
+
 
         public static RenderTarget2D renderTarget;
         public static RenderTarget2D minimap;
@@ -48,30 +49,32 @@ namespace SystemShutdown
         public static int ScreenWidth = 1920;
         public static int ScreenHeight = 1080;
 
-        private List<GameObject1> gameObjects = new List<GameObject1>();
-        private Player1 player;
-        public List<Collider> Colliders { get; set; } = new List<Collider>();
+        //private List<GameObject1> gameObjects = new List<GameObject1>();
+        //private Player1 player;
+       // public List<Collider> Colliders { get; set; } = new List<Collider>();
 
         private State currentGameState;
-        private State nextGameState;
+        private static State nextGameState;
         public static GameState gameState;
 
-        private PlayerBuilder playerBuilder;
 
-        private Director director;
 
-        public Director Director
-        {
-            get { return director; }
-            set { director = value; }
-        }
+        //public PlayerBuilder playerBuilder;
+
+        //private Director director;
+
+        //public Director Director
+        //{
+        //    get { return director; }
+        //    set { director = value; }
+        //}
 
         private Camera camera;
 
         private bool isGameState;
         private Repository repo;
 
-        public float DeltaTime { get; set; }
+        public static float DeltaTime { get; set; }
 
         #endregion
 
@@ -105,7 +108,7 @@ namespace SystemShutdown
         /// </summary>
         /// <param name="state"></param>
         /// Frederik
-        public void ChangeState(State state)
+        public static void ChangeState(State state)
         {
             nextGameState = state;
         }
@@ -126,14 +129,14 @@ namespace SystemShutdown
             //go.AddComponent(new SpriteRenderer());
 
             //gameObjects.Add(go);
-            playerBuilder = new PlayerBuilder();
-            director = new Director(playerBuilder);
-            gameObjects.Add(director.Contruct());
+            //playerBuilder = new PlayerBuilder();
+            //director = new Director(playerBuilder);
+            //gameObjects.Add(director.Contruct());
 
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                gameObjects[i].Awake();
-            }
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Awake();
+            //}
             base.Initialize();
         }
 
@@ -143,8 +146,8 @@ namespace SystemShutdown
 
             //Loads all GameStates
             //Frederik
-            gameState = new GameState(this, Content);
-            currentGameState = new MenuState(this, Content);
+            gameState = new GameState();
+            currentGameState = new MenuState();
 
             currentGameState.LoadContent();
             nextGameState = null;
@@ -156,16 +159,17 @@ namespace SystemShutdown
 
             camera = new Camera();
 
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                gameObjects[i].Start();
-            }
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Start();
+            //}
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
+                gameState.ShutdownThreads();
                 Exit();
             }
 
@@ -187,7 +191,7 @@ namespace SystemShutdown
             if (currentGameState is GameState)
             {
                 isGameState = true;
-                camera.Follow(playerBuilder);  
+                camera.Follow(gameState.playerBuilder);  
 
             }
 
@@ -196,28 +200,28 @@ namespace SystemShutdown
                 isGameState = false;
             }
 
-            InputHandler.Instance.Execute();
+            //InputHandler.Instance.Execute();
 
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                gameObjects[i].Update(gameTime);
-            }
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Update(gameTime);
+            //}
 
-            Collider[] tmpColliders = Colliders.ToArray();
-            for (int i = 0; i < tmpColliders.Length; i++)
-            {
-                for (int j = 0; j < tmpColliders.Length; j++)
-                {
-                    tmpColliders[i].OnCollisionEnter(tmpColliders[j]);
-                }
-            }
+            //Collider[] tmpColliders = Colliders.ToArray();
+            //for (int i = 0; i < tmpColliders.Length; i++)
+            //{
+            //    for (int j = 0; j < tmpColliders.Length; j++)
+            //    {
+            //        tmpColliders[i].OnCollisionEnter(tmpColliders[j]);
+            //    }
+            //}
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-
+            //spriteBatch.Begin();
             /// <summary>
             /// This will scale and adjust everything in game to our scale and no matter the size of the window,
             /// the game will always be running in 1080p resolution (or what resolution we choose)
@@ -241,15 +245,14 @@ namespace SystemShutdown
                 spriteBatch.Begin(transformMatrix: camera.Transform);
 
             }
-
             else
             {
-                spriteBatch.Begin();
+              spriteBatch.Begin();
             }
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                gameObjects[i].Draw(spriteBatch);
-            }
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Draw(spriteBatch);
+            //}
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             if (isGameState)
@@ -262,21 +265,21 @@ namespace SystemShutdown
             base.Draw(gameTime);
         }
 
-        public void AddGameObject(GameObject1 go)
-        {
-            go.Awake();
-            go.Start();
-            gameObjects.Add(go);
-            Collider c = (Collider)go.GetComponent("Collider");
-            if (c != null)
-            {
-                Colliders.Add(c);
-            }
-        }
-        public void RemoveGameObject(GameObject1 go)
-        {
-            gameObjects.Remove(go);
-        }
+        //public void AddGameObject(GameObject1 go)
+        //{
+        //    go.Awake();
+        //    go.Start();
+        //    gameObjects.Add(go);
+        //    Collider c = (Collider)go.GetComponent("Collider");
+        //    if (c != null)
+        //    {
+        //        Colliders.Add(c);
+        //    }
+        //}
+        //public void RemoveGameObject(GameObject1 go)
+        //{
+        //    gameObjects.Remove(go);
+        //}
         #endregion
     }
 }

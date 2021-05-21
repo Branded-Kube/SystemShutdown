@@ -37,7 +37,7 @@ namespace SystemShutdown.Components
             onCollisionEvent.Attach(gameListener);
             this.origin = spriteRenderer.Origin;
             this.size = new Vector2(spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
-            texture = GameWorld.Instance.Content.Load<Texture2D>("Textures/CollisionBox");
+            texture = GameWorld.content.Load<Texture2D>("Textures/CollisionBox");
         }
 
         public void OnCollisionEnter(Collider other)

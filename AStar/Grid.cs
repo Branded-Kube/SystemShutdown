@@ -9,8 +9,8 @@ namespace SystemShutdown.AStar
     {
         public static int NodeSize = 100;
 
-        public int Width = 100;
-            public int Height = 50;
+        public int Width = 40;
+            public int Height = 40;
             public Node[,] nodes;
             
             public Grid()
@@ -23,17 +23,24 @@ namespace SystemShutdown.AStar
                         nodes[x, y] = new Node();
                         nodes[x, y].x = x;
                         nodes[x, y].y = y;
-                        //if ((x != 0 && y != 0) &&
-                        //    rand.Next(1, 25) < 5)
-                        //{
-                        //    nodes[x, y].Passable = false;
-                        //}
-
-                    if (y == 0 || y == Height)
+                    if ((x != 0 && y != 0) &&
+                        rand.Next(1, 25) < 5)
                     {
                         nodes[x, y].Passable = false;
                     }
-                    if (x == 0 || x == Width)
+
+                    // for testing only clears y 2 where player spawns
+                    if (y == 2 )
+                    {
+                        nodes[x, y].Passable = true;
+                    }
+
+
+                    if (y == 0 || y == Height -1 )
+                    {
+                        nodes[x, y].Passable = false;
+                    }
+                    if (x == 0 || x == Width -1 )
                     {
                         nodes[x, y].Passable = false;
                     }

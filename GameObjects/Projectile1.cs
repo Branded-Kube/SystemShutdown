@@ -42,7 +42,7 @@ namespace SystemShutdown.GameObjects
 
         public override void Destroy()
         {
-            GameWorld.Instance.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
+            GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
 
         }
 

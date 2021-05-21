@@ -8,7 +8,7 @@ namespace SystemShutdown
         [STAThread]
         static void Main()
         {
-            using (var game = GameWorld.Instance)
+            using (var game = new GameWorld())
                 game.Run();
         }
     }

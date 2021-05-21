@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
@@ -15,6 +17,9 @@ namespace SystemShutdown.GameObjects
 {
     public class Player1 : Component, IGameListener
     {
+
+        static Semaphore MySemaphore = new Semaphore(0, 3);
+
         private float speed;
         private SpriteRenderer spriteRenderer;
         private bool canShoot;
@@ -31,13 +36,13 @@ namespace SystemShutdown.GameObjects
         private float currentDirY;
         private float currentDirX;
 
-        public Texture2D sprite;
+        //public Texture2D sprite;
         protected Texture2D[] sprites, upWalk;
         protected float fps;
         private float timeElapsed;
         private int currentIndex;
 
-        public Vector2 position;
+       // public Vector2 position;
         public Rectangle rectangle;
         public Vector2 currentDir;
         protected float rotation;
@@ -57,6 +62,9 @@ namespace SystemShutdown.GameObjects
             canShoot = true;
             InputHandler.Instance.Entity = this;
             fps = 10f;
+
+            Debug.WriteLine("Players semaphore releases (3)");
+            MySemaphore.Release();
         }
 
         public void Move(Vector2 velocity)
@@ -82,9 +90,9 @@ namespace SystemShutdown.GameObjects
                 velocity.Normalize();
             }
             velocity *= speed;
-            GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
-            rectangle.X = (int)GameObject.Transform.Position.X;
-            rectangle.Y = (int)GameObject.Transform.Position.Y;
+            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+            //rectangle.X = (int)GameObject.Transform.Position.X;
+            //rectangle.Y = (int)GameObject.Transform.Position.Y;
 
             if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
             {
@@ -123,29 +131,32 @@ namespace SystemShutdown.GameObjects
 
         public override void Awake()
         {
-            GameObject.Transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height);
+            GameObject.Tag = "Player";
+
+            GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 
-        public void LoadContent(ContentManager content)
-        {
-            rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
+        //public void LoadContent(ContentManager content)
+        //{
+        //    rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
 
-            //Load sprite sheet
-            upWalk = new Texture2D[3];
+        //    //Load sprite sheet
+        //    upWalk = new Texture2D[3];
 
-            //Loop animaiton
-            for (int g = 0; g < upWalk.Length; g++)
-            {
-                upWalk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
-            }
-            //When loop is finished return to first sprite/Sets default sprite
-            sprite = upWalk[0];
-        }
+        //    //Loop animaiton
+        //    for (int g = 0; g < upWalk.Length; g++)
+        //    {
+        //        upWalk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
+        //    }
+        //    //When loop is finished return to first sprite/Sets default sprite
+        //    sprite = upWalk[0];
+        //}
 
         public override void Update(GameTime gameTime)
         {
-            shootTime += GameWorld.Instance.DeltaTime;
+            shootTime += GameWorld.DeltaTime;
 
             if (shootTime >= cooldown)
             {
@@ -168,12 +179,27 @@ namespace SystemShutdown.GameObjects
             }
         }
 
-        //public override void Start()
-        //{
-        //    SpriteRenderer sr = (SpriteRenderer)GameObject1.GetComponent("SpriteRenderer");
-        //    sr.SetSprite("1GuyUp");
-        //    sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height / 2) + 35);
-        //}
+        public override void Start()
+        {
+            //SpriteRenderer sr = (SpriteRenderer)GameObject1.GetComponent("SpriteRenderer");
+            //sr.SetSprite("1GuyUp");
+            //sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height / 2) + 35);
+            //rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
+            //rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(GameWorld.Instance.playerBuilder.player.sprite.Width - 10, GameWorld.Instance.playerBuilder.player.sprite.Height - 10));
+            
+            
+            ////Load sprite sheet
+            //upWalk = new Texture2D[3];
+
+            ////Loop animaiton
+            //for (int g = 0; g < upWalk.Length; g++)
+            //{
+            //    upWalk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
+            //}
+            ////When loop is finished return to first sprite/Sets default sprite
+            //GameWorld.Instance.playerBuilder.player.sprite = upWalk[0];
+
+        }
 
         public override string ToString()
         {
@@ -189,12 +215,12 @@ namespace SystemShutdown.GameObjects
                 GameObject1 projectileObject = LaserFactory.Instance.Create("Player");
                 projectileObject.Transform.Position = GameObject.Transform.Position;
                 projectileObject.Transform.Position += new Vector2(-3, -(spriteRenderer.Sprite.Height + 40));
-                GameWorld.Instance.AddGameObject(projectileObject);
+                GameWorld.gameState.AddGameObject(projectileObject);
 
                 velocity *= laserSpeed;
-                position += (velocity * GameWorld.Instance.DeltaTime);
-                rectangle.X = (int)position.X;
-                rectangle.Y = (int)position.Y;
+                position += (velocity * GameWorld.DeltaTime);
+                //rectangle.X = (int)position.X;
+                //rectangle.Y = (int)position.Y;
             }
         }
 
@@ -207,6 +233,20 @@ namespace SystemShutdown.GameObjects
                     return;
                 }
             }
+        }
+
+        public void Enter(Object id)
+        {
+            int tmp = Thread.CurrentThread.ManagedThreadId;
+
+            Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+            MySemaphore.WaitOne();
+            Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+            Random randomNumber = new Random();
+            Thread.Sleep(100 * randomNumber.Next(0, 150));
+            Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            MySemaphore.Release();
+
         }
 
         protected void Animate(GameTime gametime)

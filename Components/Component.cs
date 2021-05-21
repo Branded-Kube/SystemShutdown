@@ -17,7 +17,7 @@ namespace SystemShutdown.Components
         private int currentIndex;
 
         public Vector2 position;
-        public Rectangle rectangle;
+        //public Rectangle rectangle;
         public Vector2 previousPosition;
         public Vector2 currentDir;
         protected float rotation;
