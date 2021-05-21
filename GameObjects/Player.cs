@@ -4,14 +4,20 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace SystemShutdown.GameObjects
 {
     public class Player : MenuObject
     {
-        //#region Fields
-        //private KeyboardState currentKey;
+
+        static Semaphore MySemaphore = new Semaphore(0, 3);
+
+
+        #region Fields
+        private KeyboardState currentKey;
 
         //private KeyboardState previousKey;
 
@@ -19,10 +25,15 @@ namespace SystemShutdown.GameObjects
         //private float laserSpeed;
         //public Vector2 previousPosition;
 
-        //private float currentDirY;
-        //private float currentDirX;
+        private float currentDirY;
+        private float currentDirX;
+        private Vector2 currentDir;
+        private string debug1 = "";
+        private string debug2 = "";
 
-        //#endregion
+
+
+        #endregion
 
         //#region Properties
         //public bool IsDead
@@ -38,11 +49,62 @@ namespace SystemShutdown.GameObjects
 
         //#region Methods
 
-        //#region Constructor
-        //public Player()
-        //{
-        //    this.speed = 300;
-        //    fps = 10f;
+        #region Constructor
+        public Player()
+        {
+            this.speed = 600;
+            fps = 10f;
+
+            Debug.WriteLine("Players semaphore releases (3)");
+            MySemaphore.Release();
+
+        }
+        #endregion
+
+
+
+        //tells worker to wait for empty space using semaphore, and then start harvesting from the palmtree
+        public void Enter(Object id)
+        {
+            int tmp = Thread.CurrentThread.ManagedThreadId;
+
+            Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+            MySemaphore.WaitOne();
+            Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+            Random randomNumber = new Random();
+            Thread.Sleep(100 * randomNumber.Next(0, 150));
+            Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            MySemaphore.Release();
+
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            if (IsDead)
+            {
+                return;
+            }
+
+
+
+            origin = new Vector2(rectangle.Width / 2, rectangle.Height / 2);
+
+            Animate(gametime: gameTime);
+
+            ////Right
+            //if (currentDir.X == 1)
+            //{
+            //    rotation += 90f;
+            //}
+            ////Left
+            //if (currentDir.X == -1)
+            //{
+            //    rotation += 90f;
+            //}
+            ////Down
+            //if (currentDir.Y == 1)
+            //{
 
         //}
         //#endregion
@@ -91,35 +153,88 @@ namespace SystemShutdown.GameObjects
         //    //Load sprite sheet
         //    upWalk = new Texture2D[3];
 
-        //    //Loop animaiton
-        //    for (int g = 0; g < upWalk.Length; g++)
-        //    {
-        //        upWalk[g] = content.Load<Texture2D>(g + 1 + "GuyUp");
-        //    }
-        //    //When loop is finished return to first sprite/Sets default sprite
-        //    sprite = upWalk[0];
+            spriteBatch.DrawString(GameWorld.gameState.font, debug1, new Vector2(300,500), Color.White);
+            spriteBatch.DrawString(GameWorld.gameState.font, debug2, new Vector2(300, 300), Color.White);
 
-        //    ////Load sprite sheet
-        //    //downWalk = new Texture2D[3];
 
-        //    ////Loop animaiton
-        //    //for (int h = 0; h < downWalk.Length; h++)
-        //    //{
-        //    //    downWalk[h] = content.Load<Texture2D>(h + 1 + "GuyDown");
-        //    //}
-        //    ////When loop is finished return to first sprite/Sets default sprite
-        //    //sprite = downWalk[0];
+            base.Draw(gameTime, spriteBatch);
+        }
 
-        //    //Load sprite sheet
-        //    //rightWalk = new Texture2D[3];
+        public void Move(Vector2 velocity)
+        {
+            //currentDirX = 0;
+            //currentDirY = 0;
+            currentDir += velocity;
 
-        //    ////Loop animaiton
-        //    //for (int i = 0; i < rightWalk.Length; i++)
-        //    //{
-        //    //    rightWalk[i] = content.Load<Texture2D>(i + 1 + "GuyRight");
-        //    //}
-        //    ////When loop is finished return to first sprite/Sets default sprite
-        //    //sprite = rightWalk[0];
+            if (velocity.Y == 0)
+            {
+                //currentDirY = velocity.Y;
+                //currentDirX = 0;
+
+                currentDir.X = velocity.X;
+            }
+            if (velocity.X == 0)
+            {
+                //currentDirX = velocity.X;
+                //currentDirY = 0;
+                currentDir.Y = velocity.Y;
+
+            }
+            //currentDir = velocity;
+
+
+
+            if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
+            {
+                rotation = (float)Math.PI / 4;
+            }
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == -1 && currentDir.X == -1)
+            {
+                rotation = (float)Math.PI / 4 * 7;
+            }
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == 1 && currentDir.X == 1)
+            {
+                rotation = (float)Math.PI * 3 / 4;
+            }
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == 1 && currentDir.X == -1)
+            {
+                rotation = (float)Math.PI / 4 * 5;
+            }
+
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
+            {
+                rotation = (float)Math.PI / 2;
+            }
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
+            {
+                rotation = (float)Math.PI * 3 / 2;
+            }
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDir.Y == 1)
+            {
+                rotation = (float)Math.PI;
+            }
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
+            {
+                rotation = (float)Math.PI * 2;
+            }
+
+            debug1 = $"{velocity}";
+            debug2 = $"{currentDir}";
+
+
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+              // currentDir.Normalize();
+            }
+            velocity *= speed;
+
+            position += (velocity * GameWorld.DeltaTime);
+
+            rectangle.X = (int)position.X;
+            rectangle.Y = (int)position.Y;
+
+        }
 
         //    ////Load sprite sheet
         //    //leftWalk = new Texture2D[3];

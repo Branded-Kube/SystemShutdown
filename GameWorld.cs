@@ -39,6 +39,7 @@ namespace SystemShutdown
 
         public static ContentManager content;
 
+
         public static RenderTarget2D renderTarget;
         public float scale = 0.4444f;
 
@@ -160,6 +161,7 @@ namespace SystemShutdown
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
+                gameState.ShutdownThreads();
                 Exit();
             }
 
