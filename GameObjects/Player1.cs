@@ -47,6 +47,8 @@ namespace SystemShutdown.GameObjects
         public Vector2 currentDir;
         protected float rotation;
         protected Vector2 velocity;
+        bool cantMove = false;
+        public Vector2 lastVelocity;
 
         public bool IsDead
         {
@@ -69,30 +71,16 @@ namespace SystemShutdown.GameObjects
 
         public void Move(Vector2 velocity)
         {
-            //currentDirX = 0;
-            //currentDirY = 0;
-            //if (velocity.X == 0 && velocity.Y != 0)
-            //{
-            //    currentDir.Y = velocity.Y;
-            //    //currentDirY = velocity.Y;
-            //    //currentDirX = 0;
-            //}
-            //if (velocity.Y == 0 && velocity.X != 0)
-            //{
-            //    currentDir.X = velocity.X;
-            //    //currentDirX = velocity.X;
-            //    //currentDirY = 0;
-            //}
-            //currentDir = velocity;
-
+        
             if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-            }
-            velocity *= speed;
-            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
-            rectangle.X = (int)GameObject.Transform.Position.X;
-            rectangle.Y = (int)GameObject.Transform.Position.Y;
+                {
+                    velocity.Normalize();
+                }
+                velocity *= speed;
+                GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+
+
+
 
             if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
             {
@@ -158,6 +146,7 @@ namespace SystemShutdown.GameObjects
         {
             shootTime += GameWorld.DeltaTime;
             //rectangle = new Rectangle((int)spriteRenderer.Origin.X, (int)spriteRenderer.Origin.Y,  spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
+            lastVelocity = GameObject.Transform.Position;
 
             if (shootTime >= cooldown)
             {
@@ -227,12 +216,11 @@ namespace SystemShutdown.GameObjects
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-            if (gameEvent.Title == "Collision")
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
             {
-                if (IsDead)
-                {
-                    return;
-                }
+             
+                GameObject.Transform.Position = lastVelocity;
+
             }
         }
 

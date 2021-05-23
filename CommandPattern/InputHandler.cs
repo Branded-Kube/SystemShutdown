@@ -33,9 +33,11 @@ namespace SystemShutdown.CommandPattern
         public InputHandler()
         {
             keybinds.Add(Keys.A, new MoveCommand(new Vector2(-1, 0)));
+
             keybinds.Add(Keys.D, new MoveCommand(new Vector2(1, 0)));
             keybinds.Add(Keys.W, new MoveCommand(new Vector2(0, -1)));
             keybinds.Add(Keys.S, new MoveCommand(new Vector2(0, 1)));
+
 
             keybinds.Add(Keys.Space, new ShootCommand());
 
