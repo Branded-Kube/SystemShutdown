@@ -35,10 +35,10 @@ namespace SystemShutdown.BuildPattern
 
             //go.AddComponent(new Player1);
             //go.AddComponent(new SpriteRenderer());
-            sr = new SpriteRenderer();
+            sr = new SpriteRenderer("player");
 
             go.AddComponent(sr);
-            sr.SetSprite("player");
+            //sr.SetSprite("player");
             sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height) / 2);
             //sr.Origin = new Vector2(go.Transform.Position.X, go.Transform.Position.Y);
 

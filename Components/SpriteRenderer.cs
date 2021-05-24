@@ -16,9 +16,9 @@ namespace SystemShutdown.Components
        // public Rectangle rectangle { get; set; }
 
 
-        public SpriteRenderer()
-        {
-        }
+        //public SpriteRenderer()
+        //{
+        //}
 
         public SpriteRenderer(string spriteName)
         {
