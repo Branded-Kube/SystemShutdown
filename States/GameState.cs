@@ -87,6 +87,7 @@ namespace SystemShutdown.States
 
         //public Texture2D sprite;
         protected Texture2D[] sprites, upWalk;
+        private SpriteRenderer spriteRenderer;
         protected float fps;
         private float timeElapsed;
         private int currentIndex;
@@ -679,26 +680,26 @@ namespace SystemShutdown.States
         //{
         //    gameObjects.Remove(go);
         //}
-        //protected void Animate(GameTime gametime)
-        //{
-            //if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-            //{
-            //    //Giver tiden, der er gået, siden sidste update
-            //    timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+        protected void Animate(GameTime gametime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                //Giver tiden, der er gået, siden sidste update
+                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-            //    //Beregner currentIndex
-            //    currentIndex = (int)(timeElapsed * fps);
-            //    sprite = upWalk[currentIndex];
+                //Beregner currentIndex
+                currentIndex = (int)(timeElapsed * fps);
+                spriteRenderer.Sprite = upWalk[currentIndex];
 
-            //    //Checks if animation needs to restart
-            //    if (currentIndex >= upWalk.Length - 1)
-            //    {
-            //        //Resets animation
-            //        timeElapsed = 0;
-            //        currentIndex = 0;
-            //    }
-            //}
-        //}
+                //Checks if animation needs to restart
+                if (currentIndex >= upWalk.Length - 1)
+                {
+                    //Resets animation
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                }
+            }
+        }
         #endregion
     }
 }
