@@ -11,8 +11,8 @@ namespace SystemShutdown.AStar
     {
         public static int NodeSize = 100;
 
-        public int Width = 40;
-            public int Height = 40;
+        public int Width = 35;
+            public int Height = 35;
             public Node[,] nodes;
             
             public Grid()
@@ -31,7 +31,7 @@ namespace SystemShutdown.AStar
                     //
 
 
-                    if ((x != 0 && y != 0) &&
+                    if ((x != 0 && y != 0) && (x != Width -1 && y != Height -1) &&
                         rand.Next(1, 25) < 5)
                     {
                         nodes[x, y].Passable = false;
@@ -88,28 +88,28 @@ namespace SystemShutdown.AStar
                 }
         }
 
-            public Node Node(int x, int y)
-            {
-                if (x >= 0 && x < Width && y >= 0 && y < Height)
-                    return nodes[x, y];
-                else
-                    return null;
-            }
+            //public Node Node(int x, int y)
+            //{
+            //    if (x >= 0 && x < Width && y >= 0 && y < Height)
+            //        return nodes[x, y];
+            //    else
+            //        return null;
+            //}
 
-            public void ResetState()
-            {
-                for (int y = 0; y < Height; y++)
-                    for (int x = 0; x < Width; x++)
-                    {
-                        nodes[x, y].f = int.MaxValue;
-                        nodes[x, y].g = 0;
-                        nodes[x, y].h = 0;
-                        nodes[x, y].cameFrom = null;
-                        nodes[x, y].Path = false;
-                        nodes[x, y].Open = false;
-                        nodes[x, y].Closed = false;
-                    }
-            }
+            //public void ResetState()
+            //{
+            //    for (int y = 0; y < Height; y++)
+            //        for (int x = 0; x < Width; x++)
+            //        {
+            //            nodes[x, y].f = int.MaxValue;
+            //            nodes[x, y].g = 0;
+            //            nodes[x, y].h = 0;
+            //            nodes[x, y].cameFrom = null;
+            //            nodes[x, y].Path = false;
+            //            nodes[x, y].Open = false;
+            //            nodes[x, y].Closed = false;
+            //        }
+            //}
         }
 
 
