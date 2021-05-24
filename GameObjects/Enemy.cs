@@ -138,11 +138,12 @@ namespace SystemShutdown.GameObjects
             //updateTimerB += gameTime.ElapsedGameTime.TotalSeconds;
             //if (updateTimerB >= 2.0)
             //{
-                if (playerTarget && goal.position * 100 != GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position)
-                {
-                enableAstar = false;
+            //if (enableAstar)
+            //{
+                //if (playerTarget && !Searching )//*&& GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X != goal.x * 100 && GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y != goal.y * 100)
+                //{
+                   // enableAstar = false;
 
-                    Searching = true;
 
                     goal = aStar.Node((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y / 100);
 
@@ -173,13 +174,15 @@ namespace SystemShutdown.GameObjects
                     aStar.Start(start);
 
 
-                    while (path.Count > 0) path.Pop();
+                while (path.Count > 0) path.Pop();
                     aStar.ResetState();
+                Searching = true;
 
-              //  }
-               // updateTimerB = 0.0;
-            }
+                //  }
+                // updateTimerB = 0.0;
+                //}
 
+           // }
             // use update timer to slow down animation
             updateTimerA += gameTime.ElapsedGameTime.TotalSeconds;
             if (updateTimerA >= 0.8)
@@ -201,21 +204,37 @@ namespace SystemShutdown.GameObjects
                     aStar.Search(GameWorld.gameState.grid, current, goal, path);
 
                     Searching = false;
-                }
-                if (path.Count > 0)
-                {
-                    Node node = path.Pop();
-                    int x = node.x * GameWorld.gameState.NodeSize;
-                    int y = node.y * GameWorld.gameState.NodeSize;
-                    //  node.alreadyOccupied = true;
-                    // node.cameFrom.alreadyOccupied = false;
+                    if (path.Count > 0)
+                    {
+                        Node node = path.Pop();
+                        int x = node.x * GameWorld.gameState.NodeSize;
+                        int y = node.y * GameWorld.gameState.NodeSize;
+                        //  node.alreadyOccupied = true;
+                        // node.cameFrom.alreadyOccupied = false;
 
-                    Move(x, y);
+                        Move(x, y);
+                    }
+
                 }
+                //if (path.Count > 0)
+                //{
+                //    Node node = path.Pop();
+                //    int x = node.x * GameWorld.gameState.NodeSize;
+                //    int y = node.y * GameWorld.gameState.NodeSize;
+                //    //  node.alreadyOccupied = true;
+                //    // node.cameFrom.alreadyOccupied = false;
+
+                //    Move(x, y);
+                //}
 
                 updateTimerA = 0.0;
             }
 
+            //if (GameObject.Transform.Position.X == goal.x * 100 && GameObject.Transform.Position.Y == goal.y * 100)
+            //{
+            //    enableAstar = true;
+
+            //}
         }
 
 
@@ -334,7 +353,6 @@ namespace SystemShutdown.GameObjects
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
-                enableAstar = true;
 
                 // throw new NotImplementedException();
                 attackingPlayer = true;
