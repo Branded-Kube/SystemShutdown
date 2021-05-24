@@ -533,17 +533,18 @@ namespace SystemShutdown.States
         }
 
 
-        private void SpawnEnemy()
-        {
-            running = true;
-            Enemy enemy =  new Enemy(new Rectangle(new Point(100, 100), new Point(100, 100)));
-            //enemy = new Enemy($"Enemy ");
+        //private void SpawnEnemy()
+        //{
+        //    running = true;
+        //    Enemy enemy =  new Enemy();
+        //    //enemy = new Enemy($"Enemy ");
 
-            enemy.Start();
-          // enemy.ClickSelect += Enemy_ClickSelect;
-            enemies.Add(enemy);
-            delEnemies.Add(enemy);
-        }
+        //    //enemy.Start();
+        //    enemy.StartThread();
+        //  // enemy.ClickSelect += Enemy_ClickSelect;
+        //    enemies.Add(enemy);
+        //    delEnemies.Add(enemy);
+        //}
         private void SpawnEnemies()
         {
             //spawnTime += delta;
@@ -552,9 +553,10 @@ namespace SystemShutdown.States
             Random rnd = new Random(0);
                 GameObject1 go = EnemyPool.Instance.GetObject();
                 go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.ScreenWidth), 0);
+            GameState.running = true;
 
 
-                AddGameObject(go);
+            AddGameObject(go);
                // spawnTime = 0;
             //}
         }
@@ -648,6 +650,7 @@ namespace SystemShutdown.States
         public void ShutdownThreads()
         {
             running = false;
+
             enemies.Clear();
         }
         /// <summary>

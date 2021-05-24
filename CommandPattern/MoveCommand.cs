@@ -18,19 +18,19 @@ namespace SystemShutdown.CommandPattern
         public void Execute(Player1 player)
         {
             
-            player.previousPosition = player.position;
+            //player.previousPosition = player.position;
             player.Move(velocity);
 
-            foreach (var item in GameWorld.gameState.grid.nodes)
-            {
-                if (item.Passable == false)
-                {
-                    if (player.rectangle.Intersects(item.collisionRectangle))
-                        player.position = player.previousPosition;
+            //foreach (var item in GameWorld.gameState.grid.nodes)
+            //{
+            //    if (item.Passable == false)
+            //    {
+            //        if (player.rectangle.Intersects(item.collisionRectangle))
+            //            player.position = player.previousPosition;
 
-                }
+            //    }
 
-            }
+            //}
 
 
         }

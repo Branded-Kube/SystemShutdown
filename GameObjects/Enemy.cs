@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using SystemShutdown.AStar;
+using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.ObjectPool;
 using SystemShutdown.ObserverPattern;
@@ -70,15 +71,12 @@ namespace SystemShutdown.GameObjects
             set { threadRunning = value; }
         }
 
-        public Enemy(Rectangle Rectangle)
+        public Enemy()
         {
             this.vision = 500;
-            this.rectangle = Rectangle;
+           // this.rectangle = Rectangle;
             internalThread = new Thread(ThreadMethod);
             LoadContent(GameWorld.content);
-
-
-
 
             //    randomNumber = new Random();
             //    positionX = 300 + randomNumber.Next(0, 150);
@@ -88,11 +86,11 @@ namespace SystemShutdown.GameObjects
             //    this.rectangle = new Rectangle(x, y);
 
         }
-        public Enemy( )
-        {
-           // this.speed = speed;
-            //this.velocity = velocity;
-        }
+        //public Enemy( )
+        //{
+        //   // this.speed = speed;
+        //    //this.velocity = velocity;
+        //}
         public override void Destroy()
         {
             EnemyPool.Instance.RealeaseObject(GameObject);
@@ -103,7 +101,7 @@ namespace SystemShutdown.GameObjects
 
             if (updateTimer >= 1.0)
             {
-                if (IsPlayerInRange(GameWorld.gameState.playerBuilder.player.position))
+                if (IsPlayerInRange(GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position))
                 {
 
                     //        //  better handling of walls is needed
@@ -138,13 +136,19 @@ namespace SystemShutdown.GameObjects
           {
 
                 
-                Searching = true;
+               Searching = true;
+                GameObject1 go = new GameObject1();
 
-                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.playerBuilder.player.position.X / 100, (int)GameWorld.gameState.playerBuilder.player.position.Y / 100);
+                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y / 100);
+                
+                go.Transform.Position = new Vector2((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y);
+
+                go.AddComponent(goal);
+                //GameWorld.gameState.AddGameObject(go);
 
 
                 Node start = null;
-                start = GameWorld.gameState.grid.Node(Rectangle.X / GameWorld.gameState.NodeSize, Rectangle.Y / GameWorld.gameState.NodeSize);
+                start = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
 
                 // if clicked on non passable node, then march in direction of player till passable found
                 //while (!goal.Passable)
@@ -171,7 +175,7 @@ namespace SystemShutdown.GameObjects
 
             // use update timer to slow down animation
             updateTimerA += gameTime.ElapsedGameTime.TotalSeconds;
-            if (updateTimerA >= 0.1)
+            if (updateTimerA >= 0.8)
             {
 
                 // begin the search to goal from enemy's position
@@ -179,7 +183,8 @@ namespace SystemShutdown.GameObjects
                 if (Searching)
                 {
                     Node current = null;
-                    current = GameWorld.gameState.grid.Node(Rectangle.X / GameWorld.gameState.NodeSize, Rectangle.Y / GameWorld.gameState.NodeSize);
+
+                    current = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
                     //current.alreadyOccupied = true;
                     //if (current.cameFrom != null)
                     //{
@@ -209,23 +214,22 @@ namespace SystemShutdown.GameObjects
 
         public bool IsPlayerInRange(Vector2 target)
         {
-            Vector2 thisPos = new Vector2(rectangle.X, rectangle.Y);
-            return vision >= Vector2.Distance(thisPos, target);
+            return vision >= Vector2.Distance(GameObject.Transform.Position, target);
         }
 
 
 
-        public Rectangle Rectangle
-        {
-            get { return rectangle; }
+        //public Rectangle Rectangle
+        //{
+        //    get { return rectangle; }
 
-        }
+        //}
         public void LoadContent(ContentManager content)
         {
-            sprite = content.Load<Texture2D>("Textures/pl1");
+            //sprite = content.Load<Texture2D>("Textures/pl1");
 
             // astar
-            MouseState PrevMS = Mouse.GetState();
+           // MouseState PrevMS = Mouse.GetState();
 
 
             aStar = new Astar();
@@ -237,31 +241,21 @@ namespace SystemShutdown.GameObjects
 
         public void Move(int x, int y)
         {
-            rectangle.X = x;
-            rectangle.Y = y;
-            Vector2 position = new Vector2(rectangle.X,rectangle.Y);
-            if (position == goal.position)
-            {
-                //Debug.Write("!");
-                attackingPlayer = true;
+            //rectangle.X = x;
+            //rectangle.Y = y;
+            //GameObject.Transform.Position.X = x;
+            //GameObject.Transform.Position.Y = y;
+            //Vector2 position = new Vector2(rectangle.X,rectangle.Y);
+            GameObject.Transform.Position = new Vector2(x,y);
+            //if (GameObject.Transform.Position == goal.GameObject.Transform.Position)
+            //{
+            //    //Debug.Write("!");
+            //    attackingPlayer = true;
 
-            }
+            //}
         }
       
-        public void Draw(SpriteBatch spritebatch)
-        {
-            //spritebatch.Draw(sprite, rectangle, Color.Red);
-            //var x = (rectangle.X + (rectangle.Width / 2)) - (GameState.font.MeasureString(name).X / 2);
-            //var y = (rectangle.Y + (rectangle.Height / 2)) - (GameState.font.MeasureString(name).Y / 2);
-            //spritebatch.DrawString(GameState.font, name, new Vector2(x, y), Color.Black);
-            // astar
-
-            //GraphicsDevice.Clear(Color.Black);
-
-
-
-
-        }
+     
 
 
         /// <summary>
@@ -311,18 +305,19 @@ namespace SystemShutdown.GameObjects
         }
 
 
-        //public void Start()
-        //{
-        //    internalThread.IsBackground = true;
-        //    internalThread.Start();
-        //}
+        public void StartThread()
+        {
+            internalThread.IsBackground = true;
+            internalThread.Start();
+        }
         public override void Awake()
         {
             GameObject.Tag = "Enemy";
 
             GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
-            this.position = GameObject.Transform.Position;
+            // this.position = GameObject.Transform.Position;
             //spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            StartThread();
         }
         public override string ToString()
         {
@@ -332,7 +327,8 @@ namespace SystemShutdown.GameObjects
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
-                throw new NotImplementedException();
+                // throw new NotImplementedException();
+                attackingPlayer = true;
             }
         }
     }
