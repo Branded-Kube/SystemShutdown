@@ -39,8 +39,8 @@ namespace SystemShutdown.BuildPattern
 
             go.AddComponent(sr);
             sr.SetSprite("player");
-            //sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height) - 10);
-            sr.Origin = new Vector2(go.Transform.Position.X, go.Transform.Position.Y);
+            sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height) / 2);
+            //sr.Origin = new Vector2(go.Transform.Position.X, go.Transform.Position.Y);
 
             player = new Player1();
            // sr.rectangle = new Rectangle((int)sr.Origin.X, (int)sr.Origin.Y, sr.Sprite.Width - 10, sr.Sprite.Height - 10);

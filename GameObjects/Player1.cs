@@ -71,7 +71,8 @@ namespace SystemShutdown.GameObjects
 
         public void Move(Vector2 velocity)
         {
-        
+            currentDir = velocity;
+
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
@@ -122,9 +123,9 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Player";
 
-           //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             ////this.position = GameObject.Transform.Position;
-          // // spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 
         //public void LoadContent(ContentManager content)
