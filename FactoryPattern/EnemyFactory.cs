@@ -33,20 +33,20 @@ namespace SystemShutdown.FactoryPattern
                 SpriteRenderer sr = new SpriteRenderer();
                 go.AddComponent(sr);
                 //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
-                go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.graphics.GraphicsDevice.Viewport.Width ), 0);
+
 
 
             switch (type)
                 {
                     case "Blue":
-                    sr.SetSprite("1GuyDown");
-                    enemy = new Enemy(new Rectangle(new Point(100, 100), new Point(100, 100)));
+                    sr.SetSprite("1GuyUp");
+                    enemy = new Enemy();
                     go.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
                     go.AddComponent(enemy);
                     break;
                     case "Black":
-                    sr.SetSprite("1GuyDown");
-                    enemy = new Enemy(new Rectangle(new Point(100, 100), new Point(100, 100)));
+                    sr.SetSprite("1GuyUp");
+                    enemy = new Enemy();
                     go.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
                     go.AddComponent(enemy);
                     break;

@@ -80,8 +80,6 @@ namespace SystemShutdown.GameObjects
                 GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
 
 
-
-
             if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
             {
                 rotation = (float)Math.PI / 4;
@@ -121,9 +119,9 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Player";
 
-            GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
-            this.position = GameObject.Transform.Position;
-            spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+           //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            ////this.position = GameObject.Transform.Position;
+          // // spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 
         //public void LoadContent(ContentManager content)
@@ -208,7 +206,7 @@ namespace SystemShutdown.GameObjects
                 GameWorld.gameState.AddGameObject(projectileObject);
 
                 velocity *= laserSpeed;
-                position += (velocity * GameWorld.DeltaTime);
+                //position += (velocity * GameWorld.DeltaTime);
                 //rectangle.X = (int)position.X;
                 //rectangle.Y = (int)position.Y;
             }
@@ -218,9 +216,7 @@ namespace SystemShutdown.GameObjects
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
             {
-             
-                GameObject.Transform.Position = lastVelocity;
-
+              GameObject.Transform.Position = lastVelocity;
             }
         }
 

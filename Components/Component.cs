@@ -16,7 +16,7 @@ namespace SystemShutdown.Components
         private float timeElapsed;
         private int currentIndex;
 
-        public Vector2 position;
+        //public Vector2 position;
         //public Rectangle rectangle;
         public Vector2 previousPosition;
         public Vector2 currentDir;
