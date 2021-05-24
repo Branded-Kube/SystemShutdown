@@ -26,6 +26,15 @@ namespace SystemShutdown.GameObjects
         private float shootTime;
         private float cooldown = 1f;
 
+
+        public int dmg { get; set; }
+        public int hp { get; set; }
+
+
+
+       // public int health = 10;
+       // public int dmg = 2;
+
         private KeyboardState currentKey;
 
         private KeyboardState previousKey;
@@ -67,6 +76,8 @@ namespace SystemShutdown.GameObjects
 
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release();
+            dmg = 2;
+            hp = 10;
         }
 
         public void Move(Vector2 velocity)
@@ -169,6 +180,8 @@ namespace SystemShutdown.GameObjects
             {
                 return;
             }
+
+
         }
 
         public override void Start()

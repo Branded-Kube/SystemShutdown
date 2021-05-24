@@ -384,6 +384,7 @@ namespace SystemShutdown.States
                 }
             }
 
+            ApplyMod();
 
         }
 
@@ -523,15 +524,27 @@ namespace SystemShutdown.States
             //    }
             //}
 
+            //
+
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(500, 800), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(500, 820), Color.White);
 
 
-           spriteBatch.End();
 
-            
 
+            spriteBatch.End();
 
         }
 
+        public void ApplyMod()
+        {
+            if (currentKeyState.IsKeyDown(Keys.Up) && !previousKeyState.IsKeyDown(Keys.Up))
+            {
+                playerBuilder.player.dmg += 2;
+
+                //playerBuilder.player.dmg += Database.Repository.FindMods()
+            }
+        }
 
         //private void SpawnEnemy()
         //{

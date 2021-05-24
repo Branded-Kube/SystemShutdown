@@ -56,12 +56,12 @@ namespace SystemShutdown.AStar
                     if (nodes[x, y].Passable == false)
                     {
                         GameObject1 go = new GameObject1();
-                        SpriteRenderer sr = new SpriteRenderer();
+                        SpriteRenderer sr = new SpriteRenderer("1GuyUp");
                         go.AddComponent(sr);
                         //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
                         go.Transform.Position = new Vector2(x * 100, y * 100);
 
-                        sr.SetSprite("1GuyUp");
+                        //sr.SetSprite("1GuyUp");
                         // nodes[x, y] = new Node(new Rectangle(new Point(100, 100), new Point(100, 100)));
                         go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = true });
                         go.AddComponent(nodes[x, y]);
