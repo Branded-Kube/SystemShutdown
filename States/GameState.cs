@@ -456,73 +456,73 @@ namespace SystemShutdown.States
                 gameObjects[i].Draw(spriteBatch);
             }
 
-            Vector2 gridPosition = new Vector2(0, 0);
-            Vector2 pos = gridPosition;
-            int margin = 0;
+            //Vector2 gridPosition = new Vector2(0, 0);
+            //Vector2 pos = gridPosition;
+            //int margin = 0;
 
-            for (int j = 0; j < grid.Height; j++)
-            {
-                pos.Y = j * (NodeSize + margin) + gridPosition.Y;
-                for (int i = 0; i < grid.Width; i++)
-                {
-                   // grid.Node(i, j).rectangle(new Point(i * 100, j * 100));
+            //for (int j = 0; j < grid.Height; j++)
+            //{
+            //    pos.Y = j * (NodeSize + margin) + gridPosition.Y;
+            //    for (int i = 0; i < grid.Width; i++)
+            //    {
+            //       // grid.Node(i, j).rectangle(new Point(i * 100, j * 100));
 
-                    pos.X = i * (NodeSize + margin) + gridPosition.X;
-                    //grid.Node(i, j).rectangle((int)pos.X, (int)pos.Y, rectTexture.Width, rectTexture.Height);
+            //        pos.X = i * (NodeSize + margin) + gridPosition.X;
+            //        //grid.Node(i, j).rectangle((int)pos.X, (int)pos.Y, rectTexture.Width, rectTexture.Height);
 
-                    if (grid.Node(i, j).Passable)
-                    {
-                        //if (goal.x == i && goal.y == j)
-                        //{
-                        //    //spriteBatch.Draw(rectTexture, pos, Color.Blue);
-                        //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Blue);
+            //        if (grid.Node(i, j).Passable)
+            //        {
+            //            //if (goal.x == i && goal.y == j)
+            //            //{
+            //            //    //spriteBatch.Draw(rectTexture, pos, Color.Blue);
+            //            //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Blue);
 
-                        //}
-                        //else if (grid.Node(i, j).Path)
-                        //{
-                        //    //spriteBatch.Draw(rectTexture, pos, Color.LightBlue);
-                        //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightBlue);
+            //            //}
+            //            //else if (grid.Node(i, j).Path)
+            //            //{
+            //            //    //spriteBatch.Draw(rectTexture, pos, Color.LightBlue);
+            //            //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightBlue);
 
-                        //}
-                        //else if (grid.Node(i, j).Open)
-                        //{
-                        //    //spriteBatch.Draw(rectTexture, pos, Color.LightCoral);
-                        //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightCoral);
+            //            //}
+            //            //else if (grid.Node(i, j).Open)
+            //            //{
+            //            //    //spriteBatch.Draw(rectTexture, pos, Color.LightCoral);
+            //            //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.LightCoral);
 
-                        //}
-                        //else if (grid.Node(i, j).Closed)
-                        //{
-                        //    //spriteBatch.Draw(rectTexture, pos, Color.RosyBrown);
-                        //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.RosyBrown);
+            //            //}
+            //            //else if (grid.Node(i, j).Closed)
+            //            //{
+            //            //    //spriteBatch.Draw(rectTexture, pos, Color.RosyBrown);
+            //            //    spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.RosyBrown);
 
-                        //}
-                        //else
-                        //{
-                        //    //spriteBatch.Draw(rectTexture, pos, Color.White);
-                        //spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.White);
+            //            //}
+            //            //else
+            //            //{
+            //            //    //spriteBatch.Draw(rectTexture, pos, Color.White);
+            //            //spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.White);
 
-                        //}
-                    }
-                    else
-                    {
+            //            //}
+            //        }
+            //        else
+            //        {
 
-                       // spriteBatch.Draw(rectTexture, pos, Color.Gray);
-                       //spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Gray);
+            //           // spriteBatch.Draw(rectTexture, pos, Color.Gray);
+            //           //spriteBatch.Draw(rectTexture, grid.Node(i, j).collisionRectangle, Color.Gray);
 
 
-                    }
-                    //if (grid.Node(i, j).nodeOccupiedByEnemy)
-                    //{
-                    //    grid.Node(i, j).Passable = false;
-                    //}
-                    //else if (true)
-                    //{
-                    //    grid.Node(i, j).Passable = true;
+            //        }
+            //        //if (grid.Node(i, j).nodeOccupiedByEnemy)
+            //        //{
+            //        //    grid.Node(i, j).Passable = false;
+            //        //}
+            //        //else if (true)
+            //        //{
+            //        //    grid.Node(i, j).Passable = true;
 
-                    //}
+            //        //}
                     
-                }
-            }
+            //    }
+            //}
 
             //
 

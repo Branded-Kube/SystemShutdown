@@ -154,7 +154,7 @@ namespace SystemShutdown
             nextGameState = null;
             // Loads Target Renderer: to run the game in the same resolution, no matter the pc
             // Frederik
-            renderTarget = new RenderTarget2D(GraphicsDevice, 4096, 4096);
+            renderTarget = new RenderTarget2D(GraphicsDevice, 3500, 3500);
 
             minimap = renderTarget;
 

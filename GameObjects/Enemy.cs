@@ -22,6 +22,8 @@ namespace SystemShutdown.GameObjects
         string data;
         private bool attackingPlayer = false;
         private bool attackingCPU = false;
+        private bool enableAstar = true;
+
         double updateTimer = 0.0;
         private SpriteRenderer spriteRenderer;
 
@@ -50,6 +52,8 @@ namespace SystemShutdown.GameObjects
         // Astar 
 
         private double updateTimerA = 0.0;
+        private double updateTimerB= 0.0;
+
 
         private bool Searching = false;
 
@@ -57,10 +61,10 @@ namespace SystemShutdown.GameObjects
         Node goal;
 
         Astar aStar;
-
+        GameObject1 go;
         //
 
-
+        Node[,] enemyNodes;
 
 
         private bool threadRunning = true;
@@ -84,13 +88,12 @@ namespace SystemShutdown.GameObjects
             //    x = new Point(positionX, positionY);
             //    y = new Point(24, 48);
             //    this.rectangle = new Rectangle(x, y);
-
+            //go = new GameObject1();
+            //go.AddComponent(goal);
+            enemyNodes = GameWorld.gameState.grid.nodes;
         }
-        //public Enemy( )
-        //{
-        //   // this.speed = speed;
-        //    //this.velocity = velocity;
-        //}
+  
+  
         public override void Destroy()
         {
             EnemyPool.Instance.RealeaseObject(GameObject);
@@ -132,45 +135,49 @@ namespace SystemShutdown.GameObjects
 
             // Astar
 
-            if (playerTarget)
-          {
+            //updateTimerB += gameTime.ElapsedGameTime.TotalSeconds;
+            //if (updateTimerB >= 2.0)
+            //{
+                if (playerTarget && goal.position * 100 != GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position)
+                {
+                enableAstar = false;
 
-                
-               Searching = true;
-                GameObject1 go = new GameObject1();
+                    Searching = true;
 
-                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y / 100);
-                
-                go.Transform.Position = new Vector2((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y);
+                    goal = aStar.Node((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y / 100);
 
-                go.AddComponent(goal);
-                //GameWorld.gameState.AddGameObject(go);
+                    // go.Transform.Position = new Vector2((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y);
 
-
-                Node start = null;
-                start = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
-
-                // if clicked on non passable node, then march in direction of player till passable found
-                //while (!goal.Passable)
-                //{
-                //    int di = start.x - goal.x;
-                //    int dj = start.y - goal.y;
-
-                //    int di2 = di * di;
-                //    int dj2 = dj * dj;
-
-                //    int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
-                //    int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
-
-                //    goal = aStar.Node(goal.x + ni, goal.y + nj);
-                //}
+                    //GameWorld.gameState.AddGameObject(go);
 
 
-                aStar.Start(start);
+                    Node start = null;
+                    start = aStar.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
+
+                    // if clicked on non passable node, then march in direction of player till passable found
+                    //while (!goal.Passable)
+                    //{
+                    //    int di = start.x - goal.x;
+                    //    int dj = start.y - goal.y;
+
+                    //    int di2 = di * di;
+                    //    int dj2 = dj * dj;
+
+                    //    int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
+                    //    int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
+
+                    //    goal = aStar.Node(goal.x + ni, goal.y + nj);
+                    //}
 
 
-                while (path.Count > 0) path.Pop();
-                GameWorld.gameState.grid.ResetState();
+                    aStar.Start(start);
+
+
+                    while (path.Count > 0) path.Pop();
+                    aStar.ResetState();
+
+              //  }
+               // updateTimerB = 0.0;
             }
 
             // use update timer to slow down animation
@@ -184,7 +191,7 @@ namespace SystemShutdown.GameObjects
                 {
                     Node current = null;
 
-                    current = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
+                    current = aStar.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
                     //current.alreadyOccupied = true;
                     //if (current.cameFrom != null)
                     //{
@@ -234,7 +241,7 @@ namespace SystemShutdown.GameObjects
 
             aStar = new Astar();
 
-            goal = GameWorld.gameState.grid.Node(1, 1);
+            goal = aStar.Node(1, 1);
 
 
         }
@@ -327,8 +334,11 @@ namespace SystemShutdown.GameObjects
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
+                enableAstar = true;
+
                 // throw new NotImplementedException();
                 attackingPlayer = true;
+
             }
         }
     }
