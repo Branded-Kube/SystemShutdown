@@ -87,6 +87,7 @@ namespace SystemShutdown.States
 
         //public Texture2D sprite;
         protected Texture2D[] sprites, upWalk;
+        private SpriteRenderer spriteRenderer;
         protected float fps;
         private float timeElapsed;
         private int currentIndex;
@@ -545,17 +546,18 @@ namespace SystemShutdown.States
             }
         }
 
-        private void SpawnEnemy()
-        {
-            running = true;
-            Enemy enemy =  new Enemy(new Rectangle(new Point(100, 100), new Point(100, 100)));
-            //enemy = new Enemy($"Enemy ");
+        //private void SpawnEnemy()
+        //{
+        //    running = true;
+        //    Enemy enemy =  new Enemy();
+        //    //enemy = new Enemy($"Enemy ");
 
-            enemy.Start();
-          // enemy.ClickSelect += Enemy_ClickSelect;
-            enemies.Add(enemy);
-            delEnemies.Add(enemy);
-        }
+        //    //enemy.Start();
+        //    enemy.StartThread();
+        //  // enemy.ClickSelect += Enemy_ClickSelect;
+        //    enemies.Add(enemy);
+        //    delEnemies.Add(enemy);
+        //}
         private void SpawnEnemies()
         {
             //spawnTime += delta;
@@ -564,9 +566,10 @@ namespace SystemShutdown.States
             Random rnd = new Random(0);
                 GameObject1 go = EnemyPool.Instance.GetObject();
                 go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.ScreenWidth), 0);
+            GameState.running = true;
 
 
-                AddGameObject(go);
+            AddGameObject(go);
                // spawnTime = 0;
             //}
         }
@@ -660,6 +663,7 @@ namespace SystemShutdown.States
         public void ShutdownThreads()
         {
             running = false;
+
             enemies.Clear();
         }
         /// <summary>
@@ -689,26 +693,26 @@ namespace SystemShutdown.States
         //{
         //    gameObjects.Remove(go);
         //}
-        //protected void Animate(GameTime gametime)
-        //{
-            //if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-            //{
-            //    //Giver tiden, der er gået, siden sidste update
-            //    timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+        protected void Animate(GameTime gametime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                //Giver tiden, der er gået, siden sidste update
+                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-            //    //Beregner currentIndex
-            //    currentIndex = (int)(timeElapsed * fps);
-            //    sprite = upWalk[currentIndex];
+                //Beregner currentIndex
+                currentIndex = (int)(timeElapsed * fps);
+                spriteRenderer.Sprite = upWalk[currentIndex];
 
-            //    //Checks if animation needs to restart
-            //    if (currentIndex >= upWalk.Length - 1)
-            //    {
-            //        //Resets animation
-            //        timeElapsed = 0;
-            //        currentIndex = 0;
-            //    }
-            //}
-        //}
+                //Checks if animation needs to restart
+                if (currentIndex >= upWalk.Length - 1)
+                {
+                    //Resets animation
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                }
+            }
+        }
         #endregion
     }
 }

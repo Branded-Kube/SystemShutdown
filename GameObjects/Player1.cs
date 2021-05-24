@@ -54,6 +54,8 @@ namespace SystemShutdown.GameObjects
         public Vector2 currentDir;
         protected float rotation;
         protected Vector2 velocity;
+        bool cantMove = false;
+        public Vector2 lastVelocity;
 
         public bool IsDead
         {
@@ -78,21 +80,7 @@ namespace SystemShutdown.GameObjects
 
         public void Move(Vector2 velocity)
         {
-            //currentDirX = 0;
-            //currentDirY = 0;
-            //if (velocity.X == 0 && velocity.Y != 0)
-            //{
-            //    currentDir.Y = velocity.Y;
-            //    //currentDirY = velocity.Y;
-            //    //currentDirX = 0;
-            //}
-            //if (velocity.Y == 0 && velocity.X != 0)
-            //{
-            //    currentDir.X = velocity.X;
-            //    //currentDirX = velocity.X;
-            //    //currentDirY = 0;
-            //}
-            //currentDir = velocity;
+            currentDir = velocity;
 
             if (velocity != Vector2.Zero)
             {
@@ -100,41 +88,43 @@ namespace SystemShutdown.GameObjects
             }
             velocity *= speed;
             GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
-            rectangle.X = (int)GameObject.Transform.Position.X;
-            rectangle.Y = (int)GameObject.Transform.Position.Y;
+            RotatePlayer(spriteRenderer);
+        }
 
-            if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == -1 && currentDir.X == 1)
+        private void RotatePlayer(SpriteRenderer rotate)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.Y == -1 && currentDir.X == 1*/)
             {
-                rotation = (float)Math.PI / 4;
+                rotate.Rotation = (float)Math.PI / 4;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == -1 && currentDir.X == -1)
+            else if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.Y == -1 && currentDir.X == -1*/)
             {
-                rotation = (float)Math.PI / 4 * 7;
+                rotate.Rotation = (float)Math.PI / 4 * 7;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.Y == 1 && currentDir.X == 1)
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.Y == 1 && currentDir.X == 1*/)
             {
-                rotation = (float)Math.PI * 3 / 4;
+                rotate.Rotation = (float)Math.PI * 3 / 4;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.Y == 1 && currentDir.X == -1)
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.Y == 1 && currentDir.X == -1*/)
             {
-                rotation = (float)Math.PI / 4 * 5;
+                rotate.Rotation = (float)Math.PI / 4 * 5;
             }
 
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
             {
-                rotation = (float)Math.PI / 2;
-            }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
-            {
-                rotation = (float)Math.PI * 3 / 2;
+                rotate.Rotation = (float)Math.PI * 2;
             }
             else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDir.Y == 1)
             {
-                rotation = (float)Math.PI;
+                rotate.Rotation = (float)Math.PI;
             }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
             {
-                rotation = (float)Math.PI * 2;
+                rotate.Rotation = (float)Math.PI / 2;
+            }
+            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
+            {
+                rotate.Rotation = (float)Math.PI * 3 / 2;
             }
         }
 
@@ -142,8 +132,8 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Player";
 
-            GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
-            this.position = GameObject.Transform.Position;
+            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            ////this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 
@@ -167,6 +157,7 @@ namespace SystemShutdown.GameObjects
         {
             shootTime += GameWorld.DeltaTime;
             //rectangle = new Rectangle((int)spriteRenderer.Origin.X, (int)spriteRenderer.Origin.Y,  spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
+            lastVelocity = GameObject.Transform.Position;
 
             if (shootTime >= cooldown)
             {
@@ -230,7 +221,7 @@ namespace SystemShutdown.GameObjects
                 GameWorld.gameState.AddGameObject(projectileObject);
 
                 velocity *= laserSpeed;
-                position += (velocity * GameWorld.DeltaTime);
+                //position += (velocity * GameWorld.DeltaTime);
                 //rectangle.X = (int)position.X;
                 //rectangle.Y = (int)position.Y;
             }
@@ -238,12 +229,9 @@ namespace SystemShutdown.GameObjects
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-            if (gameEvent.Title == "Collision")
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
             {
-                if (IsDead)
-                {
-                    return;
-                }
+              GameObject.Transform.Position = lastVelocity;
             }
         }
 

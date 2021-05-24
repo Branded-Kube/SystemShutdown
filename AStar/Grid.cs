@@ -61,7 +61,7 @@ namespace SystemShutdown.AStar
                         //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
                         go.Transform.Position = new Vector2(x * 100, y * 100);
 
-                        sr.SetSprite("1GuyDown");
+                        sr.SetSprite("1GuyUp");
                         // nodes[x, y] = new Node(new Rectangle(new Point(100, 100), new Point(100, 100)));
                         go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = true });
                         go.AddComponent(nodes[x, y]);
