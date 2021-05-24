@@ -30,6 +30,8 @@ namespace SystemShutdown.GameObjects
         public int dmg { get; set; }
         public int hp { get; set; }
 
+
+
        // public int health = 10;
        // public int dmg = 2;
 

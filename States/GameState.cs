@@ -540,9 +540,9 @@ namespace SystemShutdown.States
         {
             if (currentKeyState.IsKeyDown(Keys.Up) && !previousKeyState.IsKeyDown(Keys.Up))
             {
-                //playerBuilder.player.dmg += 2;
+                playerBuilder.player.dmg += 2;
 
-                playerBuilder.player.dmg += Database.Repository.FindMods()
+                //playerBuilder.player.dmg += Database.Repository.FindMods()
             }
         }
 

@@ -75,6 +75,7 @@ namespace SystemShutdown
         private Repository repo;
 
         public static float DeltaTime { get; set; }
+        Random rnd = new Random();
 
         #endregion
 
@@ -94,7 +95,7 @@ namespace SystemShutdown
 
             repo.Open();
 
-            repo.AddMods("Dmg", 10);
+            repo.AddMods("Dmg", rnd.Next(1, 5));
             repo.AddMods("Movespeed", 10);
             repo.AddMods("Attackspeed", 10);
             repo.AddMods("Health", 10);
