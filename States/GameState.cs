@@ -383,6 +383,7 @@ namespace SystemShutdown.States
                 }
             }
 
+            ApplyMod();
 
         }
 
@@ -534,6 +535,15 @@ namespace SystemShutdown.States
 
         }
 
+        public void ApplyMod()
+        {
+            if (currentKeyState.IsKeyDown(Keys.Up) && !previousKeyState.IsKeyDown(Keys.Up))
+            {
+                //playerBuilder.player.dmg += 2;
+
+                playerBuilder.player.dmg += Database.Repository.FindMods()
+            }
+        }
 
         private void SpawnEnemy()
         {

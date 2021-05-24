@@ -40,6 +40,7 @@ namespace SystemShutdown.Database
             return result;
         }
 
+
         public void AddMods(string name, int effect)
         {
             var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Mods (Name,Effect) VALUES ('{name}',{effect})", (SQLiteConnection)connection);

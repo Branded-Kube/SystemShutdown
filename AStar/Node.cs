@@ -53,9 +53,7 @@ namespace SystemShutdown.AStar
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
-                throw new NotImplementedException();
                 Debug.WriteLine("!");
-
             }
         }
     }
