@@ -314,7 +314,8 @@ namespace SystemShutdown.States
 
             }
 
-            pla
+           // RotatePlayer();
+            playerBuilder.player.RotatePlayer();
 
             //inputHandler.Execute(player1Test);
             //inputHandler.Execute();

@@ -94,7 +94,7 @@ namespace SystemShutdown.GameObjects
             }
             velocity *= speed;
             GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
-            RotatePlayer();
+           // RotatePlayer();
         }
 
         public void RotatePlayer()
