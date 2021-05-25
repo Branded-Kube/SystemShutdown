@@ -39,7 +39,7 @@ namespace SystemShutdown.CommandPattern
             keybinds.Add(Keys.S, new MoveCommand(new Vector2(0, 1)));
 
 
-            keybinds.Add(Keys.Space, new ShootCommand());
+            //keybinds.Add(Keys.Space, new ShootCommand());
 
             keybinds.Add(Keys.M, new MapCommand());
         }

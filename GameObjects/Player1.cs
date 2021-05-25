@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using SystemShutdown.BuildPattern;
 using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
@@ -22,6 +23,8 @@ namespace SystemShutdown.GameObjects
 
         private float speed;
         private SpriteRenderer spriteRenderer;
+        private PlayerBuilder playerBuilder;
+        private Vector2 distance;
         private bool canShoot;
         private float shootTime;
         private float cooldown = 1f;
@@ -55,9 +58,10 @@ namespace SystemShutdown.GameObjects
         public Rectangle rectangle;
         public Vector2 currentDir;
         protected float rotation;
-        protected Vector2 velocity;
+        //protected Vector2 velocity;
         bool cantMove = false;
         public Vector2 lastVelocity;
+        private LaserFactory laserFactory;
 
         public bool IsDead
         {
@@ -83,65 +87,63 @@ namespace SystemShutdown.GameObjects
         public void Move(Vector2 velocity)
         {
             currentDir = velocity;
-            
-                if (velocity != Vector2.Zero)
-                {
-                    velocity.Normalize();
-                }
-                velocity *= speed;
-            
-            //if (GameObject.Transform.Position.X > 0 )
-            //{
-                GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
 
-                
-                //}
-                //else
-                //{
-                //    GameObject.Transform.Position = lastVelocity;
-
-           // }
-
-
-            RotatePlayer(spriteRenderer);
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+            }
+            velocity *= speed;
+            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+            RotatePlayer();
         }
 
-        private void RotatePlayer(SpriteRenderer rotate)
+        public void RotatePlayer()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.Y == -1 && currentDir.X == 1*/)
-            {
-                rotate.Rotation = (float)Math.PI / 4;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.Y == -1 && currentDir.X == -1*/)
-            {
-                rotate.Rotation = (float)Math.PI / 4 * 7;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.Y == 1 && currentDir.X == 1*/)
-            {
-                rotate.Rotation = (float)Math.PI * 3 / 4;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.Y == 1 && currentDir.X == -1*/)
-            {
-                rotate.Rotation = (float)Math.PI / 4 * 5;
-            }
+            MouseState mouseState = Mouse.GetState();
 
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
-            {
-                rotate.Rotation = (float)Math.PI * 2;
-            }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDir.Y == 1)
-            {
-                rotate.Rotation = (float)Math.PI;
-            }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
-            {
-                rotate.Rotation = (float)Math.PI / 2;
-            }
-            else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
-            {
-                rotate.Rotation = (float)Math.PI * 3 / 2;
-            }
+            distance.X = mouseState.X - GameWorld.ScreenWidth / 2 + 45;
+            distance.Y = mouseState.Y - GameWorld.ScreenHeight / 2 + 45;
+
+            spriteRenderer.Rotation = (float)Math.Atan2(distance.Y, distance.X);
         }
+
+        //private void RotatePlayer(SpriteRenderer rotate)
+        //{
+        //    if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.Y == -1 && currentDir.X == 1*/)
+        //    {
+        //        rotate.Rotation = (float)Math.PI / 4;
+        //    }
+
+        //    else if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.Y == -1 && currentDir.X == -1*/)
+        //    {
+        //        rotate.Rotation = (float)Math.PI / 4 * 7;
+        //    }
+        //    else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D)/*currentDir.Y == 1 && currentDir.X == 1*/)
+        //    {
+        //        rotate.Rotation = (float)Math.PI * 3 / 4;
+        //    }
+        //    else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A)/*currentDir.Y == 1 && currentDir.X == -1*/)
+        //    {
+        //        rotate.Rotation = (float)Math.PI / 4 * 5;
+        //    }
+
+        //    else if (/*Keyboard.GetState().IsKeyDown(Keys.W)*/currentDir.Y == -1)
+        //    {
+        //        rotate.Rotation = (float)Math.PI * 2;
+        //    }
+        //    else if (/*Keyboard.GetState().IsKeyDown(Keys.S)*/currentDir.Y == 1)
+        //    {
+        //        rotate.Rotation = (float)Math.PI;
+        //    }
+        //    else if (/*Keyboard.GetState().IsKeyDown(Keys.D)*/currentDir.X == 1)
+        //    {
+        //        rotate.Rotation = (float)Math.PI / 2;
+        //    }
+        //    else if (/*Keyboard.GetState().IsKeyDown(Keys.A)*/currentDir.X == -1)
+        //    {
+        //        rotate.Rotation = (float)Math.PI * 3 / 2;
+        //    }
+        //}
 
         public override void Awake()
         {
@@ -183,7 +185,7 @@ namespace SystemShutdown.GameObjects
             {
                 return;
             }
-
+            
             Animate(gametime: gameTime);
         }
 
@@ -204,8 +206,8 @@ namespace SystemShutdown.GameObjects
             //sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height / 2) + 35);
             //rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
             //rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(GameWorld.Instance.playerBuilder.player.sprite.Width - 10, GameWorld.Instance.playerBuilder.player.sprite.Height - 10));
-            
-            
+
+
             ////Load sprite sheet
             //upWalk = new Texture2D[3];
 
@@ -216,7 +218,7 @@ namespace SystemShutdown.GameObjects
             //}
             ////When loop is finished return to first sprite/Sets default sprite
             //GameWorld.Instance.playerBuilder.player.sprite = upWalk[0];
-
+            
         }
 
         public override string ToString()
@@ -232,7 +234,15 @@ namespace SystemShutdown.GameObjects
                 shootTime = 0;
                 GameObject1 projectileObject = LaserFactory.Instance.Create("Player");
                 projectileObject.Transform.Position = GameObject.Transform.Position;
-                projectileObject.Transform.Position += new Vector2(-3, -(spriteRenderer.Sprite.Height + 40));
+                //projectileObject.Transform.Position += new Vector2(-5, -(spriteRenderer.Sprite.Height));
+                //if (currentDir.Y == -1)
+                //{
+                    projectileObject.Transform.Position += new Vector2(-5, -spriteRenderer.Sprite.Height);
+                //}
+                //else if (currentDir.Y == 1)
+                //{
+                //    projectileObject.Transform.Position -= new Vector2(5, -spriteRenderer.Sprite.Height);
+                //}
                 GameWorld.gameState.AddGameObject(projectileObject);
 
                 velocity *= laserSpeed;

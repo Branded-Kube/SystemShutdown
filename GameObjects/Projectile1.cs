@@ -9,13 +9,16 @@ namespace SystemShutdown.GameObjects
 {
     class Projectile1 : Component, IGameListener
     {
+        //private Player1 player;
+
         private float speed;
         //private Vector2 velocity;
         //public float Height { get; set; }
         public Projectile1(float speed, Vector2 velocity)
         {
             this.speed = speed;
-            //this.velocity = velocity;
+            this.velocity = velocity;
+            currentDir = velocity;
         }
         public override void Awake()
         {
@@ -29,7 +32,7 @@ namespace SystemShutdown.GameObjects
         }
         private void Move()
         {
-            //GameObject.Transform.Translate(velocity * speed/* * GameWorld.Instance.delta*/);
+            GameObject.Transform.Translate(velocity * speed * GameWorld.DeltaTime);
         }
 
         //private void Destroy1()

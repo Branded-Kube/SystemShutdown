@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,15 +25,42 @@ namespace SystemShutdown.FactoryPattern
         }
         private Projectile1 playerProjectile;
         private SpriteRenderer playerRenderer;
+        private Player1 player;
+        private Vector2 vector = Vector2.Zero;
         //private SpriteRenderer enemyRenderer;
 
-        private LaserFactory()
+        private LaserFactory(/*Player1 player*/)
         {
-            CreatePrototype(ref playerRenderer, ref playerProjectile, "Laser", 500, new Vector2(0, -1));
+            //ShootUp(player);
+            //if (Keyboard.GetState().IsKeyDown(Keys.W))
+            //{
+            CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(0, -1));
+            //CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(0, 1));
+            //CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(-1, 0));
+            //CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(1, 0));
+            //}
+            //if (playerProjectile.currentDir.Y == -1)
+            //{
+            //    CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(0, -1));
+            //}
+            //else if (player.currentDir.Y == 1)
+            //{
+            //    CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(0, 1));
+            //}
+
         }
+
+        //private void ShootUp(Player1 player)
+        //{
+        //    if (player.currentDir.Y == -1)
+        //    {
+        //        CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(0, -1));
+        //    }
+        //}
+
         private void CreatePrototype(ref SpriteRenderer spriteRenderer, ref Projectile1 laser, string sprite, float speed, Vector2 velocity)
         {
-            //laser = new Projectile1(speed, velocity);
+            laser = new Projectile1(speed, velocity);
             spriteRenderer = new SpriteRenderer(sprite);
 
         }
