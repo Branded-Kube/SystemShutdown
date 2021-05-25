@@ -104,6 +104,7 @@ namespace SystemShutdown.States
         private KeyboardState previousKeyState;
 
 
+
        // private Camera camera;
 
 
@@ -536,13 +537,31 @@ namespace SystemShutdown.States
 
         }
 
+       // private void SpawnMod()
+       // {
+       //     List<Mods> pickupAble;
+       //
+       //     GameWorld.repo.Open();
+       //     pickupAble = GameWorld.repo.FindMods(Mods.Id);
+       // }
+
+
         public void ApplyMod()
         {
             if (currentKeyState.IsKeyDown(Keys.Up) && !previousKeyState.IsKeyDown(Keys.Up))
             {
-                playerBuilder.player.dmg += 2;
+                Random rnd = new Random();
+                int randomnumber = rnd.Next(1, 4);
+                
 
-                //playerBuilder.player.dmg += Database.Repository.FindMods()
+                Mods pickupAble = new Mods();
+                
+                GameWorld.repo.Open();
+                pickupAble = GameWorld.repo.FindMods(randomnumber);
+
+                playerBuilder.player.dmg += pickupAble.Effect;
+                GameWorld.repo.Close();
+
             }
         }
 
