@@ -557,9 +557,9 @@ namespace SystemShutdown.States
                 Mods pickupAble = new Mods();
                 
                 GameWorld.repo.Open();
-                pickupAble = GameWorld.repo.FindMods(randomnumber);
+                //pickupAble = GameWorld.repo.FindMods(randomnumber);
 
-                playerBuilder.player.dmg += pickupAble.Effect;
+                //playerBuilder.player.dmg += pickupAble.Effect;
                 GameWorld.repo.Close();
 
             }

@@ -83,13 +83,26 @@ namespace SystemShutdown.GameObjects
         public void Move(Vector2 velocity)
         {
             currentDir = velocity;
+            
+                if (velocity != Vector2.Zero)
+                {
+                    velocity.Normalize();
+                }
+                velocity *= speed;
+            
+            //if (GameObject.Transform.Position.X > 0 )
+            //{
+                GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
 
-            if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-            }
-            velocity *= speed;
-            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+                
+                //}
+                //else
+                //{
+                //    GameObject.Transform.Position = lastVelocity;
+
+           // }
+
+
             RotatePlayer(spriteRenderer);
         }
 
@@ -134,7 +147,7 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Player";
 
-            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             ////this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
