@@ -33,7 +33,7 @@ namespace SystemShutdown.Database
 
         public Mods FindMods(string name)
         {
-            var cmd = new SQLiteCommand($"SELECT * from Mods WHERE name = '{name}'", (SQLiteConnection)connection);
+            var cmd = new SQLiteCommand($"SELECT * from Mods WHERE Name = '{name}'", (SQLiteConnection)connection);
             var reader = cmd.ExecuteReader();
 
             var result = mapper.MapModsFromReader(reader).First();

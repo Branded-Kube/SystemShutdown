@@ -72,7 +72,7 @@ namespace SystemShutdown
         private Camera camera;
 
         private bool isGameState;
-        private Repository repo;
+        public static Repository repo;
 
         public static float DeltaTime { get; set; }
         Random rnd = new Random();
@@ -95,10 +95,11 @@ namespace SystemShutdown
 
             repo.Open();
 
-            repo.AddMods("Dmg", rnd.Next(1, 5));
-            repo.AddMods("Movespeed", 10);
-            repo.AddMods("Attackspeed", 10);
-            repo.AddMods("Health", 10);
+            repo.AddMods("Dmg", 1);
+            repo.AddMods("Movespeed", 2);
+            repo.AddMods("Attackspeed", 3);
+            repo.AddMods("Health", 4);
+
 
             repo.Close();
         }
@@ -267,11 +268,6 @@ namespace SystemShutdown
             base.Draw(gameTime);
         }
 
-
-        public void CollectMod()
-        {
-
-        }
 
         //public void AddGameObject(GameObject1 go)
         //{
