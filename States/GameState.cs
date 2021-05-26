@@ -171,7 +171,6 @@ namespace SystemShutdown.States
 
         public override void LoadContent()
         {
-
             Director director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
 
@@ -411,7 +410,6 @@ namespace SystemShutdown.States
         {
             //spriteBatch.Begin(SpriteSortMode.FrontToBack);
             spriteBatch.Begin();
-
             //for (int i = 0; i < gameObjects.Count; i++)
             //{
             //    gameObjects[i].Draw(gameTime, spriteBatch);
@@ -735,6 +733,16 @@ namespace SystemShutdown.States
                 }
             }
         }
+
+        //public void Shoot()
+        //{
+        //    MouseState mouseState = Mouse.GetState();
+
+        //    if (mouseState.LeftButton == ButtonState.Pressed)
+        //    {
+        //        bullets.Add(new Bullet(bullet, ))
+        //    }
+        //}
         #endregion
     }
 }

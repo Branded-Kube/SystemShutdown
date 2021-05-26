@@ -149,28 +149,28 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Player";
 
-            GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             ////this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 
-        //public void LoadContent(ContentManager content)
-        //{
-        //    rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
+        public void LoadContent(ContentManager content)
+        {
+            //    rectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
 
-        //    //Load sprite sheet
-        //    upWalk = new Texture2D[3];
+            //    //Load sprite sheet
+            //    upWalk = new Texture2D[3];
 
-        //    //Loop animaiton
-        //    for (int g = 0; g < upWalk.Length; g++)
-        //    {
-        //        upWalk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
-        //    }
-        //    //When loop is finished return to first sprite/Sets default sprite
-        //    sprite = upWalk[0];
-        //}
+            //    //Loop animaiton
+            //    for (int g = 0; g < upWalk.Length; g++)
+            //    {
+            //        upWalk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "GuyUp");
+            //    }
+            //    //When loop is finished return to first sprite/Sets default sprite
+            //    sprite = upWalk[0];
+        }
 
-        public override void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
         {
             shootTime += GameWorld.DeltaTime;
             //rectangle = new Rectangle((int)spriteRenderer.Origin.X, (int)spriteRenderer.Origin.Y,  spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
@@ -185,6 +185,11 @@ namespace SystemShutdown.GameObjects
             {
                 return;
             }
+
+            //foreach (Bullet bullet in bullets)
+            //{
+            //    bullet.Update(gameTime);
+            //}
             
             Animate(gametime: gameTime);
         }
@@ -196,7 +201,10 @@ namespace SystemShutdown.GameObjects
                 return;
             }
 
-
+            //foreach (Bullet bullet in bullets)
+            //{
+            //    bullet.Draw(spriteBatch);
+            //}
         }
 
         public override void Start()
@@ -250,6 +258,16 @@ namespace SystemShutdown.GameObjects
                 //rectangle.X = (int)position.X;
                 //rectangle.Y = (int)position.Y;
             }
+        }
+
+        public void Shoot2()
+        {
+            //MouseState mouseState = Mouse.GetState();
+
+            //if (mouseState.LeftButton == ButtonState.Pressed)
+            //{
+            //    bullets.Add(new Bullet(bullet, GameObject.Transform.Position, spriteRenderer.Rotation));
+            //}
         }
 
         public void Notify(GameEvent gameEvent, Component component)
