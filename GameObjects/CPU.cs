@@ -1,13 +1,30 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using SystemShutdown.ComponentPattern;
+using SystemShutdown.Components;
+using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
-    class CPU
+   public class CPU : Component, IGameListener
     {
+        private GameObject1 go;
+        
+        private SpriteRenderer spriteRenderer;
+
+        public SpriteRenderer SpriteRenderer
+        {
+            get { return spriteRenderer; }
+            set { spriteRenderer = value; }
+        }
+
+
+
+
         static Semaphore MySemaphore = new Semaphore(0, 3);
         /// <summary>
         /// Releases Semaphore (how many that may enter at a time)
@@ -17,7 +34,12 @@ namespace SystemShutdown.GameObjects
         {
             Debug.WriteLine("Main Thread calls releases (3)");
             MySemaphore.Release(3);
+
+            Health = 100;
+    
+
         }
+
 
         //tells worker to wait for empty space using semaphore, and then start harvesting from the palmtree
         public static void Enter(Object id)
@@ -32,6 +54,28 @@ namespace SystemShutdown.GameObjects
             Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
 
+        }
+
+
+
+        public override void Awake()
+        {
+            GameObject.Tag = "CPU";
+
+            GameObject.Transform.Position = new Vector2(600, 220);
+            spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+
+
+        }
+
+        public override string ToString()
+        {
+            return "CPU";
+        }
+
+        public void Notify(GameEvent gameEvent, Component component)
+        {
+          //  throw new NotImplementedException();
         }
     }
 }

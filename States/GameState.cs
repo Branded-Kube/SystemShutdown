@@ -57,6 +57,8 @@ namespace SystemShutdown.States
 
         public PlayerBuilder playerBuilder;
 
+        public CPUBuilder cpuBuilder;
+
        // private Director director;
 
         //public Director Director
@@ -161,6 +163,7 @@ namespace SystemShutdown.States
             //}
 
             playerBuilder = new PlayerBuilder();
+            cpuBuilder = new CPUBuilder();
             ////director = new Director(playerBuilder);
             //gameObjects.Add(director.Contruct());
 
@@ -174,6 +177,9 @@ namespace SystemShutdown.States
 
             Director director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
+
+            DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
+            gameObjects.Add(directorCpu.Contruct());
 
 
             for (int i = 0; i < gameObjects.Count; i++)
@@ -315,7 +321,7 @@ namespace SystemShutdown.States
             }
 
            // RotatePlayer();
-            playerBuilder.player.RotatePlayer();
+            playerBuilder.Player.RotatePlayer();
 
             //inputHandler.Execute(player1Test);
             //inputHandler.Execute();
@@ -530,10 +536,10 @@ namespace SystemShutdown.States
 
             //
 
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(500, 800), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(500, 820), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
 
-
+            spriteBatch.DrawString(font, $"CPU health {cpuBuilder.Cpu.Health}", cpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
 
 
             spriteBatch.End();
