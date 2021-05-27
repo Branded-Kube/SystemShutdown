@@ -47,7 +47,7 @@ namespace SystemShutdown.AStar
                     if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
                     {
                         GameObject1 go = new GameObject1();
-                        SpriteRenderer sr = new SpriteRenderer("nogo");
+                        SpriteRenderer sr = new SpriteRenderer("Textures/nogo");
                         go.AddComponent(sr);
                         //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
                         go.Transform.Position = new Vector2(x * 100, y * 100);

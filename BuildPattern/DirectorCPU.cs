@@ -6,7 +6,7 @@ using SystemShutdown.ComponentPattern;
 namespace SystemShutdown.BuildPattern
 {
    public class DirectorCPU
-    {
+   {
         private IBuilder builder;
 
         public DirectorCPU(IBuilder builder)
@@ -19,5 +19,5 @@ namespace SystemShutdown.BuildPattern
             builder.BuildGameObject();
             return builder.GetResult();
         }
-    }
+   }
 }

@@ -42,6 +42,7 @@ namespace SystemShutdown.States
         private List<Player1> players;
 
         //private List<GameObject> gameObjects;
+        private Cyclesbar cyclebar;
         private List<MenuObject> menuObjects/* = new List<GameObject>()*/;
         private List<GameObject1> gameObjects = new List<GameObject1>();
 
@@ -60,6 +61,8 @@ namespace SystemShutdown.States
         public PlayerBuilder playerBuilder;
 
         public CPUBuilder cpuBuilder;
+
+        //public CyclesBuilder cyclesBuilder;
 
        // private Director director;
 
@@ -166,6 +169,7 @@ namespace SystemShutdown.States
 
             playerBuilder = new PlayerBuilder();
             cpuBuilder = new CPUBuilder();
+            //cyclesBuilder = new CyclesBuilder();
             ////director = new Director(playerBuilder);
             //gameObjects.Add(director.Contruct());
 
@@ -183,7 +187,8 @@ namespace SystemShutdown.States
 
             DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
             gameObjects.Add(directorCpu.Contruct());
-
+            //CyclesDirector cyclesDirector = new CyclesDirector(cyclesBuilder);
+            //gameObjects.Add(cyclesDirector.Contruct());
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
@@ -206,6 +211,7 @@ namespace SystemShutdown.States
             buttons.Add(activeThreadsBtn);
             buttons.Add(cpuBtn);
 
+            cyclebar = new Cyclesbar(content);
             //camera = new Camera();
             //camera.Follow(playerBuilder);
 
@@ -383,6 +389,8 @@ namespace SystemShutdown.States
                 item.Update();
             }
 
+            cyclebar.Update();
+
             if (!enemies.Any())
             {
 
@@ -450,6 +458,11 @@ namespace SystemShutdown.States
             {
                 item.Draw(spriteBatch);
             }
+
+            //cyclebar.Draw(spriteBatch);
+            spriteBatch.Draw(cyclebar.healthBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 300, playerBuilder.Player.GameObject.Transform.Position.Y - 100), new Rectangle((int)cyclebar.healthPosition.X, (int)cyclebar.healthPosition.Y, cyclebar.currentHealth, cyclebar.healthBar.Height), cyclebar.barColor);
+            spriteBatch.Draw(cyclebar.healthContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 300, playerBuilder.Player.GameObject.Transform.Position.Y - 100), Color.White);
+
             //Draw selected Enemy ID
             spriteBatch.DrawString(font, $"Enemy: {enemyID} selected", new Vector2(300, 100), Color.Black);
 
