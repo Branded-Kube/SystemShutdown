@@ -27,7 +27,10 @@ namespace SystemShutdown.Database
             cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Player (PlayerID INTEGER PRIMARY KEY, Scrap INTEGER, UNIQUE(PlayerId));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
 
-            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Mods (ModID INTEGER PRIMARY KEY, Name VARCHAR(50), Effect INTEGER, UNIQUE(Name));", (SQLiteConnection)connection);
+            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Mods (ModID INTEGER PRIMARY KEY, Name VARCHAR(50), UNIQUE(Name));", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+
+            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Effects (EffectID INTEGER PRIMARY KEY, Effect INTEGER, EffectName VARCHAR(50), ModFK INTEGER REFERENCES Mods(ModID), UNIQUE(EffectName));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
 
@@ -40,9 +43,24 @@ namespace SystemShutdown.Database
             return result;
         }
 
-        public void AddMods(string name, int effect)
+        public void AddMods(string name)
         {
-            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Mods (Name,Effect) VALUES ('{name}',{effect})", (SQLiteConnection)connection);
+            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Mods (Name) VALUES ('{name}')", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+        }
+
+        public List <Effects> FindEffects(int modfk)
+        {
+            var cmd = new SQLiteCommand($"SELECT * from Effects WHERE ModFK = '{modfk}'", (SQLiteConnection)connection);
+            var reader = cmd.ExecuteReader();
+
+            var result = mapper.MapEffectsFromReader(reader);
+            return result;
+        }
+
+        public void AddEffects(int effect, string effectname, int modfk)
+        {
+            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Effects (Effect, EffectName, ModFK) VALUES ({effect}, '{effectname}', {modfk})", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
 
@@ -61,5 +79,6 @@ namespace SystemShutdown.Database
         {
             connection.Close();
         }
+
     }
 }

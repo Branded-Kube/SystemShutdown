@@ -149,7 +149,7 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Player";
 
-            GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             ////this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
@@ -186,7 +186,7 @@ namespace SystemShutdown.GameObjects
                 return;
             }
             
-            Animate(gametime: gameTime);
+            //Animate(gametime: gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -258,6 +258,14 @@ namespace SystemShutdown.GameObjects
             {
               GameObject.Transform.Position = lastVelocity;
             }
+
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
+            {
+                GameWorld.gameState.ApplyMod();
+
+            }
+            
+
         }
 
         public void Enter(Object id)
@@ -274,25 +282,25 @@ namespace SystemShutdown.GameObjects
 
         }
 
-        protected void Animate(GameTime gametime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                //Giver tiden, der er gået, siden sidste update
-                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-
-                //Beregner currentIndex
-                currentIndex = (int)(timeElapsed * fps);
-                spriteRenderer.Sprite = upWalk[currentIndex];
-
-                //Checks if animation needs to restart
-                if (currentIndex >= upWalk.Length - 1)
-                {
-                    //Resets animation
-                    timeElapsed = 0;
-                    currentIndex = 0;
-                }
-            }
-        }
+       // protected void Animate(GameTime gametime)
+       // {
+       //     if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+       //     {
+       //         //Giver tiden, der er gået, siden sidste update
+       //         timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+       //
+       //         //Beregner currentIndex
+       //         currentIndex = (int)(timeElapsed * fps);
+       //         spriteRenderer.Sprite = upWalk[currentIndex];
+       //
+       //         //Checks if animation needs to restart
+       //         if (currentIndex >= upWalk.Length - 1)
+       //         {
+       //             //Resets animation
+       //             timeElapsed = 0;
+       //             currentIndex = 0;
+       //         }
+       //     }
+       // }
     }
 }

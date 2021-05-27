@@ -42,6 +42,9 @@ namespace SystemShutdown.ComponentPattern
                 component.Start();
             }
         }
+
+        
+
         public void Update(GameTime gameTime)
         {
             foreach (Component component in components.Values)
