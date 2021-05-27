@@ -69,13 +69,17 @@ namespace SystemShutdown
         //    set { director = value; }
         //}
 
-        public static Camera camera;
+        private Camera camera;
+      
+
+        
 
         private bool isGameState;
         public static Repository repo;
 
         public static float DeltaTime { get; set; }
         Random rnd = new Random();
+        private CPU cpu;
 
         #endregion
 
@@ -139,6 +143,8 @@ namespace SystemShutdown
             //{
             //    gameObjects[i].Awake();
             //}
+
+
             base.Initialize();
         }
 

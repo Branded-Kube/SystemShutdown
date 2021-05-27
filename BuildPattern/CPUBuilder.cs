@@ -9,7 +9,7 @@ using SystemShutdown.States;
 
 namespace SystemShutdown.BuildPattern
 {
-    public class PlayerBuilder : IBuilder
+    public class CPUBuilder : IBuilder
     {
         private GameObject1 go;
 
@@ -21,33 +21,28 @@ namespace SystemShutdown.BuildPattern
             set { sr = value; }
         }
 
-        private Player1 player;
+        private CPU cpu;
 
-        public Player1 Player
+        public CPU Cpu
         {
-            get { return player; }
-            set { player = value; }
+            get { return cpu; }
+            set { cpu = value; }
         }
 
         public void BuildGameObject()
         {
             go = new GameObject1();
 
-            //go.AddComponent(new Player1);
-            //go.AddComponent(new SpriteRenderer());
-            sr = new SpriteRenderer("player");
+            sr = new SpriteRenderer("CPU");
 
             go.AddComponent(sr);
-            //sr.SetSprite("player");
             sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height) / 2);
-            //sr.Origin = new Vector2(go.Transform.Position.X, go.Transform.Position.Y);
 
-            player = new Player1();
-           // sr.rectangle = new Rectangle((int)sr.Origin.X, (int)sr.Origin.Y, sr.Sprite.Width - 10, sr.Sprite.Height - 10);
+            cpu = new CPU();
 
-            go.AddComponent(new Collider(sr, player) { CheckCollisionEvents = true } );
-            go.AddComponent(player);
-            /// Adds player to collider list
+            go.AddComponent(new Collider(sr, cpu) { CheckCollisionEvents = true } );
+            go.AddComponent(cpu);
+            /// Adds CPU to collider list
             GameWorld.gameState.AddGameObject(go);
 
         }
