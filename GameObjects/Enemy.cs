@@ -145,7 +145,7 @@ namespace SystemShutdown.GameObjects
                    // enableAstar = false;
 
 
-                    goal = aStar.Node((int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100);
+                    goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100);
 
                     // go.Transform.Position = new Vector2((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y);
 
@@ -153,7 +153,7 @@ namespace SystemShutdown.GameObjects
 
 
                     Node start = null;
-                    start = aStar.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
+                    start = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
 
                     // if clicked on non passable node, then march in direction of player till passable found
                     //while (!goal.Passable)
@@ -175,7 +175,7 @@ namespace SystemShutdown.GameObjects
 
 
                 while (path.Count > 0) path.Pop();
-                    aStar.ResetState();
+            GameWorld.gameState.grid.ResetState();
                 Searching = true;
 
                 //  }
@@ -194,7 +194,7 @@ namespace SystemShutdown.GameObjects
                 {
                     Node current = null;
 
-                    current = aStar.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
+                    current = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
                     //current.alreadyOccupied = true;
                     //if (current.cameFrom != null)
                     //{
@@ -260,7 +260,7 @@ namespace SystemShutdown.GameObjects
 
             aStar = new Astar();
 
-            goal = aStar.Node(1, 1);
+            goal = GameWorld.gameState.grid.Node(1, 1);
 
 
         }
