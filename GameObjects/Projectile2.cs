@@ -3,22 +3,30 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using SystemShutdown;
 using SystemShutdown.Components;
 using SystemShutdown.ObserverPattern;
 
-namespace DesignPaterns.Components
+namespace SystemShutdown.FactoryPattern
 {
-    class Projectile : Component, IGameListener
+    class Projectile2 : Component, IGameListener
     {
         private float speed;
-        private Vector2 velocity;
+        public Vector2 velocity;
+
         public float Height { get; set; }
-        public Projectile(float speed, Vector2 velocity)
+        public Projectile2(float speed)
         {
             this.speed = speed;
-            this.velocity = velocity;
+            //this.velocity = velocity;
+
+          
+
         }
+        public override string ToString()
+        {
+            return "Laser";
+        }
+
         public override void Awake()
         {
             GameObject.Tag = "Laser";
@@ -32,6 +40,10 @@ namespace DesignPaterns.Components
         private void Move()
         {
             GameObject.Transform.Translate(velocity * speed *  GameWorld.DeltaTime);
+
+            
+
+
         }
 
         private void Destroy1()
@@ -48,9 +60,9 @@ namespace DesignPaterns.Components
 
         }
 
-        public Projectile Clone()
+        public Projectile2 Clone()
         {
-            return (Projectile)this.MemberwiseClone();
+            return (Projectile2)this.MemberwiseClone();
         }
 
         public void Notify(GameEvent gameEvent, Component component)

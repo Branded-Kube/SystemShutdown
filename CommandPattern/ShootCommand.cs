@@ -13,7 +13,7 @@ namespace SystemShutdown.CommandPattern
 
         public void Execute(Player1 player)
         {
-            player.Shoot();
+            //player.Shoot();
         }
 
         //public ShootCommand(Vector2 velocity)
