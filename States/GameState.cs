@@ -38,7 +38,6 @@ namespace SystemShutdown.States
         private string enemyID = "";
         private Texture2D cpuTexture;
         private Texture2D standardBtn;
-        private Camera camera;
 
         private List<Player1> players;
 
