@@ -336,6 +336,7 @@ namespace SystemShutdown.States
            // RotatePlayer();
             playerBuilder.Player.RotatePlayer();
 
+           
             //inputHandler.Execute(player1Test);
             //inputHandler.Execute();
 
@@ -378,10 +379,10 @@ namespace SystemShutdown.States
             //}
 
 
-            foreach (var sprite in gameObjects)
-            {
-                sprite.Update(gameTime);
-            }
+            //foreach (var sprite in gameObjects)
+            //{
+            //    sprite.Update(gameTime);
+            //}
 
             foreach (var item in buttons)
             {

@@ -19,6 +19,8 @@ namespace SystemShutdown.GameObjects
     public class Player1 : Component, IGameListener
     {
         public MouseState mouseState;
+        public MouseState lastMouseState;
+
         static Semaphore MySemaphore = new Semaphore(0, 3);
 
         private float speed;
@@ -27,7 +29,7 @@ namespace SystemShutdown.GameObjects
         public Vector2 distance;
         private bool canShoot;
         private float shootTime;
-        private float cooldown = 1f;
+        private float cooldown = 1;
 
 
         public int dmg { get; set; }
@@ -99,7 +101,6 @@ namespace SystemShutdown.GameObjects
 
         public void RotatePlayer()
         {
-            mouseState = Mouse.GetState();
 
             distance.X = mouseState.X - GameWorld.ScreenWidth / 2 + 45;
             distance.Y = mouseState.Y - GameWorld.ScreenHeight / 2 + 45;
@@ -182,7 +183,17 @@ namespace SystemShutdown.GameObjects
                 canShoot = true;
             }
 
-           
+            // The active state from the last frame is now old
+            lastMouseState = mouseState;
+
+            // Get the mouse state relevant for this frame
+            mouseState = Mouse.GetState();
+            // Recognize a single click of the left mouse button
+            if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
+            {
+                Shoot();
+            }
+
             //if (IsDead)
             //{
             //    return;
@@ -242,34 +253,17 @@ namespace SystemShutdown.GameObjects
             {
                 canShoot = false;
                 shootTime = 0;
-                GameObject1 projectileObject = LaserFactory.Instance.Create("Player");
-                projectileObject.Transform.Position = GameObject.Transform.Position;
-                //projectileObject.Transform.Position += new Vector2(-5, -(spriteRenderer.Sprite.Height));
-                //if (currentDir.Y == -1)
-                //{
-                    projectileObject.Transform.Position += new Vector2(-5, -spriteRenderer.Sprite.Height);
-                //}
-                //else if (currentDir.Y == 1)
-                //{
-                //    projectileObject.Transform.Position -= new Vector2(5, -spriteRenderer.Sprite.Height);
-                //}
-                GameWorld.gameState.AddGameObject(projectileObject);
+                GameObject1 laserObject = LaserFactory2.Instance.Create("Player");
 
-                velocity *= laserSpeed;
-                //position += (velocity * GameWorld.DeltaTime);
-                //rectangle.X = (int)position.X;
-                //rectangle.Y = (int)position.Y;
+                laserObject.Transform.Position = GameObject.Transform.Position;
+               // laserObject.Transform.Position += new Vector2(-3, -(spriteRenderer.Sprite.Height + 40));
+                Vector2 movement = new Vector2(GameWorld.gameState.cursorPosition.X, GameWorld.gameState.cursorPosition.Y) - laserObject.Transform.Position;
+                if (movement != Vector2.Zero)
+                    movement.Normalize();
+                Projectile2 tmpPro = (Projectile2)laserObject.GetComponent("Laser");
+                tmpPro.velocity = movement;
+                GameWorld.gameState.AddGameObject(laserObject);
             }
-        }
-
-        public void Shoot2()
-        {
-            //MouseState mouseState = Mouse.GetState();
-
-            //if (mouseState.LeftButton == ButtonState.Pressed)
-            //{
-            //    bullets.Add(new Bullet(bullet, GameObject.Transform.Position, spriteRenderer.Rotation));
-            //}
         }
 
         public void Notify(GameEvent gameEvent, Component component)
