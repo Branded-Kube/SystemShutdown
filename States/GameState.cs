@@ -330,6 +330,7 @@ namespace SystemShutdown.States
            // RotatePlayer();
             playerBuilder.Player.RotatePlayer();
 
+           
             //inputHandler.Execute(player1Test);
             //inputHandler.Execute();
 

@@ -181,6 +181,7 @@ namespace SystemShutdown.GameObjects
             {
                 canShoot = true;
             }
+           
 
            
             //if (IsDead)
