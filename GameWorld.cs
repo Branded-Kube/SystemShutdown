@@ -69,7 +69,7 @@ namespace SystemShutdown
         //    set { director = value; }
         //}
 
-        private Camera camera;
+        public static Camera camera;
 
         private bool isGameState;
         public static Repository repo;
@@ -182,7 +182,7 @@ namespace SystemShutdown
                 currentGameState.LoadContent();
 
                 nextGameState = null;
-
+                IsMouseVisible = false;
             }
             //Updates game
             currentGameState.Update(gameTime);

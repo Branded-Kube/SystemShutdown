@@ -18,13 +18,13 @@ namespace SystemShutdown.GameObjects
 {
     public class Player1 : Component, IGameListener
     {
-
+        public MouseState mouseState;
         static Semaphore MySemaphore = new Semaphore(0, 3);
 
         private float speed;
         private SpriteRenderer spriteRenderer;
         private PlayerBuilder playerBuilder;
-        private Vector2 distance;
+        public Vector2 distance;
         private bool canShoot;
         private float shootTime;
         private float cooldown = 1f;
@@ -99,7 +99,7 @@ namespace SystemShutdown.GameObjects
 
         public void RotatePlayer()
         {
-            MouseState mouseState = Mouse.GetState();
+            mouseState = Mouse.GetState();
 
             distance.X = mouseState.X - GameWorld.ScreenWidth / 2 + 45;
             distance.Y = mouseState.Y - GameWorld.ScreenHeight / 2 + 45;

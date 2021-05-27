@@ -23,6 +23,8 @@ namespace SystemShutdown.States
     {
         #region Fields
 
+        public Texture2D cursorSprite;
+        public Vector2 cursorPosition;
         public static SpriteFont font;
         private List<Enemy> enemies;
         private List<Enemy> delEnemies;
@@ -35,7 +37,8 @@ namespace SystemShutdown.States
         private CPU cpu;
         private string enemyID = "";
         private Texture2D cpuTexture;
-        private Texture2D standardBtn;        
+        private Texture2D standardBtn;
+        private Camera camera;
 
         private List<Player1> players;
 
@@ -171,6 +174,8 @@ namespace SystemShutdown.States
 
         public override void LoadContent()
         {
+            cursorSprite = content.Load<Texture2D>("Textures/cursoren");
+
             Director director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
 
@@ -296,7 +301,11 @@ namespace SystemShutdown.States
 
         public override void Update(GameTime gameTime)
         {
+            cursorPosition = new Vector2(playerBuilder.player.distance.X - 14, playerBuilder.player.distance.Y) + playerBuilder.player.GameObject.Transform.Position;
+
             previousKeyState = currentKeyState;
+
+
 
             currentKeyState = Keyboard.GetState();
             // Frederik
@@ -410,6 +419,8 @@ namespace SystemShutdown.States
         {
             //spriteBatch.Begin(SpriteSortMode.FrontToBack);
             spriteBatch.Begin();
+
+            spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
             //for (int i = 0; i < gameObjects.Count; i++)
             //{
             //    gameObjects[i].Draw(gameTime, spriteBatch);

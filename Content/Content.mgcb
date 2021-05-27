@@ -284,6 +284,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/CollisionBox.png
 
+#begin Textures/cursoren.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/cursoren.png
+
 #begin Textures/Laser.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
