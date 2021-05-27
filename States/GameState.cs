@@ -177,8 +177,10 @@ namespace SystemShutdown.States
             Director director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
 
-            DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
-            gameObjects.Add(directorCpu.Contruct());
+            Director directorCPU = new Director(cpuBuilder);
+            gameObjects.Add(directorCPU.Contruct());
+            //DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
+            //gameObjects.Add(directorCpu.Contruct());
 
 
             for (int i = 0; i < gameObjects.Count; i++)

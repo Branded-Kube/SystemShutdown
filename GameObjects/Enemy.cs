@@ -37,6 +37,8 @@ namespace SystemShutdown.GameObjects
             get { return attackingPlayer; }
             set { attackingPlayer = value; }
         }
+
+        public int dmg { get; set; }
         public int id { get; set; }
         private string name = "Enemy";
         public event EventHandler ClickSelect;
@@ -78,6 +80,7 @@ namespace SystemShutdown.GameObjects
         public Enemy()
         {
             this.vision = 500;
+            dmg = 5;
            // this.rectangle = Rectangle;
             internalThread = new Thread(ThreadMethod);
             LoadContent(GameWorld.content);
@@ -145,14 +148,27 @@ namespace SystemShutdown.GameObjects
                    // enableAstar = false;
 
 
-                    goal = aStar.Node((int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100);
 
-                    // go.Transform.Position = new Vector2((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y);
+            //Player target
 
-                    //GameWorld.gameState.AddGameObject(go);
+            if (playerTarget)
+            {
+                goal = aStar.Node((int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100);
+
+            }
+
+            //CPU target
+            else
+            {
+                goal = aStar.Node((int)GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100);
+            }
+
+            // go.Transform.Position = new Vector2((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y);
+
+            //GameWorld.gameState.AddGameObject(go);
 
 
-                    Node start = null;
+            Node start = null;
                     start = aStar.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
 
                     // if clicked on non passable node, then march in direction of player till passable found
@@ -306,6 +322,8 @@ namespace SystemShutdown.GameObjects
                     attackingPlayer = false;
                     //delivering = true;
 
+                    GameWorld.gameState.playerBuilder.Player.hp -= dmg;
+
                     Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
                 }
@@ -319,9 +337,14 @@ namespace SystemShutdown.GameObjects
                     CPU.Enter(internalThread);
 
                     attackingPlayer = false;
+                    attackingCPU = false;
                     //delivering = true;
 
                     Debug.WriteLine(string.Format($"{data}{id} shutdown"));
+
+                //    CPU.CPUTakingDamage(internalThread);
+
+                    GameWorld.gameState.cpuBuilder.Cpu.Health -= dmg;
                 }
                 else
                 {

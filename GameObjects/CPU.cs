@@ -32,12 +32,17 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         public CPU()
         {
-            Debug.WriteLine("Main Thread calls releases (3)");
+            Debug.WriteLine("CPU semaphore releases (3)");
             MySemaphore.Release(3);
 
-            Health = 100;
+            Health = 1000;
     
 
+        }
+
+        public static void CPUTakingDamage(Object id)
+        {
+            
         }
 
 
