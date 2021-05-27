@@ -433,6 +433,13 @@ namespace SystemShutdown.States
             //spriteBatch.Begin(SpriteSortMode.FrontToBack);
             spriteBatch.Begin();
 
+            //cyclebar Draw
+            spriteBatch.Draw(cyclebar.healthBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebar.healthPosition.X,
+                (int)cyclebar.healthPosition.Y, (int)cyclebar.currentHealth, cyclebar.healthBar.Height), cyclebar.barColor);
+            spriteBatch.Draw(cyclebar.healthContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
             //for (int i = 0; i < gameObjects.Count; i++)
             //{
@@ -457,10 +464,6 @@ namespace SystemShutdown.States
             {
                 item.Draw(spriteBatch);
             }
-
-            //cyclebar.Draw(spriteBatch);
-            spriteBatch.Draw(cyclebar.healthBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 300, playerBuilder.Player.GameObject.Transform.Position.Y - 100), new Rectangle((int)cyclebar.healthPosition.X, (int)cyclebar.healthPosition.Y, cyclebar.currentHealth, cyclebar.healthBar.Height), cyclebar.barColor);
-            spriteBatch.Draw(cyclebar.healthContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 300, playerBuilder.Player.GameObject.Transform.Position.Y - 100), Color.White);
 
             //Draw selected Enemy ID
             spriteBatch.DrawString(font, $"Enemy: {enemyID} selected", new Vector2(300, 100), Color.Black);
@@ -742,26 +745,26 @@ namespace SystemShutdown.States
         //{
         //    gameObjects.Remove(go);
         //}
-        protected void Animate(GameTime gametime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                //Giver tiden, der er gået, siden sidste update
-                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+        //protected void Animate(GameTime gametime)
+        //{
+        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+        //    {
+        //        //Giver tiden, der er gået, siden sidste update
+        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-                //Beregner currentIndex
-                currentIndex = (int)(timeElapsed * fps);
-                spriteRenderer.Sprite = upWalk[currentIndex];
+        //        //Beregner currentIndex
+        //        currentIndex = (int)(timeElapsed * fps);
+        //        spriteRenderer.Sprite = upWalk[currentIndex];
 
-                //Checks if animation needs to restart
-                if (currentIndex >= upWalk.Length - 1)
-                {
-                    //Resets animation
-                    timeElapsed = 0;
-                    currentIndex = 0;
-                }
-            }
-        }
+        //        //Checks if animation needs to restart
+        //        if (currentIndex >= upWalk.Length - 1)
+        //        {
+        //            //Resets animation
+        //            timeElapsed = 0;
+        //            currentIndex = 0;
+        //        }
+        //    }
+        //}
 
         //public void Shoot()
         //{
