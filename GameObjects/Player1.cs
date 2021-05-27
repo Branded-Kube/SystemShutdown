@@ -148,8 +148,9 @@ namespace SystemShutdown.GameObjects
         public override void Awake()
         {
             GameObject.Tag = "Player";
+            GameObject.Transform.Position = new Vector2(150,150);
 
-           // GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            // GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             ////this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
@@ -181,17 +182,18 @@ namespace SystemShutdown.GameObjects
                 canShoot = true;
             }
 
-            if (IsDead)
-            {
-                return;
-            }
+           
+            //if (IsDead)
+            //{
+            //    return;
+            //}
 
             //foreach (Bullet bullet in bullets)
             //{
             //    bullet.Update(gameTime);
             //}
-            
-            Animate(gametime: gameTime);
+
+            //Animate(gametime: gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

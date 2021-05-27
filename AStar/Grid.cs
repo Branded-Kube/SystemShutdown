@@ -31,27 +31,34 @@ namespace SystemShutdown.AStar
                     //
 
 
-                    if ((x != 0 && y != 0) && (x != Width -1 && y != Height -1) &&
+                    if ((x != 0 && y != 0) && (x != Width -1  && y != Height -1 ) &&
                         rand.Next(1, 25) < 5)
                     {
                         nodes[x, y].Passable = false;
                     }
 
                     // for testing only clears y 2 where player spawns
-                    if (y == 2 )
+                    if (y == 1 )
                     {
                         nodes[x, y].Passable = true;
                     }
 
 
-                    //if (y == 0 || y == Height - 1)
-                    //{
-                    //    nodes[x, y].Passable = false;
-                    //}
-                    //if (x == 0 || x == Width - 1)
-                    //{
-                    //    nodes[x, y].Passable = false;
-                    //}
+                    if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
+                    {
+                        GameObject1 go = new GameObject1();
+                        SpriteRenderer sr = new SpriteRenderer("nogo");
+                        go.AddComponent(sr);
+                        //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
+                        go.Transform.Position = new Vector2(x * 100, y * 100);
+
+                        //sr.SetSprite("1GuyUp");
+                        // nodes[x, y] = new Node(new Rectangle(new Point(100, 100), new Point(100, 100)));
+                        go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = false });
+                        go.AddComponent(nodes[x, y]);
+                        GameWorld.gameState.AddGameObject(go);
+                    }
+                   
 
                     if (nodes[x, y].Passable == false)
                     {
@@ -63,7 +70,7 @@ namespace SystemShutdown.AStar
 
                         //sr.SetSprite("1GuyUp");
                         // nodes[x, y] = new Node(new Rectangle(new Point(100, 100), new Point(100, 100)));
-                        go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = true });
+                        go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = false });
                         go.AddComponent(nodes[x, y]);
                         GameWorld.gameState.AddGameObject(go);
                     }
@@ -88,30 +95,30 @@ namespace SystemShutdown.AStar
                 }
         }
 
-            //public Node Node(int x, int y)
-            //{
-            //    if (x >= 0 && x < Width && y >= 0 && y < Height)
-            //        return nodes[x, y];
-            //    else
-            //        return null;
-            //}
-
-            //public void ResetState()
-            //{
-            //    for (int y = 0; y < Height; y++)
-            //        for (int x = 0; x < Width; x++)
-            //        {
-            //            nodes[x, y].f = int.MaxValue;
-            //            nodes[x, y].g = 0;
-            //            nodes[x, y].h = 0;
-            //            nodes[x, y].cameFrom = null;
-            //            nodes[x, y].Path = false;
-            //            nodes[x, y].Open = false;
-            //            nodes[x, y].Closed = false;
-            //        }
-            //}
+        public Node Node(int x, int y)
+        {
+            if (x >= 0 && x < Width && y >= 0 && y < Height)
+                return nodes[x, y];
+            else
+                return null;
         }
 
+        public void ResetState()
+        {
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
+                {
+                    nodes[x, y].f = int.MaxValue;
+                    nodes[x, y].g = 0;
+                    nodes[x, y].h = 0;
+                    nodes[x, y].cameFrom = null;
+                    nodes[x, y].Path = false;
+                    nodes[x, y].Open = false;
+                    nodes[x, y].Closed = false;
+                }
+        }
+    }
 
-    
+
+
 }
