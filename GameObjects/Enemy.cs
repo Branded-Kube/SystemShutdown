@@ -104,7 +104,7 @@ namespace SystemShutdown.GameObjects
 
             if (updateTimer >= 1.0)
             {
-                if (IsPlayerInRange(GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position))
+                if (IsPlayerInRange(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position))
                 {
 
                     //        //  better handling of walls is needed
@@ -145,7 +145,7 @@ namespace SystemShutdown.GameObjects
                    // enableAstar = false;
 
 
-                    goal = aStar.Node((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y / 100);
+                    goal = aStar.Node((int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100);
 
                     // go.Transform.Position = new Vector2((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y);
 
@@ -301,7 +301,7 @@ namespace SystemShutdown.GameObjects
 
                     Debug.WriteLine($"{data}{id} Trying to enter CPU");
 
-                    GameWorld.gameState.playerBuilder.player.Enter(internalThread);
+                    GameWorld.gameState.playerBuilder.Player.Enter(internalThread);
 
                     attackingPlayer = false;
                     //delivering = true;
@@ -357,6 +357,11 @@ namespace SystemShutdown.GameObjects
                 // throw new NotImplementedException();
                 attackingPlayer = true;
 
+            }
+
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "CPU")
+            {
+                attackingCPU = true;
             }
         }
     }

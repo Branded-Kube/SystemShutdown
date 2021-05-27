@@ -12,15 +12,19 @@ namespace SystemShutdown
    public class Camera
 
     {
+        public Matrix offset;
+
+        public Matrix position;
+
         public Matrix Transform { get; private set; }
 
         public void Follow(PlayerBuilder target)
         {
-            var position = Matrix.CreateTranslation(-target.Player.GameObject.Transform.Position.X - (target.Sr.Sprite.Width / 2),
+            position = Matrix.CreateTranslation(-target.Player.GameObject.Transform.Position.X - (target.Sr.Sprite.Width / 2),
                 -target.Player.GameObject.Transform.Position.Y - (target.Sr.Sprite.Height / 2),
                 0);
 
-            var offset = Matrix.CreateTranslation(GameWorld.ScreenWidth / 2,
+            offset = Matrix.CreateTranslation(GameWorld.ScreenWidth / 2,
                 GameWorld.ScreenHeight / 2,
                 0);
             Transform = position * offset;

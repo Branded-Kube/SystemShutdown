@@ -23,6 +23,8 @@ namespace SystemShutdown.States
     {
         #region Fields
 
+        public Texture2D cursorSprite;
+        public Vector2 cursorPosition;
         public static SpriteFont font;
         private List<Enemy> enemies;
         private List<Enemy> delEnemies;
@@ -35,7 +37,7 @@ namespace SystemShutdown.States
         private CPU cpu;
         private string enemyID = "";
         private Texture2D cpuTexture;
-        private Texture2D standardBtn;        
+        private Texture2D standardBtn;
 
         private List<Player1> players;
 
@@ -56,6 +58,8 @@ namespace SystemShutdown.States
         private InputHandler inputHandler;
 
         public PlayerBuilder playerBuilder;
+
+        public CPUBuilder cpuBuilder;
 
        // private Director director;
 
@@ -161,6 +165,7 @@ namespace SystemShutdown.States
             //}
 
             playerBuilder = new PlayerBuilder();
+            cpuBuilder = new CPUBuilder();
             ////director = new Director(playerBuilder);
             //gameObjects.Add(director.Contruct());
 
@@ -171,9 +176,13 @@ namespace SystemShutdown.States
 
         public override void LoadContent()
         {
+            cursorSprite = content.Load<Texture2D>("Textures/cursoren");
 
             Director director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
+
+            DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
+            gameObjects.Add(directorCpu.Contruct());
 
 
             for (int i = 0; i < gameObjects.Count; i++)
@@ -297,7 +306,11 @@ namespace SystemShutdown.States
 
         public override void Update(GameTime gameTime)
         {
+            cursorPosition = new Vector2(playerBuilder.player.distance.X - 14, playerBuilder.player.distance.Y) + playerBuilder.player.GameObject.Transform.Position;
+
             previousKeyState = currentKeyState;
+
+
 
             currentKeyState = Keyboard.GetState();
             // Frederik
@@ -314,6 +327,8 @@ namespace SystemShutdown.States
 
             }
 
+           // RotatePlayer();
+            playerBuilder.Player.RotatePlayer();
             if (currentKeyState.IsKeyDown(Keys.RightShift) && !previousKeyState.IsKeyDown(Keys.RightShift))
             {
                 Mods mods = new Mods();
@@ -418,6 +433,7 @@ namespace SystemShutdown.States
             //spriteBatch.Begin(SpriteSortMode.FrontToBack);
             spriteBatch.Begin();
 
+            spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
             //for (int i = 0; i < gameObjects.Count; i++)
             //{
             //    gameObjects[i].Draw(gameTime, spriteBatch);
@@ -536,10 +552,10 @@ namespace SystemShutdown.States
 
             //
 
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(500, 800), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(500, 820), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
 
-
+            spriteBatch.DrawString(font, $"CPU health {cpuBuilder.Cpu.Health}", cpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
 
 
             spriteBatch.End();
@@ -763,6 +779,16 @@ namespace SystemShutdown.States
                 }
             }
         }
+
+        //public void Shoot()
+        //{
+        //    MouseState mouseState = Mouse.GetState();
+
+        //    if (mouseState.LeftButton == ButtonState.Pressed)
+        //    {
+        //        bullets.Add(new Bullet(bullet, ))
+        //    }
+        //}
         #endregion
     }
 }

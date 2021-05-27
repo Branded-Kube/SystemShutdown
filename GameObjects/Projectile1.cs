@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +8,15 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
-    class Projectile1 : Component, IGameListener
+    public class Projectile1 : Component, IGameListener
     {
         //private Player1 player;
+        //private SpriteRenderer spriteRenderer;
+        public SpriteRenderer tmpSpriteRenderer;
+
+        private float startTime;
+
+        private Vector2 direction;
 
         private float speed;
         //private Vector2 velocity;
@@ -18,7 +25,7 @@ namespace SystemShutdown.GameObjects
         {
             this.speed = speed;
             this.velocity = velocity;
-            currentDir = velocity;
+            //currentDir = velocity;
         }
         public override void Awake()
         {
@@ -27,8 +34,16 @@ namespace SystemShutdown.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            Move();
+            //Move();
             //Destroy1();
+            tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+
+            MouseState mouseState = Mouse.GetState();
+            direction = new Vector2(mouseState.X, mouseState.Y) - tmpSpriteRenderer.Origin;
+            direction.Normalize();
+            GameObject.Transform.Position = tmpSpriteRenderer.Origin + speed * (/*gameTime.TotalGameTime.TotalMilliseconds*/GameWorld.DeltaTime - startTime) * direction;
+            
+            
         }
         private void Move()
         {

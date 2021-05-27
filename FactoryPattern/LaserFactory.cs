@@ -24,7 +24,7 @@ namespace SystemShutdown.FactoryPattern
             }
         }
         private Projectile1 playerProjectile;
-        private SpriteRenderer playerRenderer;
+        private SpriteRenderer projectileRenderer;
         private Player1 player;
         private Vector2 vector = Vector2.Zero;
         //private SpriteRenderer enemyRenderer;
@@ -34,7 +34,7 @@ namespace SystemShutdown.FactoryPattern
             //ShootUp(player);
             //if (Keyboard.GetState().IsKeyDown(Keys.W))
             //{
-            CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(0, -1));
+            CreatePrototype(ref projectileRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(0, -1)/*playerProjectile.tmpSpriteRenderer.Origin*/);
             //CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(0, 1));
             //CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(-1, 0));
             //CreatePrototype(ref playerRenderer, ref playerProjectile, "laserBlue05", 100, new Vector2(1, 0));
@@ -71,9 +71,9 @@ namespace SystemShutdown.FactoryPattern
             {
                 case "Player":
                     Projectile1 laserClone = playerProjectile.Clone();
-                    go.AddComponent(new Collider(playerRenderer, laserClone) { CheckCollisionEvents = true });
+                    go.AddComponent(new Collider(projectileRenderer, laserClone) { CheckCollisionEvents = true });
                     go.AddComponent(laserClone);
-                    go.AddComponent(playerRenderer.Clone());
+                    go.AddComponent(projectileRenderer.Clone());
                     break;
             }
             return go;
