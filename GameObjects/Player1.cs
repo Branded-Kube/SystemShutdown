@@ -19,6 +19,8 @@ namespace SystemShutdown.GameObjects
     public class Player1 : Component, IGameListener
     {
         public MouseState mouseState;
+        public MouseState lastMouseState;
+
         static Semaphore MySemaphore = new Semaphore(0, 3);
 
         private float speed;
@@ -181,9 +183,18 @@ namespace SystemShutdown.GameObjects
             {
                 canShoot = true;
             }
-           
 
-           
+            // The active state from the last frame is now old
+            lastMouseState = mouseState;
+
+            // Get the mouse state relevant for this frame
+
+            // Recognize a single click of the left mouse button
+            if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
+            {
+                Shoot();
+            }
+
             //if (IsDead)
             //{
             //    return;

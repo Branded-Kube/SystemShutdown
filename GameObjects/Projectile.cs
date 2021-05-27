@@ -1,44 +1,64 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
-using SystemShutdown.ComponentPattern;
+using SystemShutdown;
+using SystemShutdown.Components;
+using SystemShutdown.ObserverPattern;
 
-namespace SystemShutdown.GameObjects
+namespace DesignPaterns.Components
 {
-    class Projectile : MenuObject
+    class Projectile : Component, IGameListener
     {
-        //public Rectangle laserRectangle;
-        //private float speed;
+        private float speed;
+        private Vector2 velocity;
+        public float Height { get; set; }
+        public Projectile(float speed, Vector2 velocity)
+        {
+            this.speed = speed;
+            this.velocity = velocity;
+        }
+        public override void Awake()
+        {
+            GameObject.Tag = "Laser";
+        }
 
-        //public Projectile(float speed, Vector2 velocity)
-        //{
-        //    this.speed = 100;
-        //    //this.currentDir = velocity;
-        //}
+        public override void Update(GameTime gameTime)
+        {
+            Move();
+            Destroy1();
+        }
+        private void Move()
+        {
+            GameObject.Transform.Translate(velocity * speed *  GameWorld.DeltaTime);
+        }
 
-        ////public override void Awake()
-        ////{
-        ////    GameObject1.Tag = "Laser";
-        ////}
+        private void Destroy1()
+        {
+            if (GameObject.Transform.Position.Y <= -Height)
+            {
+                GameObject.Destroy();
+            }
+        }
 
-        //public void LoadContent(ContentManager content)
-        //{
-        //    sprite = content.Load<Texture2D>("Textures/Laser");
-        //    //laserRectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
+        public override void Destroy()
+        {
+            GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
 
-        //}
+        }
 
-        ////public override void Update(GameTime gameTime)
-        ////{
-        ////    Move();
-        ////}
+        public Projectile Clone()
+        {
+            return (Projectile)this.MemberwiseClone();
+        }
 
-        ////private void Move()
-        ////{
-        ////    //GameObject.Transform.Translate(velocity * speed);
-        ////}
+        public void Notify(GameEvent gameEvent, Component component)
+        {
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Platform")
+            {
+                GameObject.Destroy();
+            }
+        }
     }
 }
