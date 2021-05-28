@@ -110,16 +110,17 @@ namespace SystemShutdown.GameObjects
         public override void Awake()
         {
             GameObject.Tag = "Player";
-            spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
 
-            GameObject.Transform.Position = new Vector2(152,152);
+            GameObject.Transform.Position = new Vector2(1000, 1000);
 
             //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             //this.position = GameObject.Transform.Position;
+            spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+
         }
 
 
-    public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             shootTime += GameWorld.DeltaTime;
             lastVelocity = GameObject.Transform.Position;

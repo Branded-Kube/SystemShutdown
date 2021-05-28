@@ -103,7 +103,7 @@ namespace SystemShutdown.GameObjects
         {
             if (Health <= 0)
             {
-                Destroy();
+                GameObject.Destroy();
             }
 
             updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
