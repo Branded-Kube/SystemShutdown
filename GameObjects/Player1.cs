@@ -149,9 +149,9 @@ namespace SystemShutdown.GameObjects
         public override void Awake()
         {
             GameObject.Tag = "Player";
-            GameObject.Transform.Position = new Vector2(150,150);
+            GameObject.Transform.Position = new Vector2(1200, 1200);
 
-            GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
+            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             ////this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
