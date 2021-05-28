@@ -274,9 +274,13 @@
 //            }
 //        }
 
-//        public void Enter(Object id)
-//        {
-//            int tmp = Thread.CurrentThread.ManagedThreadId;
+            Debug.WriteLine($"Enemy {tmp} Waiting to enter (Player)");
+            MySemaphore.WaitOne();
+            Debug.WriteLine("Enemy " + tmp + " Starts attacking (Player)");
+            Random randomNumber = new Random();
+            Thread.Sleep(10 * randomNumber.Next(0, 150));
+            Debug.WriteLine("Enemy " + tmp + " is leaving (Player)");
+            MySemaphore.Release();
 
 //            Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
 //            MySemaphore.WaitOne();

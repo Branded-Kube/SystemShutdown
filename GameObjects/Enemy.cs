@@ -37,6 +37,8 @@ namespace SystemShutdown.GameObjects
             get { return attackingPlayer; }
             set { attackingPlayer = value; }
         }
+
+        public int dmg { get; set; }
         public int id { get; set; }
         private string name = "Enemy";
         public event EventHandler ClickSelect;
@@ -77,6 +79,8 @@ namespace SystemShutdown.GameObjects
         public Enemy()
         {
             this.vision = 500;
+            dmg = 5;
+           // this.rectangle = Rectangle;
             internalThread = new Thread(ThreadMethod);
             LoadContent(GameWorld.content);
             Health = 100;
@@ -147,17 +151,28 @@ namespace SystemShutdown.GameObjects
             {
                 goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100);
 
-            }
-            else
+
+            //Player target
+
+            if (playerTarget)
             {
-                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100);
+                goal = aStar.Node((int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100);
+
             }
 
-           
+            //CPU target
+            else
+            {
+                goal = aStar.Node((int)GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100);
+            }
+
+            // go.Transform.Position = new Vector2((int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.X, (int)GameWorld.gameState.playerBuilder.player.GameObject.Transform.Position.Y);
+
+            //GameWorld.gameState.AddGameObject(go);
 
 
             Node start = null;
-                    start = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
+                    start = aStar.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
 
                     // if clicked on non passable node, then march in direction of player till passable found
                     //while (!goal.Passable)
@@ -270,39 +285,40 @@ namespace SystemShutdown.GameObjects
             {
                 if (threadRunning)
                 {
-                    if (attackingPlayer == true)
-                    {
-                        Debug.WriteLine($"{data}{id} is Running;");
-                        Thread.Sleep(2000);
+                    Debug.WriteLine($"{data}{id} is Running;");
+                    Thread.Sleep(500);
 
-                        Debug.WriteLine($"{data}{id} Trying to enter CPU");
+                    Debug.WriteLine($"{data}{id} Trying to enter Player");
 
                         GameWorld.gameState.playerBuilder.Player.Enter(internalThread);
 
-                        attackingPlayer = false;
-                        //delivering = true;
+                    attackingPlayer = false;
+                    attackingCPU = false;
+                    //delivering = true;
 
-                        Debug.WriteLine(string.Format($"{data}{id} shutdown"));
+                    GameWorld.gameState.playerBuilder.Player.hp -= dmg /2;
 
-                    }
-                    else if (attackingCPU == true)
-                    {
-                        Debug.WriteLine($"{data}{id} is Running;");
-                        Thread.Sleep(2000);
+                    Debug.WriteLine(string.Format($"{data}{id} shutdown"));
+
+                }
+                else if (attackingCPU == true)
+                {
+                    Debug.WriteLine($"{data}{id} is Running;");
+                    Thread.Sleep(1000);
 
                         Debug.WriteLine($"{data}{id} Trying to enter CPU");
 
                         CPU.Enter(internalThread);
 
-                        attackingPlayer = false;
-                        //delivering = true;
+                    attackingPlayer = false;
+                    attackingCPU = false;
+                    //delivering = true;
 
-                        Debug.WriteLine(string.Format($"{data}{id} shutdown"));
-                    }
-                    else
-                    {
-                        Thread.Sleep(1000);
-                    }
+                    Debug.WriteLine(string.Format($"{data}{id} shutdown"));
+
+                //    CPU.CPUTakingDamage(internalThread);
+
+                    GameWorld.gameState.cpuBuilder.Cpu.Health -= dmg;
                 }
                 
             }
