@@ -259,7 +259,7 @@ namespace SystemShutdown
            
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-            if (isGameState)
+            if (isGameState && gameState.playerBuilder.Player.showingMap)
             {
                 spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
 
