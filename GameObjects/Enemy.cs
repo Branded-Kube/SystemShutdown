@@ -271,7 +271,7 @@ namespace SystemShutdown.GameObjects
 
             while (GameState.running == true)
             {
-                if (attackingPlayer == true)
+                if (attackingPlayer && threadRunning)
                 {
                     Debug.WriteLine($"{data}{id} is Running;");
                     Thread.Sleep(500);
@@ -289,7 +289,7 @@ namespace SystemShutdown.GameObjects
                     Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
                 }
-                else if (attackingCPU == true)
+                else if (attackingCPU && threadRunning)
                 {
                     Debug.WriteLine($"{data}{id} is Running;");
                     Thread.Sleep(1000);
