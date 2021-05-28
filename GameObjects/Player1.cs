@@ -191,7 +191,7 @@ namespace SystemShutdown.GameObjects
             //    bullet.Update(gameTime);
             //}
             
-            Animate(gametime: gameTime);
+            //Animate(gametime: gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
