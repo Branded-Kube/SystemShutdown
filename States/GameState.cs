@@ -19,6 +19,7 @@ using SystemShutdown.ObjectPool;
 
 namespace SystemShutdown.States
 {
+    public enum Cycle { DAY, NIGHT }
     public class GameState : State
     {
         #region Fields
@@ -40,7 +41,12 @@ namespace SystemShutdown.States
 
         private List<Player> players;
 
-        private Cyclesbar cyclebar;
+        //private List<GameObject> gameObjects;
+        private CyclebarDay cyclebarDay;
+        private CyclebarNight cyclebarNight;
+        public static Cycle cycle = Cycle.DAY;
+        private bool isDay;
+        private bool isNight;
         private List<MenuObject> menuObjects/* = new List<GameObject>()*/;
         private List<GameObject1> gameObjects = new List<GameObject1>();
 
@@ -110,6 +116,25 @@ namespace SystemShutdown.States
         {
             delEnemies = new List<Enemy>();
             buttons = new List<Button2>();
+            isDay = true;
+            isNight = false;
+            // cpu = new CPU();
+
+            //Director director = new Director(new PlayerBuilder());
+            //gameObjects.Add(director.Contruct());
+
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Awake();
+            //}
+
+            //gameObjects.Add(GameWorld.Instance.Director.Contruct());
+
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Awake();
+            //}
+
             playerBuilder = new PlayerBuilder();
             cpuBuilder = new CPUBuilder();
         }
@@ -147,8 +172,15 @@ namespace SystemShutdown.States
             buttons.Add(activeThreadsBtn);
             buttons.Add(cpuBtn);
 
-            cyclebar = new Cyclesbar(content);
-          
+            cyclebarDay = new CyclebarDay(content);
+            cyclebarNight = new CyclebarNight(content);
+            //camera = new Camera();
+            //camera.Follow(playerBuilder);
+
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Start();
+            //}
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].Start();
@@ -176,6 +208,43 @@ namespace SystemShutdown.States
             cursorPosition = new Vector2(playerBuilder.player.distance.X - 14, playerBuilder.player.distance.Y) + playerBuilder.player.GameObject.Transform.Position;
 
             previousKeyState = currentKeyState;
+
+            ///<summary>
+            ///Updates day and night cyclebar - Frederik
+            /// </summary>
+            switch (cycle)
+            {
+                case Cycle.DAY:
+                    {
+                        if (isDay == true)
+                        {
+                            cyclebarDay.Update();
+                            if (cyclebarDay.currentBarDay == 0)
+                            {
+                                isDay = false;
+                                isNight = true;
+                                cycle = Cycle.NIGHT;
+                                
+                            }
+                        }
+                    }
+                    break;
+                case Cycle.NIGHT:
+                    {
+                        if (isNight == true)
+                        {
+                            isDay = false;
+                            cyclebarNight.Update();
+                            if (cyclebarNight.currentBarNight == 0)
+                            {
+                                isNight = false;
+                                cycle = Cycle.DAY;
+                                isDay = true;
+                            }
+                        }
+                    }
+                    break;
+            }
 
             currentKeyState = Keyboard.GetState();
             // Frederik
@@ -226,9 +295,6 @@ namespace SystemShutdown.States
                 item.Update();
             }
 
-            cyclebar.Update();
-
-
 
         }
 
@@ -252,14 +318,74 @@ namespace SystemShutdown.States
             //spriteBatch.Begin(SpriteSortMode.FrontToBack);
             spriteBatch.Begin();
 
-            //cyclebar Draw
-            spriteBatch.Draw(cyclebar.healthBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebar.healthPosition.X,
-                (int)cyclebar.healthPosition.Y, (int)cyclebar.currentHealth, cyclebar.healthBar.Height), cyclebar.barColor);
-            spriteBatch.Draw(cyclebar.healthContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
-
+            //Draws cursor
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
+            ///<summary>
+            ///Draws day and night cyclebar - Frederik
+            /// </summary>
+            switch (cycle)
+            {
+                case Cycle.DAY:
+                    {
+                        if (isDay == true)
+                        {
+                            spriteBatch.Draw(cyclebarDay.dayBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                                playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebarDay.dayBarPosition.X,
+                                (int)cyclebarDay.dayBarPosition.Y, (int)cyclebarDay.currentBarDay, cyclebarDay.dayBar.Height), cyclebarDay.dayBarColor);
+                            spriteBatch.Draw(cyclebarDay.dayContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                                playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+                        }
+
+                        if (cyclebarDay.currentBarDay <= 0)
+                        {
+                            isDay = false;
+                            isNight = true;
+                            cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
+                            cycle = Cycle.NIGHT;
+                        }
+                    }
+                    break;
+                case Cycle.NIGHT:
+                    {
+                        if (isNight == true)
+                        {
+                            spriteBatch.Draw(cyclebarNight.nightBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                            playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebarNight.nightBarPosition.X,
+                            (int)cyclebarNight.nightBarPosition.Y, (int)cyclebarNight.currentBarNight, cyclebarNight.nightBar.Height), cyclebarNight.nightBarColor);
+                            spriteBatch.Draw(cyclebarNight.nightContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                                playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+                        }
+
+                        if (cyclebarNight.currentBarNight <= 0)
+                        {
+                            isNight = false;
+                            isDay = true;
+                            cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
+                            cycle = Cycle.DAY;
+                        }
+                    }
+                    break;
+            }
+
+            
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects[i].Draw(gameTime, spriteBatch);
+            //}
+
+
+            //spriteBatch.Begin(transformMatrix: camera.Transform);
+
+            // Frederik
+            //float x = 10f;
+            //foreach (var player in players)
+            //{
+            //    spriteBatch.DrawString(font, "Player: ", /*+ player name,*/ new Vector2(x, 10f), Color.White);
+            //    spriteBatch.DrawString(font, "Health: ", /*+ health,*/ new Vector2(x, 30f), Color.White);
+            //    spriteBatch.DrawString(font, "Score: ", /*+ score,*/ new Vector2(x, 50f), Color.White);
+
+            //    x += 150;
+            //}
 
             foreach (var item in buttons)
             {
