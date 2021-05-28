@@ -36,7 +36,7 @@ namespace SystemShutdown.BuildPattern
             playerSR = new SpriteRenderer("player");
 
             playerGO.AddComponent(playerSR);
-            playerSR.Origin = new Vector2(playerSR.Sprite.Width / 2, (playerSR.Sprite.Height) / 2);
+            playerSR.Origin = new Vector2(playerSR.Sprite.Width /2, (playerSR.Sprite.Height)/2 );
 
             player = new Player();
 
