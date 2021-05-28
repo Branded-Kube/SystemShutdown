@@ -11,40 +11,27 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
-    public class Cyclesbar /*: Component, IGameListener*/
+    public class Cyclesbar
     {
         public Texture2D healthContainer, healthBar;
         public Vector2 healthPosition;
         public int fullHealth;
-        public int currentHealth;
-        public int healthMeter = 1;
+        public float currentHealth;
+        public float healthMeter = 0.7f;
         public Color barColor;
-        //private SpriteRenderer sr;
-        private PlayerBuilder playerBuilder;
 
         public Cyclesbar(ContentManager content)
         {
-            //healthPosition = new Vector2(playerBuilder.Player.GameObject.Transform.Position.X - 50, playerBuilder.Player.GameObject.Transform.Position.Y - 50);
-
             LoadContent(content);
-            //LoadContent(GameWorld.content);
 
             fullHealth = healthBar.Width;
             currentHealth = fullHealth;
         }
 
-        //public override void Awake()
-        //{
-        //    GameObject.Tag = "Cycle";
-        //    GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
-        //    spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
-        //}
-
-
         private void LoadContent(ContentManager content)
         {
-            healthContainer = GameWorld.content.Load<Texture2D>("Textures/HealthbarEmpty");
-            healthBar = GameWorld.content.Load<Texture2D>("Textures/Healthbar");
+            healthContainer = content.Load<Texture2D>("Textures/HealthbarEmpty");
+            healthBar = content.Load<Texture2D>("Textures/Healthbar");
         }
 
         public void Update()
@@ -55,22 +42,16 @@ namespace SystemShutdown.GameObjects
                 currentHealth -= healthMeter;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            //spriteBatch.Draw(healthBar, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X - 50, playerBuilder.Player.GameObject.Transform.Position.Y - 50), new Rectangle((int)healthPosition.X, (int)healthPosition.Y, currentHealth, healthBar.Height), barColor);
-            //spriteBatch.Draw(healthContainer, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X - 50, playerBuilder.Player.GameObject.Transform.Position.Y - 50), Color.White);
-        }
-
         public void HealthColor()
         {
-            if (currentHealth >= healthBar.Width * 0.60)
-                barColor = Color.Green;
+            if (currentHealth >= healthBar.Width * 0.70)
+                barColor = Color.Yellow;
             else if (currentHealth >= healthBar.Width * 0.40)
                 barColor = Color.DarkOrange;
-            else if (currentHealth >= healthBar.Width * 0.20)
-                barColor = Color.OrangeRed;
+            else if (currentHealth >= healthBar.Width * 0.25)
+                barColor = Color.MediumBlue;
             else
-                barColor = Color.Red;
+                barColor = Color.DarkBlue;
         }
     }
 }
