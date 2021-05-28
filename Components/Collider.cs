@@ -17,6 +17,8 @@ namespace SystemShutdown.Components
         private Vector2 origin;
 
         private Texture2D texture;
+        private SpriteRenderer sr;
+        private Mods floormod;
 
         public Rectangle CollisionBox
         {

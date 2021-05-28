@@ -11,20 +11,7 @@ using SystemShutdown.ObserverPattern;
 namespace SystemShutdown.GameObjects
 {
    public class CPU : Component, IGameListener
-    {
-        private GameObject1 go;
-        
-        private SpriteRenderer spriteRenderer;
-
-        public SpriteRenderer SpriteRenderer
-        {
-            get { return spriteRenderer; }
-            set { spriteRenderer = value; }
-        }
-
-
-
-
+    {        
         static Semaphore MySemaphore = new Semaphore(0, 3);
         /// <summary>
         /// Releases Semaphore (how many that may enter at a time)
@@ -32,12 +19,17 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         public CPU()
         {
-            Debug.WriteLine("Main Thread calls releases (3)");
+            Debug.WriteLine("CPU semaphore releases (3)");
             MySemaphore.Release(3);
 
-            Health = 100;
+            Health = 1000;
     
 
+        }
+
+        public static void CPUTakingDamage(Object id)
+        {
+            
         }
 
 
@@ -50,10 +42,12 @@ namespace SystemShutdown.GameObjects
             MySemaphore.WaitOne();
             Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
-            Thread.Sleep(100 * randomNumber.Next(0, 150));
+            Thread.Sleep(50 * randomNumber.Next(0, 150));
             Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
 
+
+            
         }
 
 
@@ -63,7 +57,7 @@ namespace SystemShutdown.GameObjects
             GameObject.Tag = "CPU";
 
             GameObject.Transform.Position = new Vector2(600, 220);
-            spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+          //  spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
 
 
         }

@@ -27,7 +27,6 @@ namespace SystemShutdown.States
         public Texture2D cursorSprite;
         public Vector2 cursorPosition;
         public static SpriteFont font;
-        private List<Enemy> enemies;
         private List<Enemy> delEnemies;
         private List<Button2> buttons;
         public static bool running = true;
@@ -40,7 +39,7 @@ namespace SystemShutdown.States
         private Texture2D cpuTexture;
         private Texture2D standardBtn;
 
-        private List<Player1> players;
+        private List<Player> players;
 
         //private List<GameObject> gameObjects;
         private CyclebarDay cyclebarDay;
@@ -53,31 +52,17 @@ namespace SystemShutdown.States
 
         private List<Component> playerObjects;
 
-        //public List<Collider> Colliders { get; set; } = new List<Collider>();
 
         public int playerCount = 1;
 
-        //public Player1 player1Test;
-
-        //private Player1 player2Test;
-
+       
         private InputHandler inputHandler;
 
         public PlayerBuilder playerBuilder;
 
         public CPUBuilder cpuBuilder;
 
-        //public CyclesBuilder cyclesBuilder;
-
-       // private Director director;
-
-        //public Director Director
-        //{
-        //    get { return director; }
-        //    set { director = value; }
-        //}
-
-        //// Astar 
+     
         Texture2D rectTexture;
 
 
@@ -86,17 +71,11 @@ namespace SystemShutdown.States
 
         public int NodeSize = Grid.NodeSize;
 
-
-
         public List<Collider> Colliders { get; set; } = new List<Collider>();
 
 
         Astar aStar;
-        //EnemyAstar enemyA;
-        //
-
-
-
+        
         //public Texture2D sprite;
         protected Texture2D[] sprites, upWalk;
         private SpriteRenderer spriteRenderer;
@@ -114,23 +93,6 @@ namespace SystemShutdown.States
 
         private KeyboardState currentKeyState;
         private KeyboardState previousKeyState;
-
-
-
-       // private Camera camera;
-
-
-        //public Player1 Player1Test
-        //{
-        //    get { return player1Test; }
-        //    set { player1Test = value; }
-        //}
-
-        //public Player1 Player2Test
-        //{
-        //    get { return player2Test; }
-        //    set { player2Test = value; }
-        //}
 
         //private static GameState instance;
         //public static GameState Instance
@@ -152,7 +114,6 @@ namespace SystemShutdown.States
         #region Constructor
         public GameState()
         {
-            enemies = new List<Enemy>();
             delEnemies = new List<Enemy>();
             buttons = new List<Button2>();
             isDay = true;
@@ -176,12 +137,6 @@ namespace SystemShutdown.States
 
             playerBuilder = new PlayerBuilder();
             cpuBuilder = new CPUBuilder();
-            //cyclesBuilder = new CyclesBuilder();
-            ////director = new Director(playerBuilder);
-            //gameObjects.Add(director.Contruct());
-
-
-
         }
         #endregion
 
@@ -192,10 +147,10 @@ namespace SystemShutdown.States
             Director director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
 
-            DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
-            gameObjects.Add(directorCpu.Contruct());
-            //CyclesDirector cyclesDirector = new CyclesDirector(cyclesBuilder);
-            //gameObjects.Add(cyclesDirector.Contruct());
+            Director directorCPU = new Director(cpuBuilder);
+            gameObjects.Add(directorCPU.Contruct());
+            //DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
+            //gameObjects.Add(directorCpu.Contruct());
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
@@ -210,7 +165,6 @@ namespace SystemShutdown.States
             spawnEnemyBtn = new Button2(150, 10, "Spawn Enemy", standardBtn);
             cpuBtn = new Button2(700, 700, "CPU", cpuTexture);
 
-            //spawnEnemyBtn.Click += SpawnEnemyBtn_Clicked;
             shutdownThreadsBtn.Click += ShutdownBtn_Clicked;
             activeThreadsBtn.Click += ActiveThreadsBtn_Clicked;
             buttons.Add(spawnEnemyBtn);
@@ -233,7 +187,6 @@ namespace SystemShutdown.States
             }
             
             // Frederik
-            //var playerTexture = _content.Load<Texture2D>("Textures/pl1");
             inputHandler = new InputHandler();
 
             font = content.Load<SpriteFont>("Fonts/font");
@@ -242,80 +195,12 @@ namespace SystemShutdown.States
             {
                 new MenuObject()
                 {
-                   // sprite = content.Load<Texture2D>("Backgrounds/game"),
-                    //sprite = content.Load<Texture2D>(""),
-
-                    //Layer = 0.0f,
-                    //position = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2),
+              
                     position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 }
             };
 
-            //playerObjects = new List<Component>()
-            //{
-            //player1Test = new Player1();
-            //};
-            
-            //{
-            //    //sprite = content.Load<Texture2D>("Textures/pl1"),
-            //    //Colour = Color.Blue,
-            //   // position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.renderTarget.Height / 2/* - (player1Test.sprite.Height / 2)*/),
-            //    position = new Vector2(105,205),
-
-            //    //position = new Vector2(GameWorld.ScreenWidth/ 2 /*- (player1Test.sprite.Width / 2 + 200)*/, GameWorld.ScreenHeight / 2/* - (player1Test.sprite.Height / 2)*/),
-            //    //Layer = 0.3f,
-            //    //Health = 10,
-            //};
-
-            ////player1Test.LoadContent(content);
-
-            //player2Test = new Player()
-            //{
-            //    sprite = content.Load<Texture2D>("Textures/pl1"),
-            //    //Colour = Color.Green,
-            //    //position = new Vector2(GameWorld.renderTarget.Width / 2 /*- (player2Test.sprite.Width / 2 - 200)*/, GameWorld.renderTarget.Height / 2/* - (player2Test.sprite.Height / 2)*/),
-            //    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
-            //    //Layer = 0.4f,
-            //    //Health = 10,
-            //};
-
-            // Frederik
-            //if (playerCount >= 1)
-            //{
-            //    playerObjects.Add(player1Test);
- 
-            //}
-
-            //// Frederik
-            //if (playerCount >= 2)
-            //{
-            //    playerObjects.Add(player2Test);
-            //}
-
-            //players = playerObjects.Where(c => c is Player1).Select(c => (Player1)c).ToList();
-
-
-            // astar
-            MouseState PrevMS = Mouse.GetState();
-
             grid = new Grid();
-
-            // set up a white texture
-            rectTexture = new Texture2D(GameWorld.graphics.GraphicsDevice, NodeSize, NodeSize);
-            Color[] data = new Color[NodeSize * NodeSize];
-
-            for (int i = 0; i < data.Length; ++i)
-                data[i] = Color.White;
-            rectTexture.SetData(data);
-
-            //aStar = new Astar();
-
-            //goal = grid.Node(1, 1);
-
-
-            //enemyA = new EnemyAstar(new Rectangle(new Point(100, 100), new Point(NodeSize, NodeSize)));
-            //enemyA.LoadContent(content);
-            //
         }
 
         public override void Update(GameTime gameTime)
@@ -370,21 +255,23 @@ namespace SystemShutdown.States
             }
             if (currentKeyState.IsKeyDown(Keys.P) && !previousKeyState.IsKeyDown(Keys.P))
             {
-                //SpawnEnemy();
                 SpawnEnemies();
 
 
             }
 
-           // RotatePlayer();
             playerBuilder.Player.RotatePlayer();
+            if (currentKeyState.IsKeyDown(Keys.RightShift) && !previousKeyState.IsKeyDown(Keys.RightShift))
+            {
+                Mods mods = new Mods();
+                mods.Create();
+
+            }
+
+            // RotatePlayer();
+            playerBuilder.player.RotatePlayer();
 
            
-            //inputHandler.Execute(player1Test);
-            //inputHandler.Execute();
-
-
-            // InputHandler.Instance.Execute();
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
@@ -403,30 +290,6 @@ namespace SystemShutdown.States
             }
 
 
-            //inputHandler.Execute(player1Test);
-            /////
-
-
-            //InputHandler.Instance.Execute();
-            //for (int i = 0; i < gameObjects.Count; i++)
-            //{
-            //    gameObjects[i].Update(gameTime);
-            //}
-            //Collider[] tmpColliders = Colliders.ToArray();
-            //for (int i = 0; i < tmpColliders.Length; i++)
-            //{
-            //    for (int j = 0; j < tmpColliders.Length; j++)
-            //    {
-            //        tmpColliders[i].OnCollisionEnter(tmpColliders[j]);
-            //    }
-            //}
-
-
-            //foreach (var sprite in gameObjects)
-            //{
-            //    sprite.Update(gameTime);
-            //}
-
             foreach (var item in buttons)
             {
                 item.Update();
@@ -435,23 +298,6 @@ namespace SystemShutdown.States
             if (!enemies.Any())
             {
 
-            }
-            else
-            {
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.ThreadRunning == false)
-                    {
-                        enemies.Remove(enemy);
-                    }
-                }
-                foreach (Enemy enemy in enemies)
-                {
-                   enemy.Update(gameTime);
-                }
-            }
-
-            ApplyMod();
 
         }
 
@@ -557,17 +403,7 @@ namespace SystemShutdown.States
             //Draw selected Enemy ID
             spriteBatch.DrawString(font, $"Enemy: {enemyID} selected", new Vector2(300, 100), Color.Black);
 
-            if (!enemies.Any())
-            {
-
-            }
-            else
-            {
-                foreach (Enemy enemy in enemies)
-                {
-                    enemy.Draw(spriteBatch);
-                }
-            }
+          
                // Frederik
             foreach (var sprite in menuObjects)
             {
@@ -659,54 +495,84 @@ namespace SystemShutdown.States
 
         }
 
-       // private void SpawnMod()
-       // {
-       //     List<Mods> pickupAble;
-       //
-       //     GameWorld.repo.Open();
-       //     pickupAble = GameWorld.repo.FindMods(Mods.Id);
-       // }
+        //private void SpawnMod()
+        //{
+        //    List<Mods> pickupAble;
+
+        //    GameWorld.repo.Open();
+        //    pickupAble = GameWorld.repo.FindMods(Mods.Id);
+        //}
 
 
         public void ApplyMod()
         {
-            if (currentKeyState.IsKeyDown(Keys.Up) && !previousKeyState.IsKeyDown(Keys.Up))
+            
+            Random rnd = new Random();
+            int randomnumber = rnd.Next(1, 5);
+
+            List<Effects> pickupable = new List<Effects>();
+            
+            GameWorld.repo.Open();
+            pickupable = GameWorld.repo.FindEffects(randomnumber);
+
+            //playerBuilder.player.dmg += pickupAble.Effect;
+            GameWorld.repo.Close();
+
+            Random rndeffect = new Random();
+            int randomeffect = rndeffect.Next(0, 3);
+
+            Effects choseneffect = pickupable[randomeffect];
+
+            Debug.WriteLine($"{choseneffect.Effectname}");
+
+            if (choseneffect.ModFK == 1)
             {
-                Random rnd = new Random();
-                int randomnumber = rnd.Next(1, 4);
-                
-
-                Mods pickupAble = new Mods();
-                
-                GameWorld.repo.Open();
-                //pickupAble = GameWorld.repo.FindMods(randomnumber);
-
-                //playerBuilder.player.dmg += pickupAble.Effect;
-                GameWorld.repo.Close();
-
+                playerBuilder.player.dmg += choseneffect.Effect;
             }
+            else if (choseneffect.ModFK == 2)
+            {
+                //movespeed
+            }
+            else if (choseneffect.ModFK == 3)
+            {
+                //attackspeed
+            }
+            else if (choseneffect.ModFK == 4)
+            {
+                playerBuilder.player.Health += choseneffect.Effect;
+            }
+
+
         }
+        private Node GetRandomPassableNode()
+        {
+            Random rndd = new Random();
+            var tmppos = grid.nodes[rndd.Next(1, grid.Width), rndd.Next(1, grid.Height)];
+            //var tmppos = grid.nodes[1,1];
 
-        //private void SpawnEnemy()
-        //{
-        //    running = true;
-        //    Enemy enemy =  new Enemy();
-        //    //enemy = new Enemy($"Enemy ");
-
-        //    //enemy.Start();
-        //    enemy.StartThread();
-        //  // enemy.ClickSelect += Enemy_ClickSelect;
-        //    enemies.Add(enemy);
-        //    delEnemies.Add(enemy);
-        //}
+            return tmppos;
+        }
+        
+       
         private void SpawnEnemies()
         {
             //spawnTime += delta;
             //if (spawnTime >= cooldown)
             //{
-            Random rnd = new Random(0);
-                GameObject1 go = EnemyPool.Instance.GetObject();
-                go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.ScreenWidth), 0);
+            GameObject1 go = EnemyPool.Instance.GetObject();
+
+            //Random rnd = new Random();
+            //go.Transform.Position = new Vector2(rnd.Next(100, GameWorld.renderTarget.Width - 200), 500);
+
+            Node enemypos = GetRandomPassableNode();
+
+            while(!enemypos.Passable || enemypos== null)
+            {
+                enemypos = GetRandomPassableNode();
+            }
+            go.Transform.Position = new Vector2(enemypos.x*100, enemypos.y*100);
+
+
             GameState.running = true;
 
 
@@ -733,49 +599,7 @@ namespace SystemShutdown.States
         }
 
 
-        /// <summary>
-        /// Adds an enemy when button is clicked, and also adds enemy to the other list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void SpawnEnemyBtn_Clicked(object sender, EventArgs e)
-        //{
-        //    running = true;
-
-        //    enemy = new Enemy($"Enemy ");
-        //    enemy.Start();
-        //    enemy.ClickSelect += Enemy_ClickSelect;
-        //    enemies.Add(enemy);
-        //    delEnemies.Add(enemy);
-        //}
-
-        /// <summary>
-        /// Enables clicking on the CPU, and sets enemy ID
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void Enemy_ClickSelect(object sender, EventArgs e)
-        //{
-        //   // cpuBtn.Click += CPU_Clicked;
-
-        //    enemy = (Enemy)sender;
-        //    int ID = enemy.id;
-        //    Debug.WriteLine(ID);
-        //    enemyID = ID.ToString();
-        //}
-
-        ///// <summary>
-        ///// Toggles bool on latest clicked enemy and removes click events on CPU
-        ///// Enemy thread enters CPU 
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void CPU_Clicked(object sender, EventArgs e)
-        //{
-        //    enemy.AttackingPlayer = true;
-
-        //    cpuBtn.Click -= CPU_Clicked;
-        //}
+      
 
         /// <summary>
         /// Shows all threads aktive and Total number
@@ -804,8 +628,6 @@ namespace SystemShutdown.States
         public void ShutdownThreads()
         {
             running = false;
-
-            enemies.Clear();
         }
         /// <summary>
         /// Calls ShutdownThreads method on click
@@ -816,54 +638,26 @@ namespace SystemShutdown.States
         {
             ShutdownThreads();
         }
-
-
-        //public void AddGameObject(GameObject go)
-        //{
-        //    go.Awake();
-        //    go.Start();
-        //    gameObjects.Add(go);
-        //    Collider collider = (Collider)go.GetComponent("Collider");
-        //    if (collider != null)
-        //    {
-        //        Colliders.Add(collider);
-        //    }
-        //}
-
-        //public void RemoveGameObject(GameObject go)
-        //{
-        //    gameObjects.Remove(go);
-        //}
-        //protected void Animate(GameTime gametime)
-        //{
-        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-        //    {
-        //        //Giver tiden, der er gået, siden sidste update
-        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+        protected void Animate(GameTime gametime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                //Giver tiden, der er gået, siden sidste update
+                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
         //        //Beregner currentIndex
         //        currentIndex = (int)(timeElapsed * fps);
         //        spriteRenderer.Sprite = upWalk[currentIndex];
 
-        //        //Checks if animation needs to restart
-        //        if (currentIndex >= upWalk.Length - 1)
-        //        {
-        //            //Resets animation
-        //            timeElapsed = 0;
-        //            currentIndex = 0;
-        //        }
-        //    }
-        //}
-
-        //public void Shoot()
-        //{
-        //    MouseState mouseState = Mouse.GetState();
-
-        //    if (mouseState.LeftButton == ButtonState.Pressed)
-        //    {
-        //        bullets.Add(new Bullet(bullet, ))
-        //    }
-        //}
+                //Checks if animation needs to restart
+                if (currentIndex >= upWalk.Length - 1)
+                {
+                    //Resets animation
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                }
+            }
+        }
         #endregion
     }
 }
