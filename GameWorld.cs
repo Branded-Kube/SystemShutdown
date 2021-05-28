@@ -54,7 +54,7 @@ namespace SystemShutdown
         public static GameState gameState;
 
         private Camera camera;
-      
+        
         private bool isGameState;
         private bool isDay;
         private bool isNight;
@@ -259,14 +259,26 @@ namespace SystemShutdown
            
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-            if (isGameState && gameState.playerBuilder.Player.showingMap)
+            if (isGameState)
             {
-                spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
+                if (gameState.playerBuilder.Player.showingMap)
+                {
+                    spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
+                }
+
+                if (isDay == false)
+                {
+                    if (cyclebarNight.currentBarNight <= 0)
+                    {
+                        //isNight = false;
+                        isDay = true;
+                        cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
+                    }
+                    cyclebarNight.Draw(spriteBatch);
+                }
 
                 if (isDay == true)
                 {
-                    
-
                     if (cyclebarDay.currentBarDay <= 0)
                     {
                         isDay = false;
@@ -276,18 +288,7 @@ namespace SystemShutdown
                     cyclebarDay.Draw(spriteBatch);
                 }
 
-                if (isDay == false)
-                {
-                    
-
-                    if (cyclebarNight.currentBarNight <= 0)
-                    {
-                        //isNight = false;
-                        isDay = true;
-                        cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
-                    }
-                    cyclebarNight.Draw(spriteBatch);
-                }
+                
             }
 
 
