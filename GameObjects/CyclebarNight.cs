@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SystemShutdown.BuildPattern;
 
 namespace SystemShutdown.GameObjects
 {
@@ -15,6 +16,7 @@ namespace SystemShutdown.GameObjects
         public float currentBarNight;
         public float nightMeter = 0.7f;
         public Color nightBarColor;
+        private PlayerBuilder playerBuilder;
 
         public CyclebarNight(ContentManager content)
         {
@@ -39,6 +41,26 @@ namespace SystemShutdown.GameObjects
                 currentBarNight -= nightMeter;
             }
         }
+
+        //public void Draw(SpriteBatch spriteBatch)
+        //{
+        //    //if (isNight == true)
+        //    //{
+        //        spriteBatch.Draw(nightBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+        //        playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
+        //        (int)nightBarPosition.Y, (int)currentBarNight, nightBar.Height), nightBarColor);
+        //        spriteBatch.Draw(nightContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+        //            playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+        //    //}
+
+            //if (cyclebarNight.currentBarNight <= 0)
+            //{
+            //    isNight = false;
+            //    isDay = true;
+            //    cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
+            //    cycle = Cycle.DAY;
+            //}
+        //}
 
         public void NightColor()
         {

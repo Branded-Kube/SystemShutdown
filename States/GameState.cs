@@ -295,9 +295,6 @@ namespace SystemShutdown.States
                 item.Update();
             }
 
-            if (!enemies.Any())
-            {
-
 
         }
 
@@ -338,11 +335,6 @@ namespace SystemShutdown.States
                             spriteBatch.Draw(cyclebarDay.dayContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
                                 playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
                         }
-                        //else
-                        //{
-                            
-                        //}
-                        
 
                         if (cyclebarDay.currentBarDay <= 0)
                         {

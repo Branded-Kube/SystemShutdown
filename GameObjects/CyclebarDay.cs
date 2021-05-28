@@ -51,11 +51,5 @@ namespace SystemShutdown.GameObjects
             else
                 dayBarColor = Color.DarkBlue;
         }
-
-        public void ResetBar()
-        {
-            fullBarDay = dayBar.Width;
-            currentBarDay = fullBarDay;
-        }
     }
 }
