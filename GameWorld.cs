@@ -153,10 +153,6 @@ namespace SystemShutdown
             minimap = renderTarget;
 
             camera = new Camera();
-
-            //cyclebarDay = new CyclebarDay(content);
-            //cyclebarNight = new CyclebarNight(content);
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -187,25 +183,6 @@ namespace SystemShutdown
                 isGameState = true;
                 camera.Follow(gameState.playerBuilder);
 
-                //if (isDay == true)
-                //{
-                //    cyclebarDay.Update();
-                //    if (cyclebarDay.currentBarDay <= 0)
-                //    {
-                //        isDay = false;
-                //        isNight = true;
-                //    }
-                //}
-                //if (isNight == true)
-                //{
-                //    isDay = false;
-                //    cyclebarNight.Update();
-                //    if (cyclebarNight.currentBarNight <= 0)
-                //    {
-                //        isNight = false;
-                //        isDay = true;
-                //    }
-                //}
                 if (isDay == true)
                 {
                     cyclebarDay.Update();
@@ -287,16 +264,12 @@ namespace SystemShutdown
                     }
                     cyclebarDay.Draw(spriteBatch);
                 }
-
-                
             }
-
 
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
-
         #endregion
     }
 }

@@ -14,9 +14,8 @@ namespace SystemShutdown.GameObjects
         public Vector2 nightBarPosition;
         public int fullBarNight;
         public float currentBarNight;
-        public float nightMeter = 1f;
+        public float nightMeter = 0.05f; //Ca. 1:50 min.
         public Color nightBarColor;
-        private PlayerBuilder playerBuilder;
 
         public CyclebarNight(ContentManager content)
         {
@@ -32,10 +31,8 @@ namespace SystemShutdown.GameObjects
             nightBar = content.Load<Texture2D>("Textures/Healthbar");
         }
 
-        public void Update(/*GameTime gameTime*/)
+        public void Update()
         {
-            
-
             if (currentBarNight >= 0)
             {
                 currentBarNight -= nightMeter;
@@ -45,25 +42,14 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //if (isNight == true)
-            //{
             spriteBatch.Draw(nightBar, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
                 GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
                 (int)nightBarPosition.Y, (int)currentBarNight, nightBar.Height), nightBarColor);
             spriteBatch.Draw(nightContainer, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
                 GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
-            //}
-
-            //if (cyclebarNight.currentBarNight <= 0)
-            //{
-            //    isNight = false;
-            //    isDay = true;
-            //    cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
-            //    cycle = Cycle.DAY;
-            //}
         }
 
-        public void NightColor(/*GameTime gameTime*/)
+        public void NightColor()
         {
             if (currentBarNight >= nightBar.Width * 0.70)
                 nightBarColor = Color.DarkBlue;

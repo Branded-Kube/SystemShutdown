@@ -14,9 +14,8 @@ namespace SystemShutdown.GameObjects
         public Vector2 dayBarPosition;
         public int fullBarDay;
         public float currentBarDay;
-        public float dayMeter = 1f;
+        public float dayMeter = 0.025f; //Ca. 3:45 min.
         public Color dayBarColor;
-        private PlayerBuilder playerBuilder;
 
         public CyclebarDay(ContentManager content)
         {
@@ -32,10 +31,8 @@ namespace SystemShutdown.GameObjects
             dayBar = content.Load<Texture2D>("Textures/Healthbar");
         }
 
-        public void Update(/*GameTime gameTime*/)
+        public void Update()
         {
-            
-
             if (currentBarDay >= 0)
             {
                 currentBarDay -= dayMeter;
@@ -52,7 +49,7 @@ namespace SystemShutdown.GameObjects
                 GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
         }
 
-        public void DayColor(/*GameTime gameTime*/)
+        public void DayColor()
         {
             if (currentBarDay >= dayBar.Width * 0.70)
                 dayBarColor = Color.Yellow;

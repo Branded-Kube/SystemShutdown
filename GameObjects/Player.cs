@@ -105,9 +105,11 @@ namespace SystemShutdown.GameObjects
             GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
         }
 
+        /// <summary>
+        /// Rotates player sprite towards mouse cursor
+        /// </summary>
         public void RotatePlayer()
         {
-
             distance.X = mouseState.X - GameWorld.ScreenWidth / 2 + 45;
             distance.Y = mouseState.Y - GameWorld.ScreenHeight / 2 + 45;
 
@@ -182,7 +184,7 @@ namespace SystemShutdown.GameObjects
                 SpriteRenderer tmpSpriteRenderer = (SpriteRenderer)laserObject.GetComponent("SpriteRenderer");
                 Collider tmpCollider = (Collider)laserObject.GetComponent("Collider");
 
-               tmpSpriteRenderer.Rotation = spriteRenderer.Rotation +1.6f;
+                tmpSpriteRenderer.Rotation = spriteRenderer.Rotation;
 
                 tmpPro.velocity = movement;
                 
