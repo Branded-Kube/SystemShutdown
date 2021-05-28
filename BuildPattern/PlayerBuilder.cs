@@ -11,19 +11,19 @@ namespace SystemShutdown.BuildPattern
 {
     public class PlayerBuilder : IBuilder
     {
-        private GameObject1 go;
+        private GameObject1 playerGO;
 
-        private SpriteRenderer sr;
+        private SpriteRenderer playerSR;
 
         public SpriteRenderer Sr
         {
-            get { return sr; }
-            set { sr = value; }
+            get { return playerSR; }
+            set { playerSR = value; }
         }
 
-        public Player1 player;
+        public Player player;
 
-        public Player1 Player
+        public Player Player
         {
             get { return player; }
             set { player = value; }
@@ -31,30 +31,25 @@ namespace SystemShutdown.BuildPattern
 
         public void BuildGameObject()
         {
-            go = new GameObject1();
+            playerGO = new GameObject1();
 
-            //go.AddComponent(new Player1);
-            //go.AddComponent(new SpriteRenderer());
-            sr = new SpriteRenderer("player");
+            playerSR = new SpriteRenderer("player");
 
-            go.AddComponent(sr);
-            //sr.SetSprite("player");
-            sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height) / 2);
-            //sr.Origin = new Vector2(go.Transform.Position.X, go.Transform.Position.Y);
+            playerGO.AddComponent(playerSR);
+            playerSR.Origin = new Vector2(playerSR.Sprite.Width / 2, (playerSR.Sprite.Height) / 2);
 
-            player = new Player1();
-           // sr.rectangle = new Rectangle((int)sr.Origin.X, (int)sr.Origin.Y, sr.Sprite.Width - 10, sr.Sprite.Height - 10);
+            player = new Player();
 
-            go.AddComponent(new Collider(sr, player) { CheckCollisionEvents = true } );
-            go.AddComponent(player);
+            playerGO.AddComponent(new Collider(playerSR, player) { CheckCollisionEvents = true } );
+            playerGO.AddComponent(player);
             /// Adds player to collider list
-            GameWorld.gameState.AddGameObject(go);
+            GameWorld.gameState.AddGameObject(playerGO);
 
         }
 
         public GameObject1 GetResult()
         {
-            return go;
+            return playerGO;
         }
     }
 }

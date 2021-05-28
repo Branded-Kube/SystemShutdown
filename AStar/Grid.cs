@@ -44,20 +44,7 @@ namespace SystemShutdown.AStar
                     }
 
 
-                    if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
-                    {
-                        GameObject1 go = new GameObject1();
-                        SpriteRenderer sr = new SpriteRenderer("Textures/nogo");
-                        go.AddComponent(sr);
-                        //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
-                        go.Transform.Position = new Vector2(x * 100, y * 100);
-
-                        //sr.SetSprite("1GuyUp");
-                        // nodes[x, y] = new Node(new Rectangle(new Point(100, 100), new Point(100, 100)));
-                        go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = false });
-                        go.AddComponent(nodes[x, y]);
-                        GameWorld.gameState.AddGameObject(go);
-                    }
+                   
                    
 
                     if (nodes[x, y].Passable == false)
@@ -65,16 +52,25 @@ namespace SystemShutdown.AStar
                         GameObject1 go = new GameObject1();
                         SpriteRenderer sr = new SpriteRenderer("1GuyUp");
                         go.AddComponent(sr);
-                        //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
                         go.Transform.Position = new Vector2(x * 100, y * 100);
 
-                        //sr.SetSprite("1GuyUp");
-                        // nodes[x, y] = new Node(new Rectangle(new Point(100, 100), new Point(100, 100)));
                         go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = false });
                         go.AddComponent(nodes[x, y]);
                         GameWorld.gameState.AddGameObject(go);
                     }
+                    if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
+                    {
+                        nodes[x, y].Passable = false;
 
+                        GameObject1 go = new GameObject1();
+                        SpriteRenderer nodeSR = new SpriteRenderer("Textures/nogo");
+                        go.AddComponent(nodeSR);
+                        go.Transform.Position = new Vector2(x * 100, y * 100);
+
+                        go.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
+                        go.AddComponent(nodes[x, y]);
+                        GameWorld.gameState.AddGameObject(go);
+                    }
 
 
                     //if (nodes[x, y].Passable == false)

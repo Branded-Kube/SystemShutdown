@@ -18,6 +18,7 @@ namespace SystemShutdown.Components
 
         private Texture2D texture;
 
+
         public Rectangle CollisionBox
         {
             get

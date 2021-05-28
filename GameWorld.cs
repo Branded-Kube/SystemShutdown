@@ -49,31 +49,12 @@ namespace SystemShutdown
         public static int ScreenWidth = 1920;
         public static int ScreenHeight = 1080;
 
-        //private List<GameObject1> gameObjects = new List<GameObject1>();
-        //private Player1 player;
-       // public List<Collider> Colliders { get; set; } = new List<Collider>();
-
         private State currentGameState;
         private static State nextGameState;
         public static GameState gameState;
 
-
-
-        //public PlayerBuilder playerBuilder;
-
-        //private Director director;
-
-        //public Director Director
-        //{
-        //    get { return director; }
-        //    set { director = value; }
-        //}
-
         private Camera camera;
       
-
-        
-
         private bool isGameState;
         public static Repository repo;
 
@@ -127,24 +108,6 @@ namespace SystemShutdown
 
             IsMouseVisible = true;
 
-            //GameObject1 go = new GameObject1();
-
-            //player = new Player1();
-
-            //go.AddComponent(player);
-            //go.AddComponent(new SpriteRenderer());
-
-            //gameObjects.Add(go);
-            //playerBuilder = new PlayerBuilder();
-            //director = new Director(playerBuilder);
-            //gameObjects.Add(director.Contruct());
-
-            //for (int i = 0; i < gameObjects.Count; i++)
-            //{
-            //    gameObjects[i].Awake();
-            //}
-
-
             base.Initialize();
         }
 
@@ -161,16 +124,12 @@ namespace SystemShutdown
             nextGameState = null;
             // Loads Target Renderer: to run the game in the same resolution, no matter the pc
             // Frederik
-            renderTarget = new RenderTarget2D(GraphicsDevice, 3600, 3600);
+            renderTarget = new RenderTarget2D(GraphicsDevice, 3500, 3500);
 
             minimap = renderTarget;
 
             camera = new Camera();
 
-            //for (int i = 0; i < gameObjects.Count; i++)
-            //{
-            //    gameObjects[i].Start();
-            //}
         }
 
         protected override void Update(GameTime gameTime)
@@ -208,21 +167,6 @@ namespace SystemShutdown
                 isGameState = false;
             }
 
-            //InputHandler.Instance.Execute();
-
-            //for (int i = 0; i < gameObjects.Count; i++)
-            //{
-            //    gameObjects[i].Update(gameTime);
-            //}
-
-            //Collider[] tmpColliders = Colliders.ToArray();
-            //for (int i = 0; i < tmpColliders.Length; i++)
-            //{
-            //    for (int j = 0; j < tmpColliders.Length; j++)
-            //    {
-            //        tmpColliders[i].OnCollisionEnter(tmpColliders[j]);
-            //    }
-            //}
 
             base.Update(gameTime);
         }
@@ -257,10 +201,7 @@ namespace SystemShutdown
             {
               spriteBatch.Begin();
             }
-            //for (int i = 0; i < gameObjects.Count; i++)
-            //{
-            //    gameObjects[i].Draw(spriteBatch);
-            //}
+           
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             if (isGameState)
@@ -274,22 +215,6 @@ namespace SystemShutdown
             base.Draw(gameTime);
         }
 
-
-        //public void AddGameObject(GameObject1 go)
-        //{
-        //    go.Awake();
-        //    go.Start();
-        //    gameObjects.Add(go);
-        //    Collider c = (Collider)go.GetComponent("Collider");
-        //    if (c != null)
-        //    {
-        //        Colliders.Add(c);
-        //    }
-        //}
-        //public void RemoveGameObject(GameObject1 go)
-        //{
-        //    gameObjects.Remove(go);
-        //}
         #endregion
     }
 }

@@ -25,7 +25,7 @@ namespace SystemShutdown.CommandPattern
             }
         }
 
-        public Player1 Entity { get; set; }
+        public Player Entity { get; set; }
         
         /// <summary>
         /// adds the specific keybinds to the dictionary

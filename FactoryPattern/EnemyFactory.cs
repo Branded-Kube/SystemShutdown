@@ -29,29 +29,28 @@ namespace SystemShutdown.FactoryPattern
             public override GameObject1 Create(string type)
             {
 
-            GameObject1 go = new GameObject1();
+            GameObject1 enemyGO = new GameObject1();
                 SpriteRenderer sr = new SpriteRenderer("1GuyUp");
-                go.AddComponent(sr);
-                //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
+                enemyGO.AddComponent(sr);
+            //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
+            //enemyGO.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height / 2);
 
 
 
             switch (type)
                 {
                     case "Blue":
-                    //sr.SetSprite("1GuyUp");
                     enemy = new Enemy();
-                    go.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
-                    go.AddComponent(enemy);
+                    enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
+                    enemyGO.AddComponent(enemy);
                     break;
                     case "Black":
-                    //sr.SetSprite("1GuyUp");
                     enemy = new Enemy();
-                    go.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
-                    go.AddComponent(enemy);
+                    enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
+                    enemyGO.AddComponent(enemy);
                     break;
                 }
-                return go;
+                return enemyGO;
             }
         }
     }

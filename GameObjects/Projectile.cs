@@ -8,66 +8,50 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.FactoryPattern
 {
-    class Projectile2 : Component, IGameListener
+    class Projectile : Component, IGameListener
     {
         private float speed;
         public Vector2 velocity;
 
-        public float Height { get; set; }
-        public Projectile2(float speed)
+        public Projectile(float speed)
         {
             this.speed = speed;
-            //this.velocity = velocity;
-
-          
-
         }
         public override string ToString()
         {
-            return "Laser";
+            return "Projectile";
         }
 
         public override void Awake()
         {
-            GameObject.Tag = "Laser";
+            GameObject.Tag = "Projectile";
         }
 
         public override void Update(GameTime gameTime)
         {
             Move();
-            Destroy1();
         }
         private void Move()
         {
             GameObject.Transform.Translate(velocity * speed *  GameWorld.DeltaTime);
-
-            
-
-
-        }
-
-        private void Destroy1()
-        {
-            if (GameObject.Transform.Position.Y <= -Height)
-            {
-                GameObject.Destroy();
-            }
         }
 
         public override void Destroy()
         {
             GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
-
         }
-
-        public Projectile2 Clone()
+        public Projectile Clone()
         {
-            return (Projectile2)this.MemberwiseClone();
+            return (Projectile)this.MemberwiseClone();
         }
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Platform")
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
+            {
+                GameObject.Destroy();
+            }
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
             {
                 GameObject.Destroy();
             }

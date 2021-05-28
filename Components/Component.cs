@@ -21,7 +21,7 @@ namespace SystemShutdown.Components
         public Vector2 previousPosition;
         public Vector2 currentDir;
         protected float rotation;
-        protected Vector2 velocity;
+       // protected Vector2 velocity;
         
         public int Health { get; set; }
         public Color Colour { get; set; }
