@@ -282,12 +282,12 @@ namespace SystemShutdown.GameObjects
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
 
-            Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+            Debug.WriteLine($"Enemy {tmp} Waiting to enter (Player)");
             MySemaphore.WaitOne();
-            Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+            Debug.WriteLine("Enemy " + tmp + " Starts attacking (Player)");
             Random randomNumber = new Random();
-            Thread.Sleep(100 * randomNumber.Next(0, 150));
-            Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            Thread.Sleep(10 * randomNumber.Next(0, 150));
+            Debug.WriteLine("Enemy " + tmp + " is leaving (Player)");
             MySemaphore.Release();
 
         }

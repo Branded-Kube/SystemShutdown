@@ -313,16 +313,17 @@ namespace SystemShutdown.GameObjects
                 if (attackingPlayer == true)
                 {
                     Debug.WriteLine($"{data}{id} is Running;");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(500);
 
-                    Debug.WriteLine($"{data}{id} Trying to enter CPU");
+                    Debug.WriteLine($"{data}{id} Trying to enter Player");
 
                     GameWorld.gameState.playerBuilder.Player.Enter(internalThread);
 
                     attackingPlayer = false;
+                    attackingCPU = false;
                     //delivering = true;
 
-                    GameWorld.gameState.playerBuilder.Player.hp -= dmg;
+                    GameWorld.gameState.playerBuilder.Player.hp -= dmg /2;
 
                     Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
@@ -330,7 +331,7 @@ namespace SystemShutdown.GameObjects
                 else if (attackingCPU == true)
                 {
                     Debug.WriteLine($"{data}{id} is Running;");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
 
                     Debug.WriteLine($"{data}{id} Trying to enter CPU");
 
