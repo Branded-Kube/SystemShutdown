@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SystemShutdown.ComponentPattern;
+//using SystemShutdown.ComponentPattern;
 
-namespace SystemShutdown.Components
+namespace SystemShutdown
 {
     public abstract class Component
     {

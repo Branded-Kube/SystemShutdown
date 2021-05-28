@@ -191,6 +191,7 @@ namespace SystemShutdown
                 {
                     cyclebarNight.Update();
                 }
+
             }
 
             else
@@ -243,8 +244,11 @@ namespace SystemShutdown
                     spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
                 }
 
+            
                 if (isDay == false)
                 {
+                    
+
                     if (cyclebarNight.currentBarNight <= 0)
                     {
                         //isNight = false;
@@ -253,9 +257,10 @@ namespace SystemShutdown
                     }
                     cyclebarNight.Draw(spriteBatch);
                 }
-
                 if (isDay == true)
                 {
+
+
                     if (cyclebarDay.currentBarDay <= 0)
                     {
                         isDay = false;

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SystemShutdown.Components;
 using SystemShutdown.States;
 
 namespace SystemShutdown.ComponentPattern
