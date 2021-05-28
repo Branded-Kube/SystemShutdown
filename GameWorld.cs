@@ -80,11 +80,26 @@ namespace SystemShutdown
 
             repo.Open();
 
-            repo.AddMods("Dmg", 1);
-            repo.AddMods("Movespeed", 2);
-            repo.AddMods("Attackspeed", 3);
-            repo.AddMods("Health", 4);
+            repo.AddMods("Dmg"); //ID = 1
+            repo.AddMods("Movespeed"); //ID = 2
+            repo.AddMods("Attackspeed"); //ID = 3
+            repo.AddMods("Health"); //ID = 4
 
+            repo.AddEffects(2, "dmg1", 1);
+            repo.AddEffects(5, "dmg2", 1);
+            repo.AddEffects(10, "dmg3", 1);
+
+            repo.AddEffects(100, "MoveSpeed1", 2);
+            repo.AddEffects(200, "MoveSpeed2", 2);
+            repo.AddEffects(300, "MoveSpeed3", 2);
+
+            repo.AddEffects(10, "AttackSpeed1", 3);
+            repo.AddEffects(20, "AttackSpeed2", 3);
+            repo.AddEffects(30, "AttackSpeed3", 3);
+
+            repo.AddEffects(5, "Health1", 4);
+            repo.AddEffects(10, "Health2", 4);
+            repo.AddEffects(20, "Health3", 4);
 
             repo.Close();
         }

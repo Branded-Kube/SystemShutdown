@@ -122,8 +122,10 @@ namespace SystemShutdown.States
             Director director = new Director(playerBuilder);
             gameObjects.Add(director.Contruct());
 
-            DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
-            gameObjects.Add(directorCpu.Contruct());
+            Director directorCPU = new Director(cpuBuilder);
+            gameObjects.Add(directorCPU.Contruct());
+            //DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
+            //gameObjects.Add(directorCpu.Contruct());
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
@@ -190,6 +192,15 @@ namespace SystemShutdown.States
             }
 
             playerBuilder.Player.RotatePlayer();
+            if (currentKeyState.IsKeyDown(Keys.RightShift) && !previousKeyState.IsKeyDown(Keys.RightShift))
+            {
+                Mods mods = new Mods();
+                mods.Create();
+
+            }
+
+            // RotatePlayer();
+            playerBuilder.player.RotatePlayer();
 
            
 
@@ -218,7 +229,6 @@ namespace SystemShutdown.States
             cyclebar.Update();
 
 
-            ApplyMod();
 
         }
 
@@ -362,21 +372,43 @@ namespace SystemShutdown.States
 
         public void ApplyMod()
         {
-            if (currentKeyState.IsKeyDown(Keys.Up) && !previousKeyState.IsKeyDown(Keys.Up))
+            
+            Random rnd = new Random();
+            int randomnumber = rnd.Next(1, 5);
+
+            List<Effects> pickupable = new List<Effects>();
+            
+            GameWorld.repo.Open();
+            pickupable = GameWorld.repo.FindEffects(randomnumber);
+
+            //playerBuilder.player.dmg += pickupAble.Effect;
+            GameWorld.repo.Close();
+
+            Random rndeffect = new Random();
+            int randomeffect = rndeffect.Next(0, 3);
+
+            Effects choseneffect = pickupable[randomeffect];
+
+            Debug.WriteLine($"{choseneffect.Effectname}");
+
+            if (choseneffect.ModFK == 1)
             {
-                Random rnd = new Random();
-                int randomnumber = rnd.Next(1, 4);
-                
-
-                Mods pickupAble = new Mods();
-                
-                GameWorld.repo.Open();
-                //pickupAble = GameWorld.repo.FindMods(randomnumber);
-
-                //playerBuilder.player.dmg += pickupAble.Effect;
-                GameWorld.repo.Close();
-
+                playerBuilder.player.dmg += choseneffect.Effect;
             }
+            else if (choseneffect.ModFK == 2)
+            {
+                //movespeed
+            }
+            else if (choseneffect.ModFK == 3)
+            {
+                //attackspeed
+            }
+            else if (choseneffect.ModFK == 4)
+            {
+                playerBuilder.player.Health += choseneffect.Effect;
+            }
+
+
         }
         private Node GetRandomPassableNode()
         {

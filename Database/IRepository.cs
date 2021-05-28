@@ -7,7 +7,11 @@ namespace SystemShutdown.Database
     public interface IRepository
     {
         Mods FindMods(string name);
-        void AddMods(string name, int effect);
+        void AddMods(string name);
+
+        List <Effects> FindEffects(int modfk);
+        void AddEffects(int effect, string effectname, int modfk);
+
         void Open();
 
         void Close();

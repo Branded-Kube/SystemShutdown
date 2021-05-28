@@ -9,5 +9,7 @@ namespace SystemShutdown.Database
     {
         List<Mods> MapModsFromReader(IDataReader reader);
 
+        List<Effects> MapEffectsFromReader(IDataReader reader);
+
     }
 }
