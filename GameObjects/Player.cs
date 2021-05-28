@@ -31,14 +31,20 @@ namespace SystemShutdown.GameObjects
         private float shootTime;
         private float cooldown = 1;
 
+        private bool canToggleMap;
+        private float ShowMapTime;
+        private float mapCooldown = 1;
+
 
         public int dmg { get; set; }
         public int hp { get; set; }
 
 
 
-       // public int health = 10;
-       // public int dmg = 2;
+        // public int health = 10;
+        // public int dmg = 2;
+
+        public bool showingMap;
 
         private KeyboardState currentKey;
 
@@ -77,6 +83,7 @@ namespace SystemShutdown.GameObjects
         {
             this.speed = 400;
             canShoot = true;
+            canToggleMap = true;
             InputHandler.Instance.Entity = this;
             fps = 10f;
 
@@ -122,11 +129,17 @@ namespace SystemShutdown.GameObjects
     public override void Update(GameTime gameTime)
         {
             shootTime += GameWorld.DeltaTime;
+            ShowMapTime += GameWorld.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
             if (shootTime >= cooldown)
             {
                 canShoot = true;
+            }
+
+            if (ShowMapTime >= mapCooldown)
+            {
+                canToggleMap = true;
             }
 
             // The active state from the last frame is now old
@@ -139,6 +152,7 @@ namespace SystemShutdown.GameObjects
             {
                 Shoot();
             }
+
 
         }
 
@@ -173,6 +187,25 @@ namespace SystemShutdown.GameObjects
                 tmpPro.velocity = movement;
                 
                 GameWorld.gameState.AddGameObject(laserObject);
+            }
+        }
+
+        public void ToggleMap()
+        {
+            if (canToggleMap)
+            {
+                canToggleMap = false;
+                ShowMapTime = 0;
+
+                if (showingMap == false)
+                {
+                    Debug.WriteLine("Showing map");
+                    showingMap = true;
+                }
+
+                else
+                    showingMap = false;
+
             }
         }
 
