@@ -61,6 +61,7 @@ namespace SystemShutdown
             {
                 Debug.WriteLine("picked up a mod");
                 GameObject.Destroy();
+                GameWorld.gameState.ApplyMod();
             }
         }
     }
