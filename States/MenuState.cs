@@ -97,7 +97,9 @@ namespace SystemShutdown
         // Frederik
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-           // GameWorld.Exit();
+            GameWorld.gameState.ShutdownThreads();
+            GameWorld.thisGameWorld.Exit();
+            
         }
 
         public override void Update(GameTime gameTime)

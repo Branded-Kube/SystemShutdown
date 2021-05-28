@@ -37,6 +37,11 @@ namespace SystemShutdown
         //    }
         //}
 
+        /// <summary>
+        /// Used in MenuState to Exit Game - Frederik
+        /// </summary>
+        public static GameWorld thisGameWorld;
+
         public static ContentManager content;
 
 
@@ -76,6 +81,8 @@ namespace SystemShutdown
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             content = Content;
+
+            thisGameWorld = this;
 
             var mapper = new Mapper();
             var provider = new SQLiteDatabaseProvider("Data Source=SystemShutdown.db;Version=3;new=true");
@@ -160,7 +167,7 @@ namespace SystemShutdown
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 gameState.ShutdownThreads();
-                Exit();
+                QuitGame();
             }
 
             // Frederik
@@ -274,6 +281,11 @@ namespace SystemShutdown
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void QuitGame()
+        {
+            this.Exit();
         }
         #endregion
     }

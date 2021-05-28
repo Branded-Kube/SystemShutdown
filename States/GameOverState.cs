@@ -45,20 +45,33 @@ namespace SystemShutdown.States
                 //    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
                 //},
 
+                //new Button(buttonTexture, buttonFont)
+                //{
+                //    Text = "Main Menu",
+                //    Position = new Vector2(GameWorld.ScreenWidth / 2, 500),
+                //    Click = new EventHandler(Button_MainMenu_Clicked),
+                //    Layer = 0.1f
+                //},
+
                 new Button(buttonTexture, buttonFont)
                 {
-                    Text = "Main Menu",
+                    Text = "Quit",
                     Position = new Vector2(GameWorld.ScreenWidth / 2, 500),
-                    Click = new EventHandler(Button_MainMenu_Clicked),
-                    Layer = 0.1f
+                    Click = new EventHandler(Button_Quit_Clicked),
+                    Layer = 0.1f,
                 },
             };
         }
 
         // Frederik
-        private void Button_MainMenu_Clicked(object sender, EventArgs e)
+        //private void Button_MainMenu_Clicked(object sender, EventArgs e)
+        //{
+        //    GameWorld.ChangeState(new MenuState());
+        //}
+
+        private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            GameWorld. ChangeState(new MenuState());
+            GameWorld.thisGameWorld.Exit();
         }
 
         public override void Update(GameTime gameTime)
@@ -66,7 +79,8 @@ namespace SystemShutdown.States
             // Frederik
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                Button_MainMenu_Clicked(this, new EventArgs());
+                //Button_MainMenu_Clicked(this, new EventArgs());
+                GameWorld.thisGameWorld.Exit();
             }
 
             foreach (var component in components)
