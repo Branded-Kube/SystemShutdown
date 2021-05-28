@@ -56,6 +56,10 @@ namespace SystemShutdown
         private Camera camera;
       
         private bool isGameState;
+        private bool isDay;
+        private bool isNight;
+        private CyclebarDay cyclebarDay;
+        private CyclebarNight cyclebarNight;
         public static Repository repo;
 
         public static float DeltaTime { get; set; }
@@ -123,6 +127,11 @@ namespace SystemShutdown
 
             IsMouseVisible = true;
 
+            cyclebarDay = new CyclebarDay(content);
+            cyclebarNight = new CyclebarNight(content);
+            isDay = true;
+            isNight = false;
+
             base.Initialize();
         }
 
@@ -144,6 +153,9 @@ namespace SystemShutdown
             minimap = renderTarget;
 
             camera = new Camera();
+
+            //cyclebarDay = new CyclebarDay(content);
+            //cyclebarNight = new CyclebarNight(content);
 
         }
 
@@ -173,8 +185,35 @@ namespace SystemShutdown
             if (currentGameState is GameState)
             {
                 isGameState = true;
-                camera.Follow(gameState.playerBuilder);  
+                camera.Follow(gameState.playerBuilder);
 
+                //if (isDay == true)
+                //{
+                //    cyclebarDay.Update();
+                //    if (cyclebarDay.currentBarDay <= 0)
+                //    {
+                //        isDay = false;
+                //        isNight = true;
+                //    }
+                //}
+                //if (isNight == true)
+                //{
+                //    isDay = false;
+                //    cyclebarNight.Update();
+                //    if (cyclebarNight.currentBarNight <= 0)
+                //    {
+                //        isNight = false;
+                //        isDay = true;
+                //    }
+                //}
+                if (isDay == true)
+                {
+                    cyclebarDay.Update();
+                }
+                if (isDay == false)
+                {
+                    cyclebarNight.Update();
+                }
             }
 
             else
@@ -211,6 +250,7 @@ namespace SystemShutdown
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
 
+                
             }
             else
             {
@@ -219,9 +259,35 @@ namespace SystemShutdown
            
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-            if (isGameState)
+            if (isGameState && gameState.playerBuilder.Player.showingMap)
             {
                 spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
+
+                if (isDay == true)
+                {
+                    
+
+                    if (cyclebarDay.currentBarDay <= 0)
+                    {
+                        isDay = false;
+                        //isNight = true;
+                        cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
+                    }
+                    cyclebarDay.Draw(spriteBatch);
+                }
+
+                if (isDay == false)
+                {
+                    
+
+                    if (cyclebarNight.currentBarNight <= 0)
+                    {
+                        //isNight = false;
+                        isDay = true;
+                        cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
+                    }
+                    cyclebarNight.Draw(spriteBatch);
+                }
             }
 
 
