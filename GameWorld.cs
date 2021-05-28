@@ -206,6 +206,7 @@ namespace SystemShutdown
                 //        isDay = true;
                 //    }
                 //}
+                
                 if (isDay == true)
                 {
                     cyclebarDay.Update();
@@ -214,6 +215,7 @@ namespace SystemShutdown
                 {
                     cyclebarNight.Update();
                 }
+
             }
 
             else
@@ -263,22 +265,9 @@ namespace SystemShutdown
             {
                 spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
 
-                if (isDay == true)
-                {
-                    
-
-                    if (cyclebarDay.currentBarDay <= 0)
-                    {
-                        isDay = false;
-                        //isNight = true;
-                        cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
-                    }
-                    cyclebarDay.Draw(spriteBatch);
-                }
-
                 if (isDay == false)
                 {
-                    
+
 
                     if (cyclebarNight.currentBarNight <= 0)
                     {
@@ -288,6 +277,18 @@ namespace SystemShutdown
                     }
                     cyclebarNight.Draw(spriteBatch);
                 }
+                if (isDay == true)
+                {
+                    if (cyclebarDay.currentBarDay <= 0)
+                    {
+                        isDay = false;
+                        //isNight = true;
+                        cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
+                    }
+                    cyclebarDay.Draw(spriteBatch);
+                }
+
+               
             }
 
 

@@ -352,7 +352,7 @@ namespace SystemShutdown.GameObjects
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
             {
                 Debug.WriteLine($"{Health}");
-                Health = -GameWorld.gameState.playerBuilder.player.dmg;
+                Health -= GameWorld.gameState.playerBuilder.player.dmg;
             }
         }
     }

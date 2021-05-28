@@ -89,7 +89,7 @@ namespace SystemShutdown.GameObjects
 
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release();
-            dmg = 2;
+            dmg = 50;
             hp = 10;
         }
 
