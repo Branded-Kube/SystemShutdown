@@ -25,7 +25,7 @@ namespace SystemShutdown.CommandPattern
             }
         }
 
-        public Player1 Entity { get; set; }
+        public Player Entity { get; set; }
         
         /// <summary>
         /// adds the specific keybinds to the dictionary
@@ -39,7 +39,7 @@ namespace SystemShutdown.CommandPattern
             keybinds.Add(Keys.S, new MoveCommand(new Vector2(0, 1)));
 
 
-            keybinds.Add(Keys.Space, new ShootCommand());
+            //keybinds.Add(Keys.Space, new ShootCommand());
 
             keybinds.Add(Keys.M, new MapCommand());
         }

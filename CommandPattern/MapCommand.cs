@@ -8,7 +8,7 @@ namespace SystemShutdown.CommandPattern
     class MapCommand : ICommand
     {
 
-        public void Execute(Player1 player)
+        public void Execute(Player player)
         {
 
 

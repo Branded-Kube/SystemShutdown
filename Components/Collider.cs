@@ -20,6 +20,7 @@ namespace SystemShutdown.Components
         private SpriteRenderer sr;
         private Mods floormod;
 
+
         public Rectangle CollisionBox
         {
             get

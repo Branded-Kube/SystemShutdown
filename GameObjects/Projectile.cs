@@ -1,44 +1,60 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
-using SystemShutdown.ComponentPattern;
+using SystemShutdown.Components;
+using SystemShutdown.ObserverPattern;
 
-namespace SystemShutdown.GameObjects
+namespace SystemShutdown.FactoryPattern
 {
-    class Projectile : MenuObject
+    class Projectile : Component, IGameListener
     {
-        //public Rectangle laserRectangle;
-        //private float speed;
+        private float speed;
+        public Vector2 velocity;
 
-        //public Projectile(float speed, Vector2 velocity)
-        //{
-        //    this.speed = 100;
-        //    //this.currentDir = velocity;
-        //}
+        public Projectile(float speed)
+        {
+            this.speed = speed;
+        }
+        public override string ToString()
+        {
+            return "Projectile";
+        }
 
-        ////public override void Awake()
-        ////{
-        ////    GameObject1.Tag = "Laser";
-        ////}
+        public override void Awake()
+        {
+            GameObject.Tag = "Projectile";
+        }
 
-        //public void LoadContent(ContentManager content)
-        //{
-        //    sprite = content.Load<Texture2D>("Textures/Laser");
-        //    //laserRectangle = new Rectangle(new Point((int)position.X, (int)position.Y), new Point(sprite.Width - 10, sprite.Height - 10));
+        public override void Update(GameTime gameTime)
+        {
+            Move();
+        }
+        private void Move()
+        {
+            GameObject.Transform.Translate(velocity * speed *  GameWorld.DeltaTime);
+        }
 
-        //}
+        public override void Destroy()
+        {
+            GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
+        }
+        public Projectile Clone()
+        {
+            return (Projectile)this.MemberwiseClone();
+        }
 
-        ////public override void Update(GameTime gameTime)
-        ////{
-        ////    Move();
-        ////}
-
-        ////private void Move()
-        ////{
-        ////    //GameObject.Transform.Translate(velocity * speed);
-        ////}
+        public void Notify(GameEvent gameEvent, Component component)
+        {
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
+            {
+                GameObject.Destroy();
+            }
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
+            {
+                GameObject.Destroy();
+            }
+        }
     }
 }
