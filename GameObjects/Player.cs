@@ -199,7 +199,6 @@ namespace SystemShutdown.GameObjects
 
                 if (showingMap == false)
                 {
-                    Debug.WriteLine("Showing map");
                     showingMap = true;
                 }
 
