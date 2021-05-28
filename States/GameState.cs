@@ -212,39 +212,41 @@ namespace SystemShutdown.States
             ///<summary>
             ///Updates day and night cyclebar - Frederik
             /// </summary>
-            switch (cycle)
-            {
-                case Cycle.DAY:
-                    {
-                        if (isDay == true)
-                        {
-                            cyclebarDay.Update();
-                            if (cyclebarDay.currentBarDay == 0)
-                            {
-                                isDay = false;
-                                isNight = true;
-                                cycle = Cycle.NIGHT;
-                                
-                            }
-                        }
-                    }
-                    break;
-                case Cycle.NIGHT:
-                    {
-                        if (isNight == true)
-                        {
-                            isDay = false;
-                            cyclebarNight.Update();
-                            if (cyclebarNight.currentBarNight == 0)
-                            {
-                                isNight = false;
-                                cycle = Cycle.DAY;
-                                isDay = true;
-                            }
-                        }
-                    }
-                    break;
-            }
+            //switch (cycle)
+            //{
+            //    case Cycle.DAY:
+            //        {
+            //            if (isDay == true)
+            //            {
+            //                cyclebarDay.Update();
+            //                if (cyclebarDay.currentBarDay == 0)
+            //                {
+            //                    isDay = false;
+            //                    isNight = true;
+            //                    cycle = Cycle.NIGHT;
+
+            //                }
+            //            }
+            //        }
+            //        break;
+            //    case Cycle.NIGHT:
+            //        {
+            //            if (isNight == true)
+            //            {
+            //                isDay = false;
+            //                cyclebarNight.Update();
+            //                if (cyclebarNight.currentBarNight == 0)
+            //                {
+            //                    isNight = false;
+            //                    cycle = Cycle.DAY;
+            //                    isDay = true;
+            //                }
+            //            }
+            //        }
+            //        break;
+            //}
+            //cyclebarDay.Update();
+            //cyclebarNight.Update();
 
             currentKeyState = Keyboard.GetState();
             // Frederik
@@ -323,49 +325,49 @@ namespace SystemShutdown.States
             ///<summary>
             ///Draws day and night cyclebar - Frederik
             /// </summary>
-            switch (cycle)
-            {
-                case Cycle.DAY:
-                    {
-                        if (isDay == true)
-                        {
-                            spriteBatch.Draw(cyclebarDay.dayBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                                playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebarDay.dayBarPosition.X,
-                                (int)cyclebarDay.dayBarPosition.Y, (int)cyclebarDay.currentBarDay, cyclebarDay.dayBar.Height), cyclebarDay.dayBarColor);
-                            spriteBatch.Draw(cyclebarDay.dayContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                                playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
-                        }
+            //switch (cycle)
+            //{
+            //    case Cycle.DAY:
+            //        {
+            //            if (isDay == true)
+            //            {
+            //                spriteBatch.Draw(cyclebarDay.dayBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+            //                    playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebarDay.dayBarPosition.X,
+            //                    (int)cyclebarDay.dayBarPosition.Y, (int)cyclebarDay.currentBarDay, cyclebarDay.dayBar.Height), cyclebarDay.dayBarColor);
+            //                spriteBatch.Draw(cyclebarDay.dayContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+            //                    playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+            //            }
 
-                        if (cyclebarDay.currentBarDay <= 0)
-                        {
-                            isDay = false;
-                            isNight = true;
-                            cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
-                            cycle = Cycle.NIGHT;
-                        }
-                    }
-                    break;
-                case Cycle.NIGHT:
-                    {
-                        if (isNight == true)
-                        {
-                            spriteBatch.Draw(cyclebarNight.nightBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                            playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebarNight.nightBarPosition.X,
-                            (int)cyclebarNight.nightBarPosition.Y, (int)cyclebarNight.currentBarNight, cyclebarNight.nightBar.Height), cyclebarNight.nightBarColor);
-                            spriteBatch.Draw(cyclebarNight.nightContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                                playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
-                        }
+            //            if (cyclebarDay.currentBarDay <= 0)
+            //            {
+            //                isDay = false;
+            //                isNight = true;
+            //                cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
+            //                cycle = Cycle.NIGHT;
+            //            }
+            //        }
+            //        break;
+            //    case Cycle.NIGHT:
+            //        {
+            //            if (isNight == true)
+            //            {
+            //                spriteBatch.Draw(cyclebarNight.nightBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+            //                playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebarNight.nightBarPosition.X,
+            //                (int)cyclebarNight.nightBarPosition.Y, (int)cyclebarNight.currentBarNight, cyclebarNight.nightBar.Height), cyclebarNight.nightBarColor);
+            //                spriteBatch.Draw(cyclebarNight.nightContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
+            //                    playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+            //            }
 
-                        if (cyclebarNight.currentBarNight <= 0)
-                        {
-                            isNight = false;
-                            isDay = true;
-                            cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
-                            cycle = Cycle.DAY;
-                        }
-                    }
-                    break;
-            }
+            //            if (cyclebarNight.currentBarNight <= 0)
+            //            {
+            //                isNight = false;
+            //                isDay = true;
+            //                cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
+            //                cycle = Cycle.DAY;
+            //            }
+            //        }
+            //        break;
+            //}
 
             
             //for (int i = 0; i < gameObjects.Count; i++)

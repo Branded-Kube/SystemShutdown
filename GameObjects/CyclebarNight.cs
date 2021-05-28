@@ -14,7 +14,7 @@ namespace SystemShutdown.GameObjects
         public Vector2 nightBarPosition;
         public int fullBarNight;
         public float currentBarNight;
-        public float nightMeter = 0.7f;
+        public float nightMeter = 1f;
         public Color nightBarColor;
         private PlayerBuilder playerBuilder;
 
@@ -32,26 +32,27 @@ namespace SystemShutdown.GameObjects
             nightBar = content.Load<Texture2D>("Textures/Healthbar");
         }
 
-        public void Update()
+        public void Update(/*GameTime gameTime*/)
         {
-            NightColor();
+            
 
             if (currentBarNight >= 0)
             {
                 currentBarNight -= nightMeter;
             }
+            NightColor();
         }
 
-        //public void Draw(SpriteBatch spriteBatch)
-        //{
-        //    //if (isNight == true)
-        //    //{
-        //        spriteBatch.Draw(nightBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-        //        playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
-        //        (int)nightBarPosition.Y, (int)currentBarNight, nightBar.Height), nightBarColor);
-        //        spriteBatch.Draw(nightContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-        //            playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
-        //    //}
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            //if (isNight == true)
+            //{
+            spriteBatch.Draw(nightBar, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
+                (int)nightBarPosition.Y, (int)currentBarNight, nightBar.Height), nightBarColor);
+            spriteBatch.Draw(nightContainer, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+            //}
 
             //if (cyclebarNight.currentBarNight <= 0)
             //{
@@ -60,9 +61,9 @@ namespace SystemShutdown.GameObjects
             //    cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
             //    cycle = Cycle.DAY;
             //}
-        //}
+        }
 
-        public void NightColor()
+        public void NightColor(/*GameTime gameTime*/)
         {
             if (currentBarNight >= nightBar.Width * 0.70)
                 nightBarColor = Color.DarkBlue;

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SystemShutdown.BuildPattern;
 
 namespace SystemShutdown.GameObjects
 {
@@ -13,8 +14,9 @@ namespace SystemShutdown.GameObjects
         public Vector2 dayBarPosition;
         public int fullBarDay;
         public float currentBarDay;
-        public float dayMeter = 0.07f;
+        public float dayMeter = 1f;
         public Color dayBarColor;
+        private PlayerBuilder playerBuilder;
 
         public CyclebarDay(ContentManager content)
         {
@@ -30,17 +32,27 @@ namespace SystemShutdown.GameObjects
             dayBar = content.Load<Texture2D>("Textures/Healthbar");
         }
 
-        public void Update()
+        public void Update(/*GameTime gameTime*/)
         {
-            DayColor();
+            
 
             if (currentBarDay >= 0)
             {
                 currentBarDay -= dayMeter;
             }
+            DayColor();
         }
 
-        public void DayColor()
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(dayBar, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)dayBarPosition.X,
+                (int)dayBarPosition.Y, (int)currentBarDay, dayBar.Height), dayBarColor);
+            spriteBatch.Draw(dayContainer, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+        }
+
+        public void DayColor(/*GameTime gameTime*/)
         {
             if (currentBarDay >= dayBar.Width * 0.70)
                 dayBarColor = Color.Yellow;
