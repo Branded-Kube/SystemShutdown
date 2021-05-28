@@ -342,11 +342,6 @@ namespace SystemShutdown.States
                                 
                             }
                         }
-                        //else
-                        //{
-                        //    isNight = true;
-                        //}
-                        
                     }
                     break;
                 case Cycle.NIGHT:
@@ -362,7 +357,6 @@ namespace SystemShutdown.States
                                 isDay = true;
                             }
                         }
-
                     }
                     break;
             }
