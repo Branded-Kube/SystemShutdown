@@ -328,7 +328,7 @@ namespace SystemShutdown.GameObjects
         public override void Awake()
         {
             GameObject.Tag = "Enemy";
-
+            Health = 100;
             //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             // this.position = GameObject.Transform.Position;
             //spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
@@ -353,6 +353,7 @@ namespace SystemShutdown.GameObjects
             {
                 Debug.WriteLine($"{Health}");
                 Health -= GameWorld.gameState.playerBuilder.player.dmg;
+                //GameObject.Destroy();
             }
         }
     }
