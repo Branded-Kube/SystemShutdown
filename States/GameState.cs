@@ -14,6 +14,7 @@ using SystemShutdown.Buttons;
 using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
+using SystemShutdown.FactoryPattern;
 using SystemShutdown.GameObjects;
 using SystemShutdown.ObjectPool;
 
@@ -38,25 +39,15 @@ namespace SystemShutdown.States
         private Texture2D cpuTexture;
         private Texture2D standardBtn;
 
-        private List<Player> players;
-
-        //private List<GameObject> gameObjects;
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
-        private bool isDay;
-        private bool isNight;
-        private List<MenuObject> menuObjects/* = new List<GameObject>()*/;
+        private List<StateObject> menuObjects;
         private List<GameObject1> gameObjects = new List<GameObject1>();
-
-        private List<Component> playerObjects;
-
-
-        public int playerCount = 1;
-
        
         private InputHandler inputHandler;
 
         public PlayerBuilder playerBuilder;
+        public EnemyFactory enemyFactory;
 
         public CPUBuilder cpuBuilder;
 
@@ -92,19 +83,6 @@ namespace SystemShutdown.States
         private KeyboardState currentKeyState;
         private KeyboardState previousKeyState;
 
-        //private static GameState instance;
-        //public static GameState Instance
-        //{
-        //    get
-        //    {
-        //        if (instance == null)
-        //        {
-        //            instance = new GameState();
-        //        }
-        //        return instance;
-        //    }
-        //}
-
         #endregion
 
         #region Methods
@@ -114,8 +92,6 @@ namespace SystemShutdown.States
         {
             delEnemies = new List<Enemy>();
             buttons = new List<Button2>();
-            isDay = true;
-            isNight = false;
             // cpu = new CPU();
 
             //Director director = new Director(new PlayerBuilder());
@@ -135,6 +111,7 @@ namespace SystemShutdown.States
 
             playerBuilder = new PlayerBuilder();
             cpuBuilder = new CPUBuilder();
+            enemyFactory = new EnemyFactory();
         }
         #endregion
 
@@ -189,9 +166,9 @@ namespace SystemShutdown.States
 
             font = content.Load<SpriteFont>("Fonts/font");
 
-            menuObjects = new List<MenuObject>()
+            menuObjects = new List<StateObject>()
             {
-                new MenuObject()
+                new StateObject()
                 {
               
                     position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
@@ -258,22 +235,22 @@ namespace SystemShutdown.States
                 item.Update();
             }
 
-
+            GameOver();
         }
 
-        public override void PostUpdate(GameTime gameTime)
-        {
-            //// When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
+        //public override void PostUpdate(GameTime gameTime)
+        //{
+        //    //// When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
 
-            //// If player is dead, show game over screen
-            //// Frederik
-            //if (players.All(c => c.IsDead))
-            //{
-            //    //highscores can also be added here (to be shown in the game over screen)
+        //    //// If player is dead, show game over screen
+        //    //// Frederik
+        //    //if (players.All(c => c.IsDead))
+        //    //{
+        //    //    //highscores can also be added here (to be shown in the game over screen)
 
-            //    _game.ChangeState(new GameOverState(_game, content));
-            //}
-        }
+        //    //    _game.ChangeState(new GameOverState(_game, content));
+        //    //}
+        //}
 
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -442,6 +419,15 @@ namespace SystemShutdown.States
         public void RemoveGameObject(GameObject1 go)
         {
             gameObjects.Remove(go);
+        }
+
+        public void GameOver()
+        {
+            if (GameWorld.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.gameState.playerBuilder.Player.Health <= 0)
+            {
+                ShutdownThreads();
+                GameWorld.ChangeState(GameWorld.gameOverState);
+            }
         }
 
         /// <summary>

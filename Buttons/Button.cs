@@ -32,9 +32,9 @@ namespace SystemShutdown.Buttons
 
         public EventHandler Click;
 
-        public bool Clicked { get; private set; }
+        //public bool Clicked { get; private set; }
 
-        public float Layer { get; set; }
+        //public float Layer { get; set; }
 
         // Frederik
         public Vector2 Origin
@@ -59,7 +59,7 @@ namespace SystemShutdown.Buttons
             }
         }
 
-        public string Text { get; set; }
+        //public string Text { get; set; }
 
         #endregion
 
@@ -81,17 +81,19 @@ namespace SystemShutdown.Buttons
             var color = Color.White;
 
             if (isHovering)
+            {
                 color = Color.Gray;
+            }
 
             spriteBatch.Draw(_texture, Rectangle, color);
 
-            if (!string.IsNullOrEmpty(Text))
-            {
-                var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
-                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
+            //if (!string.IsNullOrEmpty(Text))
+            //{
+            //    var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
+            //    var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
 
-                spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, Layer + 0.01f);
-            }
+            //    //spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, Layer + 0.2f);
+            //}
         }
 
         public override void Update(GameTime gameTime)

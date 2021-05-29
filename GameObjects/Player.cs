@@ -81,7 +81,8 @@ namespace SystemShutdown.GameObjects
 
         public Player()
         {
-            this.speed = 400;
+            Health = 100;
+            this.speed = 250;
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;

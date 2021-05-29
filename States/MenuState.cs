@@ -17,17 +17,20 @@ namespace SystemShutdown
     {
         private List<ComponentMenu> components;
 
-        protected float _Layer { get; set; }
-
-        // Frederik
-        public float Layer
-        {
-            get { return _Layer; }
-            set
-            {
-                _Layer = value;
-            }
-        }
+        private SpriteFont buttonFont;
+        private Texture2D buttonSprite;
+        private Texture2D sprite;
+        private Texture2D newGameText;
+        private Texture2D howToText;
+        private Texture2D quitGameText;
+        private Vector2 position;
+        private Vector2 origin;
+        private Vector2 newGamePosition;
+        private Vector2 howToPosition;
+        private Vector2 quitGamePosition;
+        private Vector2 newGameOrigin;
+        private Vector2 howToOrigin;
+        private Vector2 quitGameOrigin;
 
         #region Methods
 
@@ -40,58 +43,45 @@ namespace SystemShutdown
         public override void LoadContent()
         {
             // Frederik
-            var buttonTexture = content.Load<Texture2D>("Controls/button");
-            var buttonFont = content.Load<SpriteFont>("Fonts/font");
+            buttonFont = content.Load<SpriteFont>("Fonts/font");
+            buttonSprite = content.Load<Texture2D>("Controls/button");
+            sprite = content.Load<Texture2D>("Backgrounds/game");
+            newGameText = content.Load<Texture2D>("Controls/newgame");
+            howToText = content.Load<Texture2D>("Controls/howtoplay");
+            quitGameText = content.Load<Texture2D>("Controls/quitgame");
 
             components = new List<ComponentMenu>()
             {
-                new MenuObject()
+                new Button(buttonSprite, buttonFont)
                 {
-                    sprite = content.Load<Texture2D>("Backgrounds/mainmenu"),
-                    Layer = 0f,
-                    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+                    Position = new Vector2(GameWorld.ScreenWidth / 2, 390),
+                    Click = new EventHandler(Button_PlayGame_Clicked),
                 },
 
-                new Button(buttonTexture, buttonFont)
+                new Button(buttonSprite, buttonFont)
                 {
-                    Text = "1 Player",
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 300),
-                    Click = new EventHandler(Button_1Player_Clicked),
-                    Layer = 0.1f
+                    Position = new Vector2(GameWorld.ScreenWidth / 2, 500),
+                    Click = new EventHandler(Button_HowToPlay_Clicked),
                 },
 
-                new Button(buttonTexture, buttonFont)
+                new Button(buttonSprite, buttonFont)
                 {
-                    Text = "2 Players",
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 360),
-                    Click = new EventHandler(Button_2Player_Clicked),
-                    Layer = 0.1f
-                },
-
-                new Button(buttonTexture, buttonFont)
-                {
-                    Text = "Quit Game",
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 420),
+                    Position = new Vector2(GameWorld.ScreenWidth / 2, 610),
                     Click = new EventHandler(Button_Quit_Clicked),
-                    Layer = 0.1f
                 },
             };
         }
 
         // Frederik
-        private void Button_1Player_Clicked(object sender, EventArgs e)
+        private void Button_PlayGame_Clicked(object sender, EventArgs e)
         {
-            //GameWorld.gameState = new GameState();
             GameWorld.ChangeState(GameWorld.gameState);
         }
 
         // Frederik
-        private void Button_2Player_Clicked(object sender, EventArgs e)
+        public void Button_HowToPlay_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(new GameState()
-            {
-                playerCount = 2,
-            });
+            GameWorld.ChangeState(GameWorld.howToState);
         }
 
         // Frederik
@@ -99,7 +89,6 @@ namespace SystemShutdown
         {
             GameWorld.gameState.ShutdownThreads();
             GameWorld.thisGameWorld.Exit();
-            
         }
 
         public override void Update(GameTime gameTime)
@@ -109,24 +98,36 @@ namespace SystemShutdown
             {
                 component.Update(gameTime);
             }
+            position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2);
+            origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            newGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 345);
+            howToPosition = new Vector2(GameWorld.ScreenWidth / 2, 455);
+            quitGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 565);
+            newGameOrigin = new Vector2(newGameText.Width / 2, newGameText.Height / 2);
+            howToOrigin = new Vector2(howToText.Width / 2, howToText.Height / 2);
+            quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
         }
 
-        public override void PostUpdate(GameTime gameTime)
-        {
-            //(unload game - specific content)
-        }
+        //public override void PostUpdate(GameTime gameTime)
+        //{
+        //    //(unload game - specific content)
+        //}
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Frederik
-            spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            spriteBatch.Begin(SpriteSortMode.BackToFront);
 
             foreach (var component in components)
             {
                 component.Draw(gameTime, spriteBatch);
             }
+            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, 1f, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(newGameText, newGamePosition, null, Color.White, 0, newGameOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(howToText, howToPosition, null, Color.White, 0, howToOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.White, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
 
-           spriteBatch.End();
+            spriteBatch.End();
         }
         #endregion
     }

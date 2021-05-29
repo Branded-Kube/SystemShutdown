@@ -28,7 +28,7 @@ namespace SystemShutdown.FactoryPattern
         {
 
 
-            CreatePrototype(ref projectileSR, ref playerProjectile, "laserBlue05", 500);
+            CreatePrototype(ref projectileSR, ref playerProjectile, "Textures/4bit", 300);
         }
         //laserBlue05
         private void CreatePrototype(ref SpriteRenderer spriteRenderer, ref Projectile projectile, string sprite, float speed)
