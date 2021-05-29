@@ -10,6 +10,7 @@ using System.Threading;
 using SystemShutdown.AStar;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
+using SystemShutdown.FactoryPattern;
 using SystemShutdown.ObjectPool;
 using SystemShutdown.ObserverPattern;
 using SystemShutdown.States;
@@ -81,7 +82,7 @@ namespace SystemShutdown.GameObjects
             this.vision = 500;
             internalThread = new Thread(ThreadMethod);
             LoadContent(GameWorld.content);
-            Health = 100;
+           //Health = 100;
             dmg = 5;
             //    randomNumber = new Random();
             //    positionX = 300 + randomNumber.Next(0, 150);
@@ -103,6 +104,13 @@ namespace SystemShutdown.GameObjects
         {
             if (Health <= 0)
             {
+                Random rnd = new Random();
+
+                var moddrop = rnd.Next(1, 3);
+                if (moddrop == 2)
+                {
+                    ModFactory.Instance.Create(GameObject.Transform.Position);
+                }
                 GameObject.Destroy();
             }
 
@@ -269,7 +277,7 @@ namespace SystemShutdown.GameObjects
         {
             this.id = Thread.CurrentThread.ManagedThreadId;
 
-            while (GameState.running == true)
+            while (GameWorld.gameState.running == true)
             {
                 if (attackingPlayer && threadRunning)
                 {
@@ -353,7 +361,7 @@ namespace SystemShutdown.GameObjects
             {
                 Debug.WriteLine($"{Health}");
                 Health -= GameWorld.gameState.playerBuilder.player.dmg;
-                //GameObject.Destroy();
+               
             }
         }
     }

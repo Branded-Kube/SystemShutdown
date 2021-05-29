@@ -28,7 +28,7 @@ namespace SystemShutdown.States
         public static SpriteFont font;
         private List<Enemy> delEnemies;
         private List<Button2> buttons;
-        public static bool running = true;
+        public bool running = true;
         private Button2 spawnEnemyBtn;
         private Button2 cpuBtn;
         private Button2 activeThreadsBtn;
@@ -404,81 +404,27 @@ namespace SystemShutdown.States
         //}
 
 
-        public void ApplyMod()
-        {
-            
-            Random rnd = new Random();
-            int randomnumber = rnd.Next(1, 5);
 
-            List<Effects> pickupable = new List<Effects>();
-            
-            GameWorld.repo.Open();
-            pickupable = GameWorld.repo.FindEffects(randomnumber);
+        //private Node GetRandomPassableNode()
+        //{
+        //    Random rndd = new Random();
+        //    var tmppos = grid.nodes[rndd.Next(1, grid.Width), rndd.Next(1, grid.Height)];
+        //    //var tmppos = grid.nodes[1,1];
 
-            //playerBuilder.player.dmg += pickupAble.Effect;
-            GameWorld.repo.Close();
-
-            Random rndeffect = new Random();
-            int randomeffect = rndeffect.Next(0, 3);
-
-            Effects choseneffect = pickupable[randomeffect];
-
-            Debug.WriteLine($"{choseneffect.Effectname}");
-
-            if (choseneffect.ModFK == 1)
-            {
-                playerBuilder.player.dmg += choseneffect.Effect;
-            }
-            else if (choseneffect.ModFK == 2)
-            {
-                //movespeed
-            }
-            else if (choseneffect.ModFK == 3)
-            {
-                //attackspeed
-            }
-            else if (choseneffect.ModFK == 4)
-            {
-                playerBuilder.player.Health += choseneffect.Effect;
-            }
+        //    return tmppos;
+        //}
 
 
-        }
-        private Node GetRandomPassableNode()
-        {
-            Random rndd = new Random();
-            var tmppos = grid.nodes[rndd.Next(1, grid.Width), rndd.Next(1, grid.Height)];
-            //var tmppos = grid.nodes[1,1];
-
-            return tmppos;
-        }
-        
-       
         private void SpawnEnemies()
         {
             //spawnTime += delta;
             //if (spawnTime >= cooldown)
             //{
             GameObject1 go = EnemyPool.Instance.GetObject();
-
-            //Random rnd = new Random();
-            //go.Transform.Position = new Vector2(rnd.Next(100, GameWorld.renderTarget.Width - 200), 500);
-
-            Node enemypos = GetRandomPassableNode();
-
-            while(!enemypos.Passable || enemypos== null)
-            {
-                enemypos = GetRandomPassableNode();
-            }
-            go.Transform.Position = new Vector2(enemypos.x*100, enemypos.y*100);
-
-
-            GameState.running = true;
-
-
+        
+            running = true;
             AddGameObject(go);
-               // spawnTime = 0;
-            //}
+           
         }
 
         public void AddGameObject(GameObject1 go)

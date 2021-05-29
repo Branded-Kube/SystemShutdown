@@ -37,22 +37,24 @@ namespace SystemShutdown.FactoryPattern
             spriteRenderer = new SpriteRenderer(sprite);
 
         }
-        public override GameObject1 Create(string type)
+        public override GameObject1 Create(Vector2 position)
         {
             GameObject1 projectileGO = new GameObject1();
-           
+            projectileGO.Transform.Position = position;
 
-            switch (type)
-            {
-                case "Player":
+
+            //switch (type)
+            //{
+            //    case "Player":
                     Projectile projectileClone = playerProjectile.Clone();
                     projectileSR.Origin = new Vector2(projectileSR.Sprite.Width / 2, (projectileSR.Sprite.Height) / 2);
+
 
                     projectileGO.AddComponent(new Collider(projectileSR, projectileClone) { CheckCollisionEvents = true });
                     projectileGO.AddComponent(projectileClone);
                     projectileGO.AddComponent(projectileSR.Clone());
-                    break;
-            }
+                    //break;
+           // }
             return projectileGO;
 
         }

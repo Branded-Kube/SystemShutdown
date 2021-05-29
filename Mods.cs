@@ -17,6 +17,7 @@ namespace SystemShutdown
 
         public string Name { get; set; }
 
+      
         public GameObject1 Create()
         {
 
@@ -40,8 +41,9 @@ namespace SystemShutdown
             GameObject.Tag = "Pickup";
 
             Debug.WriteLine("kør awake");
-
-            GameObject.Transform.Position = new Vector2(400, 200);
+           
+            
+           // GameObject.Transform.Position = new Vector2(400, 200);
             // this.position = GameObject.Transform.Position;
             //spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
@@ -54,14 +56,53 @@ namespace SystemShutdown
             GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
 
         }
+        public void ApplyMod()
+        {
 
+            Random rnd = new Random();
+            int randomnumber = rnd.Next(1, 5);
+
+            List<Effects> pickupable = new List<Effects>();
+
+            GameWorld.repo.Open();
+            pickupable = GameWorld.repo.FindEffects(randomnumber);
+
+            //playerBuilder.player.dmg += pickupAble.Effect;
+            GameWorld.repo.Close();
+
+            Random rndeffect = new Random();
+            int randomeffect = rndeffect.Next(0, 3);
+
+            Effects choseneffect = pickupable[randomeffect];
+
+            Debug.WriteLine($"{choseneffect.Effectname}");
+
+            if (choseneffect.ModFK == 1)
+            {
+                GameWorld.gameState.playerBuilder.player.dmg += choseneffect.Effect;
+            }
+            else if (choseneffect.ModFK == 2)
+            {
+                //movespeed
+            }
+            else if (choseneffect.ModFK == 3)
+            {
+                //attackspeed
+            }
+            else if (choseneffect.ModFK == 4)
+            {
+                GameWorld.gameState.playerBuilder.player.Health += choseneffect.Effect;
+            }
+
+
+        }
         public void Notify(GameEvent gameEvent, Component component)
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
                 Debug.WriteLine("picked up a mod");
+                ApplyMod();
                 GameObject.Destroy();
-                GameWorld.gameState.ApplyMod();
             }
         }
     }
