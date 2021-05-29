@@ -8,50 +8,65 @@ using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.FactoryPattern
 {
-    class EnemyFactory : Factory
+    public class EnemyFactory : Factory
     {
- 
-            private static Random rnd = new Random();
-            private static EnemyFactory instance;
-            private Enemy enemy;
+
+        private static Random rnd = new Random();
+        private static EnemyFactory instance;
+        private Enemy enemy;
+        public SpriteRenderer sr;
+        private Vector2 distance;
 
         public static EnemyFactory Instance
+        {
+            get
             {
-                get
+                if (instance == null)
                 {
-                    if (instance == null)
-                    {
-                        instance = new EnemyFactory();
-                    }
-                    return instance;
+                    instance = new EnemyFactory();
                 }
+                return instance;
             }
-            public override GameObject1 Create(string type)
-            {
+        }
+
+        public Enemy Enemy
+        {
+            get { return enemy; }
+            set { enemy = value; }
+        }
+
+        public override GameObject1 Create(string type)
+        {
 
             GameObject1 enemyGO = new GameObject1();
-                SpriteRenderer sr = new SpriteRenderer("1GuyUp");
-                enemyGO.AddComponent(sr);
+            sr = new SpriteRenderer("1GuyUp");
+            enemyGO.AddComponent(sr);
+
             //go.Transform.Position = new Vector2(rnd.Next(0, GameWorld.Instance.GraphicsDevice.Viewport.Width), 0);
             //enemyGO.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height / 2);
 
 
 
             switch (type)
-                {
-                    case "Blue":
+            {
+                case "Blue":
+                    enemy = new Enemy();
+                    enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
+                    enemyGO.AddComponent(enemy);
+
+                    distance.X = enemy.goal.x;
+                    distance.Y = enemy.goal.y;
+
+                    sr.Rotation = (float)Math.Atan2(distance.Y, distance.X);
+                    break;
+                case "Black":
                     enemy = new Enemy();
                     enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
                     enemyGO.AddComponent(enemy);
                     break;
-                    case "Black":
-                    enemy = new Enemy();
-                    enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
-                    enemyGO.AddComponent(enemy);
-                    break;
-                }
-                return enemyGO;
             }
+            return enemyGO;
         }
     }
+}
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using SystemShutdown.Components;
+using SystemShutdown.FactoryPattern;
 using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.AStar

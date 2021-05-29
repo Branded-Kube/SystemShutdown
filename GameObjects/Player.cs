@@ -82,7 +82,7 @@ namespace SystemShutdown.GameObjects
         public Player()
         {
             Health = 100;
-            this.speed = 400;
+            this.speed = 250;
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;
@@ -176,7 +176,7 @@ namespace SystemShutdown.GameObjects
             {
                 canShoot = false;
                 shootTime = 0;
-                GameObject1 laserObject = ProjectileFactory.Instance.Create("Player");
+                GameObject1 laserObject = ProjectileFactory.Instance.Create("Laser");
 
                 laserObject.Transform.Position = GameObject.Transform.Position;
                 Vector2 movement = new Vector2(GameWorld.gameState.cursorPosition.X, GameWorld.gameState.cursorPosition.Y) - laserObject.Transform.Position;

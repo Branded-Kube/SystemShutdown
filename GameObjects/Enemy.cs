@@ -10,6 +10,7 @@ using System.Threading;
 using SystemShutdown.AStar;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
+using SystemShutdown.FactoryPattern;
 using SystemShutdown.ObjectPool;
 using SystemShutdown.ObserverPattern;
 using SystemShutdown.States;
@@ -23,6 +24,8 @@ namespace SystemShutdown.GameObjects
         private bool attackingPlayer = false;
         private bool attackingCPU = false;
         private bool enableAstar = true;
+
+        private Vector2 distance;
 
         double updateTimer = 0.0;
         private SpriteRenderer spriteRenderer;
@@ -60,7 +63,7 @@ namespace SystemShutdown.GameObjects
         private bool Searching = false;
 
         Stack<Node> path = new Stack<Node>();
-        Node goal;
+        public Node goal;
 
         Astar aStar;
         GameObject1 go;
@@ -227,9 +230,16 @@ namespace SystemShutdown.GameObjects
 
                 updateTimerA = 0.0;
             }
-
+            //RotateEnemy();
         }
 
+        //public void RotateEnemy()
+        //{
+        //    distance.X = goal.x;
+        //    distance.Y = goal.y;
+
+        //    GameWorld.gameState.enemyFactory.Enemy.spriteRenderer.Rotation = (float)Math.Atan2(distance.Y, distance.X);
+        //}
 
         public bool IsPlayerInRange(Vector2 target)
         {

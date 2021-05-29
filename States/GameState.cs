@@ -14,6 +14,7 @@ using SystemShutdown.Buttons;
 using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
+using SystemShutdown.FactoryPattern;
 using SystemShutdown.GameObjects;
 using SystemShutdown.ObjectPool;
 
@@ -46,6 +47,7 @@ namespace SystemShutdown.States
         private InputHandler inputHandler;
 
         public PlayerBuilder playerBuilder;
+        public EnemyFactory enemyFactory;
 
         public CPUBuilder cpuBuilder;
 
@@ -109,6 +111,7 @@ namespace SystemShutdown.States
 
             playerBuilder = new PlayerBuilder();
             cpuBuilder = new CPUBuilder();
+            enemyFactory = new EnemyFactory();
         }
         #endregion
 
@@ -476,6 +479,7 @@ namespace SystemShutdown.States
         {
             if (GameWorld.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.gameState.playerBuilder.Player.Health <= 0)
             {
+                ShutdownThreads();
                 GameWorld.ChangeState(GameWorld.gameOverState);
             }
         }
