@@ -81,6 +81,7 @@ namespace SystemShutdown.GameObjects
 
         public Player()
         {
+            Health = 100;
             this.speed = 400;
             canShoot = true;
             canToggleMap = true;

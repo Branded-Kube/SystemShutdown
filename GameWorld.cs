@@ -57,12 +57,14 @@ namespace SystemShutdown
         private State currentGameState;
         private static State nextGameState;
         public static GameState gameState;
+        public static HowToState howToState;
+        public static MenuState menuState;
+        public static GameOverState gameOverState;
 
         private Camera camera;
         
         private bool isGameState;
         private bool isDay;
-        private bool isNight;
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
         public static Repository repo;
@@ -137,7 +139,6 @@ namespace SystemShutdown
             cyclebarDay = new CyclebarDay(content);
             cyclebarNight = new CyclebarNight(content);
             isDay = true;
-            isNight = false;
 
             base.Initialize();
         }
@@ -149,12 +150,16 @@ namespace SystemShutdown
             //Loads all GameStates
             //Frederik
             gameState = new GameState();
+            howToState = new HowToState();
+            menuState = new MenuState();
+            gameOverState = new GameOverState();
             currentGameState = new MenuState();
 
             currentGameState.LoadContent();
             nextGameState = null;
-            // Loads Target Renderer: to run the game in the same resolution, no matter the pc
-            // Frederik
+            ///<summary>
+            /// Loads Target Renderer: to run the game in the same resolution, no matter the pc - Frederik
+            /// </summary>
             renderTarget = new RenderTarget2D(GraphicsDevice, 3500, 3500);
 
             minimap = renderTarget;
@@ -167,22 +172,40 @@ namespace SystemShutdown
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 gameState.ShutdownThreads();
-                QuitGame();
+                this.Exit();
             }
 
-            // Frederik
+            ///<summary>
+            /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate
+            /// </summary>
+            if (currentGameState is HowToState)
+            {
+                IsMouseVisible = true;
+            }
+            if (currentGameState is MenuState)
+            {
+                IsMouseVisible = true;
+            }
+            if (currentGameState is GameOverState)
+            {
+                IsMouseVisible = true;
+            }
+            if (currentGameState is GameState)
+            {
+                IsMouseVisible = false;
+            }
             if (nextGameState != null)
             {
                 currentGameState = nextGameState;
                 currentGameState.LoadContent();
 
                 nextGameState = null;
-                IsMouseVisible = false;
             }
+            
             //Updates game
             currentGameState.Update(gameTime);
 
-            currentGameState.PostUpdate(gameTime);
+            //currentGameState.PostUpdate(gameTime);
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (currentGameState is GameState)
@@ -281,11 +304,6 @@ namespace SystemShutdown
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        public void QuitGame()
-        {
-            this.Exit();
         }
         #endregion
     }
