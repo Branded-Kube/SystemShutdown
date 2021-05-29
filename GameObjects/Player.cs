@@ -105,9 +105,11 @@ namespace SystemShutdown.GameObjects
             GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
         }
 
+        /// <summary>
+        /// Rotates player sprite towards mouse cursor
+        /// </summary>
         public void RotatePlayer()
         {
-
             distance.X = mouseState.X - GameWorld.ScreenWidth / 2 + 45;
             distance.Y = mouseState.Y - GameWorld.ScreenHeight / 2 + 45;
 
@@ -118,7 +120,7 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Player";
 
-            GameObject.Transform.Position = new Vector2(1000, 1000);
+            GameObject.Transform.Position = new Vector2(2200, 1700);
 
             //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             //this.position = GameObject.Transform.Position;
@@ -183,7 +185,7 @@ namespace SystemShutdown.GameObjects
                 SpriteRenderer tmpSpriteRenderer = (SpriteRenderer)laserObject.GetComponent("SpriteRenderer");
                 Collider tmpCollider = (Collider)laserObject.GetComponent("Collider");
 
-               tmpSpriteRenderer.Rotation = spriteRenderer.Rotation +1.6f;
+                tmpSpriteRenderer.Rotation = spriteRenderer.Rotation;
 
                 tmpPro.velocity = movement;
                 
@@ -231,25 +233,25 @@ namespace SystemShutdown.GameObjects
 
         }
 
-        protected void Animate(GameTime gametime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                //Giver tiden, der er gået, siden sidste update
-                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+        //protected void Animate(GameTime gametime)
+        //{
+        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+        //    {
+        //        //Giver tiden, der er gået, siden sidste update
+        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-                //Beregner currentIndex
-                currentIndex = (int)(timeElapsed * fps);
-                spriteRenderer.Sprite = upWalk[currentIndex];
+        //        //Beregner currentIndex
+        //        currentIndex = (int)(timeElapsed * fps);
+        //        spriteRenderer.Sprite = upWalk[currentIndex];
 
-                //Checks if animation needs to restart
-                if (currentIndex >= upWalk.Length - 1)
-                {
-                    //Resets animation
-                    timeElapsed = 0;
-                    currentIndex = 0;
-                }
-            }
-        }
+        //        //Checks if animation needs to restart
+        //        if (currentIndex >= upWalk.Length - 1)
+        //        {
+        //            //Resets animation
+        //            timeElapsed = 0;
+        //            currentIndex = 0;
+        //        }
+        //    }
+        //}
     }
 }

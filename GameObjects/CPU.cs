@@ -23,8 +23,6 @@ namespace SystemShutdown.GameObjects
             MySemaphore.Release(3);
 
             Health = 1000;
-    
-
         }
 
         public static void CPUTakingDamage(Object id)
@@ -32,8 +30,10 @@ namespace SystemShutdown.GameObjects
             
         }
 
-
-        //tells worker to wait for empty space using semaphore, and then start harvesting from the palmtree
+        /// <summary>
+        /// Tells worker to wait for empty space using semaphore, and then start harvesting from the palmtree - Soeren
+        /// </summary>
+        /// <param name="id"></param>
         public static void Enter(Object id)
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
@@ -45,9 +45,6 @@ namespace SystemShutdown.GameObjects
             Thread.Sleep(50 * randomNumber.Next(0, 150));
             Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
-
-
-            
         }
 
 
@@ -56,10 +53,8 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "CPU";
 
-            GameObject.Transform.Position = new Vector2(600, 220);
+            GameObject.Transform.Position = new Vector2(1750, 1750);
           //  spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
-
-
         }
 
         public override string ToString()

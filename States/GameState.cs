@@ -19,7 +19,6 @@ using SystemShutdown.ObjectPool;
 
 namespace SystemShutdown.States
 {
-    public enum Cycle { DAY, NIGHT }
     public class GameState : State
     {
         #region Fields
@@ -44,7 +43,6 @@ namespace SystemShutdown.States
         //private List<GameObject> gameObjects;
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
-        public static Cycle cycle = Cycle.DAY;
         private bool isDay;
         private bool isNight;
         private List<MenuObject> menuObjects/* = new List<GameObject>()*/;
@@ -205,56 +203,22 @@ namespace SystemShutdown.States
 
         public override void Update(GameTime gameTime)
         {
-            cursorPosition = new Vector2(playerBuilder.player.distance.X - 14, playerBuilder.player.distance.Y) + playerBuilder.player.GameObject.Transform.Position;
+            ///<summary>
+            ///Updates cursors position
+            /// </summary>
+            cursorPosition = new Vector2(playerBuilder.player.distance.X - cursorSprite.Width / 2, playerBuilder.player.distance.Y) + playerBuilder.player.GameObject.Transform.Position;
 
             previousKeyState = currentKeyState;
 
-            ///<summary>
-            ///Updates day and night cyclebar - Frederik
-            /// </summary>
-            //switch (cycle)
-            //{
-            //    case Cycle.DAY:
-            //        {
-            //            if (isDay == true)
-            //            {
-            //                cyclebarDay.Update();
-            //                if (cyclebarDay.currentBarDay == 0)
-            //                {
-            //                    isDay = false;
-            //                    isNight = true;
-            //                    cycle = Cycle.NIGHT;
-
-            //                }
-            //            }
-            //        }
-            //        break;
-            //    case Cycle.NIGHT:
-            //        {
-            //            if (isNight == true)
-            //            {
-            //                isDay = false;
-            //                cyclebarNight.Update();
-            //                if (cyclebarNight.currentBarNight == 0)
-            //                {
-            //                    isNight = false;
-            //                    cycle = Cycle.DAY;
-            //                    isDay = true;
-            //                }
-            //            }
-            //        }
-            //        break;
-            //}
-            //cyclebarDay.Update();
-            //cyclebarNight.Update();
-
             currentKeyState = Keyboard.GetState();
-            // Frederik
-            if (Keyboard.GetState().IsKeyDown(Keys.Back))
-            {
-                ShutdownThreads();
-                GameWorld.ChangeState(new MenuState());
-            }
+            ///<summary>
+            /// Goes back to main menu and shuts down all Threads - Frederik
+            /// </summary> 
+            //if (Keyboard.GetState().IsKeyDown(Keys.Back))
+            //{
+            //    ShutdownThreads();
+            //    GameWorld.ChangeState(new MenuState());
+            //}
             if (currentKeyState.IsKeyDown(Keys.P) && !previousKeyState.IsKeyDown(Keys.P))
             {
                 SpawnEnemies();
@@ -262,7 +226,6 @@ namespace SystemShutdown.States
 
             }
 
-            playerBuilder.Player.RotatePlayer();
             if (currentKeyState.IsKeyDown(Keys.RightShift) && !previousKeyState.IsKeyDown(Keys.RightShift))
             {
                 Mods mods = new Mods();
@@ -270,10 +233,8 @@ namespace SystemShutdown.States
 
             }
 
-            // RotatePlayer();
+            // Rotates player
             playerBuilder.player.RotatePlayer();
-
-           
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
@@ -322,61 +283,6 @@ namespace SystemShutdown.States
 
             //Draws cursor
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
-            ///<summary>
-            ///Draws day and night cyclebar - Frederik
-            /// </summary>
-            //switch (cycle)
-            //{
-            //    case Cycle.DAY:
-            //        {
-            //            if (isDay == true)
-            //            {
-            //                spriteBatch.Draw(cyclebarDay.dayBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-            //                    playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebarDay.dayBarPosition.X,
-            //                    (int)cyclebarDay.dayBarPosition.Y, (int)cyclebarDay.currentBarDay, cyclebarDay.dayBar.Height), cyclebarDay.dayBarColor);
-            //                spriteBatch.Draw(cyclebarDay.dayContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-            //                    playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
-            //            }
-
-            //            if (cyclebarDay.currentBarDay <= 0)
-            //            {
-            //                isDay = false;
-            //                isNight = true;
-            //                cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
-            //                cycle = Cycle.NIGHT;
-            //            }
-            //        }
-            //        break;
-            //    case Cycle.NIGHT:
-            //        {
-            //            if (isNight == true)
-            //            {
-            //                spriteBatch.Draw(cyclebarNight.nightBar, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-            //                playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)cyclebarNight.nightBarPosition.X,
-            //                (int)cyclebarNight.nightBarPosition.Y, (int)cyclebarNight.currentBarNight, cyclebarNight.nightBar.Height), cyclebarNight.nightBarColor);
-            //                spriteBatch.Draw(cyclebarNight.nightContainer, new Vector2(playerBuilder.Player.GameObject.Transform.Position.X + 635,
-            //                    playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
-            //            }
-
-            //            if (cyclebarNight.currentBarNight <= 0)
-            //            {
-            //                isNight = false;
-            //                isDay = true;
-            //                cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
-            //                cycle = Cycle.DAY;
-            //            }
-            //        }
-            //        break;
-            //}
-
-            
-            //for (int i = 0; i < gameObjects.Count; i++)
-            //{
-            //    gameObjects[i].Draw(gameTime, spriteBatch);
-            //}
-
-
-            //spriteBatch.Begin(transformMatrix: camera.Transform);
 
             // Frederik
             //float x = 10f;
@@ -592,9 +498,6 @@ namespace SystemShutdown.States
             gameObjects.Remove(go);
         }
 
-
-      
-
         /// <summary>
         /// Shows all threads aktive and Total number
         /// Used for debugging purpose only and is not part of the game. 
@@ -632,26 +535,26 @@ namespace SystemShutdown.States
         {
             ShutdownThreads();
         }
-        protected void Animate(GameTime gametime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                //Giver tiden, der er gået, siden sidste update
-                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+        //protected void Animate(GameTime gametime)
+        //{
+        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+        //    {
+        //        //Giver tiden, der er gået, siden sidste update
+        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-        //        //Beregner currentIndex
-        //        currentIndex = (int)(timeElapsed * fps);
-        //        spriteRenderer.Sprite = upWalk[currentIndex];
+        ////        //Beregner currentIndex
+        ////        currentIndex = (int)(timeElapsed * fps);
+        ////        spriteRenderer.Sprite = upWalk[currentIndex];
 
-                //Checks if animation needs to restart
-                if (currentIndex >= upWalk.Length - 1)
-                {
-                    //Resets animation
-                    timeElapsed = 0;
-                    currentIndex = 0;
-                }
-            }
-        }
+        //        //Checks if animation needs to restart
+        //        if (currentIndex >= upWalk.Length - 1)
+        //        {
+        //            //Resets animation
+        //            timeElapsed = 0;
+        //            currentIndex = 0;
+        //        }
+        //    }
+        //}
         #endregion
     }
 }
