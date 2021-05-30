@@ -8,6 +8,7 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.AStar
 {
+    //Ras
     public class Node : Component, IGameListener
     {
 

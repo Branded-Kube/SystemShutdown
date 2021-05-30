@@ -53,7 +53,7 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "CPU";
 
-            GameObject.Transform.Position = new Vector2(1750, 1750);
+            GameObject.Transform.Position = new Vector2(1700, 1700);
           //  spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 

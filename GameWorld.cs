@@ -160,7 +160,7 @@ namespace SystemShutdown
             ///<summary>
             /// Loads Target Renderer: to run the game in the same resolution, no matter the pc - Frederik
             /// </summary>
-            renderTarget = new RenderTarget2D(GraphicsDevice, 3500, 3500);
+            renderTarget = new RenderTarget2D(GraphicsDevice, 3400, 3400);
 
             minimap = renderTarget;
 

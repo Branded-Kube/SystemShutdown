@@ -34,6 +34,7 @@ namespace SystemShutdown.Components
             }
         }
 
+        
         public Collider(SpriteRenderer spriteRenderer, IGameListener gameListener)
         {
             onCollisionEvent.Attach(gameListener);
@@ -54,6 +55,12 @@ namespace SystemShutdown.Components
                     }
                 }
             }
+        }
+
+        public override void Destroy()
+        {
+           // base.Destroy();
+           GameWorld.gameState.Colliders.Remove(this);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

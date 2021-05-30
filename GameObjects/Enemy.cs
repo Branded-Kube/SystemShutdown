@@ -17,6 +17,7 @@ using SystemShutdown.States;
 
 namespace SystemShutdown.GameObjects
 {
+    //Ras
     public class Enemy : Component, IGameListener
     {
         Thread internalThread;
@@ -53,9 +54,9 @@ namespace SystemShutdown.GameObjects
 
         bool playerTarget = false;
 
-
+        public Vector2 nextpos;
         // Astar 
-
+        Vector2 velocity;
         private double updateTimerA = 0.0;
         private double updateTimerB = 0.0;
 
@@ -68,7 +69,7 @@ namespace SystemShutdown.GameObjects
         Astar aStar;
         GameObject1 go;
         //
-
+        
 
 
         private bool threadRunning = true;
@@ -84,7 +85,7 @@ namespace SystemShutdown.GameObjects
             this.vision = 500;
             internalThread = new Thread(ThreadMethod);
             LoadContent(GameWorld.content);
-            Health = 100;
+           //Health = 100;
             dmg = 5;
             //    randomNumber = new Random();
             //    positionX = 300 + randomNumber.Next(0, 150);
@@ -102,10 +103,19 @@ namespace SystemShutdown.GameObjects
             EnemyPool.Instance.RealeaseObject(GameObject);
             threadRunning = false;
         }
+       
+
         public override void Update(GameTime gameTime)
         {
             if (Health <= 0)
             {
+                Random rnd = new Random();
+
+                var moddrop = rnd.Next(1, 3);
+                if (moddrop == 2)
+                {
+                    ModFactory.Instance.Create(GameObject.Transform.Position);
+                }
                 GameObject.Destroy();
             }
 
@@ -184,7 +194,12 @@ namespace SystemShutdown.GameObjects
             aStar.Start(start);
 
 
-            while (path.Count > 0) path.Pop();
+            while (path.Count > 0)
+            {
+                path.Pop();
+
+            }
+
             GameWorld.gameState.grid.ResetState();
             Searching = true;
 
@@ -194,9 +209,10 @@ namespace SystemShutdown.GameObjects
 
             // }
             // use update timer to slow down animation
-            updateTimerA += gameTime.ElapsedGameTime.TotalSeconds;
-            if (updateTimerA >= 0.8)
-            {
+            //updateTimerA += gameTime.ElapsedGameTime.TotalSeconds;
+
+            //if (updateTimerA >= 0.8)
+            //{
 
                 // begin the search to goal from enemy's position
                 // search function pushs path onto the stack
@@ -205,41 +221,63 @@ namespace SystemShutdown.GameObjects
                     Node current = null;
 
                     current = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
-                    //current.alreadyOccupied = true;
-                    //if (current.cameFrom != null)
-                    //{
-                    //    current.cameFrom.alreadyOccupied = false;
+                //current.alreadyOccupied = true;
+                //if (current.cameFrom != null)
+                //{
+                //    current.cameFrom.alreadyOccupied = false;
 
-                    //}
-                    aStar.Search(GameWorld.gameState.grid, current, goal, path);
+                //}
 
-                    Searching = false;
-                    if (path.Count > 0)
+                aStar.Search(GameWorld.gameState.grid, current, goal, path);
+               // Debug.WriteLine($"path {path.Count}");
+
+                Searching = false;
+                if (path.Count > 0)
+                {
+
+                    if (Math.Round(GameObject.Transform.Position.X) == nextpos.X && Math.Round(GameObject.Transform.Position.Y) == nextpos.Y || nextpos == Vector2.Zero)
                     {
+
                         Node node = path.Pop();
                         int x = node.x * GameWorld.gameState.NodeSize;
                         int y = node.y * GameWorld.gameState.NodeSize;
                         //  node.alreadyOccupied = true;
                         // node.cameFrom.alreadyOccupied = false;
+                        nextpos = new Vector2(x, y);
+                        //Debug.WriteLine($"pos{GameObject.Transform.Position}");
+                        //Debug.WriteLine($"path {path.Count}");
+                    }
+                    else
+                    {
+                        Move(nextpos);
 
-                        Move(x, y);
                     }
 
+                    //if (Math.Round(GameObject.Transform.Position.X) != nextpos.X && Math.Round(GameObject.Transform.Position.Y) != nextpos.Y || nextpos != Vector2.Zero)
+                    //{
+
+                    //}
                 }
-
-
-                updateTimerA = 0.0;
+              
             }
-            //RotateEnemy();
+
         }
 
-        //public void RotateEnemy()
-        //{
-        //    distance.X = goal.x;
-        //    distance.Y = goal.y;
-
-        //    GameWorld.gameState.enemyFactory.Enemy.spriteRenderer.Rotation = (float)Math.Atan2(distance.Y, distance.X);
         //}
+
+
+        //updateTimerA = 0.0;
+
+
+
+        public void RotateEnemy()
+        {
+           // distance = GameObject.Transform.Position - new Vector2(goal.x*100, goal.y *100);
+            distance = GameObject.Transform.Position - nextpos;
+
+            var tmpSR = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            tmpSR.Rotation = (float)Math.Atan2(distance.Y, distance.X);
+        }
 
         public bool IsPlayerInRange(Vector2 target)
         {
@@ -252,20 +290,28 @@ namespace SystemShutdown.GameObjects
             goal = GameWorld.gameState.grid.Node(1, 1);
         }
 
-        public void Move(int x, int y)
+        public void Move(Vector2 nextpos)
         {
-            //rectangle.X = x;
-            //rectangle.Y = y;
-            //GameObject.Transform.Position.X = x;
-            //GameObject.Transform.Position.Y = y;
-            //Vector2 position = new Vector2(rectangle.X,rectangle.Y);
-            GameObject.Transform.Position = new Vector2(x, y);
-            //if (GameObject.Transform.Position == goal.GameObject.Transform.Position)
-            //{
-            //    //Debug.Write("!");
-            //    attackingPlayer = true;
+            var speed = 125;
 
-            //}
+            velocity = nextpos - GameObject.Transform.Position;
+
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+            }
+            velocity *= speed;
+            //Debug.WriteLine($"pos{GameObject.Transform.Position}");
+            //Debug.WriteLine($"path {velocity * GameWorld.DeltaTime}");
+            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+
+            RotateEnemy();
+           
+
+
+            // GameObject.Transform.Position = nextpos;
+
+
         }
 
 
@@ -279,7 +325,7 @@ namespace SystemShutdown.GameObjects
         {
             this.id = Thread.CurrentThread.ManagedThreadId;
 
-            while (GameState.running == true)
+            while (GameWorld.gameState.running == true)
             {
                 if (attackingPlayer && threadRunning)
                 {
@@ -338,7 +384,7 @@ namespace SystemShutdown.GameObjects
         public override void Awake()
         {
             GameObject.Tag = "Enemy";
-
+            Health = 100;
             //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             // this.position = GameObject.Transform.Position;
             //spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
@@ -352,17 +398,18 @@ namespace SystemShutdown.GameObjects
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
-                attackingPlayer = true;
+               //attackingPlayer = true;
             }
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "CPU")
             {
-                attackingCPU = true;
+               // attackingCPU = true;
             }
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
             {
                 Debug.WriteLine($"{Health}");
                 Health -= GameWorld.gameState.playerBuilder.player.dmg;
+               
             }
         }
     }
