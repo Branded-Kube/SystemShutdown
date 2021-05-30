@@ -30,6 +30,8 @@ namespace SystemShutdown.GameObjects
 
         double updateTimer = 0.0;
         private SpriteRenderer spriteRenderer;
+        Node node = null;
+                    Node current = null;
 
         public bool AttackingCPU
         {
@@ -161,19 +163,19 @@ namespace SystemShutdown.GameObjects
             //}
             if (playerTarget)
             {
-                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100);
+                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int) Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
 
             }
             else
             {
-                goal = GameWorld.gameState.grid.Node((int)GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100, (int)GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100);
+                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
             }
 
 
 
 
             Node start = null;
-            start = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
+            start = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
 
             // if clicked on non passable node, then march in direction of player till passable found
             //while (!goal.Passable)
@@ -216,42 +218,47 @@ namespace SystemShutdown.GameObjects
 
                 // begin the search to goal from enemy's position
                 // search function pushs path onto the stack
-                if (Searching)
+                if (Searching )
                 {
-                    Node current = null;
 
-                    current = GameWorld.gameState.grid.Node((int)GameObject.Transform.Position.X / GameWorld.gameState.NodeSize, (int)GameObject.Transform.Position.Y / GameWorld.gameState.NodeSize);
-                //current.alreadyOccupied = true;
+                    current = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int) Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
+                //current.alreadyOccupied = true;(76d / 100d, 0) * 100
                 //if (current.cameFrom != null)
                 //{
                 //    current.cameFrom.alreadyOccupied = false;
 
                 //}
 
+
                 aStar.Search(GameWorld.gameState.grid, current, goal, path);
-               // Debug.WriteLine($"path {path.Count}");
+                // Debug.WriteLine($"path {path.Count}");
+                //Debug.WriteLine($"path add {path.Count}");
 
                 Searching = false;
-                if (path.Count > 0)
+                if (path.Count >0)
                 {
+                    //if ( node == null || current.x == node.x && current.y == node.y )
+                    //{
+                        //Debug.WriteLine($"Path Pop");
 
-                    if (Math.Round(GameObject.Transform.Position.X) == nextpos.X && Math.Round(GameObject.Transform.Position.Y) == nextpos.Y || nextpos == Vector2.Zero)
-                    {
-
-                        Node node = path.Pop();
+                        node = path.Pop();
                         int x = node.x * GameWorld.gameState.NodeSize;
                         int y = node.y * GameWorld.gameState.NodeSize;
                         //  node.alreadyOccupied = true;
                         // node.cameFrom.alreadyOccupied = false;
                         nextpos = new Vector2(x, y);
-                        //Debug.WriteLine($"pos{GameObject.Transform.Position}");
-                        //Debug.WriteLine($"path {path.Count}");
-                    }
-                    else
-                    {
+                      //  Debug.WriteLine($"pos{GameObject.Transform.Position}");
+                    //     Debug.WriteLine($"current node {current.x} {current.y}");
+                    //Debug.WriteLine($"next node {node.x} {node.y}");
+
+
+                    //Debug.WriteLine($"path {path.Count}");
+                    //}
+                    //else
+                    //{
                         Move(nextpos);
 
-                    }
+                   // }
 
                     //if (Math.Round(GameObject.Transform.Position.X) != nextpos.X && Math.Round(GameObject.Transform.Position.Y) != nextpos.Y || nextpos != Vector2.Zero)
                     //{
@@ -292,7 +299,7 @@ namespace SystemShutdown.GameObjects
 
         public void Move(Vector2 nextpos)
         {
-            var speed = 125;
+            var speed = 200;
 
             velocity = nextpos - GameObject.Transform.Position;
 
@@ -303,7 +310,9 @@ namespace SystemShutdown.GameObjects
             velocity *= speed;
             //Debug.WriteLine($"pos{GameObject.Transform.Position}");
             //Debug.WriteLine($"path {velocity * GameWorld.DeltaTime}");
-            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+            
+                GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+
 
             RotateEnemy();
            

@@ -67,7 +67,7 @@ namespace SystemShutdown.AStar
             // if bigger than 0 (screen border) on both axis
             if (node.y - 1 > 0 && node.x - 1 > 0)
             {
-                if (!neighbors[0].Passable && !neighbors[2].Passable)
+                if (!neighbors[0].Passable || !neighbors[2].Passable)
                 {
                 }
                 else
@@ -80,7 +80,7 @@ namespace SystemShutdown.AStar
             // if less than grid height and width on both axis
             if (node.x + 1 < grid.Width && node.y + 1 < grid.Height)
             {
-                if (!neighbors[1].Passable && !neighbors[3].Passable)
+                if (!neighbors[1].Passable || !neighbors[3].Passable)
                 {
                 }
                 else
@@ -92,7 +92,7 @@ namespace SystemShutdown.AStar
             // if less than grid height and bigger than 0 (screen border)
             if (node.x - 1 > 0 && node.y + 1 < grid.Height)
             {
-                if (!neighbors[1].Passable && !neighbors[2].Passable)
+                if (!neighbors[1].Passable || !neighbors[2].Passable)
                 {
                 }
                 else
@@ -104,7 +104,7 @@ namespace SystemShutdown.AStar
             // if inside border
             if (node.x + 1 < grid.Width && node.y - 1 > 0)
             {
-                if (!neighbors[0].Passable && !neighbors[3].Passable)
+                if (!neighbors[0].Passable || !neighbors[3].Passable)
                 {
                 }
                 else
