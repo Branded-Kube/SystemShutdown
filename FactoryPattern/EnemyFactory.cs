@@ -35,35 +35,38 @@ namespace SystemShutdown.FactoryPattern
             set { enemy = value; }
         }
 
-        public override GameObject1 Create(string type)
+        public override GameObject1 Create(Vector2 position)
         {
 
             GameObject1 enemyGO = new GameObject1();
-                SpriteRenderer sr = new SpriteRenderer("1GuyUp");
-                enemyGO.AddComponent(sr);
+                SpriteRenderer enemySR = new SpriteRenderer("Textures/pl4");
+                enemyGO.AddComponent(enemySR);
             enemyGO.Transform.Position = position;
-            //enemyGO.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height / 2);
+            enemySR.Origin = new Vector2(enemySR.Sprite.Width / 2, (enemySR.Sprite.Height) / 2);
+
+            enemy = new Enemy();
+            enemyGO.AddComponent(new Collider(enemySR, enemy) { CheckCollisionEvents = true });
+            enemyGO.AddComponent(enemy);
 
 
+            //switch (type)
+            //{
+            //    case "Blue":
+            //enemy = new Enemy();
+            //enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
+            //enemyGO.AddComponent(enemy);
 
-            switch (type)
-            {
-                case "Blue":
-                    enemy = new Enemy();
-                    enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
-                    enemyGO.AddComponent(enemy);
+            //distance.X = enemy.goal.x;
+            //distance.Y = enemy.goal.y;
 
-                    distance.X = enemy.goal.x;
-                    distance.Y = enemy.goal.y;
-
-                    sr.Rotation = (float)Math.Atan2(distance.Y, distance.X);
-                    break;
-                case "Black":
-                    enemy = new Enemy();
-                    enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
-                    enemyGO.AddComponent(enemy);
-                    break;
-            }
+            //sr.Rotation = (float)Math.Atan2(distance.Y, distance.X);
+            //        break;
+            //    case "Black":
+            //enemy = new Enemy();
+            //        enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
+            //        enemyGO.AddComponent(enemy);
+            //        break;
+            //}
             return enemyGO;
         }
     }

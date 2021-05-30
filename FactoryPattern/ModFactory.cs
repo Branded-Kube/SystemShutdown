@@ -7,7 +7,8 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.FactoryPattern
 {
-    class ModFactory : Factory
+    // Ras
+    class ModFactory : Factory 
     {
 
         public int Id { get; set; }

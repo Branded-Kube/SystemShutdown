@@ -36,10 +36,11 @@ namespace SystemShutdown.FactoryPattern
             GameObject.Transform.Translate(velocity * speed *  GameWorld.DeltaTime);
         }
 
-        public override void Destroy()
-        {
-            GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
-        }
+        //public override void Destroy()
+        //{
+        //    GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
+
+        //}
         public Projectile Clone()
         {
             return (Projectile)this.MemberwiseClone();

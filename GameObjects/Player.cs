@@ -170,6 +170,9 @@ namespace SystemShutdown.GameObjects
             return "Player";
         }
 
+        /// <summary>
+        /// Ras 
+        /// </summary>
         public void Shoot()
         {
             if (canShoot)

@@ -51,11 +51,11 @@ namespace SystemShutdown
         {
             return "Pickup";
         }
-        public override void Destroy()
-        {
-            GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
+        //public override void Destroy()
+        //{
+        //    GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
 
-        }
+        //}
         public void ApplyMod()
         {
 

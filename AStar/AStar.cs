@@ -8,7 +8,7 @@ using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.AStar
 {
-   
+   // Ras
     class Astar
     {
         private List<Node> closedList = new List<Node>();

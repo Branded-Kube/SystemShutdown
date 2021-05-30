@@ -41,6 +41,7 @@ namespace SystemShutdown.Components
             
         }
 
+        
         public override string ToString()
         {
             return "SpriteRenderer";

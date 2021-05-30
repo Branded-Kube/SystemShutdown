@@ -7,6 +7,7 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.AStar
 {
+    //Ras
     public class Grid
     {
         public static int NodeSize = 100;
@@ -49,27 +50,29 @@ namespace SystemShutdown.AStar
 
                     if (nodes[x, y].Passable == false)
                     {
-                        GameObject1 go = new GameObject1();
-                        SpriteRenderer sr = new SpriteRenderer("1GuyUp");
-                        go.AddComponent(sr);
-                        go.Transform.Position = new Vector2(x * 100, y * 100);
+                        GameObject1 nodeGO = new GameObject1();
+                        SpriteRenderer nodeSR = new SpriteRenderer("Textures/pl4");
+                        nodeGO.AddComponent(nodeSR);
+                        nodeGO.Transform.Position = new Vector2(x * 100, y * 100);
+                        nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
 
-                        go.AddComponent(new Collider(sr, nodes[x, y]) { CheckCollisionEvents = false });
-                        go.AddComponent(nodes[x, y]);
-                        GameWorld.gameState.AddGameObject(go);
+                        nodeGO.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
+                        nodeGO.AddComponent(nodes[x, y]);
+                        GameWorld.gameState.AddGameObject(nodeGO);
                     }
                     if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
                     {
                         nodes[x, y].Passable = false;
 
-                        GameObject1 go = new GameObject1();
+                        GameObject1 nodeGO = new GameObject1();
                         SpriteRenderer nodeSR = new SpriteRenderer("Textures/nogo");
-                        go.AddComponent(nodeSR);
-                        go.Transform.Position = new Vector2(x * 100, y * 100);
+                        nodeGO.AddComponent(nodeSR);
+                        nodeGO.Transform.Position = new Vector2(x * 100, y * 100);
+                        nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
 
-                        go.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
-                        go.AddComponent(nodes[x, y]);
-                        GameWorld.gameState.AddGameObject(go);
+                        nodeGO.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
+                        nodeGO.AddComponent(nodes[x, y]);
+                        GameWorld.gameState.AddGameObject(nodeGO);
                     }
 
 
