@@ -25,7 +25,6 @@ namespace SystemShutdown.GameObjects
 
         private float speed;
         private SpriteRenderer spriteRenderer;
-        private PlayerBuilder playerBuilder;
         public Vector2 distance;
         private bool canShoot;
         private float shootTime;
@@ -35,41 +34,24 @@ namespace SystemShutdown.GameObjects
         private float ShowMapTime;
         private float mapCooldown = 1;
 
+        public Vector2 velocity = new Vector2(0f, 0f);
+
 
         public int dmg { get; set; }
         public int hp { get; set; }
 
 
 
-        // public int health = 10;
-        // public int dmg = 2;
-
         public bool showingMap;
 
-        private KeyboardState currentKey;
-
-        private KeyboardState previousKey;
-
-        private float laserSpeed;
-        public Vector2 previousPosition;
-
-        private float currentDirY;
-        private float currentDirX;
-
-        //public Texture2D sprite;
         protected Texture2D[] sprites, upWalk;
         protected float fps;
-        private float timeElapsed;
-        private int currentIndex;
 
-       // public Vector2 position;
         public Rectangle rectangle;
-        public Vector2 currentDir;
-        protected float rotation;
-        //protected Vector2 velocity;
-        bool cantMove = false;
         public Vector2 lastVelocity;
-        private ProjectileFactory laserFactory;
+
+
+        private Input input;
 
         public bool IsDead
         {
@@ -82,7 +64,7 @@ namespace SystemShutdown.GameObjects
         public Player()
         {
             Health = 100;
-            this.speed = 350;
+            this.speed = 600;
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;
@@ -95,16 +77,45 @@ namespace SystemShutdown.GameObjects
            
         }
 
-        public void Move(Vector2 velocity)
-        {
-            currentDir = velocity;
+        //public void Move(Vector2 velocity)
+        //{
+        //    currentDir = velocity;
 
-            if (velocity != Vector2.Zero)
+        //    if (velocity != Vector2.Zero)
+        //    {
+        //        velocity.Normalize();
+        //    }
+        //    velocity *= speed;
+        //    GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+        //}
+
+        public void Move()
+        {
+            KeyboardState keyState = Keyboard.GetState();
+
+
+            if (keyState.IsKeyDown(Keys.A))
             {
-                velocity.Normalize();
+                velocity.X = -1;
             }
-            velocity *= speed;
-            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+
+            else if (keyState.IsKeyDown(Keys.D))
+            {
+                velocity.X = 1;
+
+            }
+
+            if (keyState.IsKeyDown(Keys.W))
+            {
+                velocity.Y = -1;
+            }
+
+            else if (keyState.IsKeyDown(Keys.S))
+            {
+                velocity.Y = 1;
+            }
+
+           
         }
 
         /// <summary>
@@ -158,6 +169,41 @@ namespace SystemShutdown.GameObjects
                 Shoot();
             }
 
+            Move();
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+            }
+            velocity *= speed * GameWorld.DeltaTime;
+
+            foreach (Collider collider in GameWorld.gameState.Colliders)
+            {
+                Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
+                if (collider == playerCollider)
+                    continue;
+
+                if ((velocity.X > 0 && playerCollider.IsTouchingLeft(collider)) ||
+                     (velocity.X < 0 && playerCollider.IsTouchingRight(collider)))
+                {
+                    velocity.X = 0;
+                }
+                    
+
+                if ((velocity.Y > 0 && playerCollider.IsTouchingTop(collider)) ||
+                     (velocity.Y < 0 && playerCollider.IsTouchingBottom(collider)))
+                {
+                    velocity.Y = 0;
+
+                }
+            }
+
+            // /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
+
+            // velocity *= speed* GameWorld.DeltaTime;
+            GameObject.Transform.Translate(velocity );
+           // GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity ;
+
+            velocity = Vector2.Zero;
 
         }
 
@@ -217,10 +263,10 @@ namespace SystemShutdown.GameObjects
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
-            {
-              GameObject.Transform.Position = lastVelocity;
-            }
+            //if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
+            //{
+            //  GameObject.Transform.Position = lastVelocity;
+            //}
         }
 
         public void Enter(Object id)

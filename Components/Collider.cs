@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SystemShutdown.GameObjects;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.Components
@@ -15,10 +16,7 @@ namespace SystemShutdown.Components
 
         private Vector2 size;
         private Vector2 origin;
-
-        private Texture2D texture;
-        private SpriteRenderer sr;
-        private Mods floormod;
+        public Texture2D _texture;
 
         public Rectangle CollisionBox
         {
@@ -34,14 +32,16 @@ namespace SystemShutdown.Components
             }
         }
 
-        
+      
+
         public Collider(SpriteRenderer spriteRenderer, IGameListener gameListener)
         {
             onCollisionEvent.Attach(gameListener);
             this.origin = spriteRenderer.Origin;
             this.size = new Vector2(spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
-            texture = GameWorld.content.Load<Texture2D>("Textures/CollisionBox");
+            _texture = GameWorld.content.Load<Texture2D>("Textures/CollisionBox");
         }
+
 
         public void OnCollisionEnter(Collider other)
         {
@@ -59,18 +59,58 @@ namespace SystemShutdown.Components
 
         public override void Destroy()
         {
-           // base.Destroy();
            GameWorld.gameState.Colliders.Remove(this);
         }
 
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, CollisionBox, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
+            spriteBatch.Draw(_texture, CollisionBox, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
         }
 
         public override string ToString()
         {
             return "Collider";
         }
+
+        #region Collision
+
+        //Is touching left
+        public bool IsTouchingLeft(Collider collider)
+        {
+            return this.CollisionBox.Right + GameWorld.gameState.playerBuilder.player.velocity.X  > collider.CollisionBox.Left &&
+                         this.CollisionBox.Left < collider.CollisionBox.Left &&
+                         this.CollisionBox.Bottom > collider.CollisionBox.Top &&
+                         this.CollisionBox.Top < collider.CollisionBox.Bottom;
+        }
+
+        //Is touching Right
+        public bool IsTouchingRight(Collider collider)
+        {
+            return this.CollisionBox.Left + GameWorld.gameState.playerBuilder.player.velocity.X  < collider.CollisionBox.Right &&
+                         this.CollisionBox.Right > collider.CollisionBox.Right &&
+                         this.CollisionBox.Bottom > collider.CollisionBox.Top &&
+                         this.CollisionBox.Top < collider.CollisionBox.Bottom;
+        }
+
+        //Is touching top
+        public bool IsTouchingTop(Collider collider)
+        {
+            return this.CollisionBox.Bottom + GameWorld.gameState.playerBuilder.player.velocity.Y > collider.CollisionBox.Top &&
+                         this.CollisionBox.Top < collider.CollisionBox.Top &&
+                         this.CollisionBox.Right > collider.CollisionBox.Left &&
+                         this.CollisionBox.Left < collider.CollisionBox.Right;
+        }
+
+        //Is touching bottom
+        public bool IsTouchingBottom(Collider collider)
+        {
+            return this.CollisionBox.Top + GameWorld.gameState.playerBuilder.player.velocity.Y < collider.CollisionBox.Bottom &&
+                         this.CollisionBox.Bottom > collider.CollisionBox.Bottom &&
+                         this.CollisionBox.Right > collider.CollisionBox.Left &&
+                         this.CollisionBox.Left < collider.CollisionBox.Right;
+        }
+
+        #endregion
     }
 }

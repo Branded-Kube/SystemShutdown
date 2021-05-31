@@ -11,7 +11,7 @@ namespace SystemShutdown.States
 {
     public class HowToState : State
     {
-        private List<ComponentMenu> components;
+        private List<StateComponent> components;
 
         private SpriteFont buttonFont;
         private Texture2D buttonSprite;
@@ -33,7 +33,7 @@ namespace SystemShutdown.States
             howToSprite = content.Load<Texture2D>("Backgrounds/mainmenu");
             backText = content.Load<Texture2D>("Controls/back");
 
-            components = new List<ComponentMenu>()
+            components = new List<StateComponent>()
             {
                 new Button(buttonSprite, buttonFont)
                 {

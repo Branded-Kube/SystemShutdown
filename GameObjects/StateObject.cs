@@ -9,9 +9,10 @@ using SystemShutdown.States;
 
 namespace SystemShutdown.GameObjects
 {
-    public class StateObject : ComponentMenu
+    public class StateObject : StateComponent
     {
-        public Vector2 position;
+        //public Vector2 position;
+        //public Vector2 origin;
 
         public override void Update(GameTime gameTime)
         {

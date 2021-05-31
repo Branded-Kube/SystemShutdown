@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SystemShutdown.Components
 {
-    public abstract class ComponentMenu
+    public abstract class StateComponent
     {
         // Frederik
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
