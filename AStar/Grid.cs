@@ -23,22 +23,19 @@ namespace SystemShutdown.AStar
                 for (int y = 0; y < Height; y++)
                     for (int x = 0; x < Width; x++)
                     {
+                    // Creates a grid of nodes each with a x.y cordinate
                         nodes[x, y] = new Node();
                         nodes[x, y].x = x;
                         nodes[x, y].y = y;
-                    //
 
-
-                    //
-
-
+                    // random walls
                     if ((x != 0 && y != 0) && (x != Width - 1 && y != Height - 1) &&
                         rand.Next(1, 25) < 5)
                     {
                         nodes[x, y].Passable = false;
                     }
 
-
+                    // clears mid square for walls
                     if (x > 12 && x < 22 && y > 12 && y < 22)
                     {
                         nodes[x, y].Passable = true;
@@ -46,42 +43,44 @@ namespace SystemShutdown.AStar
 
                    
 
-
+                    // sets mid square borders
+                    // Bottom
                     if (x > Width / 2 -5 && x < Width / 2 +5 && y == Height /2 + 5)
                     {
                         nodes[x, y].Passable = false;
                     }
-
+                    // Top
                     if (x > Width / 2 - 5 && x < Width / 2 + 5 && y == Height / 2 -5)
                     {
                         nodes[x, y].Passable = false;
                     }
-
+                    // Left
                     if (y > Height / 2 - 5 && y < Height / 2 + 5 && x == Width / 2 - 5)
                     {
                         nodes[x, y].Passable = false;
                     }
-
+                    // Right
                     if (y > Height / 2 - 5 && y < Height / 2 + 5 && x == Width / 2 + 5)
                     {
                         nodes[x, y].Passable = false;
                     }
 
-
+                    // Clears middle node in border for wall
+                    // Top and Bottom
                     if (x == Width / 2 && y == Height / 2 + 5 || x == Width / 2 && y == Height / 2 - 5)
                     {
                         nodes[x, y].Passable = true;
                     }
+                    // Left and Right
                     if (y == Height / 2 && x == Width / 2 + 5 || y == Height / 2 && x == Width / 2 - 5)
                     {
                         nodes[x, y].Passable = true;
                     }
-
-
+                    // Creates a node gameobject (wall) for each node that are not passable
                     if (nodes[x, y].Passable == false)
                     {
                         GameObject1 nodeGO = new GameObject1();
-                        SpriteRenderer nodeSR = new SpriteRenderer("Textures/pl4");
+                        SpriteRenderer nodeSR = new SpriteRenderer("Textures/wall");
                         nodeGO.AddComponent(nodeSR);
                         nodeGO.Transform.Position = new Vector2(x * 100, y * 100);
                         nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
@@ -90,6 +89,7 @@ namespace SystemShutdown.AStar
                         nodeGO.AddComponent(nodes[x, y]);
                         GameWorld.gameState.AddGameObject(nodeGO);
                     }
+                    // Creates a node gameobject (wall )for each node at outerborder with yellow/black striped texture
                     if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
                     {
                         nodes[x, y].Passable = false;
@@ -104,20 +104,6 @@ namespace SystemShutdown.AStar
                         nodeGO.AddComponent(nodes[x, y]);
                         GameWorld.gameState.AddGameObject(nodeGO);
                     }
-
-
-                    //if (nodes[x, y].Passable == false)
-                    //{
-                    //    nodes[x, y].rectangle(new Point(x, y));
-                    //}
-
-
-
-                    
-                    //if (x == 7 * Width / 8 && y < 7 * Height / 8 && y > Height / 4)
-                    //{
-                    //    nodes[x, y].Passable = false;
-                    //}
                 }
         }
 
