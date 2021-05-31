@@ -64,7 +64,7 @@ namespace SystemShutdown
         private Camera camera;
         
         private bool isGameState;
-        private bool isDay;
+        public static bool isDay;
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
         public static Repository repo;

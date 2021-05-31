@@ -32,6 +32,7 @@ namespace SystemShutdown.GameObjects
         private SpriteRenderer spriteRenderer;
         Node node = null;
                     Node current = null;
+        float speed = 200;
 
         public bool AttackingCPU
         {
@@ -66,12 +67,12 @@ namespace SystemShutdown.GameObjects
         private bool Searching = false;
 
         Stack<Node> path = new Stack<Node>();
-        public Node goal;
+        private Node goal;
 
         Astar aStar;
         GameObject1 go;
         //
-        
+        bool goalFound = false;
 
 
         private bool threadRunning = true;
@@ -106,6 +107,67 @@ namespace SystemShutdown.GameObjects
             threadRunning = false;
         }
        
+        public void FindGoal()
+        {
+            if (playerTarget)
+            {
+                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                speed = 200;
+            }
+            else if (!GameWorld.isDay)
+            {
+                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                speed = 200;
+            }
+            else
+            {
+                speed = 100;
+
+                goal = null;
+
+                var maxvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) + 5) , ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) + 5) );
+                var minvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) - 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) - 5) );
+
+                var tmpvector = SetEnemyPosition(minvalue, maxvalue);
+
+                goal = GameWorld.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
+
+
+            }
+            goalFound = true;
+        }
+        
+
+        private Node GetRandomPassableNode(Vector2 minLimit, Vector2 maxLimit)
+        {
+            Random rndd = new Random();
+            Node tmppos = null;
+            while (tmppos == null)
+            {
+
+                tmppos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
+
+            }
+
+            return tmppos;
+        }
+
+
+        public Vector2 SetEnemyPosition(Vector2 minLimit, Vector2 maxLimit)
+        {
+
+            Node enemypos = null;
+            while (enemypos == null || !enemypos.Passable)
+            {
+
+
+                enemypos = GetRandomPassableNode(minLimit, maxLimit);
+
+            }
+
+            return new Vector2(enemypos.x *100 , enemypos.y *100);
+        }
+
 
         public override void Update(GameTime gameTime)
         {
@@ -139,6 +201,7 @@ namespace SystemShutdown.GameObjects
 
                     // Debug.WriteLine("Enemy can see player!");
                     playerTarget = true;
+                    goalFound = false;
                     //        //        }
                     //        //    }
                     //        //}
@@ -153,92 +216,80 @@ namespace SystemShutdown.GameObjects
                 updateTimer = 0.0;
             }
 
-
-
-
-
-            //if (cycle == day)
-            //{
-
-            //}
-            if (playerTarget)
+            if (!goalFound)
             {
-                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int) Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
-
-            }
-            else
-            {
-                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                FindGoal();
             }
 
 
 
-
-            Node start = null;
-            start = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
-
-            // if clicked on non passable node, then march in direction of player till passable found
-            //while (!goal.Passable)
-            //{
-            //    int di = start.x - goal.x;
-            //    int dj = start.y - goal.y;
-
-            //    int di2 = di * di;
-            //    int dj2 = dj * dj;
-
-            //    int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
-            //    int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
-
-            //    goal = aStar.Node(goal.x + ni, goal.y + nj);
-            //}
-
-
-            aStar.Start(start);
-
-
-            while (path.Count > 0)
+            if (goal != null)
             {
-                path.Pop();
-
-            }
-
-            GameWorld.gameState.grid.ResetState();
-            Searching = true;
-
-            //  }
-            // updateTimerB = 0.0;
-            //}
-
-            // }
-            // use update timer to slow down animation
-            //updateTimerA += gameTime.ElapsedGameTime.TotalSeconds;
-
-            //if (updateTimerA >= 0.8)
-            //{
-
-                // begin the search to goal from enemy's position
-                // search function pushs path onto the stack
-                if (Searching )
-                {
-
-                    current = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int) Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
-                //current.alreadyOccupied = true;(76d / 100d, 0) * 100
-                //if (current.cameFrom != null)
+            
+                Node start = null;
+                start = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
+              
+                // if clicked on non passable node, then march in direction of player till passable found
+                //while (!goal.Passable)
                 //{
-                //    current.cameFrom.alreadyOccupied = false;
+                //    int di = start.x - goal.x;
+                //    int dj = start.y - goal.y;
 
+                //    int di2 = di * di;
+                //    int dj2 = dj * dj;
+
+                //    int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
+                //    int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
+
+                //    goal = aStar.Node(goal.x + ni, goal.y + nj);
                 //}
 
 
-                aStar.Search(GameWorld.gameState.grid, current, goal, path);
-                // Debug.WriteLine($"path {path.Count}");
-                //Debug.WriteLine($"path add {path.Count}");
+                aStar.Start(start);
 
-                Searching = false;
-                if (path.Count >0)
+
+                while (path.Count > 0)
                 {
-                    //if ( node == null || current.x == node.x && current.y == node.y )
+                    path.Pop();
+
+                }
+
+                GameWorld.gameState.grid.ResetState();
+                Searching = true;
+
+                //  }
+                // updateTimerB = 0.0;
+                //}
+
+                // }
+                // use update timer to slow down animation
+                //updateTimerA += gameTime.ElapsedGameTime.TotalSeconds;
+
+                //if (updateTimerA >= 0.8)
+                //{
+
+                // begin the search to goal from enemy's position
+                // search function pushs path onto the stack
+                if (Searching)
+                {
+
+                    current = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
+                    //current.alreadyOccupied = true;
+                    //if (current.cameFrom != null)
                     //{
+                    //    current.cameFrom.alreadyOccupied = false;
+
+                    //}
+                   
+                    aStar.Search(GameWorld.gameState.grid, current, goal, path);
+                    // Debug.WriteLine($"path {path.Count}");
+                    //Debug.WriteLine($"path add {path.Count}");
+
+                    Searching = false;
+                    if (path.Count > 0)
+                    {
+                        //if ( node == null || current.x == node.x && current.y == node.y )
+                        //{
                         //Debug.WriteLine($"Path Pop");
 
                         node = path.Pop();
@@ -247,26 +298,32 @@ namespace SystemShutdown.GameObjects
                         //  node.alreadyOccupied = true;
                         // node.cameFrom.alreadyOccupied = false;
                         nextpos = new Vector2(x, y);
-                      //  Debug.WriteLine($"pos{GameObject.Transform.Position}");
-                    //     Debug.WriteLine($"current node {current.x} {current.y}");
-                    //Debug.WriteLine($"next node {node.x} {node.y}");
+                        //Debug.WriteLine($"pos{GameObject.Transform.Position}");
+                        //Debug.WriteLine($"current node {current.x} {current.y}");
+                        //Debug.WriteLine($"next node {node.x} {node.y}");
 
 
-                    //Debug.WriteLine($"path {path.Count}");
-                    //}
-                    //else
-                    //{
+                        //Debug.WriteLine($"path {path.Count}");
+                        //}
+                        //else
+                        //{
                         Move(nextpos);
 
-                   // }
+                        // }
 
-                    //if (Math.Round(GameObject.Transform.Position.X) != nextpos.X && Math.Round(GameObject.Transform.Position.Y) != nextpos.Y || nextpos != Vector2.Zero)
-                    //{
+                        //if (Math.Round(GameObject.Transform.Position.X) != nextpos.X && Math.Round(GameObject.Transform.Position.Y) != nextpos.Y || nextpos != Vector2.Zero)
+                        //{
 
-                    //}
+                        //}
+                    }
+                    else
+                    {
+                        goalFound = false;
+                    }
+
                 }
-              
             }
+
 
         }
 
@@ -294,12 +351,11 @@ namespace SystemShutdown.GameObjects
         public void LoadContent(ContentManager content)
         {
             aStar = new Astar();
-            goal = GameWorld.gameState.grid.Node(1, 1);
+           // goal = GameWorld.gameState.grid.Node(1, 1);
         }
 
         public void Move(Vector2 nextpos)
         {
-            var speed = 200;
 
             velocity = nextpos - GameObject.Transform.Position;
 
@@ -394,6 +450,9 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Enemy";
             Health = 100;
+            
+            GameObject.Transform.Position = SetEnemyPosition(new Vector2( 1, 1), new Vector2(GameWorld.gameState.grid.Width -2, GameWorld.gameState.grid.Height -2));
+
             //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             // this.position = GameObject.Transform.Position;
             //spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");

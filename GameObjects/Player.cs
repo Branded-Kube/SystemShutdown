@@ -82,7 +82,7 @@ namespace SystemShutdown.GameObjects
         public Player()
         {
             Health = 100;
-            this.speed = 250;
+            this.speed = 350;
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;
@@ -92,6 +92,7 @@ namespace SystemShutdown.GameObjects
             MySemaphore.Release();
             dmg = 50;
             hp = 10;
+           
         }
 
         public void Move(Vector2 velocity)
