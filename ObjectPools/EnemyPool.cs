@@ -23,26 +23,7 @@ namespace SystemShutdown.ObjectPool
                 return instance;
             }
         }
-        //private Node GetRandomPassableNode()
-        //{
-        //    Random rndd = new Random();
-        //    var tmppos = GameWorld.gameState.grid.nodes[rndd.Next(1, GameWorld.gameState.grid.Width), rndd.Next(1, GameWorld.gameState.grid.Height)];
-
-        //    return tmppos;
-        //}
-
-
-        //public void SetEnemyPosition()
-        //{
-          
-        //    enemypos = GetRandomPassableNode();
-
-        //    while (!enemypos.Passable || enemypos == null)
-        //    {
-        //        enemypos = GetRandomPassableNode();
-        //    }
-
-        //}
+        
         protected override void Cleanup(GameObject1 gameObject)
         {
             throw new NotImplementedException();
@@ -50,7 +31,6 @@ namespace SystemShutdown.ObjectPool
 
         protected override GameObject1 Create()
         {
-           // SetEnemyPosition();
             return EnemyFactory.Instance.Create(new Vector2(0,0));
 
         }

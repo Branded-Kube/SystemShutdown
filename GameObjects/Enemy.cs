@@ -88,16 +88,7 @@ namespace SystemShutdown.GameObjects
             this.vision = 500;
             internalThread = new Thread(ThreadMethod);
             LoadContent(GameWorld.content);
-           //Health = 100;
             dmg = 5;
-            //    randomNumber = new Random();
-            //    positionX = 300 + randomNumber.Next(0, 150);
-            //    positionY = 700 + randomNumber.Next(0, 150);
-            //    x = new Point(positionX, positionY);
-            //    y = new Point(24, 48);
-            //    this.rectangle = new Rectangle(x, y);
-            //go = new GameObject1();
-            //go.AddComponent(goal);
         }
 
 
@@ -229,22 +220,6 @@ namespace SystemShutdown.GameObjects
                 Node start = null;
                 start = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
               
-                // if clicked on non passable node, then march in direction of player till passable found
-                //while (!goal.Passable)
-                //{
-                //    int di = start.x - goal.x;
-                //    int dj = start.y - goal.y;
-
-                //    int di2 = di * di;
-                //    int dj2 = dj * dj;
-
-                //    int ni = (int)Math.Round(di / Math.Sqrt(di2 + dj2));
-                //    int nj = (int)Math.Round(dj / Math.Sqrt(di2 + dj2));
-
-                //    goal = aStar.Node(goal.x + ni, goal.y + nj);
-                //}
-
-
                 aStar.Start(start);
 
 
@@ -257,12 +232,7 @@ namespace SystemShutdown.GameObjects
                 GameWorld.gameState.grid.ResetState();
                 Searching = true;
 
-                //  }
-                // updateTimerB = 0.0;
-                //}
-
-                // }
-                // use update timer to slow down animation
+               
                 //updateTimerA += gameTime.ElapsedGameTime.TotalSeconds;
 
                 //if (updateTimerA >= 0.8)
@@ -302,19 +272,7 @@ namespace SystemShutdown.GameObjects
                         //Debug.WriteLine($"current node {current.x} {current.y}");
                         //Debug.WriteLine($"next node {node.x} {node.y}");
 
-
-                        //Debug.WriteLine($"path {path.Count}");
-                        //}
-                        //else
-                        //{
                         Move(nextpos);
-
-                        // }
-
-                        //if (Math.Round(GameObject.Transform.Position.X) != nextpos.X && Math.Round(GameObject.Transform.Position.Y) != nextpos.Y || nextpos != Vector2.Zero)
-                        //{
-
-                        //}
                     }
                     else
                     {
@@ -336,9 +294,7 @@ namespace SystemShutdown.GameObjects
 
         public void RotateEnemy()
         {
-           // distance = GameObject.Transform.Position - new Vector2(goal.x*100, goal.y *100);
             distance = GameObject.Transform.Position - nextpos;
-
             var tmpSR = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             tmpSR.Rotation = (float)Math.Atan2(distance.Y, distance.X);
         }
@@ -371,16 +327,8 @@ namespace SystemShutdown.GameObjects
 
 
             RotateEnemy();
-           
-
-
-            // GameObject.Transform.Position = nextpos;
-
-
+          
         }
-
-
-
 
         /// <summary>
         /// Sets Thread id
