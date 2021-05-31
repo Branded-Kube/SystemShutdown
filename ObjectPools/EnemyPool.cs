@@ -26,7 +26,7 @@ namespace SystemShutdown.ObjectPool
         private Node GetRandomPassableNode()
         {
             Random rndd = new Random();
-            var tmppos = GameWorld.gameState.grid.nodes[rndd.Next(1, GameWorld.gameState.grid.Width), rndd.Next(1, GameWorld.gameState.grid.Height)];
+            var tmppos = GameWorld.gameState.grid.nodes[rndd.Next(1, GameWorld.gameState.grid.Width -1), rndd.Next(1, GameWorld.gameState.grid.Height -1)];
 
             return tmppos;
         }
