@@ -39,7 +39,7 @@ namespace SystemShutdown.FactoryPattern
         {
 
             GameObject1 enemyGO = new GameObject1();
-                SpriteRenderer enemySR = new SpriteRenderer("Textures/pl4");
+                SpriteRenderer enemySR = new SpriteRenderer("Textures/enemy");
                 enemyGO.AddComponent(enemySR);
             enemyGO.Transform.Position = position;
             enemySR.Origin = new Vector2(enemySR.Sprite.Width / 2, (enemySR.Sprite.Height) / 2);
