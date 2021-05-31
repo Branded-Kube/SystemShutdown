@@ -25,7 +25,6 @@ namespace SystemShutdown.GameObjects
 
         private float speed;
         private SpriteRenderer spriteRenderer;
-        private PlayerBuilder playerBuilder;
         public Vector2 distance;
         private bool canShoot;
         private float shootTime;
@@ -43,38 +42,14 @@ namespace SystemShutdown.GameObjects
 
 
 
-        // public int health = 10;
-        // public int dmg = 2;
-
         public bool showingMap;
 
-        private KeyboardState currentKey;
-
-        private KeyboardState previousKey;
-
-        private float laserSpeed;
-        public Vector2 previousPosition;
-
-        private float currentDirY;
-        private float currentDirX;
-
-        //public Texture2D sprite;
         protected Texture2D[] sprites, upWalk;
         protected float fps;
-        private float timeElapsed;
-        private int currentIndex;
 
-       // public Vector2 position;
         public Rectangle rectangle;
-        public Vector2 currentDir;
-        protected float rotation;
-        //protected Vector2 velocity;
-        bool cantMove = false;
         public Vector2 lastVelocity;
-        private ProjectileFactory laserFactory;
 
-        private Collider collision;
-        private List<Collider> colliders = new List<Collider>();
 
         private Input input;
 
@@ -86,10 +61,10 @@ namespace SystemShutdown.GameObjects
             }
         }
 
-        public Player(/*Texture2D texture*/)/* : base(texture)*/
+        public Player()
         {
             Health = 100;
-            this.speed = 250;
+            this.speed = 600;
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;
@@ -113,37 +88,33 @@ namespace SystemShutdown.GameObjects
         //    GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
         //}
 
-        public void Move(Vector2 velocity)
+        public void Move()
         {
             KeyboardState keyState = Keyboard.GetState();
 
-            velocity = this.velocity;
 
-            if (/*keyState.IsKeyDown(collision.input.Left)*/keyState.IsKeyDown(Keys.A))
+            if (keyState.IsKeyDown(Keys.A))
             {
-                velocity.X = -collision.speed;
+                velocity.X = -1;
             }
 
-            else if (/*keyState.IsKeyDown(collision.input.Right)*/keyState.IsKeyDown(Keys.D))
+            else if (keyState.IsKeyDown(Keys.D))
             {
-                velocity.X = collision.speed;
+                velocity.X = 1;
 
             }
 
-            if (/*keyState.IsKeyDown(collision.input.Up)*/keyState.IsKeyDown(Keys.W))
+            if (keyState.IsKeyDown(Keys.W))
             {
-                velocity.Y = -collision.speed;
+                velocity.Y = -1;
             }
 
-            else if (/*keyState.IsKeyDown(collision.input.Down)*/keyState.IsKeyDown(Keys.S))
+            else if (keyState.IsKeyDown(Keys.S))
             {
-                velocity.Y = collision.speed;
+                velocity.Y = 1;
             }
 
-            if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-            }
+           
         }
 
         /// <summary>
@@ -170,7 +141,7 @@ namespace SystemShutdown.GameObjects
         }
 
 
-        public override void Update(GameTime gameTime/*, List<Collider> colliders*/)
+        public override void Update(GameTime gameTime)
         {
             shootTime += GameWorld.DeltaTime;
             ShowMapTime += GameWorld.DeltaTime;
@@ -197,26 +168,39 @@ namespace SystemShutdown.GameObjects
                 Shoot();
             }
 
-            foreach (Collider collider in colliders)
+            Move();
+            if (velocity != Vector2.Zero)
             {
-                //if (collider == this)
-                //    continue;
+                velocity.Normalize();
+            }
+            velocity *= speed * GameWorld.DeltaTime;
 
-                if ((velocity.X > 0 && collision.IsTouchingLeft(collider)) ||
-                     (velocity.X < 0 && collision.IsTouchingRight(collider)))
+            foreach (Collider collider in GameWorld.gameState.Colliders)
+            {
+                Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
+                if (collider == playerCollider)
+                    continue;
+
+                if ((velocity.X > 0 && playerCollider.IsTouchingLeft(collider)) ||
+                     (velocity.X < 0 && playerCollider.IsTouchingRight(collider)))
                 {
                     velocity.X = 0;
                 }
                     
 
-                if ((velocity.Y > 0 && collision.IsTouchingTop(collider)) ||
-                     (velocity.Y < 0 && collision.IsTouchingBottom(collider)))
+                if ((velocity.Y > 0 && playerCollider.IsTouchingTop(collider)) ||
+                     (velocity.Y < 0 && playerCollider.IsTouchingBottom(collider)))
                 {
                     velocity.Y = 0;
+
                 }
             }
 
-            /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
+            // /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
+
+            // velocity *= speed* GameWorld.DeltaTime;
+            GameObject.Transform.Translate(velocity );
+           // GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity ;
 
             velocity = Vector2.Zero;
 
