@@ -15,7 +15,7 @@ namespace SystemShutdown
 {
     public class MenuState : State
     {
-        private List<ComponentMenu> components;
+        private List<StateComponent> components;
 
         private SpriteFont buttonFont;
         private Texture2D buttonSprite;
@@ -50,7 +50,7 @@ namespace SystemShutdown
             howToText = content.Load<Texture2D>("Controls/howtoplay");
             quitGameText = content.Load<Texture2D>("Controls/quitgame");
 
-            components = new List<ComponentMenu>()
+            components = new List<StateComponent>()
             {
                 new Button(buttonSprite, buttonFont)
                 {

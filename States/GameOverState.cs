@@ -14,7 +14,7 @@ namespace SystemShutdown.States
     public class GameOverState : State
     {
         #region Fields
-        private List<ComponentMenu> components;
+        private List<StateComponent> components;
 
         private SpriteFont buttonFont;
         private Texture2D buttonTexture;
@@ -43,7 +43,7 @@ namespace SystemShutdown.States
             gameOverSprite = content.Load<Texture2D>("Backgrounds/gameover");
             quitGameText = content.Load<Texture2D>("Controls/quitgame");
 
-            components = new List<ComponentMenu>()
+            components = new List<StateComponent>()
             {
                 new Button(buttonTexture, buttonFont)
                 {

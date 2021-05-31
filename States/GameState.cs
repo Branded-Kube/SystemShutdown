@@ -23,7 +23,10 @@ namespace SystemShutdown.States
     public class GameState : State
     {
         #region Fields
-
+        private SpriteBatch _spriteBatch;
+        public Texture2D backgroundSprite;
+        public Vector2 backgroundPos;
+        public Vector2 backgroundOrigin;
         public Texture2D cursorSprite;
         public Vector2 cursorPosition;
         public static SpriteFont font;
@@ -41,7 +44,7 @@ namespace SystemShutdown.States
 
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
-        private List<StateObject> menuObjects;
+        //private List<StateObject> stateObjects;
         private List<GameObject1> gameObjects = new List<GameObject1>();
        
         private InputHandler inputHandler;
@@ -60,8 +63,18 @@ namespace SystemShutdown.States
 
         public int NodeSize = Grid.NodeSize;
 
+        private Component component;
+        private Collider collision;
+        private List<Collider> colliders;
+
         public List<Collider> Colliders { get; set; } = new List<Collider>();
 
+        private Collider collide;
+        private Collider Collider
+        {
+            get { return collide; }
+            set { collide = value; }
+        }
 
         Astar aStar;
         
@@ -72,7 +85,7 @@ namespace SystemShutdown.States
         private float timeElapsed;
         private int currentIndex;
 
-        public Vector2 position;
+        //public Vector2 position;
         public Rectangle rectangle;
         public Vector2 previousPosition;
         public Vector2 currentDir;
@@ -117,6 +130,7 @@ namespace SystemShutdown.States
 
         public override void LoadContent()
         {
+            //backgroundSprite = content.Load<Texture2D>("");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
 
             Director director = new Director(playerBuilder);
@@ -166,24 +180,44 @@ namespace SystemShutdown.States
 
             font = content.Load<SpriteFont>("Fonts/font");
 
-            menuObjects = new List<StateObject>()
-            {
-                new StateObject()
-                {
-              
-                    position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
-                }
-            };
+            //stateObjects = new List<StateObject>()
+            //{
+            //    new StateObject()
+            //    {
+            //        position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2),
+            //        origin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2),
+            //    }
+            //};
 
             grid = new Grid();
+
+            _spriteBatch = new SpriteBatch(GameWorld.thisGameWorld.GraphicsDevice);
+
+            var playerTexture = GameWorld.gameState.playerBuilder.Player.GameObject.Tag;
+            //var wallTexture = GameWorld.gameState.component.Node.GameObject.Tag;
+
+            //var colliderTexture = "Collider"/*GameWorld.gameState.Collider.GameObject.Tag*/;
+
+            colliders = new List<Collider>()
+            {
+                //new Player()
+                //{
+
+                //},
+                
+            };
         }
 
         public override void Update(GameTime gameTime)
         {
+            //backgroundPos = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2);
+            //backgroundOrigin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2);
+
             ///<summary>
             ///Updates cursors position
             /// </summary>
-            cursorPosition = new Vector2(playerBuilder.player.distance.X - cursorSprite.Width / 2, playerBuilder.player.distance.Y) + playerBuilder.player.GameObject.Transform.Position;
+            cursorPosition = new Vector2(playerBuilder.player.distance.X - cursorSprite.Width / 2, 
+                playerBuilder.player.distance.Y) + playerBuilder.player.GameObject.Transform.Position;
 
             previousKeyState = currentKeyState;
 
@@ -258,9 +292,6 @@ namespace SystemShutdown.States
             //spriteBatch.Begin(SpriteSortMode.FrontToBack);
             spriteBatch.Begin();
 
-            //Draws cursor
-            spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
-
             // Frederik
             //float x = 10f;
             //foreach (var player in players)
@@ -272,6 +303,14 @@ namespace SystemShutdown.States
             //    x += 150;
             //}
 
+            //spriteBatch.Draw(backgroundSprite, backgroundPos, null, Color.White, 0, backgroundOrigin, 1f, SpriteEffects.None, 0.1f);
+
+            // Frederik
+            //foreach (var sprite in stateObjects)
+            //{
+            //    sprite.Draw(gameTime, spriteBatch);
+            //}
+
             foreach (var item in buttons)
             {
                 item.Draw(spriteBatch);
@@ -279,13 +318,6 @@ namespace SystemShutdown.States
 
             //Draw selected Enemy ID
             spriteBatch.DrawString(font, $"Enemy: {enemyID} selected", new Vector2(300, 100), Color.Black);
-
-          
-               // Frederik
-            foreach (var sprite in menuObjects)
-            {
-                sprite.Draw(gameTime, spriteBatch);
-            }
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
@@ -356,11 +388,14 @@ namespace SystemShutdown.States
             //        //    grid.Node(i, j).Passable = true;
 
             //        //}
-                    
+
             //    }
             //}
 
             //
+
+            //Draws cursor
+            spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
 
             spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
             spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);

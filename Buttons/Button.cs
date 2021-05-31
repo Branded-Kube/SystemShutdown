@@ -10,7 +10,7 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.Buttons
 {
-    internal class Button : ComponentMenu
+    internal class Button : StateComponent
     {
         #region Fields
 

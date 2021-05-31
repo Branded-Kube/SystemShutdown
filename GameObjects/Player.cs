@@ -35,6 +35,8 @@ namespace SystemShutdown.GameObjects
         private float ShowMapTime;
         private float mapCooldown = 1;
 
+        public Vector2 velocity = new Vector2(0f, 0f);
+
 
         public int dmg { get; set; }
         public int hp { get; set; }
@@ -71,6 +73,11 @@ namespace SystemShutdown.GameObjects
         public Vector2 lastVelocity;
         private ProjectileFactory laserFactory;
 
+        private Collider collision;
+        private List<Collider> colliders = new List<Collider>();
+
+        private Input input;
+
         public bool IsDead
         {
             get
@@ -79,7 +86,7 @@ namespace SystemShutdown.GameObjects
             }
         }
 
-        public Player()
+        public Player(/*Texture2D texture*/)/* : base(texture)*/
         {
             Health = 100;
             this.speed = 250;
@@ -94,16 +101,49 @@ namespace SystemShutdown.GameObjects
             hp = 10;
         }
 
+        //public void Move(Vector2 velocity)
+        //{
+        //    currentDir = velocity;
+
+        //    if (velocity != Vector2.Zero)
+        //    {
+        //        velocity.Normalize();
+        //    }
+        //    velocity *= speed;
+        //    GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+        //}
+
         public void Move(Vector2 velocity)
         {
-            currentDir = velocity;
+            KeyboardState keyState = Keyboard.GetState();
+
+            velocity = this.velocity;
+
+            if (/*keyState.IsKeyDown(collision.input.Left)*/keyState.IsKeyDown(Keys.A))
+            {
+                velocity.X = -collision.speed;
+            }
+
+            else if (/*keyState.IsKeyDown(collision.input.Right)*/keyState.IsKeyDown(Keys.D))
+            {
+                velocity.X = collision.speed;
+
+            }
+
+            if (/*keyState.IsKeyDown(collision.input.Up)*/keyState.IsKeyDown(Keys.W))
+            {
+                velocity.Y = -collision.speed;
+            }
+
+            else if (/*keyState.IsKeyDown(collision.input.Down)*/keyState.IsKeyDown(Keys.S))
+            {
+                velocity.Y = collision.speed;
+            }
 
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
             }
-            velocity *= speed;
-            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
         }
 
         /// <summary>
@@ -130,7 +170,7 @@ namespace SystemShutdown.GameObjects
         }
 
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime/*, List<Collider> colliders*/)
         {
             shootTime += GameWorld.DeltaTime;
             ShowMapTime += GameWorld.DeltaTime;
@@ -157,6 +197,28 @@ namespace SystemShutdown.GameObjects
                 Shoot();
             }
 
+            foreach (Collider collider in colliders)
+            {
+                //if (collider == this)
+                //    continue;
+
+                if ((velocity.X > 0 && collision.IsTouchingLeft(collider)) ||
+                     (velocity.X < 0 && collision.IsTouchingRight(collider)))
+                {
+                    velocity.X = 0;
+                }
+                    
+
+                if ((velocity.Y > 0 && collision.IsTouchingTop(collider)) ||
+                     (velocity.Y < 0 && collision.IsTouchingBottom(collider)))
+                {
+                    velocity.Y = 0;
+                }
+            }
+
+            /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
+
+            velocity = Vector2.Zero;
 
         }
 
@@ -216,10 +278,10 @@ namespace SystemShutdown.GameObjects
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
-            {
-              GameObject.Transform.Position = lastVelocity;
-            }
+            //if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
+            //{
+            //  GameObject.Transform.Position = lastVelocity;
+            //}
         }
 
         public void Enter(Object id)
