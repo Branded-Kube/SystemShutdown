@@ -32,15 +32,49 @@ namespace SystemShutdown.AStar
                     //
 
 
-                    if ((x != 0 && y != 0) && (x != Width -1  && y != Height -1 ) &&
+                    if ((x != 0 && y != 0) && (x != Width - 1 && y != Height - 1) &&
                         rand.Next(1, 25) < 5)
                     {
                         nodes[x, y].Passable = false;
                     }
 
-                    if (x > Width / 4 && x < 7 * Width / 8 && y == Height /2 + 5)
+
+                    if (x > 12 && x < 22 && y > 12 && y < 22)
+                    {
+                        nodes[x, y].Passable = true;
+                    }
+
+                   
+
+
+                    if (x > Width / 2 -5 && x < Width / 2 +5 && y == Height /2 + 5)
                     {
                         nodes[x, y].Passable = false;
+                    }
+
+                    if (x > Width / 2 - 5 && x < Width / 2 + 5 && y == Height / 2 -5)
+                    {
+                        nodes[x, y].Passable = false;
+                    }
+
+                    if (y > Height / 2 - 5 && y < Height / 2 + 5 && x == Width / 2 - 5)
+                    {
+                        nodes[x, y].Passable = false;
+                    }
+
+                    if (y > Height / 2 - 5 && y < Height / 2 + 5 && x == Width / 2 + 5)
+                    {
+                        nodes[x, y].Passable = false;
+                    }
+
+
+                    if (x == Width / 2 && y == Height / 2 + 5 || x == Width / 2 && y == Height / 2 - 5)
+                    {
+                        nodes[x, y].Passable = true;
+                    }
+                    if (y == Height / 2 && x == Width / 2 + 5 || y == Height / 2 && x == Width / 2 - 5)
+                    {
+                        nodes[x, y].Passable = true;
                     }
 
 
