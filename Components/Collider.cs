@@ -17,7 +17,6 @@ namespace SystemShutdown.Components
         private Vector2 size;
         private Vector2 origin;
         public Texture2D _texture;
-
         public Rectangle CollisionBox
         {
             get
@@ -55,6 +54,7 @@ namespace SystemShutdown.Components
                     }
                 }
             }
+           
         }
 
         public override void Destroy()

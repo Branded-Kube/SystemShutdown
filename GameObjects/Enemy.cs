@@ -133,7 +133,7 @@ namespace SystemShutdown.GameObjects
         {
             Random rndd = new Random();
             Node tmppos = null;
-            while (tmppos == null)
+            while (tmppos == null || tmppos.x < 0 && tmppos.x > GameWorld.gameState.grid.Width -2 && tmppos.y < 0 && tmppos.y > GameWorld.gameState.grid.Height - 2)
             {
 
                 tmppos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
@@ -423,8 +423,8 @@ namespace SystemShutdown.GameObjects
             }
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
             {
-                Debug.WriteLine($"{Health}");
-                Health -= GameWorld.gameState.playerBuilder.player.dmg;
+               //Debug.WriteLine($"{Health}");
+              // Health -= GameWorld.gameState.playerBuilder.player.dmg;
                
             }
         }

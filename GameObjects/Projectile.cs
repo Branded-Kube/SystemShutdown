@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using SystemShutdown.Components;
 using SystemShutdown.ObserverPattern;
@@ -12,7 +13,7 @@ namespace SystemShutdown.FactoryPattern
     {
         private float speed;
         public Vector2 velocity;
-
+        bool alreadyCollider = false;
         public Projectile(float speed)
         {
             this.speed = speed;
@@ -25,6 +26,7 @@ namespace SystemShutdown.FactoryPattern
         public override void Awake()
         {
             GameObject.Tag = "Projectile";
+            alreadyCollider = false;
         }
 
         public override void Update(GameTime gameTime)
@@ -52,9 +54,11 @@ namespace SystemShutdown.FactoryPattern
             {
                 GameObject.Destroy();
             }
-            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy" && !alreadyCollider)
             {
                 GameObject.Destroy();
+                component.GameObject.GetComponent("Enemy").Health -= GameWorld.gameState.playerBuilder.player.dmg;
+                alreadyCollider = true;
             }
         }
     }
