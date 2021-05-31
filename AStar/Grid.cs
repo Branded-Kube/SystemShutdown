@@ -38,15 +38,11 @@ namespace SystemShutdown.AStar
                         nodes[x, y].Passable = false;
                     }
 
-                    // for testing only clears y 2 where player spawns
-                    if (y == 1 )
+                    if (x > Width / 4 && x < 7 * Width / 8 && y == Height /2 + 5)
                     {
-                        nodes[x, y].Passable = true;
+                        nodes[x, y].Passable = false;
                     }
 
-
-                   
-                   
 
                     if (nodes[x, y].Passable == false)
                     {
@@ -83,10 +79,7 @@ namespace SystemShutdown.AStar
 
 
 
-                    //if (x > Width / 4 && x < 7 * Width / 8 && y == Height / 2)
-                    //{
-                    //    nodes[x, y].Passable = false;
-                    //}
+                    
                     //if (x == 7 * Width / 8 && y < 7 * Height / 8 && y > Height / 4)
                     //{
                     //    nodes[x, y].Passable = false;

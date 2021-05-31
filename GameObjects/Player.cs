@@ -176,26 +176,37 @@ namespace SystemShutdown.GameObjects
             }
             velocity *= speed * GameWorld.DeltaTime;
 
-            foreach (Collider collider in GameWorld.gameState.Colliders)
-            {
-                Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
-                if (collider == playerCollider)
-                    continue;
-
-                if ((velocity.X > 0 && playerCollider.IsTouchingLeft(collider)) ||
-                     (velocity.X < 0 && playerCollider.IsTouchingRight(collider)))
+            
+                foreach (GameObject1 gameObject in GameWorld.gameState.gameObjects)
                 {
-                    velocity.X = 0;
-                }
-                    
+                    if (gameObject.Tag == "Node")
+                    {
 
-                if ((velocity.Y > 0 && playerCollider.IsTouchingTop(collider)) ||
-                     (velocity.Y < 0 && playerCollider.IsTouchingBottom(collider)))
-                {
-                    velocity.Y = 0;
+                    Collider nodeCollider = (Collider)gameObject.GetComponent("Collider");
+
+                    Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
+
+                    if ((velocity.X > 0 && playerCollider.IsTouchingLeft(nodeCollider)) ||
+                         (velocity.X < 0 && playerCollider.IsTouchingRight(nodeCollider)))
+                    {
+                        velocity.X = 0;
+                    }
+
+
+                    if ((velocity.Y > 0 && playerCollider.IsTouchingTop(nodeCollider)) ||
+                         (velocity.Y < 0 && playerCollider.IsTouchingBottom(nodeCollider)))
+                    {
+                        velocity.Y = 0;
+
+                    }
 
                 }
+
+
+
             }
+
+
 
             // /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
 

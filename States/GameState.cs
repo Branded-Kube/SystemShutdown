@@ -45,7 +45,7 @@ namespace SystemShutdown.States
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
         //private List<StateObject> stateObjects;
-        private List<GameObject1> gameObjects = new List<GameObject1>();
+        public List<GameObject1> gameObjects = new List<GameObject1>();
        
         private InputHandler inputHandler;
 
