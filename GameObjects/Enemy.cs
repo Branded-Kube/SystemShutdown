@@ -362,7 +362,7 @@ namespace SystemShutdown.GameObjects
                     attackingCPU = false;
                     //delivering = true;
 
-                    GameWorld.gameState.playerBuilder.Player.hp -= dmg / 2;
+                    GameWorld.gameState.playerBuilder.Player.Hp -= dmg / 2;
 
                     Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
@@ -395,10 +395,11 @@ namespace SystemShutdown.GameObjects
 
         public void StartThread()
         {
-            internalThread.IsBackground = true;
+            
             if (!internalThread.IsAlive)
             {
                 internalThread.Start();
+                internalThread.IsBackground = true;
 
             }
             threadRunning = true;

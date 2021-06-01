@@ -79,15 +79,15 @@ namespace SystemShutdown
 
             if (choseneffect.ModFK == 1)
             {
-                GameWorld.gameState.playerBuilder.player.dmg += choseneffect.Effect;
+                GameWorld.gameState.playerBuilder.player.Dmg += choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 2)
             {
-                //movespeed
+                GameWorld.gameState.playerBuilder.player.Speed += choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 3)
             {
-                //attackspeed
+                GameWorld.gameState.playerBuilder.player.Cooldown -= choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 4)
             {

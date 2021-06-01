@@ -23,12 +23,10 @@ namespace SystemShutdown.GameObjects
 
         static Semaphore MySemaphore = new Semaphore(0, 3);
 
-        private float speed;
         private SpriteRenderer spriteRenderer;
         public Vector2 distance;
         private bool canShoot;
         private float shootTime;
-        private float cooldown = 1;
 
         private bool canToggleMap;
         private float ShowMapTime;
@@ -37,8 +35,10 @@ namespace SystemShutdown.GameObjects
         public Vector2 velocity = new Vector2(0f, 0f);
 
 
-        public int dmg { get; set; }
-        public int hp { get; set; }
+        public int Dmg { get; set; }
+        public int Hp { get; set; }
+        public int Speed { get; set; }
+        public int Cooldown { get; set; }
 
 
 
@@ -64,7 +64,8 @@ namespace SystemShutdown.GameObjects
         public Player()
         {
             Health = 100;
-            this.speed = 600;
+            Speed = 250;
+            Cooldown = 2000;
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;
@@ -72,8 +73,8 @@ namespace SystemShutdown.GameObjects
 
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release();
-            dmg = 50;
-            hp = 10;
+            Dmg = 50;
+            Hp = 10;
            
         }
 
@@ -148,7 +149,7 @@ namespace SystemShutdown.GameObjects
             ShowMapTime += GameWorld.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
-            if (shootTime >= cooldown)
+            if (shootTime >= Cooldown / 1000)
             {
                 canShoot = true;
             }
@@ -174,7 +175,7 @@ namespace SystemShutdown.GameObjects
             {
                 velocity.Normalize();
             }
-            velocity *= speed * GameWorld.DeltaTime;
+            velocity *= Speed * GameWorld.DeltaTime;
 
             
                 foreach (GameObject1 gameObject in GameWorld.gameState.gameObjects)

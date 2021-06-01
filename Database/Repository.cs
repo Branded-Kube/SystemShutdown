@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -32,6 +33,18 @@ namespace SystemShutdown.Database
 
             cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Effects (EffectID INTEGER PRIMARY KEY, Effect INTEGER, EffectName VARCHAR(50), ModFK INTEGER REFERENCES Mods(ModID), UNIQUE(EffectName));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
+        }
+
+        public void RemoveTables()
+        {
+            var cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Effects;", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+
+            cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Mods;", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+
+            Debug.WriteLine("tables dropped");
+
         }
 
         public Mods FindMods(string name)

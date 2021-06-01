@@ -415,9 +415,11 @@ namespace SystemShutdown.States
             //Draws cursor
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
 
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
-            spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.Health} Health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 20), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.Dmg} Dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 40), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.Cooldown} AttackSpeed", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.Speed} MoveSpeed", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
+            spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 100), Color.White);
 
             spriteBatch.DrawString(font, $"CPU health {cpuBuilder.Cpu.Health}", cpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
 
@@ -480,6 +482,9 @@ namespace SystemShutdown.States
             if (GameWorld.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.gameState.playerBuilder.Player.Health <= 0)
             {
                 ShutdownThreads();
+                GameWorld.repo.Open();
+                GameWorld.repo.RemoveTables();
+                GameWorld.repo.Close();
                 GameWorld.ChangeState(GameWorld.gameOverState);
             }
         }

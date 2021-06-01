@@ -74,6 +74,7 @@ namespace SystemShutdown.States
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
+                
                 GameWorld.thisGameWorld.Exit();
             }
         }
