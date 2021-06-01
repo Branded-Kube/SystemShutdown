@@ -49,7 +49,7 @@ namespace SystemShutdown.GameObjects
 
         public Rectangle rectangle;
         public Vector2 lastVelocity;
-
+        public int maxHealth;
 
         private Input input;
 
@@ -71,7 +71,8 @@ namespace SystemShutdown.GameObjects
 
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release();
-            Health = 100;
+            maxHealth = 100;
+            Health = maxHealth;
             this.speed = 600;
             dmg = 50;
             hp = 10;
@@ -145,6 +146,7 @@ namespace SystemShutdown.GameObjects
 
         public override void Update(GameTime gameTime)
         {
+
             shootTime += GameWorld.DeltaTime;
             ShowMapTime += GameWorld.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
@@ -222,7 +224,8 @@ namespace SystemShutdown.GameObjects
         }
         public void ApplyAllMods()
         {
-            Health = 100;
+            maxHealth = 100;
+
             this.speed = 600;
             dmg = 50;
             hp = 10;
@@ -233,12 +236,25 @@ namespace SystemShutdown.GameObjects
                     dmg += mods.Effect;
 
                 }
-                if (mods.ModFKID == 2)
+                //if (mods.ModFKID == 2)
+                //{
+                //    dmg += mods.Effect;
+
+                //}
+                //if (mods.ModFKID == 3)
+                //{
+                //    dmg += mods.Effect;
+
+                //}
+                if (mods.ModFKID == 4)
                 {
+                    maxHealth += mods.Effect;
 
                 }
 
             }
+            var tmpHealth = maxHealth - Health;
+            Health -= tmpHealth;
 
         }
         public override void Start()
@@ -303,7 +319,12 @@ namespace SystemShutdown.GameObjects
             //}
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
             {
-                playersMods.Add((Mods)component.GameObject.GetComponent("Pickup"));
+                Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
+                if (tmpmod.ModFKID == 4)
+                {
+                    Health += tmpmod.Effect;
+                }
+                playersMods.Add(tmpmod);
                 ApplyAllMods();
                 component.GameObject.Destroy();
             }

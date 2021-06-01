@@ -396,7 +396,7 @@ namespace SystemShutdown.GameObjects
                     attackingCPU = false;
                     //delivering = true;
 
-                    GameWorld.gameState.playerBuilder.Player.hp -= dmg / 2;
+                    GameWorld.gameState.playerBuilder.Player.Health -= dmg / 2;
 
                     Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
@@ -465,7 +465,7 @@ namespace SystemShutdown.GameObjects
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "CPU")
             {
-               attackingCPU = true;
+              attackingCPU = true;
             }
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
             {
