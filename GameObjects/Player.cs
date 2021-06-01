@@ -36,7 +36,7 @@ namespace SystemShutdown.GameObjects
 
         public Vector2 velocity = new Vector2(0f, 0f);
 
-        public List<Mods> playersMods = new List<Mods>();
+        public Stack<Mods> playersMods = new Stack<Mods>();
         public int dmg { get; set; }
         public int hp { get; set; }
 
@@ -324,7 +324,7 @@ namespace SystemShutdown.GameObjects
                 {
                     Health += tmpmod.Effect;
                 }
-                playersMods.Add(tmpmod);
+                playersMods.Push(tmpmod);
                 ApplyAllMods();
                 component.GameObject.Destroy();
             }

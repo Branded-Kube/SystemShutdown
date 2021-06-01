@@ -419,6 +419,13 @@ namespace SystemShutdown.GameObjects
                     //    CPU.CPUTakingDamage(internalThread);
 
                     GameWorld.gameState.cpuBuilder.Cpu.Health -= dmg;
+                    Random rnd = new Random();
+                    if (rnd.Next(1, 3) == 1 && GameWorld.gameState.playerBuilder.player.playersMods.Count > 0)
+                    {
+                        GameWorld.gameState.playerBuilder.player.playersMods.Pop();
+                        GameWorld.gameState.playerBuilder.player.ApplyAllMods();
+                    }
+
                 }
                 else
                 {
