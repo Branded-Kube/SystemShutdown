@@ -36,7 +36,7 @@ namespace SystemShutdown.GameObjects
 
         public Vector2 velocity = new Vector2(0f, 0f);
 
-
+        public List<Mods> playersMods = new List<Mods>();
         public int dmg { get; set; }
         public int hp { get; set; }
 
@@ -216,6 +216,20 @@ namespace SystemShutdown.GameObjects
 
             velocity = Vector2.Zero;
 
+
+            foreach (Mods mods in playersMods)
+            {
+                if (mods.ModFKID == 1)
+                {
+                    dmg += mods.Effect;
+
+                }
+                if (mods.ModFKID == 2)
+                {
+
+                }
+
+            }
         }
 
         public override void Start()
@@ -278,6 +292,12 @@ namespace SystemShutdown.GameObjects
             //{
             //  GameObject.Transform.Position = lastVelocity;
             //}
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
+            {
+                playersMods.Add((Mods)component.GameObject.GetComponent("Pickup"));
+
+                component.GameObject.Destroy();
+            }
         }
 
         public void Enter(Object id)

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
+using SystemShutdown.GameObjects;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown
@@ -14,8 +15,12 @@ namespace SystemShutdown
         private Mods floormod;
 
         public int Id { get; set; }
+        public int ModFKID { get; set; }
+
+        public int Effect { get; set; }
 
         public string Name { get; set; }
+
 
       
         public GameObject1 Create()
@@ -76,7 +81,8 @@ namespace SystemShutdown
             Effects choseneffect = pickupable[randomeffect];
 
             Debug.WriteLine($"{choseneffect.Effectname}");
-
+            Effect = choseneffect.Effect;
+            ModFKID = choseneffect.ModFK;
             if (choseneffect.ModFK == 1)
             {
                 GameWorld.gameState.playerBuilder.player.dmg += choseneffect.Effect;
@@ -100,9 +106,11 @@ namespace SystemShutdown
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
-                Debug.WriteLine("picked up a mod");
-                ApplyMod();
-                GameObject.Destroy();
+                //(Player)component.GameObject.GetComponent("Player")
+
+                //GameWorld.gameState.playerBuilder.player.playersMods.Add(this);
+                //ApplyMod();
+                //GameObject.Destroy();
             }
         }
     }
