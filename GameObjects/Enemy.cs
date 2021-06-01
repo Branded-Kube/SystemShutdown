@@ -73,7 +73,7 @@ namespace SystemShutdown.GameObjects
         GameObject1 go;
         //
         bool goalFound = false;
-
+        Node tmppos = null;
 
         private bool threadRunning = true;
 
@@ -119,9 +119,12 @@ namespace SystemShutdown.GameObjects
                 var maxvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) + 5) , ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) + 5) );
                 var minvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) - 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) - 5) );
 
-                var tmpvector = SetEnemyPosition(minvalue, maxvalue);
+                var tmpvector = SetRandomEnemyGoal(minvalue, maxvalue);
+
+               // Debug.WriteLine($"{GameObject.Transform.Position.X}  ,{GameObject.Transform.Position.Y}");
 
                 goal = GameWorld.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
+               // Debug.WriteLine($"{goal.x}  ,{goal.y}");
 
 
             }
@@ -132,42 +135,73 @@ namespace SystemShutdown.GameObjects
         private Node GetRandomPassableNode(Vector2 minLimit, Vector2 maxLimit)
         {
             Random rndd = new Random();
-            Node tmppos = null;
             // Get new random node if node is null, outside of outer border or inside of inner border
-            while (tmppos == null || tmppos.x < 1 && tmppos.x > GameWorld.gameState.grid.Width -2 && tmppos.y < 1 && tmppos.y > GameWorld.gameState.grid.Height - 2 && tmppos.x > 12 && tmppos.x < 22 && tmppos.y > 12 && tmppos.y < 22)
-            {
-                try
-                {
+           //while (tmppos == null || tmppos.x < 0 && tmppos.x > GameWorld.gameState.grid.Width -2  && tmppos.y < 0 && tmppos.y > GameWorld.gameState.grid.Height -2 && tmppos.x > 12 && tmppos.x < 22 && tmppos.y > 12 && tmppos.y < 22)
+            
+            //while (tmppos == null || tmppos.x < 1 && tmppos.x > GameWorld.gameState.grid.Width -2  && tmppos.y < 1 && tmppos.y > GameWorld.gameState.grid.Height -2)
+            //    {
+                    //try
+                    //{
                     tmppos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
 
-                }
-                catch (System.ArgumentOutOfRangeException)
-                {
-                    Debug.WriteLine($"{tmppos.x}, {tmppos.y}");
-                   // throw;
-                }
+                //}
+                //catch (System.ArgumentOutOfRangeException)
+                //{
+                //    Debug.WriteLine($"EXEPTION {tmppos.x}, {tmppos.y}-------------------------------------------------------------");
+                //    // throw;
+                //}
 
-            }
+           //}
 
             return tmppos;
         }
 
 
-        public Vector2 SetEnemyPosition(Vector2 minLimit, Vector2 maxLimit)
+        public Vector2 SetRandomEnemyGoal(Vector2 minLimit, Vector2 maxLimit)
         {
+            Random rndd = new Random();
 
             Node enemypos = null;
-            while (enemypos == null || !enemypos.Passable)
+            while (enemypos == null || !enemypos.Passable /*&& enemypos.x < GameWorld.gameState.grid.Width  && enemypos.y < GameWorld.gameState.grid.Height*/ )
             {
 
-
-                enemypos = GetRandomPassableNode(minLimit, maxLimit);
-
+                enemypos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
             }
 
             return new Vector2(enemypos.x *100 , enemypos.y *100);
         }
 
+        public Vector2 SetSpawnInCorner()
+        {
+            Random rndd = new Random();
+            var rndpos = rndd.Next(1,5);
+            int x = 0;
+            int y = 0;
+
+            if (rndpos == 1)
+            {
+                x = 1;
+                y = 1;
+            }
+            else if (rndpos == 2)
+            {
+                x = GameWorld.gameState.grid.Width - 2;
+                y = 1;
+            }
+            else if (rndpos == 3)
+            {
+                x = 1;
+                y = GameWorld.gameState.grid.Height -2;
+            }
+            else if (rndpos == 4)
+            {
+                x = GameWorld.gameState.grid.Width - 2;
+                y = GameWorld.gameState.grid.Height - 2;
+            }
+            //Node tmpvector = GameWorld.gameState.grid.Node(x,y);
+            return new Vector2(x * 100, y * 100);
+
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -407,8 +441,11 @@ namespace SystemShutdown.GameObjects
         {
             GameObject.Tag = "Enemy";
             Health = 100;
-            
-            GameObject.Transform.Position = SetEnemyPosition(new Vector2( 1, 1), new Vector2(GameWorld.gameState.grid.Width -2, GameWorld.gameState.grid.Height -2));
+            goalFound = false;
+            playerTarget = false;
+            //GameObject.Transform.Position = SetRandomEnemyGoal(new Vector2( 1, 1), new Vector2(GameWorld.gameState.grid.Width -2, GameWorld.gameState.grid.Height -2));
+           GameObject.Transform.Position = SetSpawnInCorner();
+
 
             //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
             // this.position = GameObject.Transform.Position;
@@ -423,7 +460,7 @@ namespace SystemShutdown.GameObjects
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
-               attackingPlayer = true;
+              attackingPlayer = true;
             }
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "CPU")

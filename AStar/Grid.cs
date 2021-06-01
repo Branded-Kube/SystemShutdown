@@ -29,7 +29,7 @@ namespace SystemShutdown.AStar
                         nodes[x, y].y = y;
 
                     // random walls
-                    if ((x != 0 && y != 0) && (x != Width - 1 && y != Height - 1) &&
+                    if ((x != 0 && y != 0) && (x != Width - 2 && y != Height - 2) &&
                         rand.Next(1, 25) < 5)
                     {
                         nodes[x, y].Passable = false;
@@ -41,7 +41,11 @@ namespace SystemShutdown.AStar
                         nodes[x, y].Passable = true;
                     }
 
-                   
+                    // clears Corners
+                    if (x == 1 && y == 1 || x == 1 && y == Height -2 || x == Width -2 && y == 1 || x == Width - 2 && y == Height - 2)
+                    {
+                        nodes[x, y].Passable = true;
+                    }
 
                     // sets mid square borders
                     // Bottom

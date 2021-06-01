@@ -40,7 +40,7 @@ namespace SystemShutdown
         {
             GameObject.Tag = "Pickup";
 
-            Debug.WriteLine("kør awake");
+            //Debug.WriteLine("kør awake");
            
             
            // GameObject.Transform.Position = new Vector2(400, 200);

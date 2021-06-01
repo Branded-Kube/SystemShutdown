@@ -212,10 +212,11 @@ namespace SystemShutdown.States
         public void SpawnEnemiesAcordingToDayNumber()
         {
             Debug.WriteLine($"{GameWorld.gameState.gameObjects.Count}");
-            
-            if (GameWorld.gameState.gameObjects.Count < 400)
+
+
+            for (int i = 0; i < days && i < 10; i++)
             {
-                for (int i = 0; i < days && i < 10; i++)
+                if (GameWorld.gameState.gameObjects.Count < 350)
                 {
                     SpawnEnemies();
                     SpawnEnemies();
