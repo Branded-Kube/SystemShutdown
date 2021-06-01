@@ -136,8 +136,16 @@ namespace SystemShutdown.GameObjects
             // Get new random node if node is null, outside of outer border or inside of inner border
             while (tmppos == null || tmppos.x < 1 && tmppos.x > GameWorld.gameState.grid.Width -2 && tmppos.y < 1 && tmppos.y > GameWorld.gameState.grid.Height - 2 && tmppos.x > 12 && tmppos.x < 22 && tmppos.y > 12 && tmppos.y < 22)
             {
+                try
+                {
+                    tmppos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
 
-                tmppos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
+                }
+                catch (System.ArgumentOutOfRangeException)
+                {
+                    Debug.WriteLine($"{tmppos.x}, {tmppos.y}");
+                   // throw;
+                }
 
             }
 
