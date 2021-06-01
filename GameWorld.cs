@@ -284,12 +284,14 @@ namespace SystemShutdown
                         //isNight = false;
                         isDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
+                        gameState.days++;
+                        gameState.SpawnEnemiesAcordingToDayNumber();
+
                     }
                     cyclebarNight.Draw(spriteBatch);
                 }
                 if (isDay == true)
                 {
-
 
                     if (cyclebarDay.currentBarDay <= 0)
                     {

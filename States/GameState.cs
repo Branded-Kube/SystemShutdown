@@ -56,7 +56,7 @@ namespace SystemShutdown.States
 
      
         Texture2D rectTexture;
-
+        public int days = 1;
 
 
         public Grid grid;
@@ -206,8 +206,26 @@ namespace SystemShutdown.States
                 //},
                 
             };
+            SpawnEnemiesAcordingToDayNumber();
         }
 
+        public void SpawnEnemiesAcordingToDayNumber()
+        {
+            Debug.WriteLine($"{GameWorld.gameState.gameObjects.Count}");
+            
+            if (GameWorld.gameState.gameObjects.Count < 400)
+            {
+                for (int i = 0; i < days && i < 10; i++)
+                {
+                    SpawnEnemies();
+                    SpawnEnemies();
+                    SpawnEnemies();
+                    SpawnEnemies();
+                    SpawnEnemies();
+
+                }
+            }
+        }
         public override void Update(GameTime gameTime)
         {
             //backgroundPos = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2);
@@ -399,6 +417,7 @@ namespace SystemShutdown.States
 
             spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.hp} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
             spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
+            spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
 
             spriteBatch.DrawString(font, $"CPU health {cpuBuilder.Cpu.Health}", cpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
 

@@ -65,14 +65,14 @@ namespace SystemShutdown.AStar
                         nodes[x, y].Passable = false;
                     }
 
-                    // Clears middle node in border for wall
+                    // Clears middle node in square border for wall
                     // Top and Bottom
-                    if (x == Width / 2 && y == Height / 2 + 5 || x == Width / 2 && y == Height / 2 - 5)
+                    if (x == Width / 2 && y == Height / 2 + 5 || x == Width / 2 && y == Height / 2 + 6 || x == Width / 2 && y == Height / 2 - 5 || x == Width / 2 && y == Height / 2 - 6)
                     {
                         nodes[x, y].Passable = true;
                     }
                     // Left and Right
-                    if (y == Height / 2 && x == Width / 2 + 5 || y == Height / 2 && x == Width / 2 - 5)
+                    if (y == Height / 2 && x == Width / 2 + 5 || y == Height / 2 && x == Width / 2 + 6 || y == Height / 2 && x == Width / 2 - 5 || y == Height / 2 && x == Width / 2 - 6)
                     {
                         nodes[x, y].Passable = true;
                     }
