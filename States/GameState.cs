@@ -37,7 +37,6 @@ namespace SystemShutdown.States
         private Button2 cpuBtn;
         private Button2 activeThreadsBtn;
         private Button2 shutdownThreadsBtn;
-        private CPU cpu;
         private string enemyID = "";
         private Texture2D cpuTexture;
         private Texture2D standardBtn;
@@ -54,7 +53,7 @@ namespace SystemShutdown.States
 
         public CPUBuilder cpuBuilder;
 
-            int aliveEnemies = 0;
+           public int aliveEnemies = 0;
 
         Texture2D rectTexture;
         public int days = 1;
@@ -162,6 +161,9 @@ namespace SystemShutdown.States
             buttons.Add(activeThreadsBtn);
             buttons.Add(cpuBtn);
 
+            Player.DamagePlayer += Player_DamagePlayer;
+            CPU.DamageCPU += CPU_DamageCPU;
+
             cyclebarDay = new CyclebarDay(content);
             cyclebarNight = new CyclebarNight(content);
 
@@ -209,6 +211,17 @@ namespace SystemShutdown.States
                 
             };
             SpawnEnemiesAcordingToDayNumber();
+        }
+
+        private void CPU_DamageCPU(object source, EventArgs e)
+        {
+            cpuBuilder.Cpu.Health -= 2;
+
+        }
+
+        private void Player_DamagePlayer(object source, EventArgs e)
+        {
+            playerBuilder.player.Health -= 1;
         }
 
         public void SpawnEnemiesAcordingToDayNumber()

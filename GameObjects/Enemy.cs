@@ -94,7 +94,7 @@ namespace SystemShutdown.GameObjects
 
         public override void Destroy()
         {
-            EnemyPool.Instance.RealeaseObject(GameObject);
+            GameWorld.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
        
@@ -132,37 +132,12 @@ namespace SystemShutdown.GameObjects
         }
         
 
-        private Node GetRandomPassableNode(Vector2 minLimit, Vector2 maxLimit)
-        {
-            Random rndd = new Random();
-            // Get new random node if node is null, outside of outer border or inside of inner border
-           //while (tmppos == null || tmppos.x < 0 && tmppos.x > GameWorld.gameState.grid.Width -2  && tmppos.y < 0 && tmppos.y > GameWorld.gameState.grid.Height -2 && tmppos.x > 12 && tmppos.x < 22 && tmppos.y > 12 && tmppos.y < 22)
-            
-            //while (tmppos == null || tmppos.x < 1 && tmppos.x > GameWorld.gameState.grid.Width -2  && tmppos.y < 1 && tmppos.y > GameWorld.gameState.grid.Height -2)
-            //    {
-                    //try
-                    //{
-                    tmppos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
-
-                //}
-                //catch (System.ArgumentOutOfRangeException)
-                //{
-                //    Debug.WriteLine($"EXEPTION {tmppos.x}, {tmppos.y}-------------------------------------------------------------");
-                //    // throw;
-                //}
-
-           //}
-
-            return tmppos;
-        }
-
-
         public Vector2 SetRandomEnemyGoal(Vector2 minLimit, Vector2 maxLimit)
         {
             Random rndd = new Random();
 
             Node enemypos = null;
-            while (enemypos == null || !enemypos.Passable /*&& enemypos.x < GameWorld.gameState.grid.Width  && enemypos.y < GameWorld.gameState.grid.Height*/ )
+            while (enemypos == null || !enemypos.Passable )
             {
 
                 enemypos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
@@ -184,6 +159,7 @@ namespace SystemShutdown.GameObjects
                 {
                     ModFactory.Instance.Create(GameObject.Transform.Position, "default");
                 }
+                GameWorld.gameState.aliveEnemies--;
                 GameObject.Destroy();
             }
 
@@ -244,33 +220,18 @@ namespace SystemShutdown.GameObjects
                 {
 
                     current = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
-                    //current.alreadyOccupied = true;
-                    //if (current.cameFrom != null)
-                    //{
-                    //    current.cameFrom.alreadyOccupied = false;
-
-                    //}
                    
                     aStar.Search(GameWorld.gameState.grid, current, goal, path);
-                    // Debug.WriteLine($"path {path.Count}");
-                    //Debug.WriteLine($"path add {path.Count}");
-
                     Searching = false;
                     if (path.Count > 0)
                     {
-                        //if ( node == null || current.x == node.x && current.y == node.y )
-                        //{
-                        //Debug.WriteLine($"Path Pop");
+                  
 
                         node = path.Pop();
                         int x = node.x * GameWorld.gameState.NodeSize;
                         int y = node.y * GameWorld.gameState.NodeSize;
-                        //  node.alreadyOccupied = true;
-                        // node.cameFrom.alreadyOccupied = false;
                         nextpos = new Vector2(x, y);
-                        //Debug.WriteLine($"pos{GameObject.Transform.Position}");
-                        //Debug.WriteLine($"current node {current.x} {current.y}");
-                        //Debug.WriteLine($"next node {node.x} {node.y}");
+                      
 
                         Move(nextpos);
                     }
@@ -281,16 +242,7 @@ namespace SystemShutdown.GameObjects
 
                 }
             }
-
-
         }
-
-        //}
-
-
-        //updateTimerA = 0.0;
-
-
 
         public void RotateEnemy()
         {
@@ -307,7 +259,6 @@ namespace SystemShutdown.GameObjects
         public void LoadContent(ContentManager content)
         {
             aStar = new Astar();
-           // goal = GameWorld.gameState.grid.Node(1, 1);
         }
 
         public void Move(Vector2 nextpos)
@@ -320,12 +271,7 @@ namespace SystemShutdown.GameObjects
                 velocity.Normalize();
             }
             velocity *= speed;
-            //Debug.WriteLine($"pos{GameObject.Transform.Position}");
-            //Debug.WriteLine($"path {velocity * GameWorld.DeltaTime}");
-            
                 GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
-
-
             RotateEnemy();
           
         }
@@ -342,8 +288,9 @@ namespace SystemShutdown.GameObjects
             {
                 if (attackingPlayer && threadRunning)
                 {
+
                     Debug.WriteLine($"{data}{id} is Running;");
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
 
                     Debug.WriteLine($"{data}{id} Trying to enter Player");
 
@@ -351,9 +298,8 @@ namespace SystemShutdown.GameObjects
 
                     attackingPlayer = false;
                     attackingCPU = false;
-                    //delivering = true;
 
-                    GameWorld.gameState.playerBuilder.Player.Health -= dmg / 2;
+                    //GameWorld.gameState.playerBuilder.Player.Health -= dmg / 2;
 
                     Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
@@ -365,23 +311,22 @@ namespace SystemShutdown.GameObjects
 
                     Debug.WriteLine($"{data}{id} Trying to enter CPU");
 
-                    CPU.Enter(internalThread);
 
                     attackingPlayer = false;
                     attackingCPU = false;
-                    //delivering = true;
 
-                    Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
-                    //    CPU.CPUTakingDamage(internalThread);
-
-                    GameWorld.gameState.cpuBuilder.Cpu.Health -= dmg;
                     Random rnd = new Random();
                     if (rnd.Next(1, 3) == 1 && GameWorld.gameState.playerBuilder.player.playersMods.Count > 0)
                     {
                         GameWorld.gameState.playerBuilder.player.playersMods.Pop();
                         GameWorld.gameState.playerBuilder.player.ApplyAllMods();
                     }
+                    else
+                    {
+                        CPU.Enter(internalThread);
+                    }
+                    Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
                 }
                 else
@@ -390,6 +335,7 @@ namespace SystemShutdown.GameObjects
                 }
             }
         }
+
 
         public void StartThread()
         {
@@ -406,12 +352,6 @@ namespace SystemShutdown.GameObjects
             GameObject.Tag = "Enemy";
             goalFound = false;
             playerTarget = false;
-            //GameObject.Transform.Position = SetRandomEnemyGoal(new Vector2( 1, 1), new Vector2(GameWorld.gameState.grid.Width -2, GameWorld.gameState.grid.Height -2));
-
-
-            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
-            // this.position = GameObject.Transform.Position;
-            //spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             StartThread();
         }
         public override string ToString()
@@ -440,12 +380,12 @@ namespace SystemShutdown.GameObjects
                     attackingCPU = true;
                 }
             }
-            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
-            {
-               //Debug.WriteLine($"{Health}");
-              // Health -= GameWorld.gameState.playerBuilder.player.dmg;
+            //if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
+            //{
+            //   //Debug.WriteLine($"{Health}");
+            //  // Health -= GameWorld.gameState.playerBuilder.player.dmg;
                
-            }
+            //}
         }
     }
 }

@@ -21,7 +21,7 @@ namespace SystemShutdown.GameObjects
         public MouseState mouseState;
         public MouseState lastMouseState;
 
-        static Semaphore MySemaphore = new Semaphore(0, 3);
+        static Semaphore MySemaphore = new Semaphore(0, 5);
 
         private float speed;
         private SpriteRenderer spriteRenderer;
@@ -41,6 +41,8 @@ namespace SystemShutdown.GameObjects
         public int hp { get; set; }
 
 
+        public delegate void DamageEventHandler(object source, EventArgs e);
+        public static event DamageEventHandler DamagePlayer;
 
         public bool showingMap;
 
@@ -50,7 +52,6 @@ namespace SystemShutdown.GameObjects
         public Rectangle rectangle;
         public Vector2 lastVelocity;
 
-        private Input input;
 
         public bool IsDead
         {
@@ -69,13 +70,14 @@ namespace SystemShutdown.GameObjects
             fps = 10f;
 
             Debug.WriteLine("Players semaphore releases (3)");
-            MySemaphore.Release();
+            MySemaphore.Release(5);
             Health = 100;
             this.speed = 600;
             dmg = 50;
             hp = 10;
-           
         }
+
+        
 
         //public void Move(Vector2 velocity)
         //{
@@ -325,36 +327,18 @@ namespace SystemShutdown.GameObjects
         public void Enter(Object id)
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
-
+            
             Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
             MySemaphore.WaitOne();
             Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
-            Thread.Sleep(100 * randomNumber.Next(0, 150));
+
+            DamagePlayer(null, EventArgs.Empty);
+            Thread.Sleep(100 * randomNumber.Next(0, 15));
+
             Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
 
         }
-
-        //protected void Animate(GameTime gametime)
-        //{
-        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-        //    {
-        //        //Giver tiden, der er gået, siden sidste update
-        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-
-        //        //Beregner currentIndex
-        //        currentIndex = (int)(timeElapsed * fps);
-        //        spriteRenderer.Sprite = upWalk[currentIndex];
-
-        //        //Checks if animation needs to restart
-        //        if (currentIndex >= upWalk.Length - 1)
-        //        {
-        //            //Resets animation
-        //            timeElapsed = 0;
-        //            currentIndex = 0;
-        //        }
-        //    }
-        //}
     }
 }

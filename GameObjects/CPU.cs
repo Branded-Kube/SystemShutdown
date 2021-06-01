@@ -11,7 +11,9 @@ using SystemShutdown.ObserverPattern;
 namespace SystemShutdown.GameObjects
 {
    public class CPU : Component, IGameListener
-    {        
+    {
+        public delegate void DamageEventHandler(object source, EventArgs e);
+        public static event DamageEventHandler DamageCPU;
         static Semaphore MySemaphore = new Semaphore(0, 3);
         /// <summary>
         /// Releases Semaphore (how many that may enter at a time)
@@ -23,6 +25,7 @@ namespace SystemShutdown.GameObjects
             MySemaphore.Release(3);
 
             Health = 1000;
+
         }
 
         public static void CPUTakingDamage(Object id)
@@ -42,7 +45,8 @@ namespace SystemShutdown.GameObjects
             MySemaphore.WaitOne();
             Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
-            Thread.Sleep(50 * randomNumber.Next(0, 150));
+            Thread.Sleep(50 * randomNumber.Next(0, 15));
+            DamageCPU(null, EventArgs.Empty);
             Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
         }
