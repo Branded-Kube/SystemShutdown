@@ -133,7 +133,8 @@ namespace SystemShutdown.GameObjects
         {
             Random rndd = new Random();
             Node tmppos = null;
-            while (tmppos == null || tmppos.x < 0 && tmppos.x > GameWorld.gameState.grid.Width -2 && tmppos.y < 0 && tmppos.y > GameWorld.gameState.grid.Height - 2)
+            // Get new random node if node is null, outside of outer border or inside of inner border
+            while (tmppos == null || tmppos.x < 0 && tmppos.x > GameWorld.gameState.grid.Width -2 && tmppos.y < 0 && tmppos.y > GameWorld.gameState.grid.Height - 2 && tmppos.x > 12 && tmppos.x < 22 && tmppos.y > 12 && tmppos.y < 22)
             {
 
                 tmppos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
