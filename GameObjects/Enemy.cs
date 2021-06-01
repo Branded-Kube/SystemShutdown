@@ -134,7 +134,7 @@ namespace SystemShutdown.GameObjects
             Random rndd = new Random();
             Node tmppos = null;
             // Get new random node if node is null, outside of outer border or inside of inner border
-            while (tmppos == null || tmppos.x < 0 && tmppos.x > GameWorld.gameState.grid.Width -2 && tmppos.y < 0 && tmppos.y > GameWorld.gameState.grid.Height - 2 && tmppos.x > 12 && tmppos.x < 22 && tmppos.y > 12 && tmppos.y < 22)
+            while (tmppos == null || tmppos.x < 1 && tmppos.x > GameWorld.gameState.grid.Width -2 && tmppos.y < 1 && tmppos.y > GameWorld.gameState.grid.Height - 2 && tmppos.x > 12 && tmppos.x < 22 && tmppos.y > 12 && tmppos.y < 22)
             {
 
                 tmppos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
@@ -170,7 +170,7 @@ namespace SystemShutdown.GameObjects
                 var moddrop = rnd.Next(1, 3);
                 if (moddrop == 2)
                 {
-                    ModFactory.Instance.Create(GameObject.Transform.Position);
+                    ModFactory.Instance.Create(GameObject.Transform.Position, "default");
                 }
                 GameObject.Destroy();
             }
@@ -415,12 +415,12 @@ namespace SystemShutdown.GameObjects
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
-               //attackingPlayer = true;
+               attackingPlayer = true;
             }
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "CPU")
             {
-               // attackingCPU = true;
+               attackingCPU = true;
             }
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
             {

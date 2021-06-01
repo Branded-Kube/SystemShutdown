@@ -237,7 +237,7 @@ namespace SystemShutdown.GameObjects
             {
                 canShoot = false;
                 shootTime = 0;
-                GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position);
+                GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
 
                 Vector2 movement = new Vector2(GameWorld.gameState.cursorPosition.X, GameWorld.gameState.cursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)

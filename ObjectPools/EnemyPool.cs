@@ -31,7 +31,7 @@ namespace SystemShutdown.ObjectPool
 
         protected override GameObject1 Create()
         {
-            return EnemyFactory.Instance.Create(new Vector2(0,0));
+            return EnemyFactory.Instance.Create(new Vector2(0,0), "default");
 
         }
     }

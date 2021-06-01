@@ -8,7 +8,7 @@ namespace SystemShutdown.FactoryPattern
 {
     public abstract class Factory
     {
-        public abstract GameObject1 Create(Vector2 position);
+        public abstract GameObject1 Create(Vector2 position, string type);
 
     }
 }

@@ -27,7 +27,7 @@ namespace SystemShutdown.FactoryPattern
                 return instance;
             }
         }
-        public override GameObject1 Create(Vector2 position)
+        public override GameObject1 Create(Vector2 position, string type)
         {
             GameObject1 go = new GameObject1();
             SpriteRenderer sr = new SpriteRenderer("laserBlue05");

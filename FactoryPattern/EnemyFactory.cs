@@ -35,7 +35,7 @@ namespace SystemShutdown.FactoryPattern
             set { enemy = value; }
         }
 
-        public override GameObject1 Create(Vector2 position)
+        public override GameObject1 Create(Vector2 position, string type)
         {
 
             GameObject1 enemyGO = new GameObject1();
@@ -45,25 +45,21 @@ namespace SystemShutdown.FactoryPattern
             enemySR.Origin = new Vector2(enemySR.Sprite.Width / 2, (enemySR.Sprite.Height) / 2);
 
             enemy = new Enemy();
-            enemyGO.AddComponent(new Collider(enemySR, enemy) { CheckCollisionEvents = true });
-            enemyGO.AddComponent(enemy);
+                  enemyGO.AddComponent(new Collider(enemySR, enemy) { CheckCollisionEvents = true });
+                   enemyGO.AddComponent(enemy);
 
 
             //switch (type)
             //{
             //    case "Blue":
-            //enemy = new Enemy();
-            //enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
-            //enemyGO.AddComponent(enemy);
+            //        enemy = new Enemy();
+            //        enemyGO.AddComponent(new Collider(enemySR, enemy) { CheckCollisionEvents = true });
+            //        enemyGO.AddComponent(enemy);
 
-            //distance.X = enemy.goal.x;
-            //distance.Y = enemy.goal.y;
-
-            //sr.Rotation = (float)Math.Atan2(distance.Y, distance.X);
             //        break;
             //    case "Black":
-            //enemy = new Enemy();
-            //        enemyGO.AddComponent(new Collider(sr, enemy) { CheckCollisionEvents = true });
+            //        enemy = new Enemy();
+            //        enemyGO.AddComponent(new Collider(enemySR, enemy) { CheckCollisionEvents = true });
             //        enemyGO.AddComponent(enemy);
             //        break;
             //}
