@@ -63,8 +63,7 @@ namespace SystemShutdown.GameObjects
 
         public Player()
         {
-            Health = 100;
-            this.speed = 600;
+            
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;
@@ -72,6 +71,8 @@ namespace SystemShutdown.GameObjects
 
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release();
+            Health = 100;
+            this.speed = 600;
             dmg = 50;
             hp = 10;
            
@@ -217,6 +218,14 @@ namespace SystemShutdown.GameObjects
             velocity = Vector2.Zero;
 
 
+            
+        }
+        public void ApplyAllMods()
+        {
+            Health = 100;
+            this.speed = 600;
+            dmg = 50;
+            hp = 10;
             foreach (Mods mods in playersMods)
             {
                 if (mods.ModFKID == 1)
@@ -230,8 +239,8 @@ namespace SystemShutdown.GameObjects
                 }
 
             }
-        }
 
+        }
         public override void Start()
         {
             
@@ -295,7 +304,7 @@ namespace SystemShutdown.GameObjects
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
             {
                 playersMods.Add((Mods)component.GameObject.GetComponent("Pickup"));
-
+                ApplyAllMods();
                 component.GameObject.Destroy();
             }
         }

@@ -80,6 +80,21 @@ namespace SystemShutdown.AStar
                     {
                         nodes[x, y].Passable = true;
                     }
+                    // Creates a node gameobject (wall )for each node at outerborder
+                    if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
+                    {
+                        nodes[x, y].Passable = false;
+
+                        //GameObject1 nodeGO = new GameObject1();
+                        //SpriteRenderer nodeSR = new SpriteRenderer("Textures/nogo");
+                        //nodeGO.AddComponent(nodeSR);
+                        //nodeGO.Transform.Position = new Vector2(x * 100, y * 100);
+                        //nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
+
+                        //nodeGO.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
+                        //nodeGO.AddComponent(nodes[x, y]);
+                        //GameWorld.gameState.AddGameObject(nodeGO);
+                    }
                     // Creates a node gameobject (wall) for each node that are not passable
                     if (nodes[x, y].Passable == false)
                     {
@@ -93,22 +108,48 @@ namespace SystemShutdown.AStar
                         nodeGO.AddComponent(nodes[x, y]);
                         GameWorld.gameState.AddGameObject(nodeGO);
                     }
-                    // Creates a node gameobject (wall )for each node at outerborder with yellow/black striped texture
-                    if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
+               
+                }
+
+            // fills out any passable node surrounded by walls 
+            foreach (var item in nodes)
+            {
+                Node nodesLeft = new Node();
+                Node nodesRight = new Node();
+                Node nodesTop = new Node();
+                Node nodesBottom = new Node();
+
+                nodesLeft = Node(item.x-1, item.y);
+                nodesRight = Node(item.x +1, item.y);
+                nodesTop = Node(item.x, item.y-1);
+                nodesBottom = Node(item.x, item.y+1);
+                if (nodesLeft != null)
+                {
+                    if (nodesLeft == null || nodesLeft.Passable == false)
                     {
-                        nodes[x, y].Passable = false;
+                        if (nodesRight == null || nodesRight.Passable == false)
+                        {
+                            if (nodesTop == null || nodesTop.Passable == false )
+                            {
+                                if (nodesBottom == null || nodesBottom.Passable == false)
+                                {
+                                    item.Passable = false;
+                                    GameObject1 nodeGO = new GameObject1();
+                                    SpriteRenderer nodeSR = new SpriteRenderer("Textures/wall");
+                                    nodeGO.AddComponent(nodeSR);
+                                    nodeGO.Transform.Position = new Vector2(item.x * 100, item.y * 100);
+                                    nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
 
-                        GameObject1 nodeGO = new GameObject1();
-                        SpriteRenderer nodeSR = new SpriteRenderer("Textures/nogo");
-                        nodeGO.AddComponent(nodeSR);
-                        nodeGO.Transform.Position = new Vector2(x * 100, y * 100);
-                        nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
-
-                        nodeGO.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
-                        nodeGO.AddComponent(nodes[x, y]);
-                        GameWorld.gameState.AddGameObject(nodeGO);
+                                    nodeGO.AddComponent(new Collider(nodeSR, nodes[item.x, item.y]) { CheckCollisionEvents = false });
+                                    nodeGO.AddComponent(nodes[item.x, item.y]);
+                                    GameWorld.gameState.AddGameObject(nodeGO);
+                                }
+                            }
+                        }
                     }
                 }
+               
+            }
         }
 
         public Node Node(int x, int y)
