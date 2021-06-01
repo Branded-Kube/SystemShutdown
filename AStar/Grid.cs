@@ -28,7 +28,7 @@ namespace SystemShutdown.AStar
                         nodes[x, y].x = x;
                         nodes[x, y].y = y;
 
-                    // random walls
+                    //random walls
                     if ((x != 0 && y != 0) && (x != Width - 2 && y != Height - 2) &&
                         rand.Next(1, 25) < 5)
                     {
@@ -41,8 +41,8 @@ namespace SystemShutdown.AStar
                         nodes[x, y].Passable = true;
                     }
 
-                    // clears Corners
-                    if (x == 1 && y == 1 || x == 1 && y == Height -2 || x == Width -2 && y == 1 || x == Width - 2 && y == Height - 2)
+                    // clears Corners 2x2 (enemy spawn area)
+                    if (x <= 2 && y <= 2 || x <=  2 && y >= Height - 3 || x >= Width - 3 && y <= 2 || x >= Width - 3 && y >= Height - 3)
                     {
                         nodes[x, y].Passable = true;
                     }
@@ -69,7 +69,7 @@ namespace SystemShutdown.AStar
                         nodes[x, y].Passable = false;
                     }
 
-                    // Clears middle node in square border for wall
+                    // Clears middle node in square border for wall (passage to cpu) (1x2 cleared)
                     // Top and Bottom
                     if (x == Width / 2 && y == Height / 2 + 5 || x == Width / 2 && y == Height / 2 + 6 || x == Width / 2 && y == Height / 2 - 5 || x == Width / 2 && y == Height / 2 - 6)
                     {
