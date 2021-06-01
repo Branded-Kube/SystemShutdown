@@ -49,7 +49,6 @@ namespace SystemShutdown.GameObjects
 
         public Rectangle rectangle;
         public Vector2 lastVelocity;
-        public int maxHealth;
 
         private Input input;
 
@@ -71,8 +70,7 @@ namespace SystemShutdown.GameObjects
 
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release();
-            maxHealth = 100;
-            Health = maxHealth;
+            Health = 100;
             this.speed = 600;
             dmg = 50;
             hp = 10;
@@ -224,7 +222,6 @@ namespace SystemShutdown.GameObjects
         }
         public void ApplyAllMods()
         {
-            maxHealth = 100;
 
             this.speed = 600;
             dmg = 50;
@@ -246,16 +243,8 @@ namespace SystemShutdown.GameObjects
                 //    dmg += mods.Effect;
 
                 //}
-                if (mods.ModFKID == 4)
-                {
-                    maxHealth += mods.Effect;
-
-                }
 
             }
-            var tmpHealth = maxHealth - Health;
-            Health -= tmpHealth;
-
         }
         public override void Start()
         {
@@ -324,7 +313,10 @@ namespace SystemShutdown.GameObjects
                 {
                     Health += tmpmod.Effect;
                 }
-                playersMods.Push(tmpmod);
+                else
+                {
+                    playersMods.Push(tmpmod);
+                }
                 ApplyAllMods();
                 component.GameObject.Destroy();
             }
