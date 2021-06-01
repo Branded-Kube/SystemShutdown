@@ -33,7 +33,7 @@ namespace SystemShutdown.GameObjects
         Node node = null;
                     Node current = null;
         float speed = 200;
-
+        public bool isTrojan = false;
         public bool AttackingCPU
         {
             get { return attackingCPU; }
@@ -171,37 +171,7 @@ namespace SystemShutdown.GameObjects
             return new Vector2(enemypos.x *100 , enemypos.y *100);
         }
 
-        public Vector2 SetSpawnInCorner()
-        {
-            Random rndd = new Random();
-            var rndpos = rndd.Next(1,5);
-            int x = 0;
-            int y = 0;
-
-            if (rndpos == 1)
-            {
-                x = 1;
-                y = 1;
-            }
-            else if (rndpos == 2)
-            {
-                x = GameWorld.gameState.grid.Width - 2;
-                y = 1;
-            }
-            else if (rndpos == 3)
-            {
-                x = 1;
-                y = GameWorld.gameState.grid.Height -2;
-            }
-            else if (rndpos == 4)
-            {
-                x = GameWorld.gameState.grid.Width - 2;
-                y = GameWorld.gameState.grid.Height - 2;
-            }
-            //Node tmpvector = GameWorld.gameState.grid.Node(x,y);
-            return new Vector2(x * 100, y * 100);
-
-        }
+       
 
         public override void Update(GameTime gameTime)
         {
@@ -221,31 +191,18 @@ namespace SystemShutdown.GameObjects
 
             if (updateTimer >= 1.0)
             {
-                if (IsPlayerInRange(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position))
+                if (!isTrojan)
                 {
+                    if (IsPlayerInRange(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position))
+                    {
+                        playerTarget = true;
+                        goalFound = false;
 
-                    //        //  better handling of walls is needed
-
-                    //        //foreach (var item in GameWorld.gameState.grid.nodes)
-                    //        //{
-                    //        //    if (!item.Passable)
-                    //        //    {
-                    //        //        if (item.position.X < GameWorld.gameState.Player1Test.position.X && item.position.X > rectangle.X)
-                    //        //        {
-
-                    // Debug.WriteLine("Enemy can see player!");
-                    playerTarget = true;
-                    goalFound = false;
-                    //        //        }
-                    //        //    }
-                    //        //}
-
-                }
-                else
-                {
-                    // Debug.WriteLine("Enemy can not see player!");
-                    playerTarget = false;
-
+                    }
+                    else
+                    {
+                        playerTarget = false;
+                    }
                 }
                 updateTimer = 0.0;
             }
@@ -447,11 +404,9 @@ namespace SystemShutdown.GameObjects
         public override void Awake()
         {
             GameObject.Tag = "Enemy";
-            Health = 100;
             goalFound = false;
             playerTarget = false;
             //GameObject.Transform.Position = SetRandomEnemyGoal(new Vector2( 1, 1), new Vector2(GameWorld.gameState.grid.Width -2, GameWorld.gameState.grid.Height -2));
-           GameObject.Transform.Position = SetSpawnInCorner();
 
 
             //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
@@ -472,7 +427,18 @@ namespace SystemShutdown.GameObjects
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "CPU")
             {
-              attackingCPU = true;
+                if (isTrojan)
+                {
+                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
+                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
+                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
+
+                    GameObject.Destroy();
+                }
+                else
+                {
+                    attackingCPU = true;
+                }
             }
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
             {

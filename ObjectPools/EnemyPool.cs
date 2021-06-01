@@ -10,7 +10,6 @@ namespace SystemShutdown.ObjectPool
 {
     class EnemyPool : ObjectPool
     {
-        Node enemypos;
         private static EnemyPool instance;
         public static EnemyPool Instance
         {

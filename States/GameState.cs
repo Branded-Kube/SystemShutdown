@@ -54,7 +54,8 @@ namespace SystemShutdown.States
 
         public CPUBuilder cpuBuilder;
 
-     
+            int aliveEnemies = 0;
+
         Texture2D rectTexture;
         public int days = 1;
 
@@ -163,6 +164,7 @@ namespace SystemShutdown.States
 
             cyclebarDay = new CyclebarDay(content);
             cyclebarNight = new CyclebarNight(content);
+
             //camera = new Camera();
             //camera.Follow(playerBuilder);
 
@@ -211,21 +213,54 @@ namespace SystemShutdown.States
 
         public void SpawnEnemiesAcordingToDayNumber()
         {
-            Debug.WriteLine($"{GameWorld.gameState.gameObjects.Count}");
+            Debug.WriteLine($"{aliveEnemies}");
 
 
             for (int i = 0; i < days && i < 10; i++)
             {
-                if (GameWorld.gameState.gameObjects.Count < 350)
+                if (aliveEnemies < 50)
                 {
-                    SpawnEnemies();
-                    SpawnEnemies();
-                    SpawnEnemies();
-                    SpawnEnemies();
-                    SpawnEnemies();
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnTrojanEnemies(SetSpawnInCorner());
+
 
                 }
             }
+        }
+        public Vector2 SetSpawnInCorner()
+        {
+            Random rndd = new Random();
+            var rndpos = rndd.Next(1, 5);
+            int x = 0;
+            int y = 0;
+
+            if (rndpos == 1)
+            {
+                x = 1;
+                y = 1;
+            }
+            else if (rndpos == 2)
+            {
+                x = GameWorld.gameState.grid.Width - 2;
+                y = 1;
+            }
+            else if (rndpos == 3)
+            {
+                x = 1;
+                y = GameWorld.gameState.grid.Height - 2;
+            }
+            else if (rndpos == 4)
+            {
+                x = GameWorld.gameState.grid.Width - 2;
+                y = GameWorld.gameState.grid.Height - 2;
+            }
+            //Node tmpvector = GameWorld.gameState.grid.Node(x,y);
+            return new Vector2(x * 100, y * 100);
+
         }
         public override void Update(GameTime gameTime)
         {
@@ -251,7 +286,7 @@ namespace SystemShutdown.States
             //}
             if (currentKeyState.IsKeyDown(Keys.P) && !previousKeyState.IsKeyDown(Keys.P))
             {
-                SpawnEnemies();
+                SpawnBugEnemies(SetSpawnInCorner());
 
 
             }
@@ -448,17 +483,32 @@ namespace SystemShutdown.States
         //    return tmppos;
         //}
 
-
-        private void SpawnEnemies()
+        private void SpawnTrojanEnemies(Vector2 position)
         {
             //spawnTime += delta;
             //if (spawnTime >= cooldown)
             //{
-            GameObject1 go = EnemyPool.Instance.GetObject();
+            //GameObject1 go = EnemyPool.Instance.GetObject();
+            GameObject1 go = EnemyFactory.Instance.Create(position, "Trojan");
+
+            running = true;
+            AddGameObject(go);
+            aliveEnemies++;
+
+        }
+        public void SpawnBugEnemies(Vector2 position)
+        {
+            //spawnTime += delta;
+            //if (spawnTime >= cooldown)
+            //{
+            GameObject1 go = EnemyFactory.Instance.Create(position, "Bug");
+            //GameObject1 go = EnemyPool.Instance.GetObject();
         
             running = true;
             AddGameObject(go);
-           
+            aliveEnemies++;
+
+
         }
 
         public void AddGameObject(GameObject1 go)
