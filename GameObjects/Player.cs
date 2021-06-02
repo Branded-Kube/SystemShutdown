@@ -27,7 +27,7 @@ namespace SystemShutdown.GameObjects
         public Vector2 distance;
         private bool canShoot;
         private float shootTime;
-        public float cooldown = 0.1f;
+        public float cooldown = 2000f;
 
         private bool canToggleMap;
         private float ShowMapTime;
