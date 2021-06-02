@@ -27,7 +27,7 @@ namespace SystemShutdown.GameObjects
         public Vector2 distance;
         private bool canShoot;
         private float shootTime;
-        private float cooldown = 0.1f;
+        public float cooldown = 0.1f;
 
         private bool canToggleMap;
         private float ShowMapTime;
@@ -39,7 +39,7 @@ namespace SystemShutdown.GameObjects
         public int dmg { get; set; }
         public int hp { get; set; }
         public int kills = 0;
-        int speed = 250;
+         public int speed = 250;
 
         public delegate void DamageEventHandler(object source, EventArgs e);
         public static event DamageEventHandler DamagePlayer;
@@ -221,37 +221,37 @@ namespace SystemShutdown.GameObjects
 
             
         }
-        public void ApplyAllMods()
-        {
+        //public void ApplyAllMods()
+        //{
 
-            this.speed = 600;
-            dmg = 50;
-            hp = 10;
-            foreach (Mods mods in playersMods)
-            {
-                if (mods.ModFKID == 1)
-                {
-                    dmg += mods.Effect;
+        //    this.speed = 600;
+        //    dmg = 50;
+        //    hp = 10;
+        //    foreach (Mods mods in playersMods)
+        //    {
+        //        if (mods.ModFKID == 1)
+        //        {
+        //            dmg += mods.Effect;
 
-                }
-                if (mods.ModFKID == 2)
-                {
-                    if (speed > 500)
-                    {
-                        speed += mods.Effect;
-                    }
-                }
-                if (mods.ModFKID == 3)
-                {
-                    if (cooldown > 0.1)
-                    {
-                        cooldown -= mods.Effect;
-                    }
+        //        }
+        //        if (mods.ModFKID == 2)
+        //        {
+        //            if (speed > 500)
+        //            {
+        //                speed += mods.Effect;
+        //            }
+        //        }
+        //        if (mods.ModFKID == 3)
+        //        {
+        //            if (cooldown > 0.1)
+        //            {
+        //                cooldown -= mods.Effect;
+        //            }
 
-                }
+        //        }
 
-            }
-        }
+        //    }
+        //}
         public override void Start()
         {
             
@@ -314,16 +314,16 @@ namespace SystemShutdown.GameObjects
             //}
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
             {
-                Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
-                if (tmpmod.ModFKID == 4)
-                {
-                    Health += tmpmod.Effect;
-                }
-                else
-                {
-                    playersMods.Push(tmpmod);
-                }
-                ApplyAllMods();
+                //Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
+                //if (tmpmod.ModFKID == 4)
+                //{
+                //    Health += tmpmod.Effect;
+                //}
+                //else
+                //{
+                //    playersMods.Push(tmpmod);
+                //}
+               // ApplyAllMods();
                 component.GameObject.Destroy();
             }
         }
