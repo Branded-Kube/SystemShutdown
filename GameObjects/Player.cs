@@ -72,9 +72,8 @@ namespace SystemShutdown.GameObjects
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release(5);
             Health = 100;
-            this.speed = 600;
+            this.speed = 250;
             dmg = 50;
-            hp = 10;
         }
 
         
@@ -237,12 +236,17 @@ namespace SystemShutdown.GameObjects
                 }
                 if (mods.ModFKID == 2)
                 {
-                    speed += mods.Effect;
-
+                    if (speed > 500)
+                    {
+                        speed += mods.Effect;
+                    }
                 }
                 if (mods.ModFKID == 3)
                 {
-                    cooldown += mods.Effect;
+                    if (cooldown > 0.1)
+                    {
+                        cooldown -= mods.Effect;
+                    }
 
                 }
 
