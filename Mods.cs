@@ -108,22 +108,22 @@ namespace SystemShutdown
             Debug.WriteLine($"{choseneffect.Effectname}");
             Effect = choseneffect.Effect;
             ModFKID = choseneffect.ModFK;
-            //if (choseneffect.ModFK == 1)
-            //{
-            //    GameWorld.gameState.playerBuilder.player.Dmg += choseneffect.Effect;
-            //}
-            //else if (choseneffect.ModFK == 2)
-            //{
-            //    GameWorld.gameState.playerBuilder.player.speed += choseneffect.Effect;
-            //}
-            //else if (choseneffect.ModFK == 3)
-            //{
-            //    GameWorld.gameState.playerBuilder.player.cooldown -= choseneffect.Effect;
-            //}
-            //else if (choseneffect.ModFK == 4)
-            //{
-            //    GameWorld.gameState.playerBuilder.player.Health += choseneffect.Effect;
-            //}
+            if (choseneffect.ModFK == 1)
+            {
+                GameWorld.gameState.playerBuilder.player.dmg += choseneffect.Effect;
+            }
+            else if (choseneffect.ModFK == 2)
+            {
+                GameWorld.gameState.playerBuilder.player.Speed += choseneffect.Effect;
+            }
+            else if (choseneffect.ModFK == 3)
+            {
+                GameWorld.gameState.playerBuilder.player.Cooldown -= choseneffect.Effect;
+            }
+            else if (choseneffect.ModFK == 4)
+            {
+                GameWorld.gameState.playerBuilder.player.Health += choseneffect.Effect;
+            }
 
 
         }

@@ -43,7 +43,7 @@ namespace SystemShutdown.Database
             cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Mods;", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
 
-            Debug.WriteLine("tables dropped");
+            Debug.WriteLine("tables dropped.");
 
         }
 
