@@ -39,7 +39,7 @@ namespace SystemShutdown.FactoryPattern
         {
 
             GameObject1 enemyGO = new GameObject1();
-               
+            GameWorld.gameState.aliveEnemies++;
 
             switch (type)
             {
@@ -51,7 +51,6 @@ namespace SystemShutdown.FactoryPattern
                     enemy = new Enemy();
                     enemyGO.AddComponent(new Collider(enemyBugSR, enemy) { CheckCollisionEvents = true });
                     enemyGO.AddComponent(enemy);
-                    enemy.Health = 100;
 
 
                     break;
@@ -63,7 +62,6 @@ namespace SystemShutdown.FactoryPattern
                     enemy = new Enemy();
                     enemyGO.AddComponent(new Collider(enemyTrojanSR, enemy) { CheckCollisionEvents = true });
                     enemyGO.AddComponent(enemy);
-                    enemy.Health = 300;
                     enemy.isTrojan = true;
                     break;
             }

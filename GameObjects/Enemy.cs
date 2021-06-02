@@ -86,7 +86,7 @@ namespace SystemShutdown.GameObjects
         public Enemy()
         {
             this.vision = 500;
-            internalThread = new Thread(ThreadMethod);
+          //internalThread = new Thread(ThreadMethod);
             LoadContent(GameWorld.content);
             dmg = 5;
         }
@@ -94,6 +94,9 @@ namespace SystemShutdown.GameObjects
 
         public override void Destroy()
         {
+            //EnemyPool.Instance.RealeaseObject(GameObject);
+            GameWorld.gameState.aliveEnemies--;
+            GameWorld.gameState.playerBuilder.player.kills++;
             GameWorld.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
@@ -159,7 +162,6 @@ namespace SystemShutdown.GameObjects
                 {
                     ModFactory.Instance.Create(GameObject.Transform.Position, "default");
                 }
-                GameWorld.gameState.aliveEnemies--;
                 GameObject.Destroy();
             }
 
@@ -280,11 +282,11 @@ namespace SystemShutdown.GameObjects
         /// Sets Thread id
         /// If any of the 3 bools are true, worker enters corresponding building (Volcano/PalmTree/MainBuilding)
         /// </summary>
-        private void ThreadMethod()
+        private void ThreadMethod(object callback)
         {
             this.id = Thread.CurrentThread.ManagedThreadId;
 
-            while (GameWorld.gameState.running == true)
+            while (threadRunning == true)
             {
                 if (attackingPlayer && threadRunning)
                 {
@@ -333,6 +335,7 @@ namespace SystemShutdown.GameObjects
                 {
                     Thread.Sleep(1000);
                 }
+               
             }
         }
 
@@ -352,7 +355,18 @@ namespace SystemShutdown.GameObjects
             GameObject.Tag = "Enemy";
             goalFound = false;
             playerTarget = false;
-            StartThread();
+            threadRunning = true;
+            if (isTrojan)
+            {
+                Health = 300;
+            }
+            else
+            {
+                Health = 100;
+            }
+            ThreadPool.QueueUserWorkItem(ThreadMethod);
+
+            // StartThread();
         }
         public override string ToString()
         {
@@ -360,9 +374,11 @@ namespace SystemShutdown.GameObjects
         }
         public void Notify(GameEvent gameEvent, Component component)
         {
+
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
             {
-              attackingPlayer = true;
+
+                attackingPlayer = true;
             }
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "CPU")
@@ -377,6 +393,7 @@ namespace SystemShutdown.GameObjects
                 }
                 else
                 {
+
                     attackingCPU = true;
                 }
             }

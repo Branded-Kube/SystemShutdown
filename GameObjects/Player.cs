@@ -39,6 +39,7 @@ namespace SystemShutdown.GameObjects
         public Stack<Mods> playersMods = new Stack<Mods>();
         public int dmg { get; set; }
         public int hp { get; set; }
+        public int kills = 0;
 
 
         public delegate void DamageEventHandler(object source, EventArgs e);

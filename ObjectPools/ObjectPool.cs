@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using SystemShutdown.ComponentPattern;
@@ -10,16 +11,19 @@ namespace SystemShutdown.ObjectPool
         protected List<GameObject1> active = new List<GameObject1>();
         protected Stack<GameObject1> inactive = new Stack<GameObject1>();
 
-        public GameObject1 GetObject()
+        public GameObject1 GetObject(Vector2 position, string type)
         {
+            GameWorld.gameState.aliveEnemies++;
+
             GameObject1 go;
+
             if (inactive.Count > 0)
             {
                 go = inactive.Pop();
             }
             else
             {
-                go = Create();
+                go = Create(position, type);
             }
             return go;
         }
@@ -29,7 +33,7 @@ namespace SystemShutdown.ObjectPool
             active.Remove(gameObject);
             inactive.Push(gameObject);
         }
-        protected abstract GameObject1 Create();
+        protected abstract GameObject1 Create(Vector2 position, string type);
         protected abstract void Cleanup(GameObject1 gameObject);
 
 
