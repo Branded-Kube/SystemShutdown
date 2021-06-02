@@ -28,7 +28,7 @@ namespace SystemShutdown.GameObjects
         public Vector2 distance;
         private bool canShoot;
         private float shootTime;
-        private float cooldown = 1;
+        private float cooldown = 0.1f;
 
         private bool canToggleMap;
         private float ShowMapTime;
@@ -168,7 +168,7 @@ namespace SystemShutdown.GameObjects
             // Get the mouse state relevant for this frame
             mouseState = Mouse.GetState();
             // Recognize a single click of the left mouse button
-            if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
+            if (/*lastMouseState.LeftButton == ButtonState.Released &&*/ mouseState.LeftButton == ButtonState.Pressed && canShoot)
             {
                 Shoot();
             }

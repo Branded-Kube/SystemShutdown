@@ -288,7 +288,7 @@ namespace SystemShutdown.GameObjects
 
             while (threadRunning == true)
             {
-                if (attackingPlayer && threadRunning)
+                if (attackingPlayer)
                 {
 
                     Debug.WriteLine($"{data}{id} is Running;");
@@ -306,7 +306,7 @@ namespace SystemShutdown.GameObjects
                     Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
                 }
-                else if (attackingCPU && threadRunning)
+                else if (attackingCPU)
                 {
                     Debug.WriteLine($"{data}{id} is Running;");
                     Thread.Sleep(1000);
@@ -321,7 +321,7 @@ namespace SystemShutdown.GameObjects
                     Random rnd = new Random();
                     if (rnd.Next(1, 3) == 1 && GameWorld.gameState.playerBuilder.player.playersMods.Count > 0)
                     {
-                        GameWorld.gameState.playerBuilder.player.playersMods.Pop();
+                       // GameWorld.gameState.playerBuilder.player.playersMods.Pop();
                         GameWorld.gameState.playerBuilder.player.ApplyAllMods();
                     }
                     else
