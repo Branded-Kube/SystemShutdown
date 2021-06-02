@@ -39,7 +39,7 @@ namespace SystemShutdown.GameObjects
         public int dmg { get; set; }
         public int hp { get; set; }
         public int kills = 0;
-
+        int speed = 250;
 
         public delegate void DamageEventHandler(object source, EventArgs e);
         public static event DamageEventHandler DamagePlayer;
@@ -151,7 +151,7 @@ namespace SystemShutdown.GameObjects
             ShowMapTime += GameWorld.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
-            if (shootTime >= Cooldown / 1000)
+            if (shootTime >= cooldown / 1000)
             {
                 canShoot = true;
             }
@@ -177,7 +177,7 @@ namespace SystemShutdown.GameObjects
             {
                 velocity.Normalize();
             }
-            velocity *= Speed * GameWorld.DeltaTime;
+            velocity *= speed * GameWorld.DeltaTime;
 
             
                 foreach (GameObject1 gameObject in GameWorld.gameState.gameObjects)
