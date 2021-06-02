@@ -235,16 +235,16 @@ namespace SystemShutdown.GameObjects
                     dmg += mods.Effect;
 
                 }
-                //if (mods.ModFKID == 2)
-                //{
-                //    dmg += mods.Effect;
+                if (mods.ModFKID == 2)
+                {
+                    speed += mods.Effect;
 
-                //}
-                //if (mods.ModFKID == 3)
-                //{
-                //    dmg += mods.Effect;
+                }
+                if (mods.ModFKID == 3)
+                {
+                    cooldown += mods.Effect;
 
-                //}
+                }
 
             }
         }
