@@ -33,7 +33,6 @@ namespace SystemShutdown.FactoryPattern
             SpriteRenderer sr = new SpriteRenderer("laserBlue05");
             go.AddComponent(sr);
 
-
             //sr.SetSprite("1GuyUp");
             mods = new Mods();
             go.AddComponent(new Collider(sr, mods) { CheckCollisionEvents = false });
