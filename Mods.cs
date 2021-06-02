@@ -20,9 +20,9 @@ namespace SystemShutdown
         public int Effect { get; set; }
 
         public string Name { get; set; }
+        double despawnTimer = 0.0;
 
 
-      
         public GameObject1 Create()
         {
 
@@ -45,7 +45,6 @@ namespace SystemShutdown
         {
             GameObject.Tag = "Pickup";
 
-            //Debug.WriteLine("kør awake");
 
             Random rnd = new Random();
             int randomnumber = rnd.Next(1, 5);
@@ -79,6 +78,14 @@ namespace SystemShutdown
         //    GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
 
         //}
+        public override void Update(GameTime gameTime)
+        {
+            despawnTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            if (despawnTimer > 10)
+            {
+                GameObject.Destroy();
+            }
+        }
         public void ApplyMod()
         {
 

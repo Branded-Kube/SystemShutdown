@@ -22,15 +22,15 @@
 //                return instance;
 //            }
 //        }
-        
+
 //        protected override void Cleanup(GameObject1 gameObject)
 //        {
 //            throw new NotImplementedException();
 //        }
 
-//        protected override GameObject1 Create()
+//        protected override GameObject1 Create(Vector2 position ,string type)
 //        {
-//            return EnemyFactory.Instance.Create(new Vector2(0,0), "default");
+//            return EnemyFactory.Instance.Create(position, type);
 
 //        }
 //    }
