@@ -47,15 +47,30 @@ namespace SystemShutdown.States
             {
                 new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 900),
+                    Position = new Vector2(GameWorld.ScreenWidth / 2, 1000),
                     Click = new EventHandler(Button_Quit_Clicked),
                 },
+
+                new Button(buttonTexture, buttonFont)
+                {
+                    Position = new Vector2(GameWorld.ScreenWidth / 2, 390),
+                    Click = new EventHandler(Button_SaveHighscore_Clicked),
+                }
             };
         }
 
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
             GameWorld.thisGameWorld.Exit();
+        }
+
+        private void Button_SaveHighscore_Clicked(object sender, EventArgs e)
+        {
+            GameWorld.repo.Open();
+            
+            GameWorld.repo.SaveScore(GameWorld.gameState.playerBuilder.Player.kills, GameWorld.gameState.days);
+
+            GameWorld.repo.Close();
         }
 
         public override void Update(GameTime gameTime)

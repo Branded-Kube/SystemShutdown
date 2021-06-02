@@ -11,5 +11,6 @@ namespace SystemShutdown.Database
 
         List<Effects> MapEffectsFromReader(IDataReader reader);
 
+        List<Highscores> MapHighscoresReader(IDataReader reader);
     }
 }

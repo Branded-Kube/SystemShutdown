@@ -60,6 +60,7 @@ namespace SystemShutdown
         public static HowToState howToState;
         public static MenuState menuState;
         public static GameOverState gameOverState;
+        public static HighscoreState highscoreState;
 
         private Camera camera;
         
@@ -154,7 +155,7 @@ namespace SystemShutdown
             menuState = new MenuState();
             gameOverState = new GameOverState();
             currentGameState = new MenuState();
-
+            highscoreState = new HighscoreState();
             currentGameState.LoadContent();
             nextGameState = null;
             ///<summary>

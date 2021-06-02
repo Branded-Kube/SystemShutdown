@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,11 +65,19 @@ namespace SystemShutdown
                     Click = new EventHandler(Button_HowToPlay_Clicked),
                 },
 
-                new Button(buttonSprite, buttonFont)
+                new Button (buttonSprite, buttonFont)
                 {
                     Position = new Vector2(GameWorld.ScreenWidth / 2, 610),
+                    Click = new EventHandler(Button_CheckHighscore_Clicked),
+                },
+
+                new Button(buttonSprite, buttonFont)
+                {
+                    Position = new Vector2(GameWorld.ScreenWidth / 2, 720),
                     Click = new EventHandler(Button_Quit_Clicked),
                 },
+
+           
             };
         }
 
@@ -91,6 +100,12 @@ namespace SystemShutdown
             GameWorld.thisGameWorld.Exit();
         }
 
+        // Søren
+        private void Button_CheckHighscore_Clicked(object sender, EventArgs e)
+        {
+            GameWorld.ChangeState(GameWorld.highscoreState);
+        }
+
         public override void Update(GameTime gameTime)
         {
             // Frederik
@@ -102,7 +117,7 @@ namespace SystemShutdown
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
             newGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 345);
             howToPosition = new Vector2(GameWorld.ScreenWidth / 2, 455);
-            quitGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 565);
+            quitGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 675);
             newGameOrigin = new Vector2(newGameText.Width / 2, newGameText.Height / 2);
             howToOrigin = new Vector2(howToText.Width / 2, howToText.Height / 2);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
