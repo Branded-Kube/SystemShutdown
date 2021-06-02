@@ -37,7 +37,6 @@ namespace SystemShutdown.States
         private Button2 cpuBtn;
         private Button2 activeThreadsBtn;
         private Button2 shutdownThreadsBtn;
-        private CPU cpu;
         private string enemyID = "";
         private Texture2D cpuTexture;
         private Texture2D standardBtn;
@@ -54,7 +53,7 @@ namespace SystemShutdown.States
 
         public CPUBuilder cpuBuilder;
 
-            int aliveEnemies = 0;
+           public int aliveEnemies = 0;
 
         Texture2D rectTexture;
         public int days = 1;
@@ -162,6 +161,9 @@ namespace SystemShutdown.States
             buttons.Add(activeThreadsBtn);
             buttons.Add(cpuBtn);
 
+            Player.DamagePlayer += Player_DamagePlayer;
+            CPU.DamageCPU += CPU_DamageCPU;
+
             cyclebarDay = new CyclebarDay(content);
             cyclebarNight = new CyclebarNight(content);
 
@@ -209,6 +211,17 @@ namespace SystemShutdown.States
                 
             };
             SpawnEnemiesAcordingToDayNumber();
+        }
+
+        private void CPU_DamageCPU(object source, EventArgs e)
+        {
+            cpuBuilder.Cpu.Health -= 2;
+
+        }
+
+        private void Player_DamagePlayer(object source, EventArgs e)
+        {
+            playerBuilder.player.Health -= 1;
         }
 
         public void SpawnEnemiesAcordingToDayNumber()
@@ -450,8 +463,7 @@ namespace SystemShutdown.States
 
             //Draws cursor
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.maxHealth} Max health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 10), Color.White);
-
+            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), Color.White);
             spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
             spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
             spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
@@ -488,12 +500,11 @@ namespace SystemShutdown.States
             //spawnTime += delta;
             //if (spawnTime >= cooldown)
             //{
-            //GameObject1 go = EnemyPool.Instance.GetObject();
+           // GameObject1 go = EnemyPool.Instance.GetObject(position, "Trojan");
             GameObject1 go = EnemyFactory.Instance.Create(position, "Trojan");
 
             running = true;
             AddGameObject(go);
-            aliveEnemies++;
 
         }
         public void SpawnBugEnemies(Vector2 position)
@@ -502,11 +513,10 @@ namespace SystemShutdown.States
             //if (spawnTime >= cooldown)
             //{
             GameObject1 go = EnemyFactory.Instance.Create(position, "Bug");
-            //GameObject1 go = EnemyPool.Instance.GetObject();
+            //GameObject1 go = EnemyPool.Instance.GetObject(position, "Bug");
         
             running = true;
             AddGameObject(go);
-            aliveEnemies++;
 
 
         }
@@ -533,6 +543,9 @@ namespace SystemShutdown.States
             if (GameWorld.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.gameState.playerBuilder.Player.Health <= 0)
             {
                 ShutdownThreads();
+                GameWorld.repo.Open();
+                GameWorld.repo.RemoveTables();
+                GameWorld.repo.Close();
                 GameWorld.ChangeState(GameWorld.gameOverState);
             }
         }

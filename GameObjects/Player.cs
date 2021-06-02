@@ -21,14 +21,13 @@ namespace SystemShutdown.GameObjects
         public MouseState mouseState;
         public MouseState lastMouseState;
 
-        static Semaphore MySemaphore = new Semaphore(0, 3);
+        static Semaphore MySemaphore = new Semaphore(0, 5);
 
-        private float speed;
         private SpriteRenderer spriteRenderer;
         public Vector2 distance;
         private bool canShoot;
         private float shootTime;
-        private float cooldown = 1;
+        public float cooldown = 0.1f;
 
         private bool canToggleMap;
         private float ShowMapTime;
@@ -39,8 +38,11 @@ namespace SystemShutdown.GameObjects
         public Stack<Mods> playersMods = new Stack<Mods>();
         public int dmg { get; set; }
         public int hp { get; set; }
+        public int kills = 0;
+         public int speed = 250;
 
-
+        public delegate void DamageEventHandler(object source, EventArgs e);
+        public static event DamageEventHandler DamagePlayer;
 
         public bool showingMap;
 
@@ -49,9 +51,7 @@ namespace SystemShutdown.GameObjects
 
         public Rectangle rectangle;
         public Vector2 lastVelocity;
-        public int maxHealth;
 
-        private Input input;
 
         public bool IsDead
         {
@@ -70,14 +70,13 @@ namespace SystemShutdown.GameObjects
             fps = 10f;
 
             Debug.WriteLine("Players semaphore releases (3)");
-            MySemaphore.Release();
-            maxHealth = 100;
-            Health = maxHealth;
-            this.speed = 600;
+            MySemaphore.Release(5);
+            Health = 100;
+            this.speed = 250;
             dmg = 50;
-            hp = 10;
-           
         }
+
+        
 
         //public void Move(Vector2 velocity)
         //{
@@ -151,7 +150,7 @@ namespace SystemShutdown.GameObjects
             ShowMapTime += GameWorld.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
-            if (shootTime >= cooldown)
+            if (shootTime >= cooldown / 1000)
             {
                 canShoot = true;
             }
@@ -167,7 +166,7 @@ namespace SystemShutdown.GameObjects
             // Get the mouse state relevant for this frame
             mouseState = Mouse.GetState();
             // Recognize a single click of the left mouse button
-            if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
+            if (/*lastMouseState.LeftButton == ButtonState.Released &&*/ mouseState.LeftButton == ButtonState.Pressed && canShoot)
             {
                 Shoot();
             }
@@ -222,41 +221,37 @@ namespace SystemShutdown.GameObjects
 
             
         }
-        public void ApplyAllMods()
-        {
-            maxHealth = 100;
+        //public void ApplyAllMods()
+        //{
 
-            this.speed = 600;
-            dmg = 50;
-            hp = 10;
-            foreach (Mods mods in playersMods)
-            {
-                if (mods.ModFKID == 1)
-                {
-                    dmg += mods.Effect;
+        //    this.speed = 600;
+        //    dmg = 50;
+        //    hp = 10;
+        //    foreach (Mods mods in playersMods)
+        //    {
+        //        if (mods.ModFKID == 1)
+        //        {
+        //            dmg += mods.Effect;
 
-                }
-                //if (mods.ModFKID == 2)
-                //{
-                //    dmg += mods.Effect;
+        //        }
+        //        if (mods.ModFKID == 2)
+        //        {
+        //            if (speed > 500)
+        //            {
+        //                speed += mods.Effect;
+        //            }
+        //        }
+        //        if (mods.ModFKID == 3)
+        //        {
+        //            if (cooldown > 0.1)
+        //            {
+        //                cooldown -= mods.Effect;
+        //            }
 
-                //}
-                //if (mods.ModFKID == 3)
-                //{
-                //    dmg += mods.Effect;
+        //        }
 
-                //}
-                if (mods.ModFKID == 4)
-                {
-                    maxHealth += mods.Effect;
-
-                }
-
-            }
-            var tmpHealth = maxHealth - Health;
-            Health -= tmpHealth;
-
-        }
+        //    }
+        //}
         public override void Start()
         {
             
@@ -319,13 +314,16 @@ namespace SystemShutdown.GameObjects
             //}
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
             {
-                Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
-                if (tmpmod.ModFKID == 4)
-                {
-                    Health += tmpmod.Effect;
-                }
-                playersMods.Push(tmpmod);
-                ApplyAllMods();
+                //Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
+                //if (tmpmod.ModFKID == 4)
+                //{
+                //    Health += tmpmod.Effect;
+                //}
+                //else
+                //{
+                //    playersMods.Push(tmpmod);
+                //}
+               // ApplyAllMods();
                 component.GameObject.Destroy();
             }
         }
@@ -333,36 +331,18 @@ namespace SystemShutdown.GameObjects
         public void Enter(Object id)
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
-
+            
             Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
             MySemaphore.WaitOne();
             Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
-            Thread.Sleep(100 * randomNumber.Next(0, 150));
+
+            DamagePlayer(null, EventArgs.Empty);
+            Thread.Sleep(100 * randomNumber.Next(0, 15));
+
             Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
 
         }
-
-        //protected void Animate(GameTime gametime)
-        //{
-        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-        //    {
-        //        //Giver tiden, der er gået, siden sidste update
-        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-
-        //        //Beregner currentIndex
-        //        currentIndex = (int)(timeElapsed * fps);
-        //        spriteRenderer.Sprite = upWalk[currentIndex];
-
-        //        //Checks if animation needs to restart
-        //        if (currentIndex >= upWalk.Length - 1)
-        //        {
-        //            //Resets animation
-        //            timeElapsed = 0;
-        //            currentIndex = 0;
-        //        }
-        //    }
-        //}
     }
 }
