@@ -133,11 +133,12 @@ namespace SystemShutdown.States
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
 
-            Director director = new Director(playerBuilder);
-            gameObjects.Add(director.Contruct());
-
             Director directorCPU = new Director(cpuBuilder);
             gameObjects.Add(directorCPU.Contruct());
+
+            Director director = new Director(playerBuilder);
+            gameObjects.Add(director.Contruct());
+            
             //DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
             //gameObjects.Add(directorCpu.Contruct());
 
