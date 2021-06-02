@@ -32,7 +32,6 @@ namespace SystemShutdown
 
             Debug.WriteLine("mod bliver spawnet");
 
-
             //sr.SetSprite("1GuyUp");
             floormod = new Mods();
             go.AddComponent(new Collider(sr, floormod) { CheckCollisionEvents = true });

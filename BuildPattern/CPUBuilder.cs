@@ -33,7 +33,7 @@ namespace SystemShutdown.BuildPattern
         {
             go = new GameObject1();
 
-            sr = new SpriteRenderer("CPU");
+            sr = new SpriteRenderer("Textures/cpu");
 
             go.AddComponent(sr);
             sr.Origin = new Vector2(sr.Sprite.Width / 2, (sr.Sprite.Height) / 2);

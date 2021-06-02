@@ -41,13 +41,13 @@ namespace SystemShutdown.Database
 
         public void RemoveTables()
         {
-            //var cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Effects;", (SQLiteConnection)connection);
-            //cmd.ExecuteNonQuery();
+            var cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Effects;", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
 
-            //cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Mods;", (SQLiteConnection)connection);
-            //cmd.ExecuteNonQuery();
+            cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Mods;", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
 
-            //Debug.WriteLine("tables dropped");
+            Debug.WriteLine("tables dropped.");
 
         }
 
