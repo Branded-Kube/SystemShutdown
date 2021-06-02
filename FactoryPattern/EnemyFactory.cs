@@ -39,30 +39,34 @@ namespace SystemShutdown.FactoryPattern
         {
 
             GameObject1 enemyGO = new GameObject1();
-                SpriteRenderer enemySR = new SpriteRenderer("Textures/enemy");
-                enemyGO.AddComponent(enemySR);
-            //enemyGO.Transform.Position = position;
-            enemySR.Origin = new Vector2(enemySR.Sprite.Width / 2, (enemySR.Sprite.Height) / 2);
+               
 
-            enemy = new Enemy();
-                  enemyGO.AddComponent(new Collider(enemySR, enemy) { CheckCollisionEvents = true });
-                   enemyGO.AddComponent(enemy);
+            switch (type)
+            {
+                case "Bug":
+                    SpriteRenderer enemyBugSR = new SpriteRenderer("Textures/enemy");
+                    enemyGO.Transform.Position = position;
+                    enemyGO.AddComponent(enemyBugSR);
+                    enemyBugSR.Origin = new Vector2(enemyBugSR.Sprite.Width / 2, (enemyBugSR.Sprite.Height) / 2);
+                    enemy = new Enemy();
+                    enemyGO.AddComponent(new Collider(enemyBugSR, enemy) { CheckCollisionEvents = true });
+                    enemyGO.AddComponent(enemy);
+                    enemy.Health = 100;
 
 
-            //switch (type)
-            //{
-            //    case "Blue":
-            //        enemy = new Enemy();
-            //        enemyGO.AddComponent(new Collider(enemySR, enemy) { CheckCollisionEvents = true });
-            //        enemyGO.AddComponent(enemy);
-
-            //        break;
-            //    case "Black":
-            //        enemy = new Enemy();
-            //        enemyGO.AddComponent(new Collider(enemySR, enemy) { CheckCollisionEvents = true });
-            //        enemyGO.AddComponent(enemy);
-            //        break;
-            //}
+                    break;
+                case "Trojan":
+                    SpriteRenderer enemyTrojanSR = new SpriteRenderer("Textures/trojan");
+                    enemyGO.Transform.Position = position;
+                    enemyGO.AddComponent(enemyTrojanSR);
+                    enemyTrojanSR.Origin = new Vector2(enemyTrojanSR.Sprite.Width / 2, (enemyTrojanSR.Sprite.Height) / 2);
+                    enemy = new Enemy();
+                    enemyGO.AddComponent(new Collider(enemyTrojanSR, enemy) { CheckCollisionEvents = true });
+                    enemyGO.AddComponent(enemy);
+                    enemy.Health = 300;
+                    enemy.isTrojan = true;
+                    break;
+            }
             return enemyGO;
         }
     }

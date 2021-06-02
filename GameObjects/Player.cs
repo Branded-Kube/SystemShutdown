@@ -21,7 +21,7 @@ namespace SystemShutdown.GameObjects
         public MouseState mouseState;
         public MouseState lastMouseState;
 
-        static Semaphore MySemaphore = new Semaphore(0, 3);
+        static Semaphore MySemaphore = new Semaphore(0, 5);
 
         private SpriteRenderer spriteRenderer;
         public Vector2 distance;
@@ -34,13 +34,13 @@ namespace SystemShutdown.GameObjects
 
         public Vector2 velocity = new Vector2(0f, 0f);
 
-
-        public int Dmg { get; set; }
-        public int Hp { get; set; }
-        public int Speed { get; set; }
-        public int Cooldown { get; set; }
+        public Stack<Mods> playersMods = new Stack<Mods>();
+        public int dmg { get; set; }
+        public int hp { get; set; }
 
 
+        public delegate void DamageEventHandler(object source, EventArgs e);
+        public static event DamageEventHandler DamagePlayer;
 
         public bool showingMap;
 
@@ -50,8 +50,6 @@ namespace SystemShutdown.GameObjects
         public Rectangle rectangle;
         public Vector2 lastVelocity;
 
-
-        private Input input;
 
         public bool IsDead
         {
@@ -63,20 +61,21 @@ namespace SystemShutdown.GameObjects
 
         public Player()
         {
-            Health = 100;
-            Speed = 250;
-            Cooldown = 2000;
+            
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;
             fps = 10f;
 
             Debug.WriteLine("Players semaphore releases (3)");
-            MySemaphore.Release();
-            Dmg = 50;
-            Hp = 10;
-           
+            MySemaphore.Release(5);
+            Health = 100;
+            this.speed = 600;
+            dmg = 50;
+            hp = 10;
         }
+
+        
 
         //public void Move(Vector2 velocity)
         //{
@@ -145,6 +144,7 @@ namespace SystemShutdown.GameObjects
 
         public override void Update(GameTime gameTime)
         {
+
             shootTime += GameWorld.DeltaTime;
             ShowMapTime += GameWorld.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
@@ -217,8 +217,35 @@ namespace SystemShutdown.GameObjects
 
             velocity = Vector2.Zero;
 
-        }
 
+            
+        }
+        public void ApplyAllMods()
+        {
+
+            this.speed = 600;
+            dmg = 50;
+            hp = 10;
+            foreach (Mods mods in playersMods)
+            {
+                if (mods.ModFKID == 1)
+                {
+                    dmg += mods.Effect;
+
+                }
+                //if (mods.ModFKID == 2)
+                //{
+                //    dmg += mods.Effect;
+
+                //}
+                //if (mods.ModFKID == 3)
+                //{
+                //    dmg += mods.Effect;
+
+                //}
+
+            }
+        }
         public override void Start()
         {
             
@@ -279,41 +306,37 @@ namespace SystemShutdown.GameObjects
             //{
             //  GameObject.Transform.Position = lastVelocity;
             //}
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
+            {
+                Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
+                if (tmpmod.ModFKID == 4)
+                {
+                    Health += tmpmod.Effect;
+                }
+                else
+                {
+                    playersMods.Push(tmpmod);
+                }
+                ApplyAllMods();
+                component.GameObject.Destroy();
+            }
         }
 
         public void Enter(Object id)
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
-
+            
             Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
             MySemaphore.WaitOne();
             Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
-            Thread.Sleep(100 * randomNumber.Next(0, 150));
+
+            DamagePlayer(null, EventArgs.Empty);
+            Thread.Sleep(100 * randomNumber.Next(0, 15));
+
             Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
 
         }
-
-        //protected void Animate(GameTime gametime)
-        //{
-        //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
-        //    {
-        //        //Giver tiden, der er gået, siden sidste update
-        //        timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-
-        //        //Beregner currentIndex
-        //        currentIndex = (int)(timeElapsed * fps);
-        //        spriteRenderer.Sprite = upWalk[currentIndex];
-
-        //        //Checks if animation needs to restart
-        //        if (currentIndex >= upWalk.Length - 1)
-        //        {
-        //            //Resets animation
-        //            timeElapsed = 0;
-        //            currentIndex = 0;
-        //        }
-        //    }
-        //}
     }
 }

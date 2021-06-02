@@ -36,7 +36,7 @@ namespace SystemShutdown.FactoryPattern
 
             //sr.SetSprite("1GuyUp");
             mods = new Mods();
-            go.AddComponent(new Collider(sr, mods) { CheckCollisionEvents = true });
+            go.AddComponent(new Collider(sr, mods) { CheckCollisionEvents = false });
             go.Transform.Position = position;
             go.AddComponent(mods);
             GameWorld.gameState.AddGameObject(go);
