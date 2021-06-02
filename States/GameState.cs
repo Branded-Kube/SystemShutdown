@@ -131,7 +131,7 @@ namespace SystemShutdown.States
 
         public override void LoadContent()
         {
-            //backgroundSprite = content.Load<Texture2D>("");
+            backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
 
             Director director = new Director(playerBuilder);
@@ -264,8 +264,8 @@ namespace SystemShutdown.States
         }
         public override void Update(GameTime gameTime)
         {
-            //backgroundPos = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2);
-            //backgroundOrigin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2);
+            backgroundPos = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2);
+            backgroundOrigin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2);
 
             ///<summary>
             ///Updates cursors position
@@ -357,7 +357,7 @@ namespace SystemShutdown.States
             //    x += 150;
             //}
 
-            //spriteBatch.Draw(backgroundSprite, backgroundPos, null, Color.White, 0, backgroundOrigin, 1f, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(backgroundSprite, backgroundPos, null, Color.White, 0, backgroundOrigin, 1f, SpriteEffects.None, 0.1f);
 
             // Frederik
             //foreach (var sprite in stateObjects)
