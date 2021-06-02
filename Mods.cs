@@ -20,7 +20,7 @@ namespace SystemShutdown
         public int Effect { get; set; }
 
         public string Name { get; set; }
-        double despawnTimer = 0.0;
+        //double despawnTimer = 0.0;
 
 
         public GameObject1 Create()
@@ -46,28 +46,28 @@ namespace SystemShutdown
             GameObject.Tag = "Pickup";
 
 
-            Random rnd = new Random();
-            int randomnumber = rnd.Next(1, 5);
+            //Random rnd = new Random();
+            //int randomnumber = rnd.Next(1, 5);
 
-            List<Effects> pickupable = new List<Effects>();
+            //List<Effects> pickupable = new List<Effects>();
 
-            GameWorld.repo.Open();
-            pickupable = GameWorld.repo.FindEffects(randomnumber);
+            //GameWorld.repo.Open();
+            //pickupable = GameWorld.repo.FindEffects(randomnumber);
 
-            //playerBuilder.player.dmg += pickupAble.Effect;
-            GameWorld.repo.Close();
+            ////playerBuilder.player.dmg += pickupAble.Effect;
+            //GameWorld.repo.Close();
 
-            Random rndeffect = new Random();
-            int randomeffect = rndeffect.Next(0, 3);
+            //Random rndeffect = new Random();
+            //int randomeffect = rndeffect.Next(0, 3);
 
-            Effects choseneffect = pickupable[randomeffect];
+            //Effects choseneffect = pickupable[randomeffect];
 
-            Debug.WriteLine($"{choseneffect.Effectname}");
-            Effect = choseneffect.Effect;
-            ModFKID = choseneffect.ModFK;
-            // GameObject.Transform.Position = new Vector2(400, 200);
-            // this.position = GameObject.Transform.Position;
-            //spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            //Debug.WriteLine($"{choseneffect.Effectname}");
+            //Effect = choseneffect.Effect;
+            //ModFKID = choseneffect.ModFK;
+            //// GameObject.Transform.Position = new Vector2(400, 200);
+            //// this.position = GameObject.Transform.Position;
+            ////spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
         public override string ToString()
         {
@@ -80,11 +80,11 @@ namespace SystemShutdown
         //}
         public override void Update(GameTime gameTime)
         {
-            despawnTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            if (despawnTimer > 10)
-            {
-                GameObject.Destroy();
-            }
+            //despawnTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            //if (despawnTimer > 10)
+            //{
+            //    GameObject.Destroy();
+            //}
         }
         public void ApplyMod()
         {
@@ -106,24 +106,24 @@ namespace SystemShutdown
             Effects choseneffect = pickupable[randomeffect];
 
             Debug.WriteLine($"{choseneffect.Effectname}");
-            Effect = choseneffect.Effect;
-            ModFKID = choseneffect.ModFK;
-            //if (choseneffect.ModFK == 1)
-            //{
-            //    GameWorld.gameState.playerBuilder.player.Dmg += choseneffect.Effect;
-            //}
-            //else if (choseneffect.ModFK == 2)
-            //{
-            //    GameWorld.gameState.playerBuilder.player.speed += choseneffect.Effect;
-            //}
-            //else if (choseneffect.ModFK == 3)
-            //{
-            //    GameWorld.gameState.playerBuilder.player.cooldown -= choseneffect.Effect;
-            //}
-            //else if (choseneffect.ModFK == 4)
-            //{
-            //    GameWorld.gameState.playerBuilder.player.Health += choseneffect.Effect;
-            //}
+            //Effect = choseneffect.Effect;
+            //ModFKID = choseneffect.ModFK;
+            if (choseneffect.ModFK == 1)
+            {
+                GameWorld.gameState.playerBuilder.player.dmg += choseneffect.Effect;
+            }
+            else if (choseneffect.ModFK == 2)
+            {
+                GameWorld.gameState.playerBuilder.player.speed += choseneffect.Effect;
+            }
+            else if (choseneffect.ModFK == 3)
+            {
+                GameWorld.gameState.playerBuilder.player.cooldown -= choseneffect.Effect;
+            }
+            else if (choseneffect.ModFK == 4)
+            {
+                GameWorld.gameState.playerBuilder.player.Health += choseneffect.Effect;
+            }
 
 
         }
@@ -134,8 +134,8 @@ namespace SystemShutdown
                 //(Player)component.GameObject.GetComponent("Player")
 
                 //GameWorld.gameState.playerBuilder.player.playersMods.Add(this);
-                //ApplyMod();
-                //GameObject.Destroy();
+                ApplyMod();
+                GameObject.Destroy();
             }
         }
     }
