@@ -37,7 +37,7 @@ namespace SystemShutdown
             go.AddComponent(new Collider(sr, floormod) { CheckCollisionEvents = true });
             go.Transform.Position = new Vector2(400, 200);
             go.AddComponent(floormod);
-            GameWorld.gameState.AddGameObject(go);
+            GameWorld.Instance.gameState.AddGameObject(go);
             return go;
         }
         public override void Awake()
@@ -93,11 +93,11 @@ namespace SystemShutdown
 
             List<Effects> pickupable = new List<Effects>();
 
-            GameWorld.repo.Open();
-            pickupable = GameWorld.repo.FindEffects(randomnumber);
+            GameWorld.Instance.repo.Open();
+            pickupable = GameWorld.Instance.repo.FindEffects(randomnumber);
 
             //playerBuilder.player.dmg += pickupAble.Effect;
-            GameWorld.repo.Close();
+            GameWorld.Instance.repo.Close();
 
             Random rndeffect = new Random();
             int randomeffect = rndeffect.Next(0, 3);
@@ -109,19 +109,19 @@ namespace SystemShutdown
             //ModFKID = choseneffect.ModFK;
             if (choseneffect.ModFK == 1)
             {
-                GameWorld.gameState.playerBuilder.player.dmg += choseneffect.Effect;
+                GameWorld.Instance.gameState.playerBuilder.player.dmg += choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 2)
             {
-                GameWorld.gameState.playerBuilder.player.speed += choseneffect.Effect;
+                GameWorld.Instance.gameState.playerBuilder.player.speed += choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 3)
             {
-                GameWorld.gameState.playerBuilder.player.cooldown -= choseneffect.Effect;
+                GameWorld.Instance.gameState.playerBuilder.player.cooldown -= choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 4)
             {
-                GameWorld.gameState.playerBuilder.player.Health += choseneffect.Effect;
+                GameWorld.Instance.gameState.playerBuilder.player.Health += choseneffect.Effect;
             }
 
 

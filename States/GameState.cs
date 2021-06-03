@@ -196,9 +196,9 @@ namespace SystemShutdown.States
 
             grid = new Grid();
 
-            _spriteBatch = new SpriteBatch(GameWorld.thisGameWorld.GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GameWorld.Instance.thisGameWorld.GraphicsDevice);
 
-            var playerTexture = GameWorld.gameState.playerBuilder.Player.GameObject.Tag;
+            var playerTexture = GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Tag;
             //var wallTexture = GameWorld.gameState.component.Node.GameObject.Tag;
 
             //var colliderTexture = "Collider"/*GameWorld.gameState.Collider.GameObject.Tag*/;
@@ -259,18 +259,18 @@ namespace SystemShutdown.States
             }
             else if (rndpos == 2)
             {
-                x = GameWorld.gameState.grid.Width - 2;
+                x = GameWorld.Instance.gameState.grid.Width - 2;
                 y = 1;
             }
             else if (rndpos == 3)
             {
                 x = 1;
-                y = GameWorld.gameState.grid.Height - 2;
+                y = GameWorld.Instance.gameState.grid.Height - 2;
             }
             else if (rndpos == 4)
             {
-                x = GameWorld.gameState.grid.Width - 2;
-                y = GameWorld.gameState.grid.Height - 2;
+                x = GameWorld.Instance.gameState.grid.Width - 2;
+                y = GameWorld.Instance.gameState.grid.Height - 2;
             }
             //Node tmpvector = GameWorld.gameState.grid.Node(x,y);
             return new Vector2(x * 100, y * 100);
@@ -278,7 +278,7 @@ namespace SystemShutdown.States
         }
         public override void Update(GameTime gameTime)
         {
-            backgroundPos = new Vector2(GameWorld.renderTarget.Width / 2, GameWorld.renderTarget.Height / 2);
+            backgroundPos = new Vector2(GameWorld.Instance.renderTarget.Width / 2, GameWorld.Instance.renderTarget.Height / 2);
             backgroundOrigin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2);
 
             ///<summary>
@@ -464,9 +464,9 @@ namespace SystemShutdown.States
 
             //Draws cursor
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
             spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
             spriteBatch.DrawString(font, $"{playerBuilder.Player.playersMods.Count} Mods", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
 
@@ -541,13 +541,13 @@ namespace SystemShutdown.States
 
         public void GameOver()
         {
-            if (GameWorld.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.gameState.playerBuilder.Player.Health <= 0)
+            if (GameWorld.Instance.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.gameState.playerBuilder.Player.Health <= 0)
             {
                 ShutdownThreads();
-                GameWorld.repo.Open();
-                GameWorld.repo.RemoveTables();
-                GameWorld.repo.Close();
-                GameWorld.ChangeState(GameWorld.gameOverState);
+                GameWorld.Instance.repo.Open();
+                GameWorld.Instance.repo.RemoveTables();
+                GameWorld.Instance.repo.Close();
+                GameWorld.ChangeState(GameWorld.Instance.gameOverState);
             }
         }
 

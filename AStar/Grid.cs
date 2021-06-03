@@ -95,7 +95,7 @@ namespace SystemShutdown.AStar
                         nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
                         nodeGO.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
                         nodeGO.AddComponent(nodes[x, y]);
-                        GameWorld.gameState.AddGameObject(nodeGO);
+                        GameWorld.Instance.gameState.AddGameObject(nodeGO);
                     }
                
                 }
@@ -131,7 +131,7 @@ namespace SystemShutdown.AStar
 
                                     nodeGO.AddComponent(new Collider(nodeSR, nodes[item.x, item.y]) { CheckCollisionEvents = false });
                                     nodeGO.AddComponent(nodes[item.x, item.y]);
-                                    GameWorld.gameState.AddGameObject(nodeGO);
+                                    GameWorld.Instance.gameState.AddGameObject(nodeGO);
                                 }
                             }
                         }

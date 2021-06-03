@@ -33,6 +33,18 @@ namespace SystemShutdown.Database
             return result;
         }
 
-
+        public List<Highscores> MapHighscoresReader(IDataReader reader)
+        {
+            var result = new List<Highscores>();
+            while (reader.Read())
+            {
+                var id = reader.GetInt32(0);
+                var name = reader.GetString(1);
+                var kills = reader.GetInt32(2);
+                var days = reader.GetInt32(3);
+                result.Add(new Highscores() { Id = id, Name = name ,Kills = kills, DaysSurvived = days });
+            }
+            return result;
+        }
     }
 }

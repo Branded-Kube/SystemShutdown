@@ -19,57 +19,58 @@ namespace SystemShutdown
 {
     public class GameWorld : Game
     {
-        public static GraphicsDeviceManager graphics;
+        public  GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         #region Fields
-        //private static GameWorld instance;
+        private static GameWorld instance;
 
-        //public static GameWorld Instance
-        //{
-        //    get
-        //    {
-        //        if (instance == null)
-        //        {
-        //            instance = new GameWorld();
-        //        }
-        //        return instance;
-        //    }
-        //}
+        public static GameWorld Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameWorld();
+                }
+                return instance;
+            }
+        }
 
         /// <summary>
         /// Used in MenuState to Exit Game - Frederik
         /// </summary>
-        public static GameWorld thisGameWorld;
+        public  GameWorld thisGameWorld;
 
-        public static ContentManager content;
+        public  ContentManager content;
 
 
-        public static RenderTarget2D renderTarget;
-        public static RenderTarget2D minimap;
+        public  RenderTarget2D renderTarget;
+        public  RenderTarget2D minimap;
         public float scale = 0.4444f;
 
         public float miniMapScale;
 
-        public static int ScreenWidth = 1920;
-        public static int ScreenHeight = 1080;
+        public  int ScreenWidth = 1920;
+        public  int ScreenHeight = 1080;
 
         private State currentGameState;
         private static State nextGameState;
-        public static GameState gameState;
-        public static HowToState howToState;
-        public static MenuState menuState;
-        public static GameOverState gameOverState;
+        public  GameState gameState;
+        public  HowToState howToState;
+        public  MenuState menuState;
+        public  GameOverState gameOverState;
+        public  HighscoreState highscoreState;
 
         private Camera camera;
-        
+
         private bool isGameState;
-        public static bool isDay;
+        public  bool isDay;
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
-        public static Repository repo;
+        public  Repository repo;
 
-        public static float DeltaTime { get; set; }
+        public  float DeltaTime { get; set; }
         Random rnd = new Random();
         private CPU cpu;
 
@@ -154,7 +155,7 @@ namespace SystemShutdown
             menuState = new MenuState();
             gameOverState = new GameOverState();
             currentGameState = new MenuState();
-
+            highscoreState = new HighscoreState();
             currentGameState.LoadContent();
             nextGameState = null;
             ///<summary>
@@ -204,7 +205,7 @@ namespace SystemShutdown
 
                 nextGameState = null;
             }
-            
+
             //Updates game
             currentGameState.Update(gameTime);
 
@@ -246,7 +247,7 @@ namespace SystemShutdown
             /// </summary>
             scale = 1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
             miniMapScale = 0.1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
-            
+
 
             GraphicsDevice.SetRenderTarget(renderTarget);
 
@@ -261,13 +262,13 @@ namespace SystemShutdown
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
 
-                
+
             }
             else
             {
-              spriteBatch.Begin();
+                spriteBatch.Begin();
             }
-           
+
             spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             if (isGameState)
@@ -277,10 +278,10 @@ namespace SystemShutdown
                     spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
                 }
 
-            
+
                 if (isDay == false)
                 {
-                    
+
 
                     if (cyclebarNight.currentBarNight <= 0)
                     {
@@ -310,6 +311,20 @@ namespace SystemShutdown
 
             base.Draw(gameTime);
         }
+
+
+        public void SetInitials()
+        {
+            Window.TextInput += Highscores.CreateUsernameInput;
+        }
+        public void RemoveSetInitials()
+        {
+            Window.TextInput -= Highscores.CreateUsernameInput;
+
+            gameOverState.hasChosenInitials = false;
+
+        }
+
         #endregion
     }
 }

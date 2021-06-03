@@ -71,9 +71,9 @@ namespace SystemShutdown.GameObjects
         public override void Destroy()
         {
             //EnemyPool.Instance.RealeaseObject(GameObject);
-            GameWorld.gameState.aliveEnemies--;
-            GameWorld.gameState.playerBuilder.player.kills++;
-            GameWorld.gameState.RemoveGameObject(GameObject);
+            GameWorld.Instance.gameState.aliveEnemies--;
+            GameWorld.Instance.gameState.playerBuilder.player.kills++;
+            GameWorld.Instance.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
 
@@ -89,7 +89,7 @@ namespace SystemShutdown.GameObjects
                 speed = 200;
                 goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
             }
-            else if (!GameWorld.isDay)
+            else if (!GameWorld.Instance.isDay)
             {
                 speed = 200;
                 goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
@@ -151,7 +151,7 @@ namespace SystemShutdown.GameObjects
             {
                 if (!isTrojan)
                 {
-                    if (IsPlayerInRange(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position))
+                    if (IsPlayerInRange(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position))
                     {
                         playerTarget = true;
                         isGoalFound = false;
@@ -276,7 +276,7 @@ namespace SystemShutdown.GameObjects
                     attackingPlayer = false;
                     attackingCPU = false;
                     Random rnd = new Random();
-                    if (rnd.Next(1, 3) == 1 && GameWorld.gameState.playerBuilder.player.playersMods.Count > 0)
+                    if (rnd.Next(1, 3) == 1 && GameWorld.Instance.gameState.playerBuilder.player.playersMods.Count > 0)
                     {
                         // GameWorld.gameState.playerBuilder.player.playersMods.Pop();
                         //GameWorld.gameState.playerBuilder.player.ApplyAllMods();
