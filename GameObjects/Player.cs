@@ -317,7 +317,7 @@ namespace SystemShutdown.GameObjects
             {
 
                 Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
-                    tmpEnemy.AttackingPlayer = true;
+                   // tmpEnemy.AttackingPlayer = true;
             }
 
 
