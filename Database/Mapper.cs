@@ -39,9 +39,10 @@ namespace SystemShutdown.Database
             while (reader.Read())
             {
                 var id = reader.GetInt32(0);
-                var kills = reader.GetInt32(1);
-                var days = reader.GetInt32(2);
-                result.Add(new Highscores() { Id = id, Kills = kills, DaysSurvived = days });
+                var name = reader.GetString(1);
+                var kills = reader.GetInt32(2);
+                var days = reader.GetInt32(3);
+                result.Add(new Highscores() { Id = id, Name = name ,Kills = kills, DaysSurvived = days });
             }
             return result;
         }

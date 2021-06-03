@@ -25,6 +25,10 @@ namespace SystemShutdown.States
         private Vector2 quitGamePosition;
         private Vector2 quitGameOrigin;
 
+        private bool hasChosenName;
+
+        private string tmpName = "Player";
+
         #endregion
 
         #region Methods
@@ -66,12 +70,44 @@ namespace SystemShutdown.States
 
         private void Button_SaveHighscore_Clicked(object sender, EventArgs e)
         {
-            GameWorld.repo.Open();
-            
-            GameWorld.repo.SaveScore(GameWorld.gameState.playerBuilder.Player.kills, GameWorld.gameState.days);
+          
+            //if (hasChosenName!)
+            //{
+            //    //menyMsg = "Write your name and Press enter to confirm";
 
-            GameWorld.repo.Close();
+
+            //    if (inMenu == false)
+            //    {
+            //        GameWorld.Instance.AddCreateUserLogin();
+            //        inMenu = true;
+            //    }
+            //    if (isCreatingUser == false)
+            //    {
+            //        isCreatingUser = true;
+            //    }
+
+
+                GameWorld.repo.Open();
+
+                GameWorld.repo.SaveScore(tmpName ,GameWorld.gameState.playerBuilder.Player.kills, GameWorld.gameState.days);
+
+                GameWorld.repo.Close();
+            //}
+
+
+                
+            
+
+       
+            
+            
         }
+
+
+        //public void SetInitials()
+        //{
+        //    Window.TextInput += UserLogin.CreateUsernameInput;
+        //}
 
         public override void Update(GameTime gameTime)
         {
@@ -111,6 +147,8 @@ namespace SystemShutdown.States
 
             spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.White, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
+
+            spriteBatch.DrawString(buttonFont, "Save highscore" , new Vector2 (), Color.White);
 
             spriteBatch.End();
         }

@@ -35,7 +35,8 @@ namespace SystemShutdown.Database
             cmd.ExecuteNonQuery();
 
 
-            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Highscores (PlayerName VARCHAR(50) PRIMARY KEY, Kills INTEGER, DaysSurvived INTEGER ,UNIQUE(PlayerName));", (SQLiteConnection)connection);
+            //cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Highscores (PlayerName VARCHAR(50) PRIMARY KEY, Kills INTEGER, DaysSurvived INTEGER ,UNIQUE(PlayerName));", (SQLiteConnection)connection);
+            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Highscores (PlayerId INTEGER PRIMARY KEY, PlayerName VARCHAR(50) ,Kills INTEGER, DaysSurvived INTEGER ,UNIQUE(PlayerId));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
 
@@ -82,9 +83,9 @@ namespace SystemShutdown.Database
         }
 
 
-        public void SaveScore (int kills, int daysSurvived)
+        public void SaveScore (string name ,int kills, int daysSurvived)
         {
-            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Highscores (Kills, DaysSurvived) VALUES ({kills}, {daysSurvived})", (SQLiteConnection)connection);
+            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Highscores (PlayerName, Kills, DaysSurvived) VALUES ('{name}', {kills}, {daysSurvived})", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
 
