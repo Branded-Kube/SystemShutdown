@@ -305,12 +305,12 @@ namespace SystemShutdown.States
 
             }
 
-            if (currentKeyState.IsKeyDown(Keys.RightShift) && !previousKeyState.IsKeyDown(Keys.RightShift))
-            {
-                Mods mods = new Mods();
-                mods.Create();
+            //if (currentKeyState.IsKeyDown(Keys.RightShift) && !previousKeyState.IsKeyDown(Keys.RightShift))
+            //{
+            //    Mods mods = new Mods();
+            //    mods.Create();
 
-            }
+            //}
 
             // Rotates player
             playerBuilder.player.RotatePlayer();

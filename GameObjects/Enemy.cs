@@ -160,7 +160,7 @@ namespace SystemShutdown.GameObjects
                 var moddrop = rnd.Next(1, 3);
                 if (moddrop == 2)
                 {
-                    //ModFactory.Instance.Create(GameObject.Transform.Position, "default");
+                    ModFactory.Instance.Create(GameObject.Transform.Position, "default");
                 }
                 GameObject.Destroy();
             }
