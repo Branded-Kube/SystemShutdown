@@ -49,7 +49,7 @@ namespace SystemShutdown.FactoryPattern
                     enemyGO.AddComponent(enemyBugSR);
                     enemyBugSR.Origin = new Vector2(enemyBugSR.Sprite.Width / 2, (enemyBugSR.Sprite.Height) / 2);
                     enemy = new Enemy();
-                    enemyGO.AddComponent(new Collider(enemyBugSR, enemy) { CheckCollisionEvents = true });
+                    enemyGO.AddComponent(new Collider(enemyBugSR, enemy) { CheckCollisionEvents = false });
                     enemyGO.AddComponent(enemy);
 
 
@@ -60,9 +60,9 @@ namespace SystemShutdown.FactoryPattern
                     enemyGO.AddComponent(enemyTrojanSR);
                     enemyTrojanSR.Origin = new Vector2(enemyTrojanSR.Sprite.Width / 2, (enemyTrojanSR.Sprite.Height) / 2);
                     enemy = new Enemy();
-                    enemyGO.AddComponent(new Collider(enemyTrojanSR, enemy) { CheckCollisionEvents = true });
+                    enemyGO.AddComponent(new Collider(enemyTrojanSR, enemy) { CheckCollisionEvents = false });
                     enemyGO.AddComponent(enemy);
-                    enemy.isTrojan = true;
+                    enemy.IsTrojan = true;
                     break;
             }
             return enemyGO;

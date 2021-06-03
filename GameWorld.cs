@@ -317,14 +317,6 @@ namespace SystemShutdown
         {
             Window.TextInput += Highscores.CreateUsernameInput;
         }
-        public void RemoveSetInitials()
-        {
-            Window.TextInput -= Highscores.CreateUsernameInput;
-
-            gameOverState.hasChosenInitials = false;
-
-        }
-
         #endregion
     }
 }

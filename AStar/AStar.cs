@@ -13,23 +13,23 @@ namespace SystemShutdown.AStar
     {
         private List<Node> closedList = new List<Node>();
         private List<Node> openList = new List<Node>();
-        private Node[,] enemyNodes;
+       // private Node[,] enemyNodes;
 
         bool finished = true;
         
-        public Astar()
-        {
-            enemyNodes = GameWorld.Instance.gameState.grid.nodes;
-        }
+        //public Astar()
+        //{
+        //    enemyNodes = GameWorld.gameState.grid.nodes;
+        //}
 
 
-        public void Start(Node start)
+        public void Start(/*Node start*/)
         {
             if (finished)
             {
                 openList.Clear();
                 closedList.Clear();
-                openList.Add(start);
+                //openList.Add(start);
                 finished = false;
 
             }
@@ -135,10 +135,11 @@ namespace SystemShutdown.AStar
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="path"></param>
-        public void Search(Grid grid, Node start, Node end, Stack<Node> path)
+        public void Search(Node start, Node end, Stack<Node> path)
         {
 
             start.f = EuclideanDistance(start.x, start.y, end.x, end.y);
+            openList.Add(start);
 
             while (!finished)
             {
@@ -159,8 +160,6 @@ namespace SystemShutdown.AStar
                         }
                     }
                 }
-
-
                 // current node is set to the node with the lowest f value in openlist
                 Node current = openList[lowestIndex];
                 if (current == end)
@@ -175,37 +174,16 @@ namespace SystemShutdown.AStar
                 current.Open = false;
                 current.Closed = true;
 
-                UpdateNeighbors(ref current, grid, end);
-
-
-                // solution not found, return path to node with greatest g value
-
-                if (closedList.Count > (grid.Width * grid.Height) / 4)
-                {
-                    int greatestG = 0;
-                    for (int i = 0; i < openList.Count; i++)
-                    {
-                        if (openList[i].g > openList[greatestG].g)
-                        {
-                            greatestG = i;
-                        }
-
-                    }
-                    current = openList[greatestG];
-                    Finish(current, path);
-
-                    return;
-                }
-
+                UpdateNeighbors(ref current, end);
             }
 
         }
 
 
-        private void UpdateNeighbors(ref Node current, Grid grid, Node end)
+        private void UpdateNeighbors(ref Node current, Node end)
         {
 
-            Node[] neighbors = GetNeighbors(grid, current);
+            Node[] neighbors = GetNeighbors(GameWorld.Instance.gameState.grid, current);
 
             // checks every neighbor in neighbors list and skips current neighbor if it is null, not !passable or in closedList.
             // else sets current neighbor f / g / h values and adds neighbor to openlist
@@ -231,7 +209,9 @@ namespace SystemShutdown.AStar
                 else
                 {
                     // (tmpG is the distance from start to neighbor though current)
-                    int tmpG = current.g + neighbor.Cost;
+                    //int tmpG = current.g + neighbor.Cost;
+                    int tmpG = current.g + 1;
+
 
                     // adds neighbor to open list if it is not added already
                     // else skips if neighbor g value is equal or lower than current g value + neighbor cost (path is not better)
@@ -245,7 +225,7 @@ namespace SystemShutdown.AStar
                     }
 
                     // if neighbor is already added to open list and its g value is greater than tmpG  
-                    // set g / h and f values on neighbor, also sets cameFrom node to current node 
+                    // set g / h and f values on neighbor, also sets Neighbors cameFrom node to current node 
 
                     neighbor.g = tmpG;
 
@@ -260,7 +240,7 @@ namespace SystemShutdown.AStar
 
       
         /// <summary>
-        /// Stops the astar, 
+        ///  
         /// </summary>
         /// <param name="current"></param>
         /// <param name="path"></param>
@@ -268,7 +248,7 @@ namespace SystemShutdown.AStar
         {
             while (current.cameFrom != null)
             {
-                current.Path = true;
+               // current.Path = true;
                 path.Push(current);
                 current = current.cameFrom;
 
