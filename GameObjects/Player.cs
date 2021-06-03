@@ -124,8 +124,8 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         public void RotatePlayer()
         {
-            distance.X = mouseState.X - GameWorld.ScreenWidth / 2 + 45;
-            distance.Y = mouseState.Y - GameWorld.ScreenHeight / 2 + 45;
+            distance.X = mouseState.X - GameWorld.Instance.ScreenWidth / 2 + 45;
+            distance.Y = mouseState.Y - GameWorld.Instance.ScreenHeight / 2 + 45;
 
             spriteRenderer.Rotation = (float)Math.Atan2(distance.Y, distance.X);
         }
@@ -146,8 +146,8 @@ namespace SystemShutdown.GameObjects
         public override void Update(GameTime gameTime)
         {
 
-            shootTime += GameWorld.DeltaTime;
-            ShowMapTime += GameWorld.DeltaTime;
+            shootTime += GameWorld.Instance.DeltaTime;
+            ShowMapTime += GameWorld.Instance.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
             if (shootTime >= cooldown / 1000)
@@ -176,10 +176,10 @@ namespace SystemShutdown.GameObjects
             {
                 velocity.Normalize();
             }
-            velocity *= speed * GameWorld.DeltaTime;
+            velocity *= speed * GameWorld.Instance.DeltaTime;
 
             
-                foreach (GameObject1 gameObject in GameWorld.gameState.gameObjects)
+                foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
                 {
                     if (gameObject.Tag == "Node")
                     {
@@ -273,7 +273,7 @@ namespace SystemShutdown.GameObjects
                 shootTime = 0;
                 GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
 
-                Vector2 movement = new Vector2(GameWorld.gameState.cursorPosition.X, GameWorld.gameState.cursorPosition.Y) - laserObject.Transform.Position;
+                Vector2 movement = new Vector2(GameWorld.Instance.gameState.cursorPosition.X, GameWorld.Instance.gameState.cursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
                 Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");
@@ -283,8 +283,8 @@ namespace SystemShutdown.GameObjects
                 tmpSpriteRenderer.Rotation = spriteRenderer.Rotation;
 
                 tmpPro.velocity = movement;
-                
-                GameWorld.gameState.AddGameObject(laserObject);
+
+                GameWorld.Instance.gameState.AddGameObject(laserObject);
             }
         }
 

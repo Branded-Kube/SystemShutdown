@@ -33,6 +33,11 @@ namespace SystemShutdown.Database
 
             cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Effects (EffectID INTEGER PRIMARY KEY, Effect INTEGER, EffectName VARCHAR(50), ModFK INTEGER REFERENCES Mods(ModID), UNIQUE(EffectName));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
+
+
+            //cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Highscores (PlayerName VARCHAR(50) PRIMARY KEY, Kills INTEGER, DaysSurvived INTEGER ,UNIQUE(PlayerName));", (SQLiteConnection)connection);
+            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Highscores (PlayerId INTEGER PRIMARY KEY, PlayerName VARCHAR(50) ,Kills INTEGER, DaysSurvived INTEGER ,UNIQUE(PlayerId));", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
         }
 
         public void RemoveTables()
@@ -76,6 +81,14 @@ namespace SystemShutdown.Database
             var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Effects (Effect, EffectName, ModFK) VALUES ({effect}, '{effectname}', {modfk})", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
+
+
+        public void SaveScore (string name ,int kills, int daysSurvived)
+        {
+            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Highscores (PlayerName, Kills, DaysSurvived) VALUES ('{name}', {kills}, {daysSurvived})", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+        }
+
 
         public void Open()
         {
