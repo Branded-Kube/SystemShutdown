@@ -179,36 +179,27 @@ namespace SystemShutdown.GameObjects
            
 
             
-                foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
+            foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
+            {
+                if (gameObject.Tag == "Node")
                 {
-                    if (gameObject.Tag == "Node")
-                    {
-
                     Collider nodeCollider = (Collider)gameObject.GetComponent("Collider");
 
                     Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
 
                     if ((velocity.X > 0 && playerCollider.IsTouchingLeft(nodeCollider)) ||
-                         (velocity.X < 0 && playerCollider.IsTouchingRight(nodeCollider)))
+                        (velocity.X < 0 && playerCollider.IsTouchingRight(nodeCollider)))
                     {
                         velocity.X = 0;
                     }
 
-
                     if ((velocity.Y > 0 && playerCollider.IsTouchingTop(nodeCollider)) ||
-                         (velocity.Y < 0 && playerCollider.IsTouchingBottom(nodeCollider)))
+                        (velocity.Y < 0 && playerCollider.IsTouchingBottom(nodeCollider)))
                     {
                         velocity.Y = 0;
-
                     }
-
                 }
-
-
-
             }
-
-
 
             // /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
 
