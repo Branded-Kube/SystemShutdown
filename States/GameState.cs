@@ -214,15 +214,15 @@ namespace SystemShutdown.States
             SpawnEnemiesAcordingToDayNumber();
         }
 
-        private void CPU_DamageCPU(object source, EventArgs e)
+        private void CPU_DamageCPU(object source, Enemy enemy, EventArgs e)
         {
-            cpuBuilder.Cpu.Health -= 2;
+            cpuBuilder.Cpu.Health -= enemy.Dmg;
 
         }
 
-        private void Player_DamagePlayer(object source, EventArgs e)
+        private void Player_DamagePlayer(object source, Enemy enemy,EventArgs e)
         {
-            playerBuilder.player.Health -= 1;
+            playerBuilder.player.Health -= enemy.Dmg;
         }
 
         public void SpawnEnemiesAcordingToDayNumber()

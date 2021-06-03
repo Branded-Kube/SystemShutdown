@@ -12,7 +12,7 @@ namespace SystemShutdown.GameObjects
 {
    public class CPU : Component, IGameListener
     {
-        public delegate void DamageEventHandler(object source, EventArgs e);
+        public delegate void DamageEventHandler(object source,Enemy enemy, EventArgs e);
         public static event DamageEventHandler DamageCPU;
         static Semaphore MySemaphore = new Semaphore(0, 3);
         /// <summary>
@@ -28,26 +28,23 @@ namespace SystemShutdown.GameObjects
 
         }
 
-        public static void CPUTakingDamage(Object id)
-        {
-            
-        }
+        
 
         /// <summary>
         /// Tells worker to wait for empty space using semaphore, and then start harvesting from the palmtree - Soeren
         /// </summary>
         /// <param name="id"></param>
-        public static void Enter(Object id)
+        public static void Enter(Object id, Enemy enemy)
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
 
-            Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+           // Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
             MySemaphore.WaitOne();
-            Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+           // Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
             Thread.Sleep(50 * randomNumber.Next(0, 15));
-            DamageCPU(null, EventArgs.Empty);
-            Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            DamageCPU(null, enemy, EventArgs.Empty);
+          //  Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
         }
 
@@ -68,7 +65,24 @@ namespace SystemShutdown.GameObjects
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-          //  throw new NotImplementedException();
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
+            {
+                Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
+
+                if (tmpEnemy.IsTrojan)
+                {
+                    GameWorld.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+                    GameWorld.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+                    GameWorld.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+
+                    tmpEnemy.GameObject.Destroy();
+                }
+                else
+                {
+
+                    tmpEnemy.AttackingCPU = true;
+                }
+            }
         }
     }
 }

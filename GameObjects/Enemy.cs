@@ -20,78 +20,54 @@ namespace SystemShutdown.GameObjects
     //Ras
     public class Enemy : Component, IGameListener
     {
-        Thread internalThread;
-        string data;
         private bool attackingPlayer = false;
         private bool attackingCPU = false;
-        private bool enableAstar = true;
+        private bool playerTarget = false;
+      //  private bool Searching = false;
+        private bool isGoalFound = false;
+        private bool threadRunning = true;
+        private bool isTrojan = false;
+      //  private bool isAlive = false;
 
-        private Vector2 distance;
 
-        double updateTimer = 0.0;
-        private SpriteRenderer spriteRenderer;
-        Node node = null;
-                    Node current = null;
-        float speed = 200;
-        public bool isTrojan = false;
-        public bool AttackingCPU
+        private int dmg;
+        private int Id;
+        private float vision;
+        private float speed;
+        private double updateTimer = 0.0;
+
+        private Vector2 direction;
+        private Vector2 nextpos;
+        private Vector2 velocity;
+
+        private Thread internalThread;
+        private Stack<Node> path = new Stack<Node>();
+        private Node goal;
+        private Astar aStar;
+        public int Dmg
         {
-            get { return attackingCPU; }
-            set { attackingCPU = value; }
+            get { return dmg; }
+            set { dmg = value; }
+        }
+        public bool IsTrojan
+        {
+            get { return isTrojan; }
+            set { isTrojan = value; }
         }
         public bool AttackingPlayer
         {
             get { return attackingPlayer; }
             set { attackingPlayer = value; }
         }
-
-        public int dmg { get; set; }
-        public int id { get; set; }
-        private string name = "Enemy";
-        public event EventHandler ClickSelect;
-        private Random randomNumber;
-        private float vision;
-
-        private Texture2D sprite;
-        private Rectangle rectangle;
-
-        bool playerTarget = false;
-
-        public Vector2 nextpos;
-        // Astar 
-        Vector2 velocity;
-        private double updateTimerA = 0.0;
-        private double updateTimerB = 0.0;
-
-
-        private bool Searching = false;
-
-        Stack<Node> path = new Stack<Node>();
-        private Node goal;
-
-        Astar aStar;
-        GameObject1 go;
-        //
-        bool goalFound = false;
-        Node tmppos = null;
-
-        private bool threadRunning = true;
-
-        public bool ThreadRunning
+        public bool AttackingCPU
         {
-            get { return threadRunning; }
-            set { threadRunning = value; }
+            get { return attackingCPU; }
+            set { attackingCPU = value; }
         }
 
-        public Enemy()
-        {
-            this.vision = 500;
-          //internalThread = new Thread(ThreadMethod);
-            LoadContent(GameWorld.content);
-            dmg = 5;
-        }
-
-
+        /// <summary>
+        /// Removes enemy gameobject from list of gameobjects, -1 to alive enemies and +1 to player kills. Stops threads while loop with bool threadRunning
+        /// </summary>
         public override void Destroy()
         {
             //EnemyPool.Instance.RealeaseObject(GameObject);
@@ -100,63 +76,62 @@ namespace SystemShutdown.GameObjects
             GameWorld.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
-       
-        public void FindGoal()
+
+        /// <summary>
+        /// Sets enemy goal for Astar pathfinder. 
+        /// If player is in vision area, else if night, else random pos + or - in each direction from current position.
+        /// Also sets enemy movement speed to 100 if random target (iddle behavior)
+        /// </summary>
+        private void FindGoal()
         {
             if (playerTarget)
             {
-                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
                 speed = 200;
+                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
             }
             else if (!GameWorld.isDay)
             {
-                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
                 speed = 200;
+                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
             }
             else
             {
                 speed = 100;
-
-                goal = null;
-
-                var maxvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) + 5) , ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) + 5) );
-                var minvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) - 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) - 5) );
-
+                var maxvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) + 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) + 5));
+                var minvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) - 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) - 5));
                 var tmpvector = SetRandomEnemyGoal(minvalue, maxvalue);
-
-               // Debug.WriteLine($"{GameObject.Transform.Position.X}  ,{GameObject.Transform.Position.Y}");
-
                 goal = GameWorld.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
-               // Debug.WriteLine($"{goal.x}  ,{goal.y}");
-
-
             }
-            goalFound = true;
+            isGoalFound = true;
         }
-        
 
-        public Vector2 SetRandomEnemyGoal(Vector2 minLimit, Vector2 maxLimit)
+        /// <summary>
+        /// Sets a random goal for enemy. - or + 5 nodes from current position in each direction
+        /// </summary>
+        /// <param name="minLimit"></param>
+        /// <param name="maxLimit"></param>
+        /// <returns></returns>
+        private Vector2 SetRandomEnemyGoal(Vector2 minLimit, Vector2 maxLimit)
         {
             Random rndd = new Random();
-
             Node enemypos = null;
-            while (enemypos == null || !enemypos.Passable )
+            while (enemypos == null || !enemypos.Passable)
             {
-
                 enemypos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
             }
-
-            return new Vector2(enemypos.x *100 , enemypos.y *100);
+            return new Vector2(enemypos.x * 100, enemypos.y * 100);
         }
 
-       
-
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Destroys a enemys gameobject of health is below 0. 
+        /// Also have 50 % to drop a mod on current position on death
+        /// </summary>
+        /// <param name="health"></param>
+        private void IsAlive(int health)
         {
-            if (Health <= 0)
+            if (health <= 0)
             {
                 Random rnd = new Random();
-
                 var moddrop = rnd.Next(1, 3);
                 if (moddrop == 2)
                 {
@@ -164,9 +139,14 @@ namespace SystemShutdown.GameObjects
                 }
                 GameObject.Destroy();
             }
-
+        }
+        /// <summary>
+        /// Checks each second if player is inside of vision. If true, sets bool playerTarget to true, else to false
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void ScanForPlayer(GameTime gameTime)
+        {
             updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
-
             if (updateTimer >= 1.0)
             {
                 if (!isTrojan)
@@ -174,7 +154,7 @@ namespace SystemShutdown.GameObjects
                     if (IsPlayerInRange(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position))
                     {
                         playerTarget = true;
-                        goalFound = false;
+                        isGoalFound = false;
 
                     }
                     else
@@ -184,85 +164,75 @@ namespace SystemShutdown.GameObjects
                 }
                 updateTimer = 0.0;
             }
+        }
+        /// <summary>
+        /// First resets earlier values in grid and Astar, and pops all remaining nodes in path stack.
+        /// Calls Astar.Search() which populates stack with a path of nodes from current position to goal position
+        /// If path stack is containing nodes, pops a node and sets it to enemy`s nextpos (node to move to next)
+        /// If path stack is empty, enemy is at goal and goalFound bool is sat to false
+        /// </summary>
+        private void AstarSeachForPath()
+        {
+            while (path.Count > 0)
+            {
+                path.Pop();
 
-            if (!goalFound)
+            }
+            GameWorld.gameState.grid.ResetState();
+            aStar.Start(/*start*/);
+
+            Node currentPositionAsNode = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
+            aStar.Search(currentPositionAsNode, goal, path);
+            if (path.Count > 0)
+            {
+                node = path.Pop();
+                int x = node.x * GameWorld.gameState.NodeSize;
+                int y = node.y * GameWorld.gameState.NodeSize;
+                nextpos = new Vector2(x, y);
+                Move(nextpos);
+            }
+            else
+            {
+                isGoalFound = false;
+            }
+        }
+        public override void Update(GameTime gameTime)
+        {
+            IsAlive(Health);
+            ScanForPlayer(gameTime);
+            if (!isGoalFound)
             {
                 FindGoal();
             }
-
-
-
-            if (goal != null)
-            {
-            
-                Node start = null;
-                start = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
-              
-                aStar.Start(start);
-
-
-                while (path.Count > 0)
-                {
-                    path.Pop();
-
-                }
-
-                GameWorld.gameState.grid.ResetState();
-                Searching = true;
-
-               
-                //updateTimerA += gameTime.ElapsedGameTime.TotalSeconds;
-
-                //if (updateTimerA >= 0.8)
-                //{
-
-                // begin the search to goal from enemy's position
-                // search function pushs path onto the stack
-                if (Searching)
-                {
-
-                    current = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
-                   
-                    aStar.Search(GameWorld.gameState.grid, current, goal, path);
-                    Searching = false;
-                    if (path.Count > 0)
-                    {
-                  
-
-                        node = path.Pop();
-                        int x = node.x * GameWorld.gameState.NodeSize;
-                        int y = node.y * GameWorld.gameState.NodeSize;
-                        nextpos = new Vector2(x, y);
-                      
-
-                        Move(nextpos);
-                    }
-                    else
-                    {
-                        goalFound = false;
-                    }
-
-                }
-            }
+            AstarSeachForPath();
         }
 
-        public void RotateEnemy()
+        /// <summary>
+        /// Rotates enemy texture in direction of nextpos 
+        /// </summary>
+        /// <param name="nextpos"></param>
+        public void RotateEnemy(Vector2 nextpos)
         {
-            distance = GameObject.Transform.Position - nextpos;
+            direction = GameObject.Transform.Position - nextpos;
             var tmpSR = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
-            tmpSR.Rotation = (float)Math.Atan2(distance.Y, distance.X);
+            tmpSR.Rotation = (float)Math.Atan2(direction.Y, direction.X);
         }
 
+        /// <summary>
+        /// Returns a bool depending on if player is inside of vision range 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public bool IsPlayerInRange(Vector2 target)
         {
             return vision >= Vector2.Distance(GameObject.Transform.Position, target);
         }
 
-        public void LoadContent(ContentManager content)
-        {
-            aStar = new Astar();
-        }
-
+        /// <summary>
+        /// Moves enemy in direction of Vector2 nextpos 
+        /// Normalizes velocity and runs RotateEnemy after move direction is decided. 
+        /// </summary>
+        /// <param name="nextpos"></param>
         public void Move(Vector2 nextpos)
         {
 
@@ -273,76 +243,63 @@ namespace SystemShutdown.GameObjects
                 velocity.Normalize();
             }
             velocity *= speed;
-                GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
-            RotateEnemy();
-          
+            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+            RotateEnemy(nextpos);
         }
 
         /// <summary>
         /// Sets Thread id
-        /// If any of the 3 bools are true, worker enters corresponding building (Volcano/PalmTree/MainBuilding)
+        /// If any of the 2 bools are true, enemy enters either player or CPU 
+        /// Else sets thread to sleep(1000)
         /// </summary>
         private void ThreadMethod(object callback)
         {
-            this.id = Thread.CurrentThread.ManagedThreadId;
-
+            this.Id = Thread.CurrentThread.ManagedThreadId;
             while (threadRunning == true)
             {
                 if (attackingPlayer)
                 {
-
-                    Debug.WriteLine($"{data}{id} is Running;");
+                    // Debug.WriteLine($"{data}{id} is Running;");
                     Thread.Sleep(100);
-
-                    Debug.WriteLine($"{data}{id} Trying to enter Player");
-
-                    GameWorld.gameState.playerBuilder.Player.Enter(internalThread);
-
+                    //   Debug.WriteLine($"{data}{id} Trying to enter Player");
+                    GameWorld.gameState.playerBuilder.Player.Enter(internalThread, this);
                     attackingPlayer = false;
                     attackingCPU = false;
-
-                    //GameWorld.gameState.playerBuilder.Player.Health -= dmg / 2;
-
-                    Debug.WriteLine(string.Format($"{data}{id} shutdown"));
+                    //  Debug.WriteLine(string.Format($"{data}{id} shutdown"));
 
                 }
                 else if (attackingCPU)
                 {
-                    Debug.WriteLine($"{data}{id} is Running;");
+                    //  Debug.WriteLine($"{data}{id} is Running;");
                     Thread.Sleep(1000);
-
-                    Debug.WriteLine($"{data}{id} Trying to enter CPU");
-
-
+                    // Debug.WriteLine($"{data}{id} Trying to enter CPU");
                     attackingPlayer = false;
                     attackingCPU = false;
-
-
                     Random rnd = new Random();
                     if (rnd.Next(1, 3) == 1 && GameWorld.gameState.playerBuilder.player.playersMods.Count > 0)
                     {
-                       // GameWorld.gameState.playerBuilder.player.playersMods.Pop();
+                        // GameWorld.gameState.playerBuilder.player.playersMods.Pop();
                         //GameWorld.gameState.playerBuilder.player.ApplyAllMods();
                     }
                     else
                     {
-                        CPU.Enter(internalThread);
+                        CPU.Enter(internalThread, this);
                     }
-                    Debug.WriteLine(string.Format($"{data}{id} shutdown"));
-
                 }
                 else
                 {
                     Thread.Sleep(1000);
                 }
-               
+
             }
         }
 
-
+        /// <summary>
+        /// Starts enemy thread if thread is not already alive. 
+        /// Sets thread to Isbackground (to close down thread when game is closing)
+        /// </summary>
         public void StartThread()
         {
-            
             if (!internalThread.IsAlive)
             {
                 internalThread.Start();
@@ -351,10 +308,16 @@ namespace SystemShutdown.GameObjects
             }
             threadRunning = true;
         }
+        /// <summary>
+        /// Sets / resets enemy value on creation
+        /// </summary>
         public override void Awake()
         {
+            this.vision = 500;
+            aStar = new Astar();
+            dmg = 5;
             GameObject.Tag = "Enemy";
-            goalFound = false;
+            isGoalFound = false;
             playerTarget = false;
             threadRunning = true;
             if (isTrojan)
@@ -365,9 +328,9 @@ namespace SystemShutdown.GameObjects
             {
                 Health = 100;
             }
-            ThreadPool.QueueUserWorkItem(ThreadMethod);
-
-            // StartThread();
+            //ThreadPool.QueueUserWorkItem(ThreadMethod);
+            internalThread = new Thread(ThreadMethod);
+            StartThread();
         }
         public override string ToString()
         {
@@ -375,35 +338,6 @@ namespace SystemShutdown.GameObjects
         }
         public void Notify(GameEvent gameEvent, Component component)
         {
-
-            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
-            {
-
-                attackingPlayer = true;
-            }
-
-            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "CPU")
-            {
-                if (isTrojan)
-                {
-                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
-                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
-                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
-
-                    GameObject.Destroy();
-                }
-                else
-                {
-
-                    attackingCPU = true;
-                }
-            }
-            //if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Projectile")
-            //{
-            //   //Debug.WriteLine($"{Health}");
-            //  // Health -= GameWorld.gameState.playerBuilder.player.dmg;
-               
-            //}
         }
     }
 }
