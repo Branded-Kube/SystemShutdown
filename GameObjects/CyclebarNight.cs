@@ -15,7 +15,7 @@ namespace SystemShutdown.GameObjects
         public int fullBarNight;
         public float currentBarNight;
         //public float nightMeter = 0.05f; //Ca. 1:50 min.
-        public float nightMeter = 1.9f;
+        public float nightMeter = 1f;
 
         public Color nightBarColor;
 

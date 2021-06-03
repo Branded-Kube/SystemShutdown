@@ -31,15 +31,8 @@ namespace SystemShutdown.States
         public Vector2 cursorPosition;
         public static SpriteFont font;
         private List<Enemy> delEnemies;
-        private List<Button2> buttons;
         public bool running = true;
-        private Button2 spawnEnemyBtn;
-        private Button2 cpuBtn;
-        private Button2 activeThreadsBtn;
-        private Button2 shutdownThreadsBtn;
         private string enemyID = "";
-        private Texture2D cpuTexture;
-        private Texture2D standardBtn;
 
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
@@ -104,7 +97,6 @@ namespace SystemShutdown.States
         public GameState()
         {
             delEnemies = new List<Enemy>();
-            buttons = new List<Button2>();
             // cpu = new CPU();
 
             //Director director = new Director(new PlayerBuilder());
@@ -146,21 +138,6 @@ namespace SystemShutdown.States
             {
                 gameObjects[i].Awake();
             }
-            //Frederik
-            font = content.Load<SpriteFont>("Fonts/font");
-            standardBtn = content.Load<Texture2D>("Controls/button");
-            cpuTexture = content.Load<Texture2D>("Textures/box");
-            shutdownThreadsBtn = new Button2(800, 840, "Shutdown Threads", standardBtn);
-            activeThreadsBtn = new Button2(1000, 840, "Thread info", standardBtn);
-            spawnEnemyBtn = new Button2(150, 10, "Spawn Enemy", standardBtn);
-            cpuBtn = new Button2(700, 700, "CPU", cpuTexture);
-
-            shutdownThreadsBtn.Click += ShutdownBtn_Clicked;
-            activeThreadsBtn.Click += ActiveThreadsBtn_Clicked;
-            buttons.Add(spawnEnemyBtn);
-            buttons.Add(shutdownThreadsBtn);
-            buttons.Add(activeThreadsBtn);
-            buttons.Add(cpuBtn);
 
             Player.DamagePlayer += Player_DamagePlayer;
             CPU.DamageCPU += CPU_DamageCPU;
@@ -305,12 +282,12 @@ namespace SystemShutdown.States
 
             }
 
-            if (currentKeyState.IsKeyDown(Keys.RightShift) && !previousKeyState.IsKeyDown(Keys.RightShift))
-            {
-                Mods mods = new Mods();
-                mods.Create();
+            //if (currentKeyState.IsKeyDown(Keys.RightShift) && !previousKeyState.IsKeyDown(Keys.RightShift))
+            //{
+            //    Mods mods = new Mods();
+            //    mods.Create();
 
-            }
+            //}
 
             // Rotates player
             playerBuilder.player.RotatePlayer();
@@ -329,12 +306,6 @@ namespace SystemShutdown.States
                 {
                     tmpColliders[i].OnCollisionEnter(tmpColliders[j]);
                 }
-            }
-
-
-            foreach (var item in buttons)
-            {
-                item.Update();
             }
 
             GameOver();
@@ -378,11 +349,6 @@ namespace SystemShutdown.States
             //{
             //    sprite.Draw(gameTime, spriteBatch);
             //}
-
-            foreach (var item in buttons)
-            {
-                item.Draw(spriteBatch);
-            }
 
             //Draw selected Enemy ID
             spriteBatch.DrawString(font, $"Enemy: {enemyID} selected", new Vector2(300, 100), Color.Black);
@@ -552,26 +518,6 @@ namespace SystemShutdown.States
         }
 
         /// <summary>
-        /// Shows all threads aktive and Total number
-        /// Used for debugging purpose only and is not part of the game. 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ActiveThreadsBtn_Clicked(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process procces = System.Diagnostics.Process.GetCurrentProcess();
-            System.Diagnostics.ProcessThreadCollection threadCollection = procces.Threads;
-            string threads = string.Empty;
-            foreach (System.Diagnostics.ProcessThread proccessThread in threadCollection)
-            {
-                threads += string.Format("Thread Id: {0}, ThreadState: {1}\r\n", proccessThread.Id, proccessThread.ThreadState);
-            }
-            Debug.WriteLine($"{threads}");
-            int number = Process.GetCurrentProcess().Threads.Count;
-            Debug.WriteLine($"Total number of aktive threads: {number}");
-        }
-
-        /// <summary>
         /// Shutdown all enemy threads and clears enemies from draw/update list
         /// Used both as a button for testing and at game exit
         /// </summary>
@@ -579,15 +525,7 @@ namespace SystemShutdown.States
         {
             running = false;
         }
-        /// <summary>
-        /// Calls ShutdownThreads method on click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShutdownBtn_Clicked(object sender, EventArgs e)
-        {
-            ShutdownThreads();
-        }
+
         //protected void Animate(GameTime gametime)
         //{
         //    if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))

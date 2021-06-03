@@ -23,23 +23,23 @@ namespace SystemShutdown
         //double despawnTimer = 0.0;
 
 
-        public GameObject1 Create()
-        {
+        //public GameObject1 Create()
+        //{
 
-            GameObject1 go = new GameObject1();
-            SpriteRenderer sr = new SpriteRenderer("laserBlue05");
-            go.AddComponent(sr);
+        //    GameObject1 go = new GameObject1();
+        //    SpriteRenderer sr = new SpriteRenderer("laserBlue05");
+        //    go.AddComponent(sr);
 
-            Debug.WriteLine("mod bliver spawnet");
+        //    Debug.WriteLine("mod bliver spawnet");
 
-            //sr.SetSprite("1GuyUp");
-            floormod = new Mods();
-            go.AddComponent(new Collider(sr, floormod) { CheckCollisionEvents = true });
-            go.Transform.Position = new Vector2(400, 200);
-            go.AddComponent(floormod);
-            GameWorld.Instance.gameState.AddGameObject(go);
-            return go;
-        }
+        //    //sr.SetSprite("1GuyUp");
+        //    floormod = new Mods();
+        //    go.AddComponent(new Collider(sr, floormod) { CheckCollisionEvents = true });
+        //    go.Transform.Position = new Vector2(400, 200);
+        //    go.AddComponent(floormod);
+        //    GameWorld.gameState.AddGameObject(go);
+        //    return go;
+        //}
         public override void Awake()
         {
             GameObject.Tag = "Pickup";
