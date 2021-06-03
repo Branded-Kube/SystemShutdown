@@ -177,10 +177,7 @@ namespace SystemShutdown.States
             }
 
             spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
-            spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(initialText, initialPosition, null, Color.White, 0, initialOrigin, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.White, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
-
+            
             //spriteBatch.DrawString(buttonFont, "Save highscore" , new Vector2 (GameWorld.Instance.ScreenWidth / 2, 380), Color.White);
 
             //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
@@ -199,6 +196,9 @@ namespace SystemShutdown.States
                 //spriteBatch.DrawString(buttonFont, "Your score has been saved", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 100), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
             }
 
+            spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(initialText, initialPosition, null, Color.White, 0, initialOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.White, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
 
             spriteBatch.End();
         }
