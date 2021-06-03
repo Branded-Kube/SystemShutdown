@@ -23,12 +23,9 @@ namespace SystemShutdown.GameObjects
         private bool attackingPlayer = false;
         private bool attackingCPU = false;
         private bool playerTarget = false;
-      //  private bool Searching = false;
         private bool isGoalFound = false;
         private bool threadRunning = true;
         private bool isTrojan = false;
-      //  private bool isAlive = false;
-
 
         private int dmg;
         private int Id;
@@ -87,12 +84,12 @@ namespace SystemShutdown.GameObjects
             if (playerTarget)
             {
                 speed = 200;
-                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
             }
             else if (!GameWorld.Instance.isDay)
             {
                 speed = 200;
-                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameWorld.Instance.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.Instance.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
             }
             else
             {
@@ -100,11 +97,10 @@ namespace SystemShutdown.GameObjects
                 var maxvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) + 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) + 5));
                 var minvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) - 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) - 5));
                 var tmpvector = SetRandomEnemyGoal(minvalue, maxvalue);
-                goal = GameWorld.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
             }
             isGoalFound = true;
         }
-
         /// <summary>
         /// Sets a random goal for enemy. - or + 5 nodes from current position in each direction
         /// </summary>
@@ -117,11 +113,10 @@ namespace SystemShutdown.GameObjects
             Node enemypos = null;
             while (enemypos == null || !enemypos.Passable)
             {
-                enemypos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
+                enemypos = GameWorld.Instance.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
             }
             return new Vector2(enemypos.x * 100, enemypos.y * 100);
         }
-
         /// <summary>
         /// Destroys a enemys gameobject of health is below 0. 
         /// Also have 50 % to drop a mod on current position on death
@@ -176,18 +171,16 @@ namespace SystemShutdown.GameObjects
             while (path.Count > 0)
             {
                 path.Pop();
-
             }
-            GameWorld.gameState.grid.ResetState();
-            aStar.Start(/*start*/);
-
-            Node currentPositionAsNode = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
+            GameWorld.Instance.gameState.grid.ResetState();
+            aStar.Start();
+            Node currentPositionAsNode = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.Instance.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.Instance.gameState.NodeSize);
             aStar.Search(currentPositionAsNode, goal, path);
             if (path.Count > 0)
             {
                 node = path.Pop();
-                int x = node.x * GameWorld.gameState.NodeSize;
-                int y = node.y * GameWorld.gameState.NodeSize;
+                int x = node.x * GameWorld.Instance.gameState.NodeSize;
+                int y = node.y * GameWorld.Instance.gameState.NodeSize;
                 nextpos = new Vector2(x, y);
                 Move(nextpos);
             }
@@ -206,7 +199,6 @@ namespace SystemShutdown.GameObjects
             }
             AstarSeachForPath();
         }
-
         /// <summary>
         /// Rotates enemy texture in direction of nextpos 
         /// </summary>
@@ -217,7 +209,6 @@ namespace SystemShutdown.GameObjects
             var tmpSR = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             tmpSR.Rotation = (float)Math.Atan2(direction.Y, direction.X);
         }
-
         /// <summary>
         /// Returns a bool depending on if player is inside of vision range 
         /// </summary>
@@ -227,7 +218,6 @@ namespace SystemShutdown.GameObjects
         {
             return vision >= Vector2.Distance(GameObject.Transform.Position, target);
         }
-
         /// <summary>
         /// Moves enemy in direction of Vector2 nextpos 
         /// Normalizes velocity and runs RotateEnemy after move direction is decided. 
@@ -243,10 +233,9 @@ namespace SystemShutdown.GameObjects
                 velocity.Normalize();
             }
             velocity *= speed;
-            GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+            GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
             RotateEnemy(nextpos);
         }
-
         /// <summary>
         /// Sets Thread id
         /// If any of the 2 bools are true, enemy enters either player or CPU 
@@ -259,20 +248,14 @@ namespace SystemShutdown.GameObjects
             {
                 if (attackingPlayer)
                 {
-                    // Debug.WriteLine($"{data}{id} is Running;");
                     Thread.Sleep(100);
-                    //   Debug.WriteLine($"{data}{id} Trying to enter Player");
-                    GameWorld.gameState.playerBuilder.Player.Enter(internalThread, this);
+                    GameWorld.Instance.gameState.playerBuilder.Player.Enter(internalThread, this);
                     attackingPlayer = false;
                     attackingCPU = false;
-                    //  Debug.WriteLine(string.Format($"{data}{id} shutdown"));
-
                 }
                 else if (attackingCPU)
                 {
-                    //  Debug.WriteLine($"{data}{id} is Running;");
                     Thread.Sleep(1000);
-                    // Debug.WriteLine($"{data}{id} Trying to enter CPU");
                     attackingPlayer = false;
                     attackingCPU = false;
                     Random rnd = new Random();
@@ -290,10 +273,8 @@ namespace SystemShutdown.GameObjects
                 {
                     Thread.Sleep(1000);
                 }
-
             }
         }
-
         /// <summary>
         /// Starts enemy thread if thread is not already alive. 
         /// Sets thread to Isbackground (to close down thread when game is closing)
@@ -304,7 +285,6 @@ namespace SystemShutdown.GameObjects
             {
                 internalThread.Start();
                 internalThread.IsBackground = true;
-
             }
             threadRunning = true;
         }
@@ -328,7 +308,6 @@ namespace SystemShutdown.GameObjects
             {
                 Health = 100;
             }
-            //ThreadPool.QueueUserWorkItem(ThreadMethod);
             internalThread = new Thread(ThreadMethod);
             StartThread();
         }

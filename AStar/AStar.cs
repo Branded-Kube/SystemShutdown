@@ -183,7 +183,7 @@ namespace SystemShutdown.AStar
         private void UpdateNeighbors(ref Node current, Node end)
         {
 
-            Node[] neighbors = GetNeighbors(GameWorld.gameState.grid, current);
+            Node[] neighbors = GetNeighbors(GameWorld.Instance.gameState.grid, current);
 
             // checks every neighbor in neighbors list and skips current neighbor if it is null, not !passable or in closedList.
             // else sets current neighbor f / g / h values and adds neighbor to openlist

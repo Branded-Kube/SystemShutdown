@@ -120,7 +120,7 @@ namespace SystemShutdown.GameObjects
             {
                 velocity.Normalize();
             }
-            velocity *= speed * GameWorld.DeltaTime;
+            velocity *= speed * GameWorld.Instance.DeltaTime;
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace SystemShutdown.GameObjects
            
 
             
-                foreach (GameObject1 gameObject in GameWorld.gameState.gameObjects)
+                foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
                 {
                     if (gameObject.Tag == "Node")
                     {

@@ -71,9 +71,9 @@ namespace SystemShutdown.GameObjects
 
                 if (tmpEnemy.IsTrojan)
                 {
-                    GameWorld.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
-                    GameWorld.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
-                    GameWorld.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
 
                     tmpEnemy.GameObject.Destroy();
                 }
