@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
@@ -28,9 +29,18 @@ namespace SystemShutdown.States
         private Vector2 quitGamePosition;
         private Vector2 quitGameOrigin;
 
-        private bool hasChosenName;
+        private bool scoreSaved = false;
 
-        private string tmpName = "Player";
+        public bool hasChosenInitials = false;
+
+        private bool isSetttingInitials = false;
+
+
+        public bool IsSettingInitials
+        {
+            get { return isSetttingInitials; }
+            set { isSetttingInitials = value; }
+        }
 
         #endregion
 
@@ -55,56 +65,56 @@ namespace SystemShutdown.States
             {
                 new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.ScreenWidth / 2 + buttonTexture.Width, 1000),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 1000),
                     Click = new EventHandler(Button_Quit_Clicked),
                 },
 
                 new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.ScreenWidth / 2 - buttonTexture.Width, 1000),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 390),
                     Click = new EventHandler(Button_SaveHighscore_Clicked),
+                },
+
+                new Button (buttonTexture, buttonFont)
+                {
+                    Position = new Vector2 (GameWorld.Instance.ScreenWidth /2, 510),
+                    Click = new EventHandler(CreateInitialsButton_Clicked),
                 }
             };
         }
 
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            GameWorld.thisGameWorld.Exit();
+            GameWorld.Instance.thisGameWorld.Exit();
         }
 
         private void Button_SaveHighscore_Clicked(object sender, EventArgs e)
         {
-          
-            //if (hasChosenName!)
-            //{
-            //    //menyMsg = "Write your name and Press enter to confirm";
+            if (!scoreSaved)
+            {
+                GameWorld.Instance.repo.Open();
 
+                GameWorld.Instance.repo.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.gameState.playerBuilder.Player.kills, GameWorld.Instance.gameState.days);
 
-            //    if (inMenu == false)
-            //    {
-            //        GameWorld.Instance.AddCreateUserLogin();
-            //        inMenu = true;
-            //    }
-            //    if (isCreatingUser == false)
-            //    {
-            //        isCreatingUser = true;
-            //    }
+                GameWorld.Instance.repo.Close();
 
-
-                GameWorld.repo.Open();
-
-                GameWorld.repo.SaveScore(tmpName ,GameWorld.gameState.playerBuilder.Player.kills, GameWorld.gameState.days);
-
-                GameWorld.repo.Close();
-            //}
-
-
-                
+                scoreSaved = true;
+            }
             
+        }
 
-       
-            
-            
+        private void CreateInitialsButton_Clicked(object sender, EventArgs e)
+        {
+            if (!hasChosenInitials)
+            {
+                GameWorld.Instance.SetInitials();
+                hasChosenInitials = true;
+            }
+
+            if (!isSetttingInitials)
+            {
+                isSetttingInitials = true;
+            }
         }
 
 
@@ -116,11 +126,9 @@ namespace SystemShutdown.States
         public override void Update(GameTime gameTime)
         {
             // Frederik
-            gameOverPosition = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2);
+            gameOverPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, GameWorld.Instance.ScreenHeight / 2);
             gameOverOrigin = new Vector2(gameOverSprite.Width / 2, gameOverSprite.Height / 2);
-            savePosition = new Vector2(GameWorld.ScreenWidth / 2 - buttonTexture.Width, 955);
-            saveOrigin = new Vector2(saveText.Width / 2, saveText.Height / 2);
-            quitGamePosition = new Vector2(GameWorld.ScreenWidth / 2 + buttonTexture.Width, 955);
+            quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 855);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
             
 
@@ -131,8 +139,8 @@ namespace SystemShutdown.States
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                
-                GameWorld.thisGameWorld.Exit();
+
+                GameWorld.Instance.thisGameWorld.Exit();
             }
         }
 
@@ -155,7 +163,22 @@ namespace SystemShutdown.States
             spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.White, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
 
-            //spriteBatch.DrawString(buttonFont, "Save highscore" , new Vector2 (), Color.White);
+            spriteBatch.DrawString(buttonFont, "Save highscore" , new Vector2 (GameWorld.Instance.ScreenWidth / 2, 380), Color.White);
+
+            spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
+
+
+            if (isSetttingInitials)
+            {
+                spriteBatch.DrawString(buttonFont, "Enter your initials", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 550), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
+                spriteBatch.DrawString(buttonFont, Highscores.PlayerNameInput, new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 600), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
+            }
+
+            if (scoreSaved)
+            {
+                spriteBatch.DrawString(buttonFont, "Your score has been saved", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 100), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
+            }
+
 
             spriteBatch.End();
         }

@@ -24,8 +24,8 @@ namespace SystemShutdown
                 -target.Player.GameObject.Transform.Position.Y - (target.Sr.Sprite.Height / 2),
                 0);
 
-            offset = Matrix.CreateTranslation(GameWorld.ScreenWidth / 2,
-                GameWorld.ScreenHeight / 2,
+            offset = Matrix.CreateTranslation(GameWorld.Instance.ScreenWidth / 2,
+                GameWorld.Instance.ScreenHeight / 2,
                 0);
             Transform = position * offset;
 

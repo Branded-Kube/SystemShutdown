@@ -87,7 +87,7 @@ namespace SystemShutdown.GameObjects
         {
             this.vision = 500;
           //internalThread = new Thread(ThreadMethod);
-            LoadContent(GameWorld.content);
+            LoadContent(GameWorld.Instance.content);
             dmg = 5;
         }
 
@@ -95,9 +95,9 @@ namespace SystemShutdown.GameObjects
         public override void Destroy()
         {
             //EnemyPool.Instance.RealeaseObject(GameObject);
-            GameWorld.gameState.aliveEnemies--;
-            GameWorld.gameState.playerBuilder.player.kills++;
-            GameWorld.gameState.RemoveGameObject(GameObject);
+            GameWorld.Instance.gameState.aliveEnemies--;
+            GameWorld.Instance.gameState.playerBuilder.player.kills++;
+            GameWorld.Instance.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
        
@@ -105,12 +105,12 @@ namespace SystemShutdown.GameObjects
         {
             if (playerTarget)
             {
-                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
                 speed = 200;
             }
-            else if (!GameWorld.isDay)
+            else if (!GameWorld.Instance.isDay)
             {
-                goal = GameWorld.gameState.grid.Node((int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameWorld.Instance.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.Instance.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
                 speed = 200;
             }
             else
@@ -126,7 +126,7 @@ namespace SystemShutdown.GameObjects
 
                // Debug.WriteLine($"{GameObject.Transform.Position.X}  ,{GameObject.Transform.Position.Y}");
 
-                goal = GameWorld.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
                // Debug.WriteLine($"{goal.x}  ,{goal.y}");
 
 
@@ -143,7 +143,7 @@ namespace SystemShutdown.GameObjects
             while (enemypos == null || !enemypos.Passable )
             {
 
-                enemypos = GameWorld.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
+                enemypos = GameWorld.Instance.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
             }
 
             return new Vector2(enemypos.x *100 , enemypos.y *100);
@@ -171,7 +171,7 @@ namespace SystemShutdown.GameObjects
             {
                 if (!isTrojan)
                 {
-                    if (IsPlayerInRange(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position))
+                    if (IsPlayerInRange(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position))
                     {
                         playerTarget = true;
                         goalFound = false;
@@ -196,7 +196,7 @@ namespace SystemShutdown.GameObjects
             {
             
                 Node start = null;
-                start = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
+                start = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.Instance.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.Instance.gameState.NodeSize);
               
                 aStar.Start(start);
 
@@ -207,7 +207,7 @@ namespace SystemShutdown.GameObjects
 
                 }
 
-                GameWorld.gameState.grid.ResetState();
+                GameWorld.Instance.gameState.grid.ResetState();
                 Searching = true;
 
                
@@ -221,17 +221,17 @@ namespace SystemShutdown.GameObjects
                 if (Searching)
                 {
 
-                    current = GameWorld.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.gameState.NodeSize);
+                    current = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.Instance.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.Instance.gameState.NodeSize);
                    
-                    aStar.Search(GameWorld.gameState.grid, current, goal, path);
+                    aStar.Search(GameWorld.Instance.gameState.grid, current, goal, path);
                     Searching = false;
                     if (path.Count > 0)
                     {
                   
 
                         node = path.Pop();
-                        int x = node.x * GameWorld.gameState.NodeSize;
-                        int y = node.y * GameWorld.gameState.NodeSize;
+                        int x = node.x * GameWorld.Instance.gameState.NodeSize;
+                        int y = node.y * GameWorld.Instance.gameState.NodeSize;
                         nextpos = new Vector2(x, y);
                       
 
@@ -273,7 +273,7 @@ namespace SystemShutdown.GameObjects
                 velocity.Normalize();
             }
             velocity *= speed;
-                GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
+                GameObject.Transform.Translate(velocity * GameWorld.Instance.DeltaTime);
             RotateEnemy();
           
         }
@@ -296,7 +296,7 @@ namespace SystemShutdown.GameObjects
 
                     Debug.WriteLine($"{data}{id} Trying to enter Player");
 
-                    GameWorld.gameState.playerBuilder.Player.Enter(internalThread);
+                    GameWorld.Instance.gameState.playerBuilder.Player.Enter(internalThread);
 
                     attackingPlayer = false;
                     attackingCPU = false;
@@ -319,7 +319,7 @@ namespace SystemShutdown.GameObjects
 
 
                     Random rnd = new Random();
-                    if (rnd.Next(1, 3) == 1 && GameWorld.gameState.playerBuilder.player.playersMods.Count > 0)
+                    if (rnd.Next(1, 3) == 1 && GameWorld.Instance.gameState.playerBuilder.player.playersMods.Count > 0)
                     {
                        // GameWorld.gameState.playerBuilder.player.playersMods.Pop();
                         //GameWorld.gameState.playerBuilder.player.ApplyAllMods();
@@ -386,9 +386,9 @@ namespace SystemShutdown.GameObjects
             {
                 if (isTrojan)
                 {
-                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
-                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
-                    GameWorld.gameState.SpawnBugEnemies(GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(GameObject.Transform.Position);
 
                     GameObject.Destroy();
                 }

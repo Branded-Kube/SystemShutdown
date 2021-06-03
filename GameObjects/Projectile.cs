@@ -35,7 +35,7 @@ namespace SystemShutdown.FactoryPattern
         }
         private void Move()
         {
-            GameObject.Transform.Translate(velocity * speed *  GameWorld.DeltaTime);
+            GameObject.Transform.Translate(velocity * speed * GameWorld.Instance.DeltaTime);
         }
 
         //public override void Destroy()
@@ -57,7 +57,7 @@ namespace SystemShutdown.FactoryPattern
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy" /*&& !alreadyCollider*/)
             {
                 GameObject.Destroy();
-                component.GameObject.GetComponent("Enemy").Health -= GameWorld.gameState.playerBuilder.player.dmg;
+                component.GameObject.GetComponent("Enemy").Health -= GameWorld.Instance.gameState.playerBuilder.player.dmg;
                 alreadyCollider = true;
             }
         }

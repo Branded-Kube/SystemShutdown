@@ -59,25 +59,25 @@ namespace SystemShutdown
             {
                 new Button(buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 390),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 390),
                     Click = new EventHandler(Button_PlayGame_Clicked),
                 },
 
                 new Button(buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 500),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 500),
                     Click = new EventHandler(Button_HowToPlay_Clicked),
                 },
 
                 new Button (buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 610),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 610),
                     Click = new EventHandler(Button_CheckHighscore_Clicked),
                 },
 
                 new Button(buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.ScreenWidth / 2, 720),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 720),
                     Click = new EventHandler(Button_Quit_Clicked),
                 },
 
@@ -88,26 +88,26 @@ namespace SystemShutdown
         // Frederik
         private void Button_PlayGame_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(GameWorld.gameState);
+            GameWorld.ChangeState(GameWorld.Instance.gameState);
         }
 
         // Frederik
         public void Button_HowToPlay_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(GameWorld.howToState);
+            GameWorld.ChangeState(GameWorld.Instance.howToState);
         }
 
         // Frederik
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            GameWorld.gameState.ShutdownThreads();
-            GameWorld.thisGameWorld.Exit();
+            GameWorld.Instance.gameState.ShutdownThreads();
+            GameWorld.Instance.thisGameWorld.Exit();
         }
 
         // Søren
         private void Button_CheckHighscore_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(GameWorld.highscoreState);
+            GameWorld.ChangeState(GameWorld.Instance.highscoreState);
         }
 
         public override void Update(GameTime gameTime)
@@ -117,12 +117,11 @@ namespace SystemShutdown
             {
                 component.Update(gameTime);
             }
-            position = new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2);
+            position = new Vector2(GameWorld.Instance.ScreenWidth / 2, GameWorld.Instance.ScreenHeight / 2);
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
-            newGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 345);
-            howToPosition = new Vector2(GameWorld.ScreenWidth / 2, 455);
-            highscorePos = new Vector2(GameWorld.ScreenWidth / 2, 570);
-            quitGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 675);
+            newGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 345);
+            howToPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 455);
+            quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 675);
             newGameOrigin = new Vector2(newGameText.Width / 2, newGameText.Height / 2);
             howToOrigin = new Vector2(howToText.Width / 2, howToText.Height / 2);
             highscoreOrigin = new Vector2(highscoreText.Width / 2, highscoreText.Height / 2);
