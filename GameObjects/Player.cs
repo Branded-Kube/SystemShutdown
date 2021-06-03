@@ -41,7 +41,7 @@ namespace SystemShutdown.GameObjects
         public int kills = 0;
          public int speed = 250;
 
-        public delegate void DamageEventHandler(object source, EventArgs e);
+        public delegate void DamageEventHandler(object source, Enemy enemy, EventArgs e);
         public static event DamageEventHandler DamagePlayer;
 
         public bool showingMap;
@@ -116,7 +116,11 @@ namespace SystemShutdown.GameObjects
                 velocity.Y = 1;
             }
 
-           
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+            }
+            velocity *= speed * GameWorld.Instance.DeltaTime;
         }
 
         /// <summary>
@@ -172,11 +176,7 @@ namespace SystemShutdown.GameObjects
             }
 
             Move();
-            if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-            }
-            velocity *= speed * GameWorld.Instance.DeltaTime;
+           
 
             
                 foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
@@ -312,6 +312,15 @@ namespace SystemShutdown.GameObjects
             //{
             //  GameObject.Transform.Position = lastVelocity;
             //}
+
+            if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
+            {
+
+                Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
+                    tmpEnemy.AttackingPlayer = true;
+            }
+
+
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
             {
                 //Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
@@ -328,19 +337,19 @@ namespace SystemShutdown.GameObjects
             }
         }
 
-        public void Enter(Object id)
+        public void Enter(Object id, Enemy enemy)
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
             
-            Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+            //Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
             MySemaphore.WaitOne();
-            Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+            //Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
 
-            DamagePlayer(null, EventArgs.Empty);
+            DamagePlayer(null, enemy, EventArgs.Empty);
             Thread.Sleep(100 * randomNumber.Next(0, 15));
 
-            Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+          //  Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
 
         }
