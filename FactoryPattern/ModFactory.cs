@@ -39,7 +39,7 @@ namespace SystemShutdown.FactoryPattern
             go.AddComponent(new Collider(sr, mods) { CheckCollisionEvents = true });
             go.Transform.Position = position;
             go.AddComponent(mods);
-            GameWorld.gameState.AddGameObject(go);
+            GameWorld.Instance.gameState.AddGameObject(go);
             return go;
         }
     }
