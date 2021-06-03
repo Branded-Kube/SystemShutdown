@@ -71,7 +71,7 @@ namespace SystemShutdown.GameObjects
 
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release(5);
-            Health = 10;
+            Health = 100;
             this.speed = 250;
             dmg = 50;
         }

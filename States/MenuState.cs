@@ -79,7 +79,7 @@ namespace SystemShutdown
                 {
                     Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 720),
                     Click = new EventHandler(Button_Quit_Clicked),
-                },
+                }
 
            
             };
@@ -120,11 +120,12 @@ namespace SystemShutdown
             position = new Vector2(GameWorld.Instance.ScreenWidth / 2, GameWorld.Instance.ScreenHeight / 2);
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
             newGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 345);
-            howToPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 455);
-            quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 675);
             newGameOrigin = new Vector2(newGameText.Width / 2, newGameText.Height / 2);
+            howToPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 455);
             howToOrigin = new Vector2(howToText.Width / 2, howToText.Height / 2);
+            highscorePos = new Vector2(GameWorld.Instance.ScreenWidth / 2, 570);
             highscoreOrigin = new Vector2(highscoreText.Width / 2, highscoreText.Height / 2);
+            quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 675);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
         }
 
