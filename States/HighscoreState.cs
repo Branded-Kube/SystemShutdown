@@ -18,6 +18,8 @@ namespace SystemShutdown.States
         private Vector2 backPosition;
         private Vector2 backOrigin;
 
+   
+
         public HighscoreState()
         {
         }
@@ -40,8 +42,10 @@ namespace SystemShutdown.States
 
         private void Button_Close_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(GameWorld.menuState);
+            GameWorld.ChangeState(GameWorld.Instance.menuState);
         }
+
+
 
         public override void Update(GameTime gameTime)
         {
@@ -49,7 +53,7 @@ namespace SystemShutdown.States
             {
                 component.Update(gameTime);
             }
-            backPosition = new Vector2(GameWorld.ScreenWidth / 4, 935);
+            backPosition = new Vector2(GameWorld.Instance.ScreenWidth / 4, 935);
             backOrigin = new Vector2(backText.Width / 2, backText.Height / 2);
         }
 
@@ -63,6 +67,8 @@ namespace SystemShutdown.States
             }
             spriteBatch.Draw(backText, backPosition, null, Color.White, 0, backOrigin, 1f, SpriteEffects.None, 0f);
 
+   
+
          //   spriteBatch.DrawString(buttonFont, "something to test", new Vector2 (500,500), Color.White);
 
        //     spriteBatch.DrawString(buttonFont, ($"{}"), new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2), Color.White);
@@ -70,5 +76,6 @@ namespace SystemShutdown.States
 
             spriteBatch.End();
         }
+
     }
 }

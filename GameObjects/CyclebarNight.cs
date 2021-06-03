@@ -44,11 +44,11 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(nightBar, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
+            spriteBatch.Draw(nightBar, new Vector2(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
                 (int)nightBarPosition.Y, (int)currentBarNight, nightBar.Height), nightBarColor);
-            spriteBatch.Draw(nightContainer, new Vector2(GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+            spriteBatch.Draw(nightContainer, new Vector2(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
         }
 
         public void NightColor()

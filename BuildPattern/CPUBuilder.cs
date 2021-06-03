@@ -43,7 +43,7 @@ namespace SystemShutdown.BuildPattern
             go.AddComponent(new Collider(sr, cpu) { CheckCollisionEvents = true } );
             go.AddComponent(cpu);
             /// Adds CPU to collider list
-            GameWorld.gameState.AddGameObject(go);
+            GameWorld.Instance.gameState.AddGameObject(go);
 
         }
 

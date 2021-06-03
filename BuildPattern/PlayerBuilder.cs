@@ -43,7 +43,7 @@ namespace SystemShutdown.BuildPattern
             playerGO.AddComponent(new Collider(playerSR, player) { CheckCollisionEvents = true } );
             playerGO.AddComponent(player);
             /// Adds player to collider list
-            GameWorld.gameState.AddGameObject(playerGO);
+            GameWorld.Instance.gameState.AddGameObject(playerGO);
 
         }
 
