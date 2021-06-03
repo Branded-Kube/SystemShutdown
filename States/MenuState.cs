@@ -24,14 +24,17 @@ namespace SystemShutdown
         private Texture2D newGameText;
         private Texture2D howToText;
         private Texture2D quitGameText;
+        private Texture2D highscoreText;
         private Vector2 position;
         private Vector2 origin;
         private Vector2 newGamePosition;
         private Vector2 howToPosition;
         private Vector2 quitGamePosition;
+        private Vector2 highscorePos;
         private Vector2 newGameOrigin;
         private Vector2 howToOrigin;
         private Vector2 quitGameOrigin;
+        private Vector2 highscoreOrigin;
 
         #region Methods
 
@@ -49,6 +52,7 @@ namespace SystemShutdown
             sprite = content.Load<Texture2D>("Backgrounds/game");
             newGameText = content.Load<Texture2D>("Controls/newgame");
             howToText = content.Load<Texture2D>("Controls/howtoplay");
+            highscoreText = content.Load<Texture2D>("Controls/highscore");
             quitGameText = content.Load<Texture2D>("Controls/quitgame");
 
             components = new List<StateComponent>()
@@ -117,9 +121,11 @@ namespace SystemShutdown
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
             newGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 345);
             howToPosition = new Vector2(GameWorld.ScreenWidth / 2, 455);
+            highscorePos = new Vector2(GameWorld.ScreenWidth / 2, 570);
             quitGamePosition = new Vector2(GameWorld.ScreenWidth / 2, 675);
             newGameOrigin = new Vector2(newGameText.Width / 2, newGameText.Height / 2);
             howToOrigin = new Vector2(howToText.Width / 2, howToText.Height / 2);
+            highscoreOrigin = new Vector2(highscoreText.Width / 2, highscoreText.Height / 2);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
         }
 
@@ -140,6 +146,7 @@ namespace SystemShutdown
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, 1f, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(newGameText, newGamePosition, null, Color.White, 0, newGameOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(howToText, howToPosition, null, Color.White, 0, howToOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(highscoreText, highscorePos, null, Color.White, 0, highscoreOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.White, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
 
             spriteBatch.End();
