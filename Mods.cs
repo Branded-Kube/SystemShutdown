@@ -111,7 +111,8 @@ namespace SystemShutdown
             if (choseneffect.ModFK == 1)
             {
                 GameWorld.Instance.gameState.playerBuilder.player.dmg += choseneffect.Effect;
-                GameWorld.Instance.gameState.DmgColor = Color.GreenYellow;
+                //GameWorld.Instance.gameState.DmgColor = Color.GreenYellow;
+                GameWorld.Instance.gameState.ChangeColor();
             }
             else if (choseneffect.ModFK == 2)
             {
@@ -124,7 +125,8 @@ namespace SystemShutdown
             else if (choseneffect.ModFK == 4)
             {
                 GameWorld.Instance.gameState.playerBuilder.player.Health += choseneffect.Effect;
-                GameWorld.Instance.gameState.HealthColor = Color.GreenYellow;
+                //GameWorld.Instance.gameState.HealthColor = Color.GreenYellow;
+                GameWorld.Instance.gameState.ChangeColor();
             }
 
 
