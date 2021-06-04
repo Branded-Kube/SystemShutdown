@@ -321,7 +321,6 @@ namespace SystemShutdown.States
         //    //}
         //}
 
-
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //spriteBatch.Begin(SpriteSortMode.FrontToBack);

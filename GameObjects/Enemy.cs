@@ -33,11 +33,43 @@ namespace SystemShutdown.GameObjects
         private Stack<Node> path = new Stack<Node>();
         private Node goal;
         private Astar aStar;
+
+        public Texture2D[] walk;
+        public float fps;
+        public float timeElapsed;
+        public int currentIndex;
+        public bool isMoving = false;
+
+        public int Dmg
+        {
+            get { return dmg; }
+            set { dmg = value; }
+        }
+        public bool IsTrojan
+        {
+            get { return isTrojan; }
+            set { isTrojan = value; }
+        }
+        public bool AttackingPlayer
+        {
+            get { return attackingPlayer; }
+            set { attackingPlayer = value; }
+        }
+        public bool AttackingCPU
+        {
+            get { return attackingCPU; }
+            set { attackingCPU = value; }
+        }
         public int Dmg { get; set; }
         public bool IsTrojan { get; set; }
         public bool AttackingPlayer { get; set; }
         public bool AttackingCPU { get; set; }
       
+
+        public Enemy()
+        {
+            fps = 8f;
+        }
 
         /// <summary>
         /// Removes enemy gameobject from list of gameobjects, -1 to alive enemies and +1 to player kills. Stops threads while loop with bool threadRunning
@@ -181,6 +213,10 @@ namespace SystemShutdown.GameObjects
                 FindGoal();
             }
             AstarSeachForPath();
+            if (!IsTrojan)
+            {
+                Animate(gameTime);
+            }
         }
         /// <summary>
         /// Rotates enemy texture in direction of nextpos 
@@ -208,6 +244,8 @@ namespace SystemShutdown.GameObjects
         /// <param name="nextpos"></param>
         public void Move(Vector2 nextpos)
         {
+            isMoving = true;
+
             velocity = nextpos - GameObject.Transform.Position;
             if (velocity != Vector2.Zero)
             {
@@ -291,6 +329,19 @@ namespace SystemShutdown.GameObjects
             }
             internalThread = new Thread(ThreadMethod);
             StartThread();
+
+            //Load sprite sheet - Frederik
+            walk = new Texture2D[3];
+
+            //Loop animaiton
+            for (int g = 0; g < walk.Length; g++)
+            {
+                walk[g] = GameWorld.Instance.content.Load<Texture2D>(g + 1 + "enemy");
+            }
+            //When loop is finished return to first sprite/Sets default sprite
+            var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            tmpSpriteRenderer.Sprite = tmpSpriteRenderer.Sprite;
+            //enemyBugSR.Sprite = enemyBugSR.Sprite/*upWalk[0]*/;
         }
         public override string ToString()
         {
@@ -303,6 +354,33 @@ namespace SystemShutdown.GameObjects
         /// <param name="component"></param>
         public void Notify(GameEvent gameEvent, Component component)
         {
+        }
+
+        /// <summary>
+        /// Animate enemy bug - Frederik
+        /// </summary>
+        /// <param name="gametime"></param>
+        public void Animate(GameTime gametime)
+        {
+            if (isMoving)
+            {
+                //Giver tiden, der er gået, siden sidste update
+                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+                //Beregner currentIndex
+                currentIndex = (int)(timeElapsed * fps);
+                /*GameWorld.Instance.gameState.enemyFactory.enemyBug.Sprite*/
+                var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+                tmpSpriteRenderer.Sprite = walk[currentIndex];
+
+                //Checks if animation needs to restart
+                if (currentIndex >= walk.Length - 1)
+                {
+                    //Resets animation
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                }
+            }
         }
     }
 }

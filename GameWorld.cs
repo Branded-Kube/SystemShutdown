@@ -254,7 +254,6 @@ namespace SystemShutdown
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
 
-
             }
             else
             {
