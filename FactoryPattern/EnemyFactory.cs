@@ -41,25 +41,12 @@ namespace SystemShutdown.FactoryPattern
             {
                 case "Bug":
                     SpriteRenderer enemyBugSR = new SpriteRenderer("1enemy");
-                    enemyBug = enemyBugSR;
                     enemyGO.Transform.Position = position;
                     enemyGO.AddComponent(enemyBugSR);
                     enemyBugSR.Origin = new Vector2(enemyBugSR.Sprite.Width / 2, (enemyBugSR.Sprite.Height) / 2);
                     enemy = new Enemy();
                     enemyGO.AddComponent(new Collider(enemyBugSR, enemy) { CheckCollisionEvents = false });
                     enemyGO.AddComponent(enemy);
-
-                    ////Load sprite sheet
-                    //walk = new Texture2D[3];
-
-                    ////Loop animaiton
-                    //for (int g = 0; g < walk.Length; g++)
-                    //{
-                    //    walk[g] = GameWorld.Instance.content.Load<Texture2D>(g + 1 + "enemy");
-                    //}
-                    ////When loop is finished return to first sprite/Sets default sprite
-                    //enemyBugSR.Sprite = enemyBugSR.Sprite/*upWalk[0]*/;
-
 
                     break;
                 case "Trojan":

@@ -55,7 +55,7 @@ namespace SystemShutdown.States
         public List<Collider> Colliders { get; set; } = new List<Collider>();
         
         //protected Texture2D[] sprites, upWalk;
-        protected float fps;
+        //protected float fps;
 
         private float timeElapsed;
         private int currentIndex;

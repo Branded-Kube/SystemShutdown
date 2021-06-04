@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -40,37 +41,11 @@ namespace SystemShutdown.GameObjects
         public int currentIndex;
         public bool isMoving = false;
 
-        public int Dmg
-        {
-            get { return dmg; }
-            set { dmg = value; }
-        }
-        public bool IsTrojan
-        {
-            get { return isTrojan; }
-            set { isTrojan = value; }
-        }
-        public bool AttackingPlayer
-        {
-            get { return attackingPlayer; }
-            set { attackingPlayer = value; }
-        }
-        public bool AttackingCPU
-        {
-            get { return attackingCPU; }
-            set { attackingCPU = value; }
-        }
         public int Dmg { get; set; }
         public bool IsTrojan { get; set; }
         public bool AttackingPlayer { get; set; }
         public bool AttackingCPU { get; set; }
       
-
-        public Enemy()
-        {
-            fps = 8f;
-        }
-
         /// <summary>
         /// Removes enemy gameobject from list of gameobjects, -1 to alive enemies and +1 to player kills. Stops threads while loop with bool threadRunning
         /// </summary>
@@ -80,7 +55,7 @@ namespace SystemShutdown.GameObjects
             GameWorld.Instance.gameState.aliveEnemies--;
             GameWorld.Instance.gameState.playerBuilder.player.kills++;
             GameWorld.Instance.gameState.KillsColor = Color.GreenYellow;
-            GameWorld.Instance.gameState.RemoveGameObject(GameObject);
+            //GameWorld.Instance.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
         /// <summary>
@@ -201,6 +176,7 @@ namespace SystemShutdown.GameObjects
             }
             else
             {
+                isMoving = false;
                 isGoalFound = false;
             }
         }
@@ -308,10 +284,11 @@ namespace SystemShutdown.GameObjects
             threadRunning = true;
         }
         /// <summary>
-        /// Sets / resets enemy value on creation
+        /// Sets / resets enemy values on creation
         /// </summary>
         public override void Awake()
         {
+            fps = 8f;
             this.vision = 500;
             aStar = new Astar();
             Dmg = 5;
@@ -332,16 +309,11 @@ namespace SystemShutdown.GameObjects
 
             //Load sprite sheet - Frederik
             walk = new Texture2D[3];
-
-            //Loop animaiton
+            //Loop animaiton textures
             for (int g = 0; g < walk.Length; g++)
             {
                 walk[g] = GameWorld.Instance.content.Load<Texture2D>(g + 1 + "enemy");
             }
-            //When loop is finished return to first sprite/Sets default sprite
-            var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
-            tmpSpriteRenderer.Sprite = tmpSpriteRenderer.Sprite;
-            //enemyBugSR.Sprite = enemyBugSR.Sprite/*upWalk[0]*/;
         }
         public override string ToString()
         {
