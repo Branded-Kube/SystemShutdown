@@ -23,14 +23,12 @@ namespace SystemShutdown.States
     public class GameState : State
     {
         #region Fields
-        private SpriteBatch _spriteBatch;
         public Texture2D backgroundSprite;
         public Vector2 backgroundPos;
         public Vector2 backgroundOrigin;
         public Texture2D cursorSprite;
         public Vector2 cursorPosition;
         public static SpriteFont font;
-        private List<Enemy> delEnemies;
         public bool running = true;
         private string enemyID = "";
 
@@ -39,16 +37,13 @@ namespace SystemShutdown.States
         //private List<StateObject> stateObjects;
         public List<GameObject1> gameObjects = new List<GameObject1>();
        
-        private InputHandler inputHandler;
 
         public PlayerBuilder playerBuilder;
-        public EnemyFactory enemyFactory;
 
         public CPUBuilder cpuBuilder;
 
            public int aliveEnemies = 0;
 
-        Texture2D rectTexture;
         public int days = 1;
 
 
@@ -56,35 +51,11 @@ namespace SystemShutdown.States
 
         public int NodeSize;
 
-        private Component component;
-        private Collider collision;
-        private List<Collider> colliders;
 
         public List<Collider> Colliders { get; set; } = new List<Collider>();
-
-        private Collider collide;
-        private Collider Collider
-        {
-            get { return collide; }
-            set { collide = value; }
-        }
-
-        Astar aStar;
         
-        //public Texture2D sprite;
-        protected Texture2D[] sprites, upWalk;
-        private SpriteRenderer spriteRenderer;
+        //protected Texture2D[] sprites, upWalk;
         protected float fps;
-        private float timeElapsed;
-        private int currentIndex;
-
-        //public Vector2 position;
-        public Rectangle rectangle;
-        public Vector2 previousPosition;
-        public Vector2 currentDir;
-        protected float rotation;
-        protected Vector2 velocity;
-
 
         private KeyboardState currentKeyState;
         private KeyboardState previousKeyState;
@@ -96,7 +67,6 @@ namespace SystemShutdown.States
         #region Constructor
         public GameState()
         {
-            delEnemies = new List<Enemy>();
             // cpu = new CPU();
 
             //Director director = new Director(new PlayerBuilder());
@@ -116,7 +86,6 @@ namespace SystemShutdown.States
 
             playerBuilder = new PlayerBuilder();
             cpuBuilder = new CPUBuilder();
-            enemyFactory = new EnemyFactory();
         }
         #endregion
 
@@ -158,7 +127,6 @@ namespace SystemShutdown.States
             }
             
             // Frederik
-            inputHandler = new InputHandler();
 
             font = content.Load<SpriteFont>("Fonts/font");
 
@@ -174,21 +142,13 @@ namespace SystemShutdown.States
             grid = new Grid();
             NodeSize = grid.NodeSize;
 
-            _spriteBatch = new SpriteBatch(GameWorld.Instance.GraphicsDevice);
 
-            var playerTexture = GameWorld.Instance.GameState.playerBuilder.Player.GameObject.Tag;
+            var playerTexture = GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Tag;
             //var wallTexture = GameWorld.gameState.component.Node.GameObject.Tag;
 
             //var colliderTexture = "Collider"/*GameWorld.gameState.Collider.GameObject.Tag*/;
 
-            colliders = new List<Collider>()
-            {
-                //new Player()
-                //{
-
-                //},
-                
-            };
+           
             SpawnEnemiesAcordingToDayNumber();
         }
 
@@ -208,20 +168,20 @@ namespace SystemShutdown.States
             Debug.WriteLine($"{aliveEnemies}");
 
 
-            //for (int i = 0; i < days && i < 10; i++)
-            //{
-            //    if (aliveEnemies < 50)
-            //    {
-            //        SpawnBugEnemies(SetSpawnInCorner());
-            //        SpawnBugEnemies(SetSpawnInCorner());
-            //        SpawnBugEnemies(SetSpawnInCorner());
-            //        SpawnBugEnemies(SetSpawnInCorner());
-            //        SpawnBugEnemies(SetSpawnInCorner());
-            //        SpawnTrojanEnemies(SetSpawnInCorner());
+            for (int i = 0; i < days && i < 10; i++)
+            {
+                if (aliveEnemies < 50)
+                {
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnBugEnemies(SetSpawnInCorner());
+                    SpawnTrojanEnemies(SetSpawnInCorner());
 
 
-            //    }
-            //}
+                }
+            }
         }
         public Vector2 SetSpawnInCorner()
         {
@@ -237,18 +197,18 @@ namespace SystemShutdown.States
             }
             else if (rndpos == 2)
             {
-                x = GameWorld.Instance.GameState.grid.Width - 2;
+                x = GameWorld.Instance.gameState.grid.Width - 2;
                 y = 1;
             }
             else if (rndpos == 3)
             {
                 x = 1;
-                y = GameWorld.Instance.GameState.grid.Height - 2;
+                y = GameWorld.Instance.gameState.grid.Height - 2;
             }
             else if (rndpos == 4)
             {
-                x = GameWorld.Instance.GameState.grid.Width - 2;
-                y = GameWorld.Instance.GameState.grid.Height - 2;
+                x = GameWorld.Instance.gameState.grid.Width - 2;
+                y = GameWorld.Instance.gameState.grid.Height - 2;
             }
             //Node tmpvector = GameWorld.gameState.grid.Node(x,y);
             return new Vector2(x * 100, y * 100);
@@ -256,7 +216,7 @@ namespace SystemShutdown.States
         }
         public override void Update(GameTime gameTime)
         {
-            backgroundPos = new Vector2(GameWorld.Instance.RenderTarget.Width / 2, GameWorld.Instance.RenderTarget.Height / 2);
+            backgroundPos = new Vector2(GameWorld.Instance.renderTarget.Width / 2, GameWorld.Instance.renderTarget.Height / 2);
             backgroundOrigin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2);
 
             ///<summary>
@@ -431,9 +391,9 @@ namespace SystemShutdown.States
 
             //Draws cursor
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
             spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
             spriteBatch.DrawString(font, $"{playerBuilder.Player.playersMods.Count} Mods", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
 
@@ -508,13 +468,13 @@ namespace SystemShutdown.States
 
         public void GameOver()
         {
-            if (GameWorld.Instance.GameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.GameState.playerBuilder.Player.Health <= 0)
+            if (GameWorld.Instance.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.gameState.playerBuilder.Player.Health <= 0)
             {
                 ShutdownThreads();
-                GameWorld.Instance.Repository.Open();
-                GameWorld.Instance.Repository.RemoveTables();
-                GameWorld.Instance.Repository.Close();
-                GameWorld.ChangeState(GameWorld.Instance.GameOverState);
+                GameWorld.Instance.repo.Open();
+                GameWorld.Instance.repo.RemoveTables();
+                GameWorld.Instance.repo.Close();
+                GameWorld.ChangeState(GameWorld.Instance.gameOverState);
             }
         }
 

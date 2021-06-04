@@ -71,16 +71,16 @@ namespace SystemShutdown.GameObjects
 
                 if (tmpEnemy.IsTrojan)
                 {
-                    GameWorld.Instance.GameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
-                    GameWorld.Instance.GameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
-                    GameWorld.Instance.GameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
+                    GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
 
                     tmpEnemy.GameObject.Destroy();
                 }
                 else
                 {
 
-                 //   tmpEnemy.AttackingCPU = true;
+                    tmpEnemy.AttackingCPU = true;
                 }
             }
         }

@@ -179,7 +179,7 @@ namespace SystemShutdown.GameObjects
            
 
             
-                foreach (GameObject1 gameObject in GameWorld.Instance.GameState.gameObjects)
+                foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
                 {
                     if (gameObject.Tag == "Node")
                     {
@@ -281,7 +281,7 @@ namespace SystemShutdown.GameObjects
                 shootTime = 0;
                 GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
 
-                Vector2 movement = new Vector2(GameWorld.Instance.GameState.cursorPosition.X, GameWorld.Instance.GameState.cursorPosition.Y) - laserObject.Transform.Position;
+                Vector2 movement = new Vector2(GameWorld.Instance.gameState.cursorPosition.X, GameWorld.Instance.gameState.cursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
                 Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");
@@ -292,7 +292,7 @@ namespace SystemShutdown.GameObjects
 
                 tmpPro.Velocity = movement;
 
-                GameWorld.Instance.GameState.AddGameObject(laserObject);
+                GameWorld.Instance.gameState.AddGameObject(laserObject);
             }
         }
 
@@ -325,7 +325,7 @@ namespace SystemShutdown.GameObjects
             {
 
                 Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
-                   // tmpEnemy.AttackingPlayer = true;
+                   tmpEnemy.AttackingPlayer = true;
             }
 
 

@@ -44,11 +44,11 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(dayBar, new Vector2(GameWorld.Instance.GameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.Instance.GameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)dayBarPosition.X,
+            spriteBatch.Draw(dayBar, new Vector2(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)dayBarPosition.X,
                 (int)dayBarPosition.Y, (int)currentBarDay, dayBar.Height), dayBarColor);
-            spriteBatch.Draw(dayContainer, new Vector2(GameWorld.Instance.GameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.Instance.GameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+            spriteBatch.Draw(dayContainer, new Vector2(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
         }
 
         public void DayColor()

@@ -45,8 +45,8 @@ namespace SystemShutdown.GameObjects
         public override void Destroy()
         {
             //EnemyPool.Instance.RealeaseObject(GameObject);
-            GameWorld.Instance.GameState.aliveEnemies--;
-            GameWorld.Instance.GameState.playerBuilder.player.kills++;
+            GameWorld.Instance.gameState.aliveEnemies--;
+            GameWorld.Instance.gameState.playerBuilder.player.kills++;
             threadRunning = false;
         }
         /// <summary>
@@ -59,12 +59,12 @@ namespace SystemShutdown.GameObjects
             if (playerTarget)
             {
                 speed = 200;
-                goal = GameWorld.Instance.GameState.grid.Node((int)Math.Round(GameWorld.Instance.GameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.Instance.GameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
             }
-            else if (!GameWorld.Instance.IsDay)
+            else if (!GameWorld.Instance.isDay)
             {
                 speed = 200;
-                goal = GameWorld.Instance.GameState.grid.Node((int)Math.Round(GameWorld.Instance.GameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.Instance.GameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameWorld.Instance.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.X / 100d, 0) * 100 / 100, (int)Math.Round(GameWorld.Instance.gameState.cpuBuilder.Cpu.GameObject.Transform.Position.Y / 100d, 0) * 100 / 100);
             }
             else
             {
@@ -72,7 +72,7 @@ namespace SystemShutdown.GameObjects
                 var maxvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) + 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) + 5));
                 var minvalue = new Vector2(((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) - 5), ((int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) - 5));
                 var tmpvector = SetRandomEnemyGoal(minvalue, maxvalue);
-                goal = GameWorld.Instance.GameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
+                goal = GameWorld.Instance.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
             }
             isGoalFound = true;
         }
@@ -88,7 +88,7 @@ namespace SystemShutdown.GameObjects
             Node enemypos = null;
             while (enemypos == null || !enemypos.Passable)
             {
-                enemypos = GameWorld.Instance.GameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
+                enemypos = GameWorld.Instance.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
             }
             return new Vector2(enemypos.X * 100, enemypos.Y * 100);
         }
@@ -106,7 +106,7 @@ namespace SystemShutdown.GameObjects
                 if (moddrop == 2)
                 {
                     GameObject1 go = ModFactory.Instance.Create(GameObject.Transform.Position, "");
-                    GameWorld.Instance.GameState.AddGameObject(go);
+                    GameWorld.Instance.gameState.AddGameObject(go);
 
                 }
                 GameObject.Destroy();
@@ -123,7 +123,7 @@ namespace SystemShutdown.GameObjects
             {
                 if (!IsTrojan)
                 {
-                    if (IsPlayerInRange(GameWorld.Instance.GameState.playerBuilder.Player.GameObject.Transform.Position))
+                    if (IsPlayerInRange(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position))
                     {
                         playerTarget = true;
                         isGoalFound = false;
@@ -153,15 +153,15 @@ namespace SystemShutdown.GameObjects
             {
                 path.Pop();
             }
-            GameWorld.Instance.GameState.grid.ResetState();
+            GameWorld.Instance.gameState.grid.ResetState();
             aStar.Start();
-            Node currentPositionAsNode = GameWorld.Instance.GameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.Instance.GameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.Instance.GameState.NodeSize);
+            Node currentPositionAsNode = GameWorld.Instance.gameState.grid.Node((int)Math.Round(GameObject.Transform.Position.X / 100d, 0) * 100 / GameWorld.Instance.gameState.NodeSize, (int)Math.Round(GameObject.Transform.Position.Y / 100d, 0) * 100 / GameWorld.Instance.gameState.NodeSize);
             aStar.Search(currentPositionAsNode, goal, path);
             if (path.Count > 0)
             {
                 node = path.Pop();
-                int x = node.X * GameWorld.Instance.GameState.NodeSize;
-                int y = node.Y * GameWorld.Instance.GameState.NodeSize;
+                int x = node.X * GameWorld.Instance.gameState.NodeSize;
+                int y = node.Y * GameWorld.Instance.gameState.NodeSize;
                 nextpos = new Vector2(x, y);
                 Move(nextpos);
             }
@@ -228,7 +228,7 @@ namespace SystemShutdown.GameObjects
                 if (AttackingPlayer)
                 {
                     Thread.Sleep(100);
-                    GameWorld.Instance.GameState.playerBuilder.Player.Enter(internalThread, this);
+                    GameWorld.Instance.gameState.playerBuilder.Player.Enter(internalThread, this);
                     AttackingPlayer = false;
                     AttackingCPU = false;
                 }
@@ -238,7 +238,7 @@ namespace SystemShutdown.GameObjects
                     AttackingPlayer = false;
                     AttackingCPU = false;
                     Random rnd = new Random();
-                    if (rnd.Next(1, 3) == 1 && GameWorld.Instance.GameState.playerBuilder.player.playersMods.Count > 0)
+                    if (rnd.Next(1, 3) == 1 && GameWorld.Instance.gameState.playerBuilder.player.playersMods.Count > 0)
                     {
                         // GameWorld.gameState.playerBuilder.player.playersMods.Pop();
                         //GameWorld.gameState.playerBuilder.player.ApplyAllMods();

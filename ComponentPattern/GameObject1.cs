@@ -71,7 +71,7 @@ namespace SystemShutdown.ComponentPattern
             {
                 component.Destroy();
             }
-            GameWorld.Instance.GameState.RemoveGameObject(this);
+            GameWorld.Instance.gameState.RemoveGameObject(this);
         }
     }
 }

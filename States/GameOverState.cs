@@ -95,18 +95,18 @@ namespace SystemShutdown.States
 
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            GameWorld.Instance.Exit();
+            GameWorld.Instance.thisGameWorld.Exit();
         }
 
         private void Button_SaveHighscore_Clicked(object sender, EventArgs e)
         {
             if (!scoreSaved)
             {
-                GameWorld.Instance.Repository.Open();
+                GameWorld.Instance.repo.Open();
 
-                GameWorld.Instance.Repository.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.GameState.playerBuilder.Player.kills, GameWorld.Instance.GameState.days);
+                GameWorld.Instance.repo.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.gameState.playerBuilder.Player.kills, GameWorld.Instance.gameState.days);
 
-                GameWorld.Instance.Repository.Close();
+                GameWorld.Instance.repo.Close();
 
                 scoreSaved = true;
             }
@@ -157,7 +157,7 @@ namespace SystemShutdown.States
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
 
-                GameWorld.Instance.Exit();
+                GameWorld.Instance.thisGameWorld.Exit();
             }
         }
 

@@ -31,7 +31,7 @@ namespace SystemShutdown.Components
 
         public void SetSprite(string spriteName)
         {
-            Sprite = GameWorld.Instance.Content.Load<Texture2D>(spriteName);
+            Sprite = GameWorld.Instance.content.Load<Texture2D>(spriteName);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

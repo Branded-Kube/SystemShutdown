@@ -64,7 +64,7 @@ namespace SystemShutdown.FactoryPattern
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy" /*&& !alreadyCollider*/)
             {
                 GameObject.Destroy();
-                component.GameObject.GetComponent("Enemy").Health -= GameWorld.Instance.GameState.playerBuilder.player.dmg;
+                component.GameObject.GetComponent("Enemy").Health -= GameWorld.Instance.gameState.playerBuilder.player.dmg;
                 alreadyCollided = true;
             }
         }

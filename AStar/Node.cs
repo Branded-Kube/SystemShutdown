@@ -7,11 +7,11 @@ namespace SystemShutdown.AStar
     //Ras
     public class Node : Component, IGameListener
     {
-        public int Y { get; set; } = 0;
-        public int X { get; set; } = 0;
-        public bool Open { get; set; } = false;
+        public bool Passable { get; set; } = true;
         public bool Closed { get; set; } = false;
-        public bool Passable { get; set; } = false;
+        public bool Open { get; set; } = false;
+        public int X { get; set; } = 0;
+        public int Y { get; set; } = 0;
         public double F { get; set; } = 0;
         public int G { get; set; } = 0;
         public double H { get; set; } = 0;
