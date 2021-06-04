@@ -30,7 +30,7 @@ namespace SystemShutdown.AStar
 
                     //random walls
                     if ((x != 0 && y != 0) && (x != Width - 2 && y != Height - 2) &&
-                        rand.Next(1, 25) < 12 /*5*/)
+                        rand.Next(1, 25) < 5 /*5*/)
                     {
                         nodes[x, y].Passable = false;
                     }
