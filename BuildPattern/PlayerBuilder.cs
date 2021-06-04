@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +16,11 @@ namespace SystemShutdown.BuildPattern
         private GameObject1 playerGO;
 
         private SpriteRenderer playerSR;
+
+        public Texture2D[] sprites, upWalk;
+        public float fps;
+        public float timeElapsed;
+        public int currentIndex;
 
         public SpriteRenderer Sr
         {
@@ -33,10 +40,10 @@ namespace SystemShutdown.BuildPattern
         {
             playerGO = new GameObject1();
 
-            playerSR = new SpriteRenderer("player");
+            playerSR = new SpriteRenderer("1player");
 
             playerGO.AddComponent(playerSR);
-            playerSR.Origin = new Vector2(playerSR.Sprite.Width /2, (playerSR.Sprite.Height)/2 );
+            playerSR.Origin = new Vector2(playerSR.Sprite.Width / 2, (playerSR.Sprite.Height) / 2);
 
             player = new Player();
 
@@ -45,6 +52,37 @@ namespace SystemShutdown.BuildPattern
             /// Adds player to collider list
             GameWorld.Instance.gameState.AddGameObject(playerGO);
 
+            //Load sprite sheet
+            upWalk = new Texture2D[6];
+
+            //Loop animaiton
+            for (int g = 0; g < upWalk.Length; g++)
+            {
+                upWalk[g] = GameWorld.Instance.content.Load<Texture2D>(g + 1 + "player");
+            }
+            //When loop is finished return to first sprite/Sets default sprite
+            playerSR.Sprite = playerSR.Sprite/*upWalk[0]*/;
+        }
+
+        public void Animate(GameTime gametime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                //Giver tiden, der er gået, siden sidste update
+                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+                //Beregner currentIndex
+                currentIndex = (int)(timeElapsed * fps);
+                playerSR.Sprite = upWalk[currentIndex];
+
+                //Checks if animation needs to restart
+                if (currentIndex >= upWalk.Length - 1)
+                {
+                    //Resets animation
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                }
+            }
         }
 
         public GameObject1 GetResult()

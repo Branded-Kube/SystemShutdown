@@ -7,6 +7,7 @@ using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 using SystemShutdown.ObserverPattern;
+using SystemShutdown.States;
 
 namespace SystemShutdown
 {
@@ -110,6 +111,8 @@ namespace SystemShutdown
             if (choseneffect.ModFK == 1)
             {
                 GameWorld.Instance.gameState.playerBuilder.player.dmg += choseneffect.Effect;
+                //GameWorld.Instance.gameState.DmgColor = Color.GreenYellow;
+                GameWorld.Instance.gameState.ChangeColor();
             }
             else if (choseneffect.ModFK == 2)
             {
@@ -122,6 +125,8 @@ namespace SystemShutdown
             else if (choseneffect.ModFK == 4)
             {
                 GameWorld.Instance.gameState.playerBuilder.player.Health += choseneffect.Effect;
+                //GameWorld.Instance.gameState.HealthColor = Color.GreenYellow;
+                GameWorld.Instance.gameState.ChangeColor();
             }
 
 

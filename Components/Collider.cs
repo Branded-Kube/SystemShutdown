@@ -87,7 +87,7 @@ namespace SystemShutdown.Components
         //Is touching Right
         public bool IsTouchingRight(Collider collider)
         {
-            return this.CollisionBox.Left + GameWorld.Instance.gameState.playerBuilder.player.velocity.X  < collider.CollisionBox.Right &&
+            return this.CollisionBox.Left + GameWorld.Instance.gameState.playerBuilder.player.velocity.X < collider.CollisionBox.Right &&
                          this.CollisionBox.Right > collider.CollisionBox.Right &&
                          this.CollisionBox.Bottom > collider.CollisionBox.Top &&
                          this.CollisionBox.Top < collider.CollisionBox.Bottom;

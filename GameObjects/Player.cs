@@ -46,8 +46,10 @@ namespace SystemShutdown.GameObjects
 
         public bool showingMap;
 
-        protected Texture2D[] sprites, upWalk;
-        protected float fps;
+        //protected Texture2D[] sprites, upWalk;
+        //protected float fps;
+        //private float timeElapsed;
+        //private int currentIndex;
 
         public Rectangle rectangle;
         public Vector2 lastVelocity;
@@ -67,7 +69,7 @@ namespace SystemShutdown.GameObjects
             canShoot = true;
             canToggleMap = true;
             InputHandler.Instance.Entity = this;
-            fps = 10f;
+            GameWorld.Instance.gameState.playerBuilder.fps = 8f;
 
             Debug.WriteLine("Players semaphore releases (3)");
             MySemaphore.Release(5);
@@ -176,14 +178,13 @@ namespace SystemShutdown.GameObjects
             }
 
             Move();
-           
 
+            GameWorld.Instance.gameState.playerBuilder.Animate(gameTime);
             
-                foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
+            foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
+            {
+                if (gameObject.Tag == "Node")
                 {
-                    if (gameObject.Tag == "Node")
-                    {
-
                     Collider nodeCollider = (Collider)gameObject.GetComponent("Collider");
 
                     Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
@@ -206,17 +207,11 @@ namespace SystemShutdown.GameObjects
                     if ((velocity.Y < 0 && playerCollider.IsTouchingBottom(nodeCollider)))
                     {
                         velocity.Y = 0;
-
                     }
 
 
                 }
-
-
-
             }
-
-
 
             // /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
 

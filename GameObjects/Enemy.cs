@@ -47,6 +47,8 @@ namespace SystemShutdown.GameObjects
             //EnemyPool.Instance.RealeaseObject(GameObject);
             GameWorld.Instance.gameState.aliveEnemies--;
             GameWorld.Instance.gameState.playerBuilder.player.kills++;
+            GameWorld.Instance.gameState.KillsColor = Color.GreenYellow;
+            GameWorld.Instance.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
         /// <summary>

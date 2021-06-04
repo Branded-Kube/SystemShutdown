@@ -57,8 +57,31 @@ namespace SystemShutdown.States
         //protected Texture2D[] sprites, upWalk;
         protected float fps;
 
+        private float timeElapsed;
+        private int currentIndex;
+
+        //public Vector2 position;
+        public Rectangle rectangle;
+        public Vector2 previousPosition;
+        public Vector2 currentDir;
+        protected float rotation;
+        protected Vector2 velocity;
+
         private KeyboardState currentKeyState;
         private KeyboardState previousKeyState;
+
+        public Color _healthColor = Color.White;
+        public Color _dmgColor = Color.White;
+        public Color _killsColor = Color.White;
+        public Color _msColor = Color.White;
+        public Color HealthColor { get { return _healthColor; } set { _healthColor = value; } }
+        public Color DmgColor { get { return _dmgColor; } set { _dmgColor = value; } }
+        public Color KillsColor { get { return _killsColor; } set { _killsColor = value; } }
+        public Color MsColor { get { return _msColor; } set { _msColor = value; } }
+
+        public Color color = Color.White;
+        public float timer = 5f;
+        public float countDown = 1f;
 
         #endregion
 
@@ -88,6 +111,18 @@ namespace SystemShutdown.States
             cpuBuilder = new CPUBuilder();
         }
         #endregion
+
+        public void ChangeColor()
+        {
+            color = Color.YellowGreen;
+
+            timer -= countDown;
+
+            if (timer <= 0)
+            {
+                color = Color.White;
+            }
+        }
 
         public override void LoadContent()
         {
@@ -391,9 +426,9 @@ namespace SystemShutdown.States
 
             //Draws cursor
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), color/*_killsColor*/);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), color/*_healthColor*/);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), color/*_dmgColor*/);
             spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
             spriteBatch.DrawString(font, $"{playerBuilder.Player.playersMods.Count} Mods", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
 
