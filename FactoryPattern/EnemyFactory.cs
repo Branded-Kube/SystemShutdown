@@ -1,22 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.FactoryPattern
 {
+   // Ras
     public class EnemyFactory : Factory
     {
-
-        private static Random rnd = new Random();
         private static EnemyFactory instance;
         private Enemy enemy;
-        public SpriteRenderer sr;
-        private Vector2 distance;
-
+        // EnemyFactoy Singleton
         public static EnemyFactory Instance
         {
             get
@@ -29,17 +23,19 @@ namespace SystemShutdown.FactoryPattern
             }
         }
 
-        public Enemy Enemy
-        {
-            get { return enemy; }
-            set { enemy = value; }
-        }
-
+        /// <summary>
+        /// Creates a gameobject and adds 3 component to it. A Enemy, a SpriteRenderer and a Collider.
+        /// Adds a number to aliveEnemies
+        /// 2 Types of enemy´s can be created. a Bug or a Trojan. IsTrojan bool is default false and is sat to true if a Trojan is created
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public override GameObject1 Create(Vector2 position, string type)
         {
 
             GameObject1 enemyGO = new GameObject1();
-            GameWorld.Instance.gameState.aliveEnemies++;
+            GameWorld.Instance.GameState.aliveEnemies++;
 
             switch (type)
             {

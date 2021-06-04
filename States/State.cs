@@ -13,7 +13,7 @@ namespace SystemShutdown
     {
         #region Fields
 
-        protected ContentManager content = GameWorld.Instance.content;
+        protected ContentManager content = GameWorld.Instance.Content;
 
       //  protected GameWorld _game;
 

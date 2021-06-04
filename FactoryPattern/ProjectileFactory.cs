@@ -10,7 +10,10 @@ namespace SystemShutdown.FactoryPattern
 {
     class ProjectileFactory : Factory
     {
+        private Projectile playerProjectile;
+        private SpriteRenderer projectileSR;
         private static ProjectileFactory instance;
+
         public static ProjectileFactory Instance
         {
             get
@@ -22,12 +25,8 @@ namespace SystemShutdown.FactoryPattern
                 return instance;
             }
         }
-        private Projectile playerProjectile;
-        private SpriteRenderer projectileSR;
         private ProjectileFactory()
         {
-
-
             CreatePrototype(ref projectileSR, ref playerProjectile, "Textures/4bit", 300);
         }
         //laserBlue05

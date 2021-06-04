@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 
@@ -10,27 +8,26 @@ namespace SystemShutdown.AStar
     //Ras
     public class Grid
     {
-        public static int NodeSize = 100;
+        private Node[,] nodes;
+        public int NodeSize { get; set; } = 100;
+        public int Height { get; set; } = 35;
+        public int Width { get; set; }= 35;
 
-        public int Width = 35;
-            public int Height = 35;
-            public Node[,] nodes;
-            
-            public Grid()
-            {
-                Random rand = new Random();
-                nodes = new Node[Width, Height];
-                for (int y = 0; y < Height; y++)
-                    for (int x = 0; x < Width; x++)
-                    {
+        public Grid()
+        {
+            Random rand = new Random();
+            nodes = new Node[Width, Height];
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
+                {
                     // Creates a grid of nodes each with a x.y cordinate
-                        nodes[x, y] = new Node();
-                        nodes[x, y].x = x;
-                        nodes[x, y].y = y;
+                    nodes[x, y] = new Node();
+                    nodes[x, y].X = x;
+                    nodes[x, y].Y = y;
 
-                    //random walls
-                    if ((x != 0 && y != 0) && (x != Width - 2 && y != Height - 2) &&
-                        rand.Next(1, 25) < 12 /*5*/)
+                    //random walls, 30% to make a node not passable (wall)
+                    if ((x != 1 && y != 1) && (x != Width - 2 && y != Height - 2) &&
+                        rand.Next(1, 100) < 30)
                     {
                         nodes[x, y].Passable = false;
                     }
@@ -42,19 +39,19 @@ namespace SystemShutdown.AStar
                     }
 
                     // clears Corners 2x2 (enemy spawn area)
-                    if (x <= 2 && y <= 2 || x <=  2 && y >= Height - 3 || x >= Width - 3 && y <= 2 || x >= Width - 3 && y >= Height - 3)
+                    if (x <= 2 && y <= 2 || x <= 2 && y >= Height - 3 || x >= Width - 3 && y <= 2 || x >= Width - 3 && y >= Height - 3)
                     {
                         nodes[x, y].Passable = true;
                     }
 
                     // sets mid square borders
                     // Bottom
-                    if (x > Width / 2 -5 && x < Width / 2 +5 && y == Height /2 + 5)
+                    if (x > Width / 2 - 5 && x < Width / 2 + 5 && y == Height / 2 + 5)
                     {
                         nodes[x, y].Passable = false;
                     }
                     // Top
-                    if (x > Width / 2 - 5 && x < Width / 2 + 5 && y == Height / 2 -5)
+                    if (x > Width / 2 - 5 && x < Width / 2 + 5 && y == Height / 2 - 5)
                     {
                         nodes[x, y].Passable = false;
                     }
@@ -69,14 +66,14 @@ namespace SystemShutdown.AStar
                         nodes[x, y].Passable = false;
                     }
 
-                    // Clears middle node in square border for wall (passage to cpu) (1x2 cleared)
+                    // Clears a line from mid to each side from walls
                     // Top and Bottom
-                    if (x == Width / 2 && y == Height / 2 + 5 || x == Width / 2 && y == Height / 2 + 6 || x == Width / 2 && y == Height / 2 - 5 || x == Width / 2 && y == Height / 2 - 6)
+                    if (x == Width / 2 && y < Height && y > 0)
                     {
                         nodes[x, y].Passable = true;
                     }
                     // Left and Right
-                    if (y == Height / 2 && x == Width / 2 + 5 || y == Height / 2 && x == Width / 2 + 6 || y == Height / 2 && x == Width / 2 - 5 || y == Height / 2 && x == Width / 2 - 6)
+                    if (y == Height / 2 && x < Width && x > 0)
                     {
                         nodes[x, y].Passable = true;
                     }
@@ -95,12 +92,12 @@ namespace SystemShutdown.AStar
                         nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
                         nodeGO.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
                         nodeGO.AddComponent(nodes[x, y]);
-                        GameWorld.Instance.gameState.AddGameObject(nodeGO);
+                        GameWorld.Instance.GameState.AddGameObject(nodeGO);
                     }
-               
+
                 }
 
-            // fills out any passable node surrounded by walls 
+            // fills out any passable node completely surrounded by walls 
             foreach (var item in nodes)
             {
                 Node nodesLeft = new Node();
@@ -108,17 +105,17 @@ namespace SystemShutdown.AStar
                 Node nodesTop = new Node();
                 Node nodesBottom = new Node();
 
-                nodesLeft = Node(item.x-1, item.y);
-                nodesRight = Node(item.x +1, item.y);
-                nodesTop = Node(item.x, item.y-1);
-                nodesBottom = Node(item.x, item.y+1);
+                nodesLeft = Node(item.X - 1, item.Y);
+                nodesRight = Node(item.X + 1, item.Y);
+                nodesTop = Node(item.X, item.Y - 1);
+                nodesBottom = Node(item.X, item.Y + 1);
                 if (nodesLeft != null)
                 {
                     if (nodesLeft == null || nodesLeft.Passable == false)
                     {
                         if (nodesRight == null || nodesRight.Passable == false)
                         {
-                            if (nodesTop == null || nodesTop.Passable == false )
+                            if (nodesTop == null || nodesTop.Passable == false)
                             {
                                 if (nodesBottom == null || nodesBottom.Passable == false)
                                 {
@@ -126,18 +123,18 @@ namespace SystemShutdown.AStar
                                     GameObject1 nodeGO = new GameObject1();
                                     SpriteRenderer nodeSR = new SpriteRenderer("Textures/wall");
                                     nodeGO.AddComponent(nodeSR);
-                                    nodeGO.Transform.Position = new Vector2(item.x * 100, item.y * 100);
+                                    nodeGO.Transform.Position = new Vector2(item.X * 100, item.Y * 100);
                                     nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
 
-                                    nodeGO.AddComponent(new Collider(nodeSR, nodes[item.x, item.y]) { CheckCollisionEvents = false });
-                                    nodeGO.AddComponent(nodes[item.x, item.y]);
-                                    GameWorld.Instance.gameState.AddGameObject(nodeGO);
+                                    nodeGO.AddComponent(new Collider(nodeSR, nodes[item.X, item.Y]) { CheckCollisionEvents = false });
+                                    nodeGO.AddComponent(nodes[item.Y, item.Y]);
+                                    GameWorld.Instance.GameState.AddGameObject(nodeGO);
                                 }
                             }
                         }
                     }
                 }
-               
+
             }
         }
 
@@ -154,16 +151,13 @@ namespace SystemShutdown.AStar
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                 {
-                    nodes[x, y].f = int.MaxValue;
-                    nodes[x, y].g = 0;
-                    nodes[x, y].h = 0;
-                    nodes[x, y].cameFrom = null;
+                    nodes[x, y].F = int.MaxValue;
+                    nodes[x, y].G = 0;
+                    nodes[x, y].H = 0;
+                    nodes[x, y].CameFrom = null;
                     nodes[x, y].Open = false;
                     nodes[x, y].Closed = false;
                 }
         }
     }
-
-
-
 }

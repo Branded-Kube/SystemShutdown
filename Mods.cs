@@ -93,11 +93,11 @@ namespace SystemShutdown
 
             List<Effects> pickupable = new List<Effects>();
 
-            GameWorld.Instance.repo.Open();
-            pickupable = GameWorld.Instance.repo.FindEffects(randomnumber);
+            GameWorld.Instance.Repository.Open();
+            pickupable = GameWorld.Instance.Repository.FindEffects(randomnumber);
 
             //playerBuilder.player.dmg += pickupAble.Effect;
-            GameWorld.Instance.repo.Close();
+            GameWorld.Instance.Repository.Close();
 
             Random rndeffect = new Random();
             int randomeffect = rndeffect.Next(0, 3);
@@ -109,19 +109,19 @@ namespace SystemShutdown
             //ModFKID = choseneffect.ModFK;
             if (choseneffect.ModFK == 1)
             {
-                GameWorld.Instance.gameState.playerBuilder.player.dmg += choseneffect.Effect;
+                GameWorld.Instance.GameState.playerBuilder.player.dmg += choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 2)
             {
-                GameWorld.Instance.gameState.playerBuilder.player.speed += choseneffect.Effect;
+                GameWorld.Instance.GameState.playerBuilder.player.speed += choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 3)
             {
-                GameWorld.Instance.gameState.playerBuilder.player.cooldown -= choseneffect.Effect;
+                GameWorld.Instance.GameState.playerBuilder.player.cooldown -= choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 4)
             {
-                GameWorld.Instance.gameState.playerBuilder.player.Health += choseneffect.Effect;
+                GameWorld.Instance.GameState.playerBuilder.player.Health += choseneffect.Effect;
             }
 
 

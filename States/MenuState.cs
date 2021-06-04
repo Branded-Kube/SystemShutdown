@@ -88,26 +88,26 @@ namespace SystemShutdown
         // Frederik
         private void Button_PlayGame_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(GameWorld.Instance.gameState);
+            GameWorld.ChangeState(GameWorld.Instance.GameState);
         }
 
         // Frederik
         public void Button_HowToPlay_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(GameWorld.Instance.howToState);
+            GameWorld.ChangeState(GameWorld.Instance.HowToState);
         }
 
         // Frederik
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            GameWorld.Instance.gameState.ShutdownThreads();
-            GameWorld.Instance.thisGameWorld.Exit();
+            GameWorld.Instance.GameState.ShutdownThreads();
+            GameWorld.Instance.Exit();
         }
 
         // Søren
         private void Button_CheckHighscore_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(GameWorld.Instance.highscoreState);
+            GameWorld.ChangeState(GameWorld.Instance.HighscoreState);
         }
 
         public override void Update(GameTime gameTime)

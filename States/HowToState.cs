@@ -45,7 +45,7 @@ namespace SystemShutdown.States
 
         private void Button_Close_Clicked(object sender, EventArgs e)
         {
-            GameWorld.ChangeState(GameWorld.Instance.menuState);
+            GameWorld.ChangeState(GameWorld.Instance.MenuState);
         }
 
         public override void Update(GameTime gameTime)

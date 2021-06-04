@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using SystemShutdown.Components;
-using SystemShutdown.FactoryPattern;
-using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.AStar
 {
@@ -13,103 +9,101 @@ namespace SystemShutdown.AStar
     {
         private List<Node> closedList = new List<Node>();
         private List<Node> openList = new List<Node>();
-       // private Node[,] enemyNodes;
-
-        bool finished = true;
-        
-        //public Astar()
-        //{
-        //    enemyNodes = GameWorld.gameState.grid.nodes;
-        //}
-
-
-        public void Start(/*Node start*/)
+        private bool finished = true;
+        /// <summary>
+        /// Clears Astar open and closed lists and sets finished bool to false
+        /// </summary>
+        public void Start()
         {
             if (finished)
             {
                 openList.Clear();
                 closedList.Clear();
-                //openList.Add(start);
                 finished = false;
-
             }
         }
-    
+        /// <summary>
+        /// Get the surrounding 8 nodes to the node enemy is positioned at. Checks if they are inside of grid.
+        /// If neighbor is in a corner, checks if there is a wall on either side and excludes the neighbor if there is. 
+        /// This causes the enemy to not be able to walk "over" corners
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
         private Node[] GetNeighbors(Grid grid, Node node)
         {
-
             Node[] neighbors = { null, null, null, null, null, null, null, null };
             // Sets top neighbor
             // if y bigger than 0, (screen top border)
-            if (node.y - 1 > 0)
+            if (node.Y - 1 > 0)
             {
-                neighbors[0] = GameWorld.Instance.gameState.grid.Node(node.x, node.y - 1);
+                neighbors[0] = GameWorld.Instance.GameState.grid.Node(node.X, node.Y - 1);
             }
             // Sets bottom neighbor
             // if y is less than grid height
-            if (node.y + 1 < grid.Height)
+            if (node.Y + 1 < grid.Height)
             {
-                neighbors[1] = GameWorld.Instance.gameState.grid.Node(node.x, node.y + 1);
+                neighbors[1] = GameWorld.Instance.GameState.grid.Node(node.X, node.Y + 1);
             }
             // Sets left neighbor
             // if x is bigger than 0 (screen left border)
-            if (node.x - 1 > 0)
+            if (node.X - 1 > 0)
             {
-                neighbors[2] = GameWorld.Instance.gameState.grid.Node(node.x - 1, node.y);
+                neighbors[2] = GameWorld.Instance.GameState.grid.Node(node.X - 1, node.Y);
             }
             // Sets right neighbor
             // if x is less than width
-            if (node.x + 1 < grid.Width)
+            if (node.X + 1 < grid.Width)
             {
-                neighbors[3] = GameWorld.Instance.gameState.grid.Node(node.x + 1, node.y);
+                neighbors[3] = GameWorld.Instance.GameState.grid.Node(node.X + 1, node.Y);
             }
             // Sets top-left neighbor
             // if bigger than 0 (screen border) on both axis
-            if (node.y - 1 > 0 && node.x - 1 > 0)
+            if (node.Y - 1 > 0 && node.X - 1 > 0)
             {
                 if (!neighbors[0].Passable || !neighbors[2].Passable)
                 {
                 }
                 else
                 {
-                    neighbors[4] = GameWorld.Instance.gameState.grid.Node(node.x - 1, node.y - 1);
+                    neighbors[4] = GameWorld.Instance.GameState.grid.Node(node.X - 1, node.Y - 1);
 
                 }
             }
             // Sets bottom-right neighbor
             // if less than grid height and width on both axis
-            if (node.x + 1 < grid.Width && node.y + 1 < grid.Height)
+            if (node.X + 1 < grid.Width && node.Y + 1 < grid.Height)
             {
                 if (!neighbors[1].Passable || !neighbors[3].Passable)
                 {
                 }
                 else
                 {
-                    neighbors[5] = GameWorld.Instance.gameState.grid.Node(node.x + 1, node.y + 1);
+                    neighbors[5] = GameWorld.Instance.GameState.grid.Node(node.X + 1, node.Y + 1);
                 }
             }
             // Sets bottom-left neighbor
             // if less than grid height and bigger than 0 (screen border)
-            if (node.x - 1 > 0 && node.y + 1 < grid.Height)
+            if (node.X - 1 > 0 && node.Y + 1 < grid.Height)
             {
                 if (!neighbors[1].Passable || !neighbors[2].Passable)
                 {
                 }
                 else
                 {
-                    neighbors[6] = GameWorld.Instance.gameState.grid.Node(node.x - 1, node.y + 1);
+                    neighbors[6] = GameWorld.Instance.GameState.grid.Node(node.X - 1, node.Y + 1);
                 }
             }
             // Sets top-right neighbor
             // if inside border
-            if (node.x + 1 < grid.Width && node.y - 1 > 0)
+            if (node.X + 1 < grid.Width && node.Y - 1 > 0)
             {
                 if (!neighbors[0].Passable || !neighbors[3].Passable)
                 {
                 }
                 else
                 {
-                    neighbors[7] = GameWorld.Instance.gameState.grid.Node(node.x + 1, node.y - 1);
+                    neighbors[7] = GameWorld.Instance.GameState.grid.Node(node.X + 1, node.Y - 1);
                 }
                
             }
@@ -129,7 +123,6 @@ namespace SystemShutdown.AStar
 
         /// <summary>
         ///  Sets "start" location for astar, finds and sets the node in the openlist with lowest f value to currentnode 
-        ///  
         /// </summary>
         /// <param name="grid"></param>
         /// <param name="start"></param>
@@ -137,30 +130,34 @@ namespace SystemShutdown.AStar
         /// <param name="path"></param>
         public void Search(Node start, Node end, Stack<Node> path)
         {
-
-            start.f = EuclideanDistance(start.x, start.y, end.x, end.y);
+            start.F = EuclideanDistance(start.X, start.Y, end.X, end.Y);
+            
             openList.Add(start);
 
             while (!finished)
             {
-                // Sets lowestIndex to the node with the lowest f value
+                // Finds the node with lowest f value in the openList and sets its number i nthe list to LowestIndex
+                // if nodes share a lowest f value, set the node with highest g value to lowestIndex
                 int lowestIndex = 0;
                 for (int i = 0; i < openList.Count; i++)
                 {
-                    if (openList[i].f < openList[lowestIndex].f)
+                    if (openList[i].F < openList[lowestIndex].F)
                     {
                         lowestIndex = i;
                     }
 
-                    if (openList[i].f == openList[lowestIndex].f)
+                    if (openList[i].F == openList[lowestIndex].F)
                     {
-                        if (openList[i].g > openList[lowestIndex].g)
+                        if (openList[i].G > openList[lowestIndex].G)
                         {
                             lowestIndex = i;
                         }
                     }
                 }
-                // current node is set to the node with the lowest f value in openlist
+                // current node is set to the node lowestIndex. (the node with lowest f value)
+                // if list is empty, break loop.
+                // If a enemy have a goal that is not reachable a index out of bounds happens. This breaks the loop instead and causes the enemy
+                // to stand still until a new goal is given. 
                 Node current = null;
                 if (openList.Count > 0)
                 {
@@ -169,15 +166,15 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    return;
+                    break;
                 }
-
+                // if current node is equal to goal node, run finish 
                 if (current == end)
                 {
                     Finish(current, path);
                 }
               
-                // removes current node from openList and adds it to closedList, flips bools 
+                // removes current node from openList and adds it to closedList, and flips sets bools open to false and closed to true.
                 openList.Remove(current);
                 closedList.Add(current);
 
@@ -185,35 +182,20 @@ namespace SystemShutdown.AStar
                 current.Closed = true;
 
                 UpdateNeighbors(ref current, end);
-
-                //if (closedList.Count > (GameWorld.Instance.gameState.grid.Width * GameWorld.Instance.gameState.grid.Height) / 4)
-                //{
-                //    int greatestG = 0;
-                //    for (int i = 0; i < openList.Count; i++)
-                //    {
-                //        if (openList[i].g > openList[greatestG].g)
-                //        {
-                //            greatestG = i;
-                //        }
-
-                //    }
-                //    current = openList[greatestG];
-                //    Finish(current, path);
-
-                //    return;
-                //}
             }
 
         }
 
-
+        /// <summary>
+        /// Updates neighbor list. 
+        /// checks every neighbor in neighbors list and skips current neighbor if it is null, not !passable or in closedList.
+        /// else sets current neighbor f / g / h values and adds neighbor to openlist
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="end"></param>
         private void UpdateNeighbors(ref Node current, Node end)
         {
-
-            Node[] neighbors = GetNeighbors(GameWorld.Instance.gameState.grid, current);
-
-            // checks every neighbor in neighbors list and skips current neighbor if it is null, not !passable or in closedList.
-            // else sets current neighbor f / g / h values and adds neighbor to openlist
+            Node[] neighbors = GetNeighbors(GameWorld.Instance.GameState.grid, current);
             foreach (Node neighbor in neighbors)
             {
                 
@@ -229,56 +211,49 @@ namespace SystemShutdown.AStar
                 {
                     continue;
                 }
-                //else if (neighbor.alreadyOccupied)
-                //{
-                //    continue;
-                //}
                 else
                 {
                     // (tmpG is the distance from start to neighbor though current)
-                    //int tmpG = current.g + neighbor.Cost;
-                    int tmpG = current.g + 1;
-
-
+                    int tmpG = current.G + 1;
                     // adds neighbor to open list if it is not added already
-                    // else skips if neighbor g value is equal or lower than current g value + neighbor cost (path is not better)
+                    // else skips current iteration if neighbor g value is equal or lower than current g value + neighbor cost (path is not better)
                     if (!openList.Contains(neighbor))
                     {
                         openList.Add(neighbor);
                     }
-                    else if (tmpG >= neighbor.g)
+                    else if (tmpG >= neighbor.G)
                     {
                         continue;
                     }
 
-                    // if neighbor is already added to open list and its g value is greater than tmpG  
-                    // set g / h and f values on neighbor, also sets Neighbors cameFrom node to current node 
+                    // if neighbor is added to open list and its g value is greater than tmpG  
+                    // sets g / h and f values on neighbor, also sets Neighbors cameFrom node to current node 
 
-                    neighbor.g = tmpG;
+                    neighbor.G = tmpG;
 
-                    neighbor.h = EuclideanDistance(neighbor.x, neighbor.y, end.x, end.y);
+                    neighbor.H = EuclideanDistance(neighbor.X, neighbor.Y, end.X, end.Y);
 
-                    neighbor.f = neighbor.g + neighbor.h;
+                    neighbor.F = neighbor.G + neighbor.H;
 
-                    neighbor.cameFrom = current;
+                    neighbor.CameFrom = current;
                 }
             }
         }
 
       
-        /// <summary>
-        ///  
+        /// <summary>.
+        /// Uses Camefrom to track backwards from finish to start position and pushes the paths to the enemys stack of paths. 
+        /// When start position is reached it has a null Camefrom node and while loop is finished.
+        /// After pushing paths, openlist and closedlist are cleared and finished bool is sat to true
         /// </summary>
         /// <param name="current"></param>
         /// <param name="path"></param>
         private void Finish(Node current, Stack<Node> path)
         {
-            while (current.cameFrom != null)
+            while (current.CameFrom != null)
             {
-               // current.Path = true;
                 path.Push(current);
-                current = current.cameFrom;
-
+                current = current.CameFrom;
             }
             openList.Clear();
             closedList.Clear();

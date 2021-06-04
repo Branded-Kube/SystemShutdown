@@ -13,7 +13,7 @@ namespace SystemShutdown.ObjectPool
 
         public GameObject1 GetObject(Vector2 position, string type)
         {
-            GameWorld.Instance.gameState.aliveEnemies++;
+            GameWorld.Instance.GameState.aliveEnemies++;
 
             GameObject1 go;
 
@@ -29,7 +29,7 @@ namespace SystemShutdown.ObjectPool
         }
         public void RealeaseObject(GameObject1 gameObject)
         {
-            GameWorld.Instance.gameState.RemoveGameObject(gameObject);
+            GameWorld.Instance.GameState.RemoveGameObject(gameObject);
             active.Remove(gameObject);
             inactive.Push(gameObject);
         }
