@@ -80,7 +80,7 @@ namespace SystemShutdown.GameObjects
                 else
                 {
 
-                    tmpEnemy.AttackingCPU = true;
+                 //   tmpEnemy.AttackingCPU = true;
                 }
             }
         }

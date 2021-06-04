@@ -26,6 +26,8 @@ namespace SystemShutdown.GameObjects
         private bool isGoalFound = false;
         private bool threadRunning = true;
         private bool isTrojan = false;
+        private bool searching = false;
+
 
         private int dmg;
         private int Id;
@@ -74,7 +76,6 @@ namespace SystemShutdown.GameObjects
             GameWorld.Instance.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
-
         /// <summary>
         /// Sets enemy goal for Astar pathfinder. 
         /// If player is in vision area, else if night, else random pos + or - in each direction from current position.
@@ -169,6 +170,10 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         private void AstarSeachForPath()
         {
+            if (searching)
+            {
+
+            }
             while (path.Count > 0)
             {
                 path.Pop();
@@ -226,9 +231,7 @@ namespace SystemShutdown.GameObjects
         /// <param name="nextpos"></param>
         public void Move(Vector2 nextpos)
         {
-
             velocity = nextpos - GameObject.Transform.Position;
-
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();

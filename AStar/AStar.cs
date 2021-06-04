@@ -161,7 +161,17 @@ namespace SystemShutdown.AStar
                     }
                 }
                 // current node is set to the node with the lowest f value in openlist
-                Node current = openList[lowestIndex];
+                Node current = null;
+                if (openList.Count > 0)
+                {
+                    current = openList[lowestIndex];
+
+                }
+                else
+                {
+                    return;
+                }
+
                 if (current == end)
                 {
                     Finish(current, path);
@@ -175,6 +185,23 @@ namespace SystemShutdown.AStar
                 current.Closed = true;
 
                 UpdateNeighbors(ref current, end);
+
+                //if (closedList.Count > (GameWorld.Instance.gameState.grid.Width * GameWorld.Instance.gameState.grid.Height) / 4)
+                //{
+                //    int greatestG = 0;
+                //    for (int i = 0; i < openList.Count; i++)
+                //    {
+                //        if (openList[i].g > openList[greatestG].g)
+                //        {
+                //            greatestG = i;
+                //        }
+
+                //    }
+                //    current = openList[greatestG];
+                //    Finish(current, path);
+
+                //    return;
+                //}
             }
 
         }
