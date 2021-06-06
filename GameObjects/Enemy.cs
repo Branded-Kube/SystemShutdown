@@ -8,7 +8,7 @@ using SystemShutdown.AStar;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
-using SystemShutdown.ObjectPool;
+//using SystemShutdown.ObjectPool;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
@@ -291,7 +291,7 @@ namespace SystemShutdown.GameObjects
             fps = 8f;
             this.vision = 500;
             aStar = new Astar();
-            Dmg = 5;
+            Dmg = 1;
             GameObject.Tag = "Enemy";
             isGoalFound = false;
             playerTarget = false;

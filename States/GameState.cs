@@ -11,12 +11,12 @@ using Microsoft.Xna.Framework.Input;
 using SystemShutdown.AStar;
 using SystemShutdown.BuildPattern;
 using SystemShutdown.Buttons;
-using SystemShutdown.CommandPattern;
+//using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
 using SystemShutdown.GameObjects;
-using SystemShutdown.ObjectPool;
+//using SystemShutdown.ObjectPool;
 
 namespace SystemShutdown.States
 {
@@ -143,8 +143,7 @@ namespace SystemShutdown.States
                 gameObjects[i].Awake();
             }
 
-            Player.DamagePlayer += Player_DamagePlayer;
-            CPU.DamageCPU += CPU_DamageCPU;
+
 
             cyclebarDay = new CyclebarDay(content);
             cyclebarNight = new CyclebarNight(content);
@@ -187,16 +186,9 @@ namespace SystemShutdown.States
             SpawnEnemiesAcordingToDayNumber();
         }
 
-        private void CPU_DamageCPU(object source, Enemy enemy, EventArgs e)
-        {
-            cpuBuilder.Cpu.Health -= enemy.Dmg;
+     
 
-        }
-
-        private void Player_DamagePlayer(object source, Enemy enemy,EventArgs e)
-        {
-            playerBuilder.player.Health -= enemy.Dmg;
-        }
+       
 
         public void SpawnEnemiesAcordingToDayNumber()
         {
@@ -292,7 +284,7 @@ namespace SystemShutdown.States
             {
                 gameObjects[i].Update(gameTime);
             }
-            InputHandler.Instance.Execute();
+           // InputHandler.Instance.Execute();
 
 
             Collider[] tmpColliders = Colliders.ToArray();

@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using SystemShutdown.BuildPattern;
-using SystemShutdown.CommandPattern;
+//using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
@@ -21,7 +21,7 @@ namespace SystemShutdown.GameObjects
         public MouseState mouseState;
         public MouseState lastMouseState;
 
-        static Semaphore MySemaphore = new Semaphore(0, 5);
+        static Semaphore MySemaphore = new Semaphore(0, 10);
 
         private SpriteRenderer spriteRenderer;
         public Vector2 distance;
@@ -42,7 +42,7 @@ namespace SystemShutdown.GameObjects
          public int speed = 250;
 
         public delegate void DamageEventHandler(object source, Enemy enemy, EventArgs e);
-        public static event DamageEventHandler DamagePlayer;
+        public static event DamageEventHandler TakeDamagePlayer;
 
         public bool showingMap;
 
@@ -68,17 +68,22 @@ namespace SystemShutdown.GameObjects
             
             canShoot = true;
             canToggleMap = true;
-            InputHandler.Instance.Entity = this;
+            //InputHandler.Instance.Entity = this;
             GameWorld.Instance.gameState.playerBuilder.fps = 8f;
 
-            Debug.WriteLine("Players semaphore releases (3)");
-            MySemaphore.Release(5);
+            Debug.WriteLine("Players semaphore releases (5)");
+            MySemaphore.Release(10);
             Health = 100;
             this.speed = 250;
             dmg = 50;
+            TakeDamagePlayer += Player_DamagePlayer;
+
+        }
+        private void Player_DamagePlayer(object source, Enemy enemy, EventArgs e)
+        {
+            Health -= enemy.Dmg;
         }
 
-        
 
         //public void Move(Vector2 velocity)
         //{
@@ -92,11 +97,8 @@ namespace SystemShutdown.GameObjects
         //    GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
         //}
 
-        public void Move()
+        public void Move(KeyboardState keyState)
         {
-            KeyboardState keyState = Keyboard.GetState();
-
-
             if (keyState.IsKeyDown(Keys.A))
             {
                 velocity.X = -1;
@@ -147,7 +149,38 @@ namespace SystemShutdown.GameObjects
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
 
         }
+        private void PlayerMovementCollider()
+        {
+            foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
+            {
+                if (gameObject.Tag == "Node")
+                {
+                    Collider nodeCollider = (Collider)gameObject.GetComponent("Collider");
 
+                    Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
+
+                    if ((velocity.X > 0 && playerCollider.IsTouchingLeft(nodeCollider)))
+                    {
+                        velocity.X = 0;
+                    }
+
+                    if ((velocity.X < 0 && playerCollider.IsTouchingRight(nodeCollider)))
+                    {
+                        velocity.X = 0;
+                    }
+
+                    if ((velocity.Y > 0 && playerCollider.IsTouchingTop(nodeCollider)))
+                    {
+                        velocity.Y = 0;
+
+                    }
+                    if ((velocity.Y < 0 && playerCollider.IsTouchingBottom(nodeCollider)))
+                    {
+                        velocity.Y = 0;
+                    }
+                }
+            }
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -177,52 +210,21 @@ namespace SystemShutdown.GameObjects
                 Shoot();
             }
 
-            Move();
+            KeyboardState keyState = Keyboard.GetState();
 
-            GameWorld.Instance.gameState.playerBuilder.Animate(gameTime);
-            
-            foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
+            if (keyState.IsKeyDown(Keys.A)|| keyState.IsKeyDown(Keys.W)|| keyState.IsKeyDown(Keys.S)|| keyState.IsKeyDown(Keys.D))
             {
-                if (gameObject.Tag == "Node")
-                {
-                    Collider nodeCollider = (Collider)gameObject.GetComponent("Collider");
-
-                    Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
-
-                    if ((velocity.X > 0 && playerCollider.IsTouchingLeft(nodeCollider)))
-                    {
-                        velocity.X = 0;
-                    }
-
-                    if ((velocity.X < 0 && playerCollider.IsTouchingRight(nodeCollider)))
-                    {
-                        velocity.X = 0;
-                    }
-
-                    if ((velocity.Y > 0 && playerCollider.IsTouchingTop(nodeCollider)))
-                    {
-                        velocity.Y = 0;
-
-                    }
-                    if ((velocity.Y < 0 && playerCollider.IsTouchingBottom(nodeCollider)))
-                    {
-                        velocity.Y = 0;
-                    }
-
-
-                }
+                Move(keyState);
+                GameWorld.Instance.gameState.playerBuilder.Animate(gameTime);
+                PlayerMovementCollider();
+                GameObject.Transform.Translate(velocity);
+                velocity = Vector2.Zero;
             }
 
-            // /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
-
-            // velocity *= speed* GameWorld.DeltaTime;
-            GameObject.Transform.Translate(velocity );
-           // GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity ;
-
-            velocity = Vector2.Zero;
-
-
-            
+            if (keyState.IsKeyDown(Keys.M))
+            {
+                ToggleMap();
+            }
         }
         //public void ApplyAllMods()
         //{
@@ -311,10 +313,6 @@ namespace SystemShutdown.GameObjects
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-            //if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
-            //{
-            //  GameObject.Transform.Position = lastVelocity;
-            //}
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
             {
@@ -349,10 +347,10 @@ namespace SystemShutdown.GameObjects
             //Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
 
-            DamagePlayer(null, enemy, EventArgs.Empty);
+            TakeDamagePlayer(null, enemy, EventArgs.Empty);
             Thread.Sleep(100 * randomNumber.Next(0, 15));
 
-          //  Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            //Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
 
         }
