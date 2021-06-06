@@ -110,7 +110,7 @@ namespace SystemShutdown.GameObjects
         {
             if (health <= 0)
             {
-                if (!isTrojan)
+                if (!IsTrojan)
                 {
                     Random rand = new Random();
                     var switchEffect = rand.Next(1, 3);
