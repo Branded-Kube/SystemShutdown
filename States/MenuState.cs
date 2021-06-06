@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
@@ -36,6 +37,8 @@ namespace SystemShutdown
         private Vector2 quitGameOrigin;
         private Vector2 highscoreOrigin;
 
+        private Song menuMusic;
+
         #region Methods
 
         #region Constructor
@@ -54,6 +57,11 @@ namespace SystemShutdown
             howToText = content.Load<Texture2D>("Controls/howtoplay");
             highscoreText = content.Load<Texture2D>("Controls/highscore");
             quitGameText = content.Load<Texture2D>("Controls/quitgame");
+
+            menuMusic = content.Load<Song>("Sounds/song01");
+
+            MediaPlayer.Play(menuMusic);
+            MediaPlayer.IsRepeating = true;
 
             components = new List<StateComponent>()
             {
@@ -88,12 +96,14 @@ namespace SystemShutdown
         // Frederik
         private void Button_PlayGame_Clicked(object sender, EventArgs e)
         {
+            GameWorld.Instance.clickButton5.Play();
             GameWorld.ChangeState(GameWorld.Instance.gameState);
         }
 
         // Frederik
         public void Button_HowToPlay_Clicked(object sender, EventArgs e)
         {
+            GameWorld.Instance.clickButton3.Play();
             GameWorld.ChangeState(GameWorld.Instance.howToState);
         }
 
@@ -101,12 +111,13 @@ namespace SystemShutdown
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.gameState.ShutdownThreads();
-            GameWorld.Instance.thisGameWorld.Exit();
+            GameWorld.Instance.Exit();
         }
 
         // Søren
         private void Button_CheckHighscore_Clicked(object sender, EventArgs e)
         {
+            GameWorld.Instance.clickButton.Play();
             GameWorld.ChangeState(GameWorld.Instance.highscoreState);
         }
 

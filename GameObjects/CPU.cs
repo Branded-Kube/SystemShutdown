@@ -71,6 +71,8 @@ namespace SystemShutdown.GameObjects
 
                 if (tmpEnemy.IsTrojan)
                 {
+                    GameWorld.Instance.horseEffect2.Play();
+
                     GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
                     GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);
                     GameWorld.Instance.gameState.SpawnBugEnemies(tmpEnemy.GameObject.Transform.Position);

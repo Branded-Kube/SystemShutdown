@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using SystemShutdown.AStar;
 using SystemShutdown.BuildPattern;
 using SystemShutdown.Buttons;
@@ -33,6 +34,9 @@ namespace SystemShutdown.States
         private List<Enemy> delEnemies;
         public bool running = true;
         private string enemyID = "";
+
+        public Song nightMusic;
+        //public Song dayMusic;
 
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
@@ -148,6 +152,14 @@ namespace SystemShutdown.States
         {
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
+            
+            // Backgrounds music
+            //dayMusic = content.Load<Song>("Sounds/song1");
+            
+            nightMusic = content.Load<Song>("Sounds/song02");
+
+            MediaPlayer.Play(nightMusic);
+            MediaPlayer.IsRepeating = true;
 
             Director directorCPU = new Director(cpuBuilder);
             gameObjects.Add(directorCPU.Contruct());
@@ -197,7 +209,7 @@ namespace SystemShutdown.States
 
             grid = new Grid();
 
-            _spriteBatch = new SpriteBatch(GameWorld.Instance.thisGameWorld.GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GameWorld.Instance.GraphicsDevice);
 
             var playerTexture = GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Tag;
             //var wallTexture = GameWorld.gameState.component.Node.GameObject.Tag;
@@ -532,6 +544,8 @@ namespace SystemShutdown.States
         {
             if (GameWorld.Instance.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.gameState.playerBuilder.Player.Health <= 0)
             {
+                GameWorld.Instance.deathEffect.Play();
+
                 ShutdownThreads();
                 GameWorld.Instance.repo.Open();
                 GameWorld.Instance.repo.RemoveTables();

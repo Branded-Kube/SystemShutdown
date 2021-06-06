@@ -54,6 +54,12 @@ namespace SystemShutdown.GameObjects
         public Rectangle rectangle;
         public Vector2 lastVelocity;
 
+        private KeyboardState oldState;
+        private KeyboardState newState;
+
+        private bool isLooped;
+        private bool hasShot;
+
 
         public bool IsDead
         {
@@ -68,6 +74,8 @@ namespace SystemShutdown.GameObjects
             
             canShoot = true;
             canToggleMap = true;
+            isLooped = false;
+            hasShot = false;
             InputHandler.Instance.Entity = this;
             GameWorld.Instance.gameState.playerBuilder.fps = 8f;
 
@@ -94,28 +102,87 @@ namespace SystemShutdown.GameObjects
 
         public void Move()
         {
-            KeyboardState keyState = Keyboard.GetState();
+            oldState = newState;
+            newState = Keyboard.GetState();
 
-
-            if (keyState.IsKeyDown(Keys.A))
+            if (newState.IsKeyDown(Keys.A))
             {
                 velocity.X = -1;
+
+                if (isLooped == true && newState.IsKeyUp(Keys.D) && newState.IsKeyUp(Keys.W) && newState.IsKeyUp(Keys.S))
+                {
+                    GameWorld.Instance.walkEffect.Play();
+                }
+
+                if (oldState.IsKeyDown(Keys.A))
+                {
+                    isLooped = false;
+                }
+
+                if (oldState.IsKeyUp(Keys.A))
+                {
+                    isLooped = true;
+                }
             }
 
-            else if (keyState.IsKeyDown(Keys.D))
+            else if (newState.IsKeyDown(Keys.D))
             {
                 velocity.X = 1;
 
+                if (isLooped == true && newState.IsKeyUp(Keys.A) && newState.IsKeyUp(Keys.W) && newState.IsKeyUp(Keys.S))
+                {
+                    GameWorld.Instance.walkEffect.Play();
+                }
+
+                if (oldState.IsKeyDown(Keys.D))
+                {
+                    isLooped = false;
+                }
+
+                if (oldState.IsKeyUp(Keys.D))
+                {
+                    isLooped = true;
+                }
             }
 
-            if (keyState.IsKeyDown(Keys.W))
+            if (newState.IsKeyDown(Keys.W))
             {
                 velocity.Y = -1;
+
+                if (isLooped == true && newState.IsKeyUp(Keys.A) && newState.IsKeyUp(Keys.D) && newState.IsKeyUp(Keys.S))
+                {
+                    GameWorld.Instance.walkEffect.Play();
+                }
+
+                if (oldState.IsKeyDown(Keys.W))
+                {
+                    isLooped = false;
+                }
+
+                if (oldState.IsKeyUp(Keys.W))
+                {
+                    isLooped = true;
+                }
             }
 
-            else if (keyState.IsKeyDown(Keys.S))
+            else if (newState.IsKeyDown(Keys.S))
             {
                 velocity.Y = 1;
+
+                if (isLooped == true && newState.IsKeyUp(Keys.A) && newState.IsKeyUp(Keys.D) && newState.IsKeyUp(Keys.W))
+                {
+                    GameWorld.Instance.walkEffect.Play();
+                }
+
+                if (oldState.IsKeyDown(Keys.S))
+                {
+                    isLooped = false;
+                }
+
+                if (oldState.IsKeyUp(Keys.S))
+                {
+                    isLooped = true;
+                }
             }
 
             if (velocity != Vector2.Zero)
@@ -262,6 +329,17 @@ namespace SystemShutdown.GameObjects
         {
             if (canShoot)
             {
+                if (hasShot == false)
+                {
+                    GameWorld.Instance.laserEffect.Play();
+                    hasShot = true;
+                }
+                else if (hasShot == true)
+                {
+                    GameWorld.Instance.laserEffect2.Play();
+                    hasShot = false;
+                }
+
                 canShoot = false;
                 shootTime = 0;
                 GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
@@ -285,11 +363,13 @@ namespace SystemShutdown.GameObjects
         {
             if (canToggleMap)
             {
+                GameWorld.Instance.toggle.Play();
                 canToggleMap = false;
                 ShowMapTime = 0;
 
                 if (showingMap == false)
                 {
+                    GameWorld.Instance.toggle2.Play();
                     showingMap = true;
                 }
 
@@ -325,7 +405,9 @@ namespace SystemShutdown.GameObjects
                 //{
                 //    playersMods.Push(tmpmod);
                 //}
-               // ApplyAllMods();
+                // ApplyAllMods();
+                GameWorld.Instance.pickedUp.Play();
+
                 component.GameObject.Destroy();
             }
         }
