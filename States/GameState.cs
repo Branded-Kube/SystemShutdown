@@ -24,14 +24,12 @@ namespace SystemShutdown.States
     public class GameState : State
     {
         #region Fields
-        private SpriteBatch _spriteBatch;
         public Texture2D backgroundSprite;
         public Vector2 backgroundPos;
         public Vector2 backgroundOrigin;
         public Texture2D cursorSprite;
         public Vector2 cursorPosition;
         public static SpriteFont font;
-        private List<Enemy> delEnemies;
         public bool running = true;
         private string enemyID = "";
 
@@ -43,42 +41,26 @@ namespace SystemShutdown.States
         //private List<StateObject> stateObjects;
         public List<GameObject1> gameObjects = new List<GameObject1>();
        
-        private InputHandler inputHandler;
 
         public PlayerBuilder playerBuilder;
-        public EnemyFactory enemyFactory;
 
         public CPUBuilder cpuBuilder;
 
            public int aliveEnemies = 0;
 
-        Texture2D rectTexture;
         public int days = 1;
 
 
         public Grid grid;
 
-        public int NodeSize = Grid.NodeSize;
+        public int NodeSize;
 
-        private Component component;
-        private Collider collision;
-        private List<Collider> colliders;
 
         public List<Collider> Colliders { get; set; } = new List<Collider>();
-
-        private Collider collide;
-        private Collider Collider
-        {
-            get { return collide; }
-            set { collide = value; }
-        }
-
-        Astar aStar;
         
-        //public Texture2D sprite;
-        protected Texture2D[] sprites, upWalk;
-        private SpriteRenderer spriteRenderer;
-        protected float fps;
+        //protected Texture2D[] sprites, upWalk;
+        //protected float fps;
+
         private float timeElapsed;
         private int currentIndex;
 
@@ -112,7 +94,6 @@ namespace SystemShutdown.States
         #region Constructor
         public GameState()
         {
-            delEnemies = new List<Enemy>();
             // cpu = new CPU();
 
             //Director director = new Director(new PlayerBuilder());
@@ -132,7 +113,6 @@ namespace SystemShutdown.States
 
             playerBuilder = new PlayerBuilder();
             cpuBuilder = new CPUBuilder();
-            enemyFactory = new EnemyFactory();
         }
         #endregion
 
@@ -194,7 +174,6 @@ namespace SystemShutdown.States
             }
             
             // Frederik
-            inputHandler = new InputHandler();
 
             font = content.Load<SpriteFont>("Fonts/font");
 
@@ -208,22 +187,15 @@ namespace SystemShutdown.States
             //};
 
             grid = new Grid();
+            NodeSize = grid.NodeSize;
 
-            _spriteBatch = new SpriteBatch(GameWorld.Instance.GraphicsDevice);
 
             var playerTexture = GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Tag;
             //var wallTexture = GameWorld.gameState.component.Node.GameObject.Tag;
 
             //var colliderTexture = "Collider"/*GameWorld.gameState.Collider.GameObject.Tag*/;
 
-            colliders = new List<Collider>()
-            {
-                //new Player()
-                //{
-
-                //},
-                
-            };
+           
             SpawnEnemiesAcordingToDayNumber();
         }
 

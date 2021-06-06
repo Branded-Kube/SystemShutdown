@@ -256,17 +256,27 @@ namespace SystemShutdown.GameObjects
 
                     Collider playerCollider = (Collider)GameObject.GetComponent("Collider");
 
-                    if ((velocity.X > 0 && playerCollider.IsTouchingLeft(nodeCollider)) ||
-                        (velocity.X < 0 && playerCollider.IsTouchingRight(nodeCollider)))
+                    if ((velocity.X > 0 && playerCollider.IsTouchingLeft(nodeCollider)))
                     {
                         velocity.X = 0;
                     }
 
-                    if ((velocity.Y > 0 && playerCollider.IsTouchingTop(nodeCollider)) ||
-                        (velocity.Y < 0 && playerCollider.IsTouchingBottom(nodeCollider)))
+                    if ((velocity.X < 0 && playerCollider.IsTouchingRight(nodeCollider)))
+                    {
+                        velocity.X = 0;
+                    }
+
+                    if ((velocity.Y > 0 && playerCollider.IsTouchingTop(nodeCollider)))
+                    {
+                        velocity.Y = 0;
+
+                    }
+                    if ((velocity.Y < 0 && playerCollider.IsTouchingBottom(nodeCollider)))
                     {
                         velocity.Y = 0;
                     }
+
+
                 }
             }
 
@@ -353,7 +363,7 @@ namespace SystemShutdown.GameObjects
 
                 tmpSpriteRenderer.Rotation = spriteRenderer.Rotation;
 
-                tmpPro.velocity = movement;
+                tmpPro.Velocity = movement;
 
                 GameWorld.Instance.gameState.AddGameObject(laserObject);
             }
@@ -390,7 +400,7 @@ namespace SystemShutdown.GameObjects
             {
 
                 Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
-                   // tmpEnemy.AttackingPlayer = true;
+                   tmpEnemy.AttackingPlayer = true;
             }
 
 
