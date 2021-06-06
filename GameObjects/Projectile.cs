@@ -9,11 +9,17 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.FactoryPattern
 {
+    // Ras & ? 
     class Projectile : Component, IGameListener
     {
         private float speed;
-        public Vector2 velocity;
-        bool alreadyCollider = false;
+        private Vector2 velocity;
+        private bool alreadyCollided = false;
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
         public Projectile(float speed)
         {
             this.speed = speed;
@@ -26,7 +32,7 @@ namespace SystemShutdown.FactoryPattern
         public override void Awake()
         {
             GameObject.Tag = "Projectile";
-            alreadyCollider = false;
+            alreadyCollided = false;
         }
 
         public override void Update(GameTime gameTime)
@@ -37,17 +43,18 @@ namespace SystemShutdown.FactoryPattern
         {
             GameObject.Transform.Translate(velocity * speed * GameWorld.Instance.DeltaTime);
         }
-
-        //public override void Destroy()
-        //{
-        //    GameWorld.gameState.Colliders.Remove((Collider)GameObject.GetComponent("Collider"));
-
-        //}
+      
         public Projectile Clone()
         {
             return (Projectile)this.MemberwiseClone();
         }
 
+        /// <summary>
+        /// Destroys itself on impact with a Node object (wall) or enemy
+        /// If enemy, damages enemys health with players dmg. Bool AlreadyCollided causes projektile to only hit 1 enemy at a time. 
+        /// </summary>
+        /// <param name="gameEvent"></param>
+        /// <param name="component"></param>
         public void Notify(GameEvent gameEvent, Component component)
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
@@ -58,7 +65,7 @@ namespace SystemShutdown.FactoryPattern
             {
                 GameObject.Destroy();
                 component.GameObject.GetComponent("Enemy").Health -= GameWorld.Instance.gameState.playerBuilder.player.dmg;
-                alreadyCollider = true;
+                alreadyCollided = true;
             }
         }
     }

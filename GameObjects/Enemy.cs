@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
 using SystemShutdown.AStar;
 using SystemShutdown.ComponentPattern;
@@ -13,23 +10,17 @@ using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
 using SystemShutdown.ObjectPool;
 using SystemShutdown.ObserverPattern;
-using SystemShutdown.States;
 
 namespace SystemShutdown.GameObjects
 {
     //Ras
     public class Enemy : Component, IGameListener
     {
-        private bool attackingPlayer = false;
-        private bool attackingCPU = false;
         private bool playerTarget = false;
         private bool isGoalFound = false;
         private bool threadRunning = true;
-        private bool isTrojan = false;
         private bool searching = false;
 
-
-        private int dmg;
         private int Id;
         private float vision;
         private float speed;
@@ -43,27 +34,18 @@ namespace SystemShutdown.GameObjects
         private Stack<Node> path = new Stack<Node>();
         private Node goal;
         private Astar aStar;
-        public int Dmg
-        {
-            get { return dmg; }
-            set { dmg = value; }
-        }
-        public bool IsTrojan
-        {
-            get { return isTrojan; }
-            set { isTrojan = value; }
-        }
-        public bool AttackingPlayer
-        {
-            get { return attackingPlayer; }
-            set { attackingPlayer = value; }
-        }
-        public bool AttackingCPU
-        {
-            get { return attackingCPU; }
-            set { attackingCPU = value; }
-        }
 
+        public Texture2D[] walk;
+        public float fps;
+        public float timeElapsed;
+        public int currentIndex;
+        public bool isMoving = false;
+
+        public int Dmg { get; set; }
+        public bool IsTrojan { get; set; }
+        public bool AttackingPlayer { get; set; }
+        public bool AttackingCPU { get; set; }
+      
         /// <summary>
         /// Removes enemy gameobject from list of gameobjects, -1 to alive enemies and +1 to player kills. Stops threads while loop with bool threadRunning
         /// </summary>
@@ -73,7 +55,7 @@ namespace SystemShutdown.GameObjects
             GameWorld.Instance.gameState.aliveEnemies--;
             GameWorld.Instance.gameState.playerBuilder.player.kills++;
             GameWorld.Instance.gameState.KillsColor = Color.GreenYellow;
-            GameWorld.Instance.gameState.RemoveGameObject(GameObject);
+            //GameWorld.Instance.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
         /// <summary>
@@ -117,7 +99,7 @@ namespace SystemShutdown.GameObjects
             {
                 enemypos = GameWorld.Instance.gameState.grid.Node(rndd.Next((int)minLimit.X, (int)maxLimit.X), rndd.Next((int)minLimit.Y, (int)maxLimit.Y));
             }
-            return new Vector2(enemypos.x * 100, enemypos.y * 100);
+            return new Vector2(enemypos.X * 100, enemypos.Y * 100);
         }
         /// <summary>
         /// Destroys a enemys gameobject of health is below 0. 
@@ -128,11 +110,36 @@ namespace SystemShutdown.GameObjects
         {
             if (health <= 0)
             {
+                if (!IsTrojan)
+                {
+                    Random rand = new Random();
+                    var switchEffect = rand.Next(1, 3);
+
+                    if (switchEffect == 1)
+                    {
+                        GameWorld.Instance.killEffect.Play();
+                    }
+                    if (switchEffect == 2)
+                    {
+                        GameWorld.Instance.killEffect2.Play();
+                    }
+                    if (switchEffect == 3)
+                    {
+                        GameWorld.Instance.killEffect3.Play();
+                    }
+                }
+                else
+                {
+                    GameWorld.Instance.horseEffect2.Play();
+                }
+
                 Random rnd = new Random();
                 var moddrop = rnd.Next(1, 3);
                 if (moddrop == 2)
                 {
-                    ModFactory.Instance.Create(GameObject.Transform.Position, "default");
+                    GameObject1 go = ModFactory.Instance.Create(GameObject.Transform.Position, "");
+                    GameWorld.Instance.gameState.AddGameObject(go);
+
                 }
                 GameObject.Destroy();
             }
@@ -146,13 +153,14 @@ namespace SystemShutdown.GameObjects
             updateTimer += gameTime.ElapsedGameTime.TotalSeconds;
             if (updateTimer >= 1.0)
             {
-                if (!isTrojan)
+                if (!IsTrojan)
                 {
                     if (IsPlayerInRange(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position))
                     {
                         playerTarget = true;
                         isGoalFound = false;
 
+                        GameWorld.Instance.enemyEffect.Play();
                     }
                     else
                     {
@@ -185,13 +193,14 @@ namespace SystemShutdown.GameObjects
             if (path.Count > 0)
             {
                 node = path.Pop();
-                int x = node.x * GameWorld.Instance.gameState.NodeSize;
-                int y = node.y * GameWorld.Instance.gameState.NodeSize;
+                int x = node.X * GameWorld.Instance.gameState.NodeSize;
+                int y = node.Y * GameWorld.Instance.gameState.NodeSize;
                 nextpos = new Vector2(x, y);
                 Move(nextpos);
             }
             else
             {
+                isMoving = false;
                 isGoalFound = false;
             }
         }
@@ -204,6 +213,10 @@ namespace SystemShutdown.GameObjects
                 FindGoal();
             }
             AstarSeachForPath();
+            if (!IsTrojan)
+            {
+                Animate(gameTime);
+            }
         }
         /// <summary>
         /// Rotates enemy texture in direction of nextpos 
@@ -231,6 +244,8 @@ namespace SystemShutdown.GameObjects
         /// <param name="nextpos"></param>
         public void Move(Vector2 nextpos)
         {
+            isMoving = true;
+
             velocity = nextpos - GameObject.Transform.Position;
             if (velocity != Vector2.Zero)
             {
@@ -250,18 +265,18 @@ namespace SystemShutdown.GameObjects
             this.Id = Thread.CurrentThread.ManagedThreadId;
             while (threadRunning == true)
             {
-                if (attackingPlayer)
+                if (AttackingPlayer)
                 {
                     Thread.Sleep(100);
                     GameWorld.Instance.gameState.playerBuilder.Player.Enter(internalThread, this);
-                    attackingPlayer = false;
-                    attackingCPU = false;
+                    AttackingPlayer = false;
+                    AttackingCPU = false;
                 }
-                else if (attackingCPU)
+                else if (AttackingCPU)
                 {
                     Thread.Sleep(1000);
-                    attackingPlayer = false;
-                    attackingCPU = false;
+                    AttackingPlayer = false;
+                    AttackingCPU = false;
                     Random rnd = new Random();
                     if (rnd.Next(1, 3) == 1 && GameWorld.Instance.gameState.playerBuilder.player.playersMods.Count > 0)
                     {
@@ -293,18 +308,19 @@ namespace SystemShutdown.GameObjects
             threadRunning = true;
         }
         /// <summary>
-        /// Sets / resets enemy value on creation
+        /// Sets / resets enemy values on creation
         /// </summary>
         public override void Awake()
         {
+            fps = 8f;
             this.vision = 500;
             aStar = new Astar();
-            dmg = 5;
+            Dmg = 5;
             GameObject.Tag = "Enemy";
             isGoalFound = false;
             playerTarget = false;
             threadRunning = true;
-            if (isTrojan)
+            if (IsTrojan)
             {
                 Health = 300;
             }
@@ -314,13 +330,53 @@ namespace SystemShutdown.GameObjects
             }
             internalThread = new Thread(ThreadMethod);
             StartThread();
+
+            //Load sprite sheet - Frederik
+            walk = new Texture2D[3];
+            //Loop animaiton textures
+            for (int g = 0; g < walk.Length; g++)
+            {
+                walk[g] = GameWorld.Instance.content.Load<Texture2D>(g + 1 + "enemy");
+            }
         }
         public override string ToString()
         {
             return "Enemy";
         }
+        /// <summary>
+        /// Not used, player and CPU is responsible for handling of collision to disable collision checks between enemies
+        /// </summary>
+        /// <param name="gameEvent"></param>
+        /// <param name="component"></param>
         public void Notify(GameEvent gameEvent, Component component)
         {
+        }
+
+        /// <summary>
+        /// Animate enemy bug - Frederik
+        /// </summary>
+        /// <param name="gametime"></param>
+        public void Animate(GameTime gametime)
+        {
+            if (isMoving)
+            {
+                //Giver tiden, der er gået, siden sidste update
+                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+                //Beregner currentIndex
+                currentIndex = (int)(timeElapsed * fps);
+                /*GameWorld.Instance.gameState.enemyFactory.enemyBug.Sprite*/
+                var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+                tmpSpriteRenderer.Sprite = walk[currentIndex];
+
+                //Checks if animation needs to restart
+                if (currentIndex >= walk.Length - 1)
+                {
+                    //Resets animation
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                }
+            }
         }
     }
 }

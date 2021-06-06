@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 
@@ -10,12 +7,9 @@ namespace SystemShutdown.FactoryPattern
     // Ras
     class ModFactory : Factory
     {
-
-        public int Id { get; set; }
-
-        public string Name { get; set; }
         private static ModFactory instance;
         private Mods mods;
+        // Modfactory Singleton
         public static ModFactory Instance
         {
             get
@@ -27,20 +21,22 @@ namespace SystemShutdown.FactoryPattern
                 return instance;
             }
         }
+        /// <summary>
+        /// Creates a gameobject and adds 3 component to it. A Mod, a SpriteRenderer and a Collider.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public override GameObject1 Create(Vector2 position, string type)
         {
-            GameObject1 go = new GameObject1();
-            SpriteRenderer sr = new SpriteRenderer("laserBlue05");
-            go.AddComponent(sr);
-
-
-            //sr.SetSprite("1GuyUp");
+            GameObject1 modGO = new GameObject1();
+            SpriteRenderer modSR = new SpriteRenderer("laserBlue05");
+            modGO.AddComponent(modSR);
             mods = new Mods();
-            go.AddComponent(new Collider(sr, mods) { CheckCollisionEvents = true });
-            go.Transform.Position = position;
-            go.AddComponent(mods);
-            GameWorld.Instance.gameState.AddGameObject(go);
-            return go;
+            modGO.AddComponent(new Collider(modSR, mods) { CheckCollisionEvents = true });
+            modGO.Transform.Position = position;
+            modGO.AddComponent(mods);
+            return modGO;
         }
     }
 }

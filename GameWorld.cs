@@ -1,16 +1,10 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using SystemShutdown.BuildPattern;
-using SystemShutdown.Buttons;
-using SystemShutdown.CommandPattern;
-using SystemShutdown.ComponentPattern;
-using SystemShutdown.Components;
 using SystemShutdown.Database;
 using SystemShutdown.GameObjects;
 using SystemShutdown.States;
@@ -36,12 +30,6 @@ namespace SystemShutdown
                 return instance;
             }
         }
-
-        /// <summary>
-        /// Used in MenuState to Exit Game - Frederik
-        /// </summary>
-        public  GameWorld thisGameWorld;
-
         public  ContentManager content;
 
 
@@ -65,10 +53,30 @@ namespace SystemShutdown
         private Camera camera;
 
         private bool isGameState;
-        public  bool isDay;
+
+        public bool isDay;
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
         public  Repository repo;
+
+        public SoundEffect walkEffect;
+        public SoundEffect laserEffect;
+        public SoundEffect laserEffect2;
+        public SoundEffect deathEffect;
+        public SoundEffect killEffect;
+        public SoundEffect killEffect2;
+        public SoundEffect killEffect3;
+        public SoundEffect enemyEffect;
+        public SoundEffect horseEffect;
+        public SoundEffect horseEffect2;
+        public SoundEffect pickedUp;
+        public SoundEffect toggle;
+        public SoundEffect toggle2;
+        public SoundEffect clickButton;
+        public SoundEffect clickButton2;
+        public SoundEffect clickButton3;
+        public SoundEffect clickButton4;
+        public SoundEffect clickButton5;
 
         public  float DeltaTime { get; set; }
         Random rnd = new Random();
@@ -84,8 +92,6 @@ namespace SystemShutdown
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             content = Content;
-
-            thisGameWorld = this;
 
             var mapper = new Mapper();
             var provider = new SQLiteDatabaseProvider("Data Source=SystemShutdown.db;Version=3;new=true");
@@ -147,7 +153,6 @@ namespace SystemShutdown
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             //Loads all GameStates
             //Frederik
             gameState = new GameState();
@@ -166,6 +171,26 @@ namespace SystemShutdown
             minimap = renderTarget;
 
             camera = new Camera();
+
+            // Load soundeffects
+            walkEffect = content.Load<SoundEffect>("Sounds/walk3");
+            laserEffect = content.Load<SoundEffect>("Sounds/laser1");
+            laserEffect2 = content.Load<SoundEffect>("Sounds/laser2");
+            deathEffect = content.Load<SoundEffect>("Sounds/dead");
+            killEffect = content.Load<SoundEffect>("Sounds/kill");
+            killEffect2 = content.Load<SoundEffect>("Sounds/kill2");
+            killEffect3 = content.Load<SoundEffect>("Sounds/kill3");
+            enemyEffect = content.Load<SoundEffect>("Sounds/enemy1");
+            horseEffect = content.Load<SoundEffect>("Sounds/horse");
+            horseEffect2 = content.Load<SoundEffect>("Sounds/horse2");
+            pickedUp = content.Load<SoundEffect>("Sounds/pickup");
+            toggle = content.Load<SoundEffect>("Sounds/toggle");
+            toggle2 = content.Load<SoundEffect>("Sounds/toggle2");
+            clickButton = content.Load<SoundEffect>("Sounds/click");
+            clickButton2 = content.Load<SoundEffect>("Sounds/click2");
+            clickButton3 = content.Load<SoundEffect>("Sounds/click3");
+            clickButton4 = content.Load<SoundEffect>("Sounds/click4");
+            clickButton5 = content.Load<SoundEffect>("Sounds/click5");
         }
 
         protected override void Update(GameTime gameTime)
@@ -225,7 +250,6 @@ namespace SystemShutdown
                 {
                     cyclebarNight.Update();
                 }
-
             }
 
             else
@@ -262,7 +286,6 @@ namespace SystemShutdown
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
 
-
             }
             else
             {
@@ -285,7 +308,6 @@ namespace SystemShutdown
 
                     if (cyclebarNight.currentBarNight <= 0)
                     {
-                        //isNight = false;
                         isDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
                         gameState.days++;

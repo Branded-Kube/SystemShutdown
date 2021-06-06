@@ -17,7 +17,7 @@ namespace SystemShutdown.BuildPattern
 
         private SpriteRenderer playerSR;
 
-        public Texture2D[] sprites, upWalk;
+        public Texture2D[] walk;
         public float fps;
         public float timeElapsed;
         public int currentIndex;
@@ -52,18 +52,22 @@ namespace SystemShutdown.BuildPattern
             /// Adds player to collider list
             GameWorld.Instance.gameState.AddGameObject(playerGO);
 
-            //Load sprite sheet
-            upWalk = new Texture2D[6];
+            //Load sprite sheet - Frederik
+            walk = new Texture2D[6];
 
             //Loop animaiton
-            for (int g = 0; g < upWalk.Length; g++)
+            for (int g = 0; g < walk.Length; g++)
             {
-                upWalk[g] = GameWorld.Instance.content.Load<Texture2D>(g + 1 + "player");
+                walk[g] = GameWorld.Instance.content.Load<Texture2D>(g + 1 + "player");
             }
             //When loop is finished return to first sprite/Sets default sprite
-            playerSR.Sprite = playerSR.Sprite/*upWalk[0]*/;
+            playerSR.Sprite = playerSR.Sprite;
         }
 
+        /// <summary>
+        /// Animate player - Frederik
+        /// </summary>
+        /// <param name="gametime"></param>
         public void Animate(GameTime gametime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
@@ -73,10 +77,10 @@ namespace SystemShutdown.BuildPattern
 
                 //Beregner currentIndex
                 currentIndex = (int)(timeElapsed * fps);
-                playerSR.Sprite = upWalk[currentIndex];
+                playerSR.Sprite = walk[currentIndex];
 
                 //Checks if animation needs to restart
-                if (currentIndex >= upWalk.Length - 1)
+                if (currentIndex >= walk.Length - 1)
                 {
                     //Resets animation
                     timeElapsed = 0;
