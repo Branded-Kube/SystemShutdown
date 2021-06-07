@@ -57,7 +57,7 @@ namespace SystemShutdown.States
             }
             howToPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, GameWorld.Instance.ScreenHeight / 2);
             howToOrigin = new Vector2(howToSprite.Width / 2, howToSprite.Height / 2);
-            backPosition = new Vector2(125, 925);
+            backPosition = new Vector2(125, 930);
             backOrigin = new Vector2(backText.Width / 2, backText.Height / 2);
         }
 
