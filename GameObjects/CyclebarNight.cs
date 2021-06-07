@@ -46,12 +46,12 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(moonSprite, new Vector2(GameWorld.Instance.gameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
-                GameWorld.Instance.gameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 475), Color.White);
+            spriteBatch.Draw(moonSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 475), Color.White);
 
             //Draws bar
-            spriteBatch.Draw(nightBar, new Vector2(GameWorld.Instance.gameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.Instance.gameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
+            spriteBatch.Draw(nightBar, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
                 (int)nightBarPosition.Y, (int)currentBarNight, nightBar.Height), nightBarColor);
             spriteBatch.Draw(nightContainer, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
                 GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);

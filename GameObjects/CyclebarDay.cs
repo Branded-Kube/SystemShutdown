@@ -46,12 +46,12 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sunSprite, new Vector2(GameWorld.Instance.gameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
-                GameWorld.Instance.gameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 480), Color.White);
+            spriteBatch.Draw(sunSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 480), Color.White);
 
             //Draws bar
-            spriteBatch.Draw(dayBar, new Vector2(GameWorld.Instance.gameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.Instance.gameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)dayBarPosition.X,
+            spriteBatch.Draw(dayBar, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)dayBarPosition.X,
                 (int)dayBarPosition.Y, (int)currentBarDay, dayBar.Height), dayBarColor);
             spriteBatch.Draw(dayContainer, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
                 GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
