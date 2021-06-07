@@ -14,11 +14,12 @@ namespace SystemShutdown.States
 
         private SpriteFont buttonFont;
         private Texture2D buttonSprite;
+        private Texture2D sprite;
         private Texture2D backText;
         private Vector2 backPosition;
         private Vector2 backOrigin;
-
-   
+        private Vector2 position;
+        private Vector2 origin;
 
         public HighscoreState()
         {
@@ -28,13 +29,14 @@ namespace SystemShutdown.States
         {
             buttonFont = content.Load<SpriteFont>("Fonts/font");
             buttonSprite = content.Load<Texture2D>("Controls/button");
+            sprite = content.Load<Texture2D>("Backgrounds/scoremenu");
             backText = content.Load<Texture2D>("Controls/back");
 
             components = new List<StateComponent>()
             {
                 new Button(buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(480, 980),
+                    Position = new Vector2(125, 970),
                     Click = new EventHandler(Button_Close_Clicked),
                 },
             };
@@ -54,7 +56,9 @@ namespace SystemShutdown.States
             {
                 component.Update(gameTime);
             }
-            backPosition = new Vector2(GameWorld.Instance.ScreenWidth / 4, 935);
+            position = new Vector2(GameWorld.Instance.ScreenWidth / 2, GameWorld.Instance.ScreenHeight / 2);
+            origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            backPosition = new Vector2(125, 925);
             backOrigin = new Vector2(backText.Width / 2, backText.Height / 2);
         }
 
@@ -66,6 +70,7 @@ namespace SystemShutdown.States
             {
                 component.Draw(gameTime, spriteBatch);
             }
+            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, 1f, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(backText, backPosition, null, Color.White, 0, backOrigin, 1f, SpriteEffects.None, 0f);
 
    

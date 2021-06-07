@@ -67,7 +67,7 @@ namespace SystemShutdown.States
             //Frederik
             buttonFont = content.Load<SpriteFont>("Fonts/font");
             buttonTexture = content.Load<Texture2D>("Controls/button");
-            gameOverSprite = content.Load<Texture2D>("Backgrounds/gameover");
+            gameOverSprite = content.Load<Texture2D>("Backgrounds/gameovermenu");
             saveText = content.Load<Texture2D>("Controls/savescore");
             initialText = content.Load<Texture2D>("Controls/initials");
             quitGameText = content.Load<Texture2D>("Controls/quitgame");
@@ -83,7 +83,7 @@ namespace SystemShutdown.States
             {
                 new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2 - buttonTexture.Width - 20, 1000),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2 - buttonTexture.Width - 40, 1000),
                     Click = new EventHandler(Button_SaveHighscore_Clicked),
                 },
 
@@ -95,7 +95,7 @@ namespace SystemShutdown.States
 
                 new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width + 20, 1000),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width + 40, 1000),
                     Click = new EventHandler(Button_Quit_Clicked),
                 }
             };
@@ -150,15 +150,15 @@ namespace SystemShutdown.States
             // Frederik
             gameOverPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, GameWorld.Instance.ScreenHeight / 2);
             gameOverOrigin = new Vector2(gameOverSprite.Width / 2, gameOverSprite.Height / 2);
-            savePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2 - buttonTexture.Width - 20, 955);
+            savePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2 - buttonTexture.Width - 40, 955);
             saveOrigin = new Vector2(saveText.Width / 2, saveText.Height / 2);
             initialPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 955);
             initialOrigin = new Vector2(initialText.Width / 2, initialText.Height / 2);
-            quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width + 20, 955);
+            quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width + 40, 955);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
 
-            enterInitialPos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 550);
-            savedScorePos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 200, 100);
+            enterInitialPos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 150, 315);
+            savedScorePos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 200, 150);
             
 
             foreach (var component in components)
@@ -199,7 +199,7 @@ namespace SystemShutdown.States
             {
                 spriteBatch.Draw(enterInitialText, enterInitialPos, null, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 //spriteBatch.DrawString(buttonFont, "Enter your initials", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 550), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(buttonFont, Highscores.PlayerNameInput, new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 600), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(buttonFont, Highscores.PlayerNameInput, new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 425), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
             }
 
             if (scoreSaved)
