@@ -112,11 +112,11 @@ namespace SystemShutdown.States
 
             if (!scoreSaved)
             {
-                GameWorld.Instance.repo.Open();
+                GameWorld.Instance.Repo.Open();
 
-                GameWorld.Instance.repo.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.gameState.PlayerBuilder.Player.kills, GameWorld.Instance.gameState.Days);
+                GameWorld.Instance.Repo.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.GameState.PlayerBuilder.Player.kills, GameWorld.Instance.GameState.Days);
 
-                GameWorld.Instance.repo.Close();
+                GameWorld.Instance.Repo.Close();
 
                 scoreSaved = true;
             }

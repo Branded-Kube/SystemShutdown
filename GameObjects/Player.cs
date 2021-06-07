@@ -21,7 +21,7 @@ namespace SystemShutdown.GameObjects
         public MouseState mouseState;
         public MouseState lastMouseState;
 
-        static Semaphore MySemaphore = new Semaphore(0, 10);
+        static Semaphore MySemaphore;
 
         private SpriteRenderer spriteRenderer;
         public Vector2 distance;
@@ -76,10 +76,15 @@ namespace SystemShutdown.GameObjects
             canToggleMap = true;
             isLooped = false;
             hasShot = false;
-            //InputHandler.Instance.Entity = this;
-            GameWorld.Instance.gameState.PlayerBuilder.fps = 8f;
-
-            Debug.WriteLine("Players semaphore releases (5)");
+            GameWorld.Instance.GameState.PlayerBuilder.fps = 8f;
+            // Closes old semaphore and creates a new one (New gamestate bug, return to menu and resume
+            if (MySemaphore != null)
+            {
+                MySemaphore.Close();
+                MySemaphore = null;
+            }
+            Debug.WriteLine("Players semaphore releases (10)");
+            MySemaphore = new Semaphore(0, 10);
             MySemaphore.Release(10);
             Health = 100;
             this.speed = 250;
@@ -221,7 +226,7 @@ namespace SystemShutdown.GameObjects
         }
         private void PlayerMovementCollider()
         {
-            foreach (GameObject1 gameObject in GameWorld.Instance.gameState.GameObjects)
+            foreach (GameObject1 gameObject in GameWorld.Instance.GameState.GameObjects)
             {
                 if (gameObject.Tag == "Node")
                 {
@@ -254,7 +259,7 @@ namespace SystemShutdown.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-
+            RotatePlayer();
             shootTime += GameWorld.Instance.DeltaTime;
             ShowMapTime += GameWorld.Instance.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
@@ -285,7 +290,7 @@ namespace SystemShutdown.GameObjects
             if (keyState.IsKeyDown(Keys.A)|| keyState.IsKeyDown(Keys.W)|| keyState.IsKeyDown(Keys.S)|| keyState.IsKeyDown(Keys.D))
             {
                 Move(keyState);
-                GameWorld.Instance.gameState.PlayerBuilder.Animate(gameTime);
+                GameWorld.Instance.GameState.PlayerBuilder.Animate(gameTime);
                 PlayerMovementCollider();
                 GameObject.Transform.Translate(velocity);
                 velocity = Vector2.Zero;
@@ -359,7 +364,7 @@ namespace SystemShutdown.GameObjects
                 shootTime = 0;
                 GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
 
-                Vector2 movement = new Vector2(GameWorld.Instance.gameState.CursorPosition.X, GameWorld.Instance.gameState.CursorPosition.Y) - laserObject.Transform.Position;
+                Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
                 Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");
@@ -370,7 +375,7 @@ namespace SystemShutdown.GameObjects
 
                 tmpPro.Velocity = movement;
 
-                GameWorld.Instance.gameState.AddGameObject(laserObject);
+                GameWorld.Instance.GameState.AddGameObject(laserObject);
             }
         }
 

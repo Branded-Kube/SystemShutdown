@@ -38,7 +38,7 @@ namespace SystemShutdown.Components
             onCollisionEvent.Attach(gameListener);
             this.origin = spriteRenderer.Origin;
             this.size = new Vector2(spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
-            _texture = GameWorld.Instance.content.Load<Texture2D>("Textures/CollisionBox");
+            _texture = GameWorld.Instance.Content.Load<Texture2D>("Textures/CollisionBox");
         }
 
 
@@ -59,7 +59,7 @@ namespace SystemShutdown.Components
 
         public override void Destroy()
         {
-            GameWorld.Instance.gameState.Colliders.Remove(this);
+            GameWorld.Instance.GameState.Colliders.Remove(this);
         }
 
 
@@ -80,7 +80,7 @@ namespace SystemShutdown.Components
         //Is touching left
         public bool IsTouchingLeft(Collider collider)
         {
-            return this.CollisionBox.Right + GameWorld.Instance.gameState.PlayerBuilder.player.velocity.X > collider.CollisionBox.Left &&
+            return this.CollisionBox.Right + GameWorld.Instance.GameState.PlayerBuilder.player.velocity.X > collider.CollisionBox.Left &&
                          this.CollisionBox.Left < collider.CollisionBox.Left &&
                          this.CollisionBox.Bottom > collider.CollisionBox.Top &&
                          this.CollisionBox.Top < collider.CollisionBox.Bottom;
@@ -89,7 +89,7 @@ namespace SystemShutdown.Components
         //Is touching Right
         public bool IsTouchingRight(Collider collider)
         {
-            return this.CollisionBox.Left + GameWorld.Instance.gameState.PlayerBuilder.player.velocity.X < collider.CollisionBox.Right &&
+            return this.CollisionBox.Left + GameWorld.Instance.GameState.PlayerBuilder.player.velocity.X < collider.CollisionBox.Right &&
                          this.CollisionBox.Right > collider.CollisionBox.Right &&
                          this.CollisionBox.Bottom > collider.CollisionBox.Top &&
                          this.CollisionBox.Top < collider.CollisionBox.Bottom;
@@ -98,7 +98,7 @@ namespace SystemShutdown.Components
         //Is touching top
         public bool IsTouchingTop(Collider collider)
         {
-            return this.CollisionBox.Bottom + GameWorld.Instance.gameState.PlayerBuilder.player.velocity.Y > collider.CollisionBox.Top &&
+            return this.CollisionBox.Bottom + GameWorld.Instance.GameState.PlayerBuilder.player.velocity.Y > collider.CollisionBox.Top &&
                          this.CollisionBox.Top < collider.CollisionBox.Top &&
                          this.CollisionBox.Right > collider.CollisionBox.Left &&
                          this.CollisionBox.Left < collider.CollisionBox.Right;
@@ -107,7 +107,7 @@ namespace SystemShutdown.Components
         //Is touching bottom
         public bool IsTouchingBottom(Collider collider)
         {
-            return this.CollisionBox.Top + GameWorld.Instance.gameState.PlayerBuilder.player.velocity.Y < collider.CollisionBox.Bottom &&
+            return this.CollisionBox.Top + GameWorld.Instance.GameState.PlayerBuilder.player.velocity.Y < collider.CollisionBox.Bottom &&
                          this.CollisionBox.Bottom > collider.CollisionBox.Bottom &&
                          this.CollisionBox.Right > collider.CollisionBox.Left &&
                          this.CollisionBox.Left < collider.CollisionBox.Right;

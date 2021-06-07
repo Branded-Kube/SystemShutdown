@@ -113,18 +113,15 @@ namespace SystemShutdown.States
             Director director = new Director(PlayerBuilder);
             GameObjects.Add(director.Contruct());
 
-            //ras
-            // Dette sker også i update, umidelbart ingen forskel-----------------------------------------------------------
             //Awakes and Starts each gameobject
-            //for (int i = 0; i < GameObjects.Count; i++)
-            //{
-            //    GameObjects[i].Awake();
-            //}
-            //for (int i = 0; i < GameObjects.Count; i++)
-            //{
-            //    GameObjects[i].Start();
-            //}
-            //-----------------------------------------------------------------------------------------------------------
+            for (int i = 0; i < GameObjects.Count; i++)
+            {
+                GameObjects[i].Awake();
+            }
+            for (int i = 0; i < GameObjects.Count; i++)
+            {
+                GameObjects[i].Start();
+            }
             // Frederik
 
             font = content.Load<SpriteFont>("Fonts/font");
@@ -177,25 +174,25 @@ namespace SystemShutdown.States
             }
             else if (rndpos == 2)
             {
-                x = GameWorld.Instance.gameState.Grid.Width - 2;
+                x = GameWorld.Instance.GameState.Grid.Width - 2;
                 y = 1;
             }
             else if (rndpos == 3)
             {
                 x = 1;
-                y = GameWorld.Instance.gameState.Grid.Height - 2;
+                y = GameWorld.Instance.GameState.Grid.Height - 2;
             }
             else if (rndpos == 4)
             {
-                x = GameWorld.Instance.gameState.Grid.Width - 2;
-                y = GameWorld.Instance.gameState.Grid.Height - 2;
+                x = GameWorld.Instance.GameState.Grid.Width - 2;
+                y = GameWorld.Instance.GameState.Grid.Height - 2;
             }
             return new Vector2(x * 100, y * 100);
 
         }
         public override void Update(GameTime gameTime)
         {
-            backgroundPos = new Vector2(GameWorld.Instance.renderTarget.Width / 2, GameWorld.Instance.renderTarget.Height / 2);
+            backgroundPos = new Vector2(GameWorld.Instance.RenderTarget.Width / 2, GameWorld.Instance.RenderTarget.Height / 2);
             backgroundOrigin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2);
 
             ///<summary>
@@ -203,18 +200,17 @@ namespace SystemShutdown.States
             /// </summary>
             CursorPosition = new Vector2(PlayerBuilder.player.distance.X - cursorSprite.Width / 2,
                 PlayerBuilder.player.distance.Y) + PlayerBuilder.player.GameObject.Transform.Position;
-
             previousKeyState = currentKeyState;
-
             currentKeyState = Keyboard.GetState();
+
             ///<summary>
             /// Goes back to main menu and shuts down all Threads - Frederik
             /// </summary> 
-            //if (Keyboard.GetState().IsKeyDown(Keys.Back))
-            //{
-            //    ShutdownThreads();
-            //    GameWorld.ChangeState(new MenuState());
-            //}
+            if (Keyboard.GetState().IsKeyDown(Keys.Back))
+            {
+              //  ShutdownThreads();
+                GameWorld.ChangeState(new MenuState());
+            }
 
 #if DEBUG
             if (currentKeyState.IsKeyDown(Keys.P) && !previousKeyState.IsKeyDown(Keys.P))
@@ -223,9 +219,6 @@ namespace SystemShutdown.States
             }
 
 #endif
-            //ras rotateplayer i player klassen ?
-            // Rotates player -------------------------------------------------------------------------------------------
-            PlayerBuilder.player.RotatePlayer();
 
             // Updates each gameobject
             for (int i = 0; i < GameObjects.Count; i++)
@@ -301,9 +294,9 @@ namespace SystemShutdown.States
             spriteBatch.Draw(cursorSprite, CursorPosition, Color.White);
 
             // Draws Player stats
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.PlayerBuilder.Player.kills} kills", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 0), _killsColor);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.PlayerBuilder.Player.Health} health points", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 20), _healthColor);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.PlayerBuilder.Player.dmg} dmg points", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 40), _dmgColor);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.PlayerBuilder.Player.kills} kills", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 0), _killsColor);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.PlayerBuilder.Player.Health} health points", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 20), _healthColor);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.PlayerBuilder.Player.dmg} dmg points", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 40), _dmgColor);
             spriteBatch.DrawString(font, $"{Days} Days gone", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
             //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
             // Draws CPU Health
@@ -367,7 +360,7 @@ namespace SystemShutdown.States
         /// </summary>
         public void GameOver()
         {
-            if (GameWorld.Instance.gameState.CpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.gameState.PlayerBuilder.Player.Health <= 0)
+            if (GameWorld.Instance.GameState.CpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.GameState.PlayerBuilder.Player.Health <= 0)
             {
                 GameWorld.Instance.deathEffect.Play();
                 ShutdownThreads();
@@ -375,7 +368,7 @@ namespace SystemShutdown.States
                 //GameWorld.Instance.repo.Open();
                 //GameWorld.Instance.repo.RemoveTables();
                 //GameWorld.Instance.repo.Close();
-                GameWorld.ChangeState(GameWorld.Instance.gameOverState);
+                GameWorld.ChangeState(GameWorld.Instance.GameOverState);
             }
         }
 

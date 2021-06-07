@@ -97,20 +97,22 @@ namespace SystemShutdown
         private void Button_PlayGame_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton5.Play();
-            GameWorld.ChangeState(GameWorld.Instance.gameState);
+            GameState newGameState = new GameState();
+            GameWorld.Instance.GameState = newGameState;
+            GameWorld.ChangeState(GameWorld.Instance.GameState);
         }
 
         // Frederik
         public void Button_HowToPlay_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton3.Play();
-            GameWorld.ChangeState(GameWorld.Instance.howToState);
+            GameWorld.ChangeState(GameWorld.Instance.HowToState);
         }
 
         // Frederik
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            GameWorld.Instance.gameState.ShutdownThreads();
+            GameWorld.Instance.GameState.ShutdownThreads();
             GameWorld.Instance.Exit();
         }
 
@@ -118,7 +120,7 @@ namespace SystemShutdown
         private void Button_CheckHighscore_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton.Play();
-            GameWorld.ChangeState(GameWorld.Instance.highscoreState);
+            GameWorld.ChangeState(GameWorld.Instance.HighscoreState);
         }
 
         public override void Update(GameTime gameTime)

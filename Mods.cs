@@ -97,11 +97,11 @@ namespace SystemShutdown
 
             List<Effects> pickupable = new List<Effects>();
 
-            GameWorld.Instance.repo.Open();
-            pickupable = GameWorld.Instance.repo.FindEffects(randomnumber);
+            GameWorld.Instance.Repo.Open();
+            pickupable = GameWorld.Instance.Repo.FindEffects(randomnumber);
 
             //playerBuilder.player.dmg += pickupAble.Effect;
-            GameWorld.Instance.repo.Close();
+            GameWorld.Instance.Repo.Close();
 
             Random rndeffect = new Random();
             int randomeffect = rndeffect.Next(0, 3);
@@ -113,25 +113,25 @@ namespace SystemShutdown
             //ModFKID = choseneffect.ModFK;
             if (choseneffect.ModFK == 1)
             {
-                GameWorld.Instance.gameState.PlayerBuilder.player.dmg += choseneffect.Effect;
+                GameWorld.Instance.GameState.PlayerBuilder.player.dmg += choseneffect.Effect;
                 //GameWorld.Instance.gameState.DmgColor = Color.GreenYellow;
                 //GameWorld.Instance.gameState.ChangeDmgColor();
-                GameWorld.Instance.gameState.dmgColorTimer = true;
+                GameWorld.Instance.GameState.dmgColorTimer = true;
             }
             else if (choseneffect.ModFK == 2)
             {
-                GameWorld.Instance.gameState.PlayerBuilder.player.speed += choseneffect.Effect;
+                GameWorld.Instance.GameState.PlayerBuilder.player.speed += choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 3)
             {
-                GameWorld.Instance.gameState.PlayerBuilder.player.cooldown -= choseneffect.Effect;
+                GameWorld.Instance.GameState.PlayerBuilder.player.cooldown -= choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 4)
             {
-                GameWorld.Instance.gameState.PlayerBuilder.player.Health += choseneffect.Effect;
+                GameWorld.Instance.GameState.PlayerBuilder.player.Health += choseneffect.Effect;
                 //GameWorld.Instance.gameState.HealthColor = Color.GreenYellow;
                 //GameWorld.Instance.gameState.ChangeHealthColor();
-                GameWorld.Instance.gameState.healthColorTimer = true;
+                GameWorld.Instance.GameState.healthColorTimer = true;
 
             }
 
