@@ -113,22 +113,22 @@ namespace SystemShutdown
             //ModFKID = choseneffect.ModFK;
             if (choseneffect.ModFK == 1)
             {
-                GameWorld.Instance.gameState.playerBuilder.player.dmg += choseneffect.Effect;
+                GameWorld.Instance.gameState.PlayerBuilder.player.dmg += choseneffect.Effect;
                 //GameWorld.Instance.gameState.DmgColor = Color.GreenYellow;
                 //GameWorld.Instance.gameState.ChangeDmgColor();
                 GameWorld.Instance.gameState.dmgColorTimer = true;
             }
             else if (choseneffect.ModFK == 2)
             {
-                GameWorld.Instance.gameState.playerBuilder.player.speed += choseneffect.Effect;
+                GameWorld.Instance.gameState.PlayerBuilder.player.speed += choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 3)
             {
-                GameWorld.Instance.gameState.playerBuilder.player.cooldown -= choseneffect.Effect;
+                GameWorld.Instance.gameState.PlayerBuilder.player.cooldown -= choseneffect.Effect;
             }
             else if (choseneffect.ModFK == 4)
             {
-                GameWorld.Instance.gameState.playerBuilder.player.Health += choseneffect.Effect;
+                GameWorld.Instance.gameState.PlayerBuilder.player.Health += choseneffect.Effect;
                 //GameWorld.Instance.gameState.HealthColor = Color.GreenYellow;
                 //GameWorld.Instance.gameState.ChangeHealthColor();
                 GameWorld.Instance.gameState.healthColorTimer = true;

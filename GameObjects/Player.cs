@@ -76,8 +76,8 @@ namespace SystemShutdown.GameObjects
             canToggleMap = true;
             isLooped = false;
             hasShot = false;
-            InputHandler.Instance.Entity = this;
-            GameWorld.Instance.gameState.playerBuilder.fps = 8f;
+            //InputHandler.Instance.Entity = this;
+            GameWorld.Instance.gameState.PlayerBuilder.fps = 8f;
 
             Debug.WriteLine("Players semaphore releases (5)");
             MySemaphore.Release(10);
@@ -221,7 +221,7 @@ namespace SystemShutdown.GameObjects
         }
         private void PlayerMovementCollider()
         {
-            foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
+            foreach (GameObject1 gameObject in GameWorld.Instance.gameState.GameObjects)
             {
                 if (gameObject.Tag == "Node")
                 {
@@ -285,7 +285,7 @@ namespace SystemShutdown.GameObjects
             if (keyState.IsKeyDown(Keys.A)|| keyState.IsKeyDown(Keys.W)|| keyState.IsKeyDown(Keys.S)|| keyState.IsKeyDown(Keys.D))
             {
                 Move(keyState);
-                GameWorld.Instance.gameState.playerBuilder.Animate(gameTime);
+                GameWorld.Instance.gameState.PlayerBuilder.Animate(gameTime);
                 PlayerMovementCollider();
                 GameObject.Transform.Translate(velocity);
                 velocity = Vector2.Zero;
@@ -359,7 +359,7 @@ namespace SystemShutdown.GameObjects
                 shootTime = 0;
                 GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
 
-                Vector2 movement = new Vector2(GameWorld.Instance.gameState.cursorPosition.X, GameWorld.Instance.gameState.cursorPosition.Y) - laserObject.Transform.Position;
+                Vector2 movement = new Vector2(GameWorld.Instance.gameState.CursorPosition.X, GameWorld.Instance.gameState.CursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
                 Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");

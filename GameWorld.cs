@@ -240,7 +240,7 @@ namespace SystemShutdown
             if (currentGameState is GameState)
             {
                 isGameState = true;
-                camera.Follow(gameState.playerBuilder);
+                camera.Follow(gameState.PlayerBuilder);
 
                 if (isDay == true)
                 {
@@ -296,7 +296,7 @@ namespace SystemShutdown
 
             if (isGameState)
             {
-                if (gameState.playerBuilder.Player.showingMap)
+                if (gameState.PlayerBuilder.Player.showingMap)
                 {
                     spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
                 }
@@ -310,7 +310,7 @@ namespace SystemShutdown
                     {
                         isDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
-                        gameState.days++;
+                        gameState.Days++;
                         gameState.SpawnEnemiesAcordingToDayNumber();
 
                     }
