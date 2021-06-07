@@ -157,8 +157,8 @@ namespace SystemShutdown.States
             quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width + 40, 955);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
 
-            enterInitialPos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 150, 315);
-            savedScorePos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 200, 150);
+            enterInitialPos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 175, 315);
+            savedScorePos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 250, 150);
             
 
             foreach (var component in components)

@@ -282,6 +282,7 @@ namespace SystemShutdown
                 }
                 if (IsDay == false)
                 {
+
                     if (cyclebarNight.currentBarNight <= 0)
                     {
                         IsDay = true;
