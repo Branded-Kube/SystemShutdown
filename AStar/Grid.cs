@@ -155,8 +155,6 @@ namespace SystemShutdown.AStar
                     nodes[x, y].G = 0;
                     nodes[x, y].H = 0;
                     nodes[x, y].CameFrom = null;
-                    nodes[x, y].Open = false;
-                    nodes[x, y].Closed = false;
                 }
         }
     }

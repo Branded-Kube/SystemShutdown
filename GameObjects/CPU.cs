@@ -14,7 +14,7 @@ namespace SystemShutdown.GameObjects
     {
         public delegate void DamageEventHandler(object source,Enemy enemy, EventArgs e);
         public static event DamageEventHandler TakeDamageCPU;
-        static Semaphore MySemaphore = new Semaphore(0, 3);
+        static Semaphore MySemaphore = new Semaphore(0, 10);
         /// <summary>
         /// Releases Semaphore (how many that may enter at a time)
         /// 3 Threads can enter
@@ -22,7 +22,7 @@ namespace SystemShutdown.GameObjects
         public CPU()
         {
             Debug.WriteLine("CPU semaphore releases (3)");
-            MySemaphore.Release(3);
+            MySemaphore.Release(10);
 
             Health = 1000;
             TakeDamageCPU += CPU_DamageCPU;

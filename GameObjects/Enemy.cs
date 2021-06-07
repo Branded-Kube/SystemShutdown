@@ -84,6 +84,7 @@ namespace SystemShutdown.GameObjects
                 goal = GameWorld.Instance.gameState.grid.Node((int)tmpvector.X / 100, (int)tmpvector.Y / 100);
             }
             isGoalFound = true;
+          //  Debug.WriteLine("New goal found!");
         }
         /// <summary>
         /// Sets a random goal for enemy. - or + 5 nodes from current position in each direction

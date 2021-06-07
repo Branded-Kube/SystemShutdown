@@ -118,6 +118,7 @@ namespace SystemShutdown.AStar
             int x = Math.Abs(x1 - x0);
             int y = Math.Abs(y1 - y0);
             return (int)Math.Sqrt(x * x + y * y);
+
         }
 
 
@@ -178,8 +179,6 @@ namespace SystemShutdown.AStar
                 openList.Remove(current);
                 closedList.Add(current);
 
-                current.Open = false;
-                current.Closed = true;
 
                 UpdateNeighbors(ref current, end);
             }
