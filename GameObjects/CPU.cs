@@ -13,8 +13,8 @@ namespace SystemShutdown.GameObjects
    public class CPU : Component, IGameListener
     {
         public delegate void DamageEventHandler(object source,Enemy enemy, EventArgs e);
-        public static event DamageEventHandler DamageCPU;
-        static Semaphore MySemaphore = new Semaphore(0, 3);
+        public static event DamageEventHandler TakeDamageCPU;
+        static Semaphore MySemaphore = new Semaphore(0, 10);
         /// <summary>
         /// Releases Semaphore (how many that may enter at a time)
         /// 3 Threads can enter
@@ -22,13 +22,18 @@ namespace SystemShutdown.GameObjects
         public CPU()
         {
             Debug.WriteLine("CPU semaphore releases (3)");
-            MySemaphore.Release(3);
+            MySemaphore.Release(10);
 
             Health = 1000;
+            TakeDamageCPU += CPU_DamageCPU;
 
         }
 
-        
+        private void CPU_DamageCPU(object source, Enemy enemy, EventArgs e)
+        {
+            Health -= enemy.Dmg;
+
+        }
 
         /// <summary>
         /// Tells worker to wait for empty space using semaphore, and then start harvesting from the palmtree - Soeren
@@ -43,7 +48,7 @@ namespace SystemShutdown.GameObjects
            // Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
             Thread.Sleep(50 * randomNumber.Next(0, 15));
-            DamageCPU(null, enemy, EventArgs.Empty);
+            TakeDamageCPU(null, enemy, EventArgs.Empty);
           //  Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
         }

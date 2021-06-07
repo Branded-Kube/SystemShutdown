@@ -114,7 +114,7 @@ namespace SystemShutdown.States
             {
                 GameWorld.Instance.repo.Open();
 
-                GameWorld.Instance.repo.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.gameState.playerBuilder.Player.kills, GameWorld.Instance.gameState.days);
+                GameWorld.Instance.repo.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.gameState.PlayerBuilder.Player.kills, GameWorld.Instance.gameState.Days);
 
                 GameWorld.Instance.repo.Close();
 

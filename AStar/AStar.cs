@@ -37,25 +37,25 @@ namespace SystemShutdown.AStar
             // if y bigger than 0, (screen top border)
             if (node.Y - 1 > 0)
             {
-                neighbors[0] = GameWorld.Instance.gameState.grid.Node(node.X, node.Y - 1);
+                neighbors[0] = GameWorld.Instance.gameState.Grid.Node(node.X, node.Y - 1);
             }
             // Sets bottom neighbor
             // if y is less than grid height
             if (node.Y + 1 < grid.Height)
             {
-                neighbors[1] = GameWorld.Instance.gameState.grid.Node(node.X, node.Y + 1);
+                neighbors[1] = GameWorld.Instance.gameState.Grid.Node(node.X, node.Y + 1);
             }
             // Sets left neighbor
             // if x is bigger than 0 (screen left border)
             if (node.X - 1 > 0)
             {
-                neighbors[2] = GameWorld.Instance.gameState.grid.Node(node.X - 1, node.Y);
+                neighbors[2] = GameWorld.Instance.gameState.Grid.Node(node.X - 1, node.Y);
             }
             // Sets right neighbor
             // if x is less than width
             if (node.X + 1 < grid.Width)
             {
-                neighbors[3] = GameWorld.Instance.gameState.grid.Node(node.X + 1, node.Y);
+                neighbors[3] = GameWorld.Instance.gameState.Grid.Node(node.X + 1, node.Y);
             }
             // Sets top-left neighbor
             // if bigger than 0 (screen border) on both axis
@@ -66,7 +66,7 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    neighbors[4] = GameWorld.Instance.gameState.grid.Node(node.X - 1, node.Y - 1);
+                    neighbors[4] = GameWorld.Instance.gameState.Grid.Node(node.X - 1, node.Y - 1);
 
                 }
             }
@@ -79,7 +79,7 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    neighbors[5] = GameWorld.Instance.gameState.grid.Node(node.X + 1, node.Y + 1);
+                    neighbors[5] = GameWorld.Instance.gameState.Grid.Node(node.X + 1, node.Y + 1);
                 }
             }
             // Sets bottom-left neighbor
@@ -91,7 +91,7 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    neighbors[6] = GameWorld.Instance.gameState.grid.Node(node.X - 1, node.Y + 1);
+                    neighbors[6] = GameWorld.Instance.gameState.Grid.Node(node.X - 1, node.Y + 1);
                 }
             }
             // Sets top-right neighbor
@@ -103,7 +103,7 @@ namespace SystemShutdown.AStar
                 }
                 else
                 {
-                    neighbors[7] = GameWorld.Instance.gameState.grid.Node(node.X + 1, node.Y - 1);
+                    neighbors[7] = GameWorld.Instance.gameState.Grid.Node(node.X + 1, node.Y - 1);
                 }
                
             }
@@ -118,6 +118,7 @@ namespace SystemShutdown.AStar
             int x = Math.Abs(x1 - x0);
             int y = Math.Abs(y1 - y0);
             return (int)Math.Sqrt(x * x + y * y);
+
         }
 
 
@@ -178,8 +179,6 @@ namespace SystemShutdown.AStar
                 openList.Remove(current);
                 closedList.Add(current);
 
-                current.Open = false;
-                current.Closed = true;
 
                 UpdateNeighbors(ref current, end);
             }
@@ -195,7 +194,7 @@ namespace SystemShutdown.AStar
         /// <param name="end"></param>
         private void UpdateNeighbors(ref Node current, Node end)
         {
-            Node[] neighbors = GetNeighbors(GameWorld.Instance.gameState.grid, current);
+            Node[] neighbors = GetNeighbors(GameWorld.Instance.gameState.Grid, current);
             foreach (Node neighbor in neighbors)
             {
                 

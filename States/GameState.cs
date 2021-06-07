@@ -11,80 +11,80 @@ using Microsoft.Xna.Framework.Media;
 using SystemShutdown.AStar;
 using SystemShutdown.BuildPattern;
 using SystemShutdown.Buttons;
-using SystemShutdown.CommandPattern;
+//using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
 using SystemShutdown.GameObjects;
-using SystemShutdown.ObjectPool;
+//using SystemShutdown.ObjectPool;
 
 namespace SystemShutdown.States
 {
     public class GameState : State
     {
         #region Fields
-        public Texture2D backgroundSprite;
-        public Vector2 backgroundPos;
-        public Vector2 backgroundOrigin;
-        public Texture2D cursorSprite;
+        private Texture2D backgroundSprite;
+        private Vector2 backgroundPos;
+        private Vector2 backgroundOrigin;
+        private Texture2D cursorSprite;
         public Vector2 cursorPosition;
+        public Vector2 CursorPosition { get { return cursorPosition; } set { cursorPosition = value; } }
+
         public static SpriteFont font;
-        public bool running = true;
+        private bool running = true;
         private string enemyID = "";
 
-        public Song nightMusic;
+        private Song nightMusic;
         //public Song dayMusic;
 
-        private CyclebarDay cyclebarDay;
-        private CyclebarNight cyclebarNight;
-        //private List<StateObject> stateObjects;
-        public List<GameObject1> gameObjects = new List<GameObject1>();
-       
+        //private CyclebarDay cyclebarDay;
+        //private CyclebarNight cyclebarNight;
+        private List<GameObject1> gameObjects = new List<GameObject1>();
 
-        public PlayerBuilder playerBuilder;
+        public List<GameObject1> GameObjects { get { return gameObjects; } set { gameObjects = value; } }
 
-        public CPUBuilder cpuBuilder;
+        private PlayerBuilder playerBuilder;
 
-           public int aliveEnemies = 0;
-
-        public int days = 1;
+        private CPUBuilder cpuBuilder;
 
 
-        public Grid grid;
-
-        public int NodeSize;
+        private int aliveEnemies = 0;
 
 
-        public List<Collider> Colliders { get; set; } = new List<Collider>();
-        
-        //protected Texture2D[] sprites, upWalk;
-        //protected float fps;
+        private int days = 1;
+        public int Days { get { return days; } set { days = value; } }
 
-        private float timeElapsed;
-        private int currentIndex;
 
-        //public Vector2 position;
-        public Rectangle rectangle;
-        public Vector2 previousPosition;
-        public Vector2 currentDir;
+        private Grid grid;
+          public Grid Grid { get { return grid; } set { grid = value; } }
+
+      
+
+        private List<Collider> colliders { get; set; } = new List<Collider>();
+
         protected float rotation;
         protected Vector2 velocity;
 
         private KeyboardState currentKeyState;
         private KeyboardState previousKeyState;
 
-        public Color _healthColor = Color.White;
-        public Color _dmgColor = Color.White;
-        public Color _killsColor = Color.White;
+        private Color _healthColor = Color.White;
+        private Color _dmgColor = Color.White;
+        private Color _killsColor = Color.White;
         public Color _msColor = Color.White;
+
+        private float dmgTimer = 2f;
+        private float healthTimer = 2f;
+        private float countDown = 0.05f;
         public Color HealthColor { get { return _healthColor; } set { _healthColor = value; } }
         public Color DmgColor { get { return _dmgColor; } set { _dmgColor = value; } }
         public Color KillsColor { get { return _killsColor; } set { _killsColor = value; } }
         public Color MsColor { get { return _msColor; } set { _msColor = value; } }
+        public int AliveEnemies { get { return aliveEnemies; } set { aliveEnemies = value; } }
+        public List<Collider> Colliders { get { return colliders; } set { colliders = value; } }
+        public CPUBuilder CpuBuilder { get { return cpuBuilder; } set { cpuBuilder = value; } }
 
-        public float dmgTimer = 2f;
-        public float healthTimer = 2f;
-        public float countDown = 0.05f;
+        public PlayerBuilder PlayerBuilder { get { return playerBuilder; } set { playerBuilder = value; } }
 
         public bool dmgColorTimer { get; set; }
         public bool healthColorTimer { get; set; }
@@ -113,8 +113,8 @@ namespace SystemShutdown.States
             //    gameObjects[i].Awake();
             //}
 
-            playerBuilder = new PlayerBuilder();
-            cpuBuilder = new CPUBuilder();
+            PlayerBuilder = new PlayerBuilder();
+            CpuBuilder = new CPUBuilder();
         }
         #endregion
 
@@ -142,25 +142,24 @@ namespace SystemShutdown.States
             MediaPlayer.Play(nightMusic);
             MediaPlayer.IsRepeating = true;
 
-            Director directorCPU = new Director(cpuBuilder);
-            gameObjects.Add(directorCPU.Contruct());
+            Director directorCPU = new Director(CpuBuilder);
+            GameObjects.Add(directorCPU.Contruct());
 
-            Director director = new Director(playerBuilder);
-            gameObjects.Add(director.Contruct());
+            Director director = new Director(PlayerBuilder);
+            GameObjects.Add(director.Contruct());
             
             //DirectorCPU directorCpu = new DirectorCPU(cpuBuilder);
             //gameObjects.Add(directorCpu.Contruct());
 
-            for (int i = 0; i < gameObjects.Count; i++)
+            for (int i = 0; i < GameObjects.Count; i++)
             {
-                gameObjects[i].Awake();
+                GameObjects[i].Awake();
             }
 
-            Player.DamagePlayer += Player_DamagePlayer;
-            CPU.DamageCPU += CPU_DamageCPU;
 
-            cyclebarDay = new CyclebarDay(content);
-            cyclebarNight = new CyclebarNight(content);
+
+            //cyclebarDay = new CyclebarDay(content);
+            //cyclebarNight = new CyclebarNight(content);
 
             //camera = new Camera();
             //camera.Follow(playerBuilder);
@@ -169,9 +168,9 @@ namespace SystemShutdown.States
             //{
             //    gameObjects[i].Start();
             //}
-            for (int i = 0; i < gameObjects.Count; i++)
+            for (int i = 0; i < GameObjects.Count; i++)
             {
-                gameObjects[i].Start();
+                GameObjects[i].Start();
             }
             
             // Frederik
@@ -187,11 +186,10 @@ namespace SystemShutdown.States
             //    }
             //};
 
-            grid = new Grid();
-            NodeSize = grid.NodeSize;
+            Grid = new Grid();
 
 
-            var playerTexture = GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Tag;
+            var playerTexture = GameWorld.Instance.gameState.PlayerBuilder.Player.GameObject.Tag;
             //var wallTexture = GameWorld.gameState.component.Node.GameObject.Tag;
 
             //var colliderTexture = "Collider"/*GameWorld.gameState.Collider.GameObject.Tag*/;
@@ -200,23 +198,16 @@ namespace SystemShutdown.States
             SpawnEnemiesAcordingToDayNumber();
         }
 
-        private void CPU_DamageCPU(object source, Enemy enemy, EventArgs e)
-        {
-            cpuBuilder.Cpu.Health -= enemy.Dmg;
+     
 
-        }
-
-        private void Player_DamagePlayer(object source, Enemy enemy,EventArgs e)
-        {
-            playerBuilder.player.Health -= enemy.Dmg;
-        }
+       
 
         public void SpawnEnemiesAcordingToDayNumber()
         {
             Debug.WriteLine($"{aliveEnemies}");
 
 
-            for (int i = 0; i < days && i < 10; i++)
+            for (int i = 0; i < Days && i < 10; i++)
             {
                 if (aliveEnemies < 50)
                 {
@@ -245,18 +236,18 @@ namespace SystemShutdown.States
             }
             else if (rndpos == 2)
             {
-                x = GameWorld.Instance.gameState.grid.Width - 2;
+                x = GameWorld.Instance.gameState.Grid.Width - 2;
                 y = 1;
             }
             else if (rndpos == 3)
             {
                 x = 1;
-                y = GameWorld.Instance.gameState.grid.Height - 2;
+                y = GameWorld.Instance.gameState.Grid.Height - 2;
             }
             else if (rndpos == 4)
             {
-                x = GameWorld.Instance.gameState.grid.Width - 2;
-                y = GameWorld.Instance.gameState.grid.Height - 2;
+                x = GameWorld.Instance.gameState.Grid.Width - 2;
+                y = GameWorld.Instance.gameState.Grid.Height - 2;
             }
             //Node tmpvector = GameWorld.gameState.grid.Node(x,y);
             return new Vector2(x * 100, y * 100);
@@ -270,8 +261,8 @@ namespace SystemShutdown.States
             ///<summary>
             ///Updates cursors position
             /// </summary>
-            cursorPosition = new Vector2(playerBuilder.player.distance.X - cursorSprite.Width / 2, 
-                playerBuilder.player.distance.Y) + playerBuilder.player.GameObject.Transform.Position;
+            CursorPosition = new Vector2(PlayerBuilder.player.distance.X - cursorSprite.Width / 2, 
+                PlayerBuilder.player.distance.Y) + PlayerBuilder.player.GameObject.Transform.Position;
 
             previousKeyState = currentKeyState;
 
@@ -299,16 +290,16 @@ namespace SystemShutdown.States
             //}
 
             // Rotates player
-            playerBuilder.player.RotatePlayer();
+            PlayerBuilder.player.RotatePlayer();
 
-            for (int i = 0; i < gameObjects.Count; i++)
+            for (int i = 0; i < GameObjects.Count; i++)
             {
-                gameObjects[i].Update(gameTime);
+                GameObjects[i].Update(gameTime);
             }
-            InputHandler.Instance.Execute();
+           // InputHandler.Instance.Execute();
 
 
-            Collider[] tmpColliders = Colliders.ToArray();
+            Collider[] tmpColliders = colliders.ToArray();
             for (int i = 0; i < tmpColliders.Length; i++)
             {
                 for (int j = 0; j < tmpColliders.Length; j++)
@@ -389,9 +380,9 @@ namespace SystemShutdown.States
             //Draw selected Enemy ID
             spriteBatch.DrawString(font, $"Enemy: {enemyID} selected", new Vector2(300, 100), Color.Black);
 
-            for (int i = 0; i < gameObjects.Count; i++)
+            for (int i = 0; i < GameObjects.Count; i++)
             {
-                gameObjects[i].Draw(spriteBatch);
+                GameObjects[i].Draw(spriteBatch);
             }
 
             //Vector2 gridPosition = new Vector2(0, 0);
@@ -465,14 +456,14 @@ namespace SystemShutdown.States
             //
 
             //Draws cursor
-            spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), _killsColor);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), _healthColor);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), _dmgColor);
-            spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
-            spriteBatch.DrawString(font, $"{playerBuilder.Player.playersMods.Count} Mods", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
+            spriteBatch.Draw(cursorSprite, CursorPosition, Color.White);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.PlayerBuilder.Player.kills} kills", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 0), _killsColor);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.PlayerBuilder.Player.Health} health points", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y +20), _healthColor);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.PlayerBuilder.Player.dmg} dmg points", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X , PlayerBuilder.Player.GameObject.Transform.Position.Y +40), _dmgColor);
+            spriteBatch.DrawString(font, $"{Days} Days gone", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
+            spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
 
-            spriteBatch.DrawString(font, $"CPU health {cpuBuilder.Cpu.Health}", cpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
+            spriteBatch.DrawString(font, $"CPU health {CpuBuilder.Cpu.Health}", CpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
 
 
             spriteBatch.End();
@@ -528,22 +519,22 @@ namespace SystemShutdown.States
         {
             go.Awake();
             go.Start();
-            gameObjects.Add(go);
+            GameObjects.Add(go);
             Collider c = (Collider)go.GetComponent("Collider");
             if (c != null)
             {
-                Colliders.Add(c);
+                colliders.Add(c);
             }
         }
 
         public void RemoveGameObject(GameObject1 go)
         {
-            gameObjects.Remove(go);
+            GameObjects.Remove(go);
         }
 
         public void GameOver()
         {
-            if (GameWorld.Instance.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.gameState.playerBuilder.Player.Health <= 0)
+            if (GameWorld.Instance.gameState.CpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.gameState.PlayerBuilder.Player.Health <= 0)
             {
                 GameWorld.Instance.deathEffect.Play();
 
