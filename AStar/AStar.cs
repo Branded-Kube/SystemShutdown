@@ -110,9 +110,15 @@ namespace SystemShutdown.AStar
             return neighbors;
         }
 
-
-        // Heuristics used
-        // Euclidean Distance
+        /// <summary>
+        /// Heuristics used
+        /// Euclidean Distance
+        /// </summary>
+        /// <param name="x0"></param>
+        /// <param name="y0"></param>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <returns></returns>
         private int EuclideanDistance(int x0, int y0, int x1, int y1)
         {
             int x = Math.Abs(x1 - x0);

@@ -13,6 +13,12 @@ namespace SystemShutdown.AStar
         public int Height { get; set; } = 35;
         public int Width { get; set; }= 35;
 
+        /// <summary>
+        /// Creates a grid of nodes.
+        /// Random chance to set a node to not passable. 
+        /// Gameobject node is created at Not passable nodes. (Walls) 
+        /// Walls are cleared or manually created at specific node positions.
+        /// </summary>
         public Grid()
         {
             Random rand = new Random();
@@ -138,6 +144,12 @@ namespace SystemShutdown.AStar
             }
         }
 
+        /// <summary>
+        /// Gets a node at position x.y in grid. Else return null
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public Node Node(int x, int y)
         {
             if (x >= 0 && x < Width && y >= 0 && y < Height)
@@ -145,7 +157,9 @@ namespace SystemShutdown.AStar
             else
                 return null;
         }
-
+        /// <summary>
+        /// Resets each nodes values 
+        /// </summary>
         public void ResetState()
         {
             for (int y = 0; y < Height; y++)

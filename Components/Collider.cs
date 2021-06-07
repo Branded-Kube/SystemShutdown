@@ -65,7 +65,9 @@ namespace SystemShutdown.Components
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+#if DEBUG
             spriteBatch.Draw(_texture, CollisionBox, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
+#endif
         }
 
         public override string ToString()
