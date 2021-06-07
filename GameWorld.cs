@@ -57,6 +57,7 @@ namespace SystemShutdown
         public bool isDay;
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
+
         public  Repository repo;
 
         public SoundEffect walkEffect;
@@ -304,7 +305,6 @@ namespace SystemShutdown
 
                 if (isDay == false)
                 {
-
 
                     if (cyclebarNight.currentBarNight <= 0)
                     {

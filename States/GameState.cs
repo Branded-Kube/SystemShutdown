@@ -30,7 +30,6 @@ namespace SystemShutdown.States
         public bool IsThreadsRunning;
 
         private Song nightMusic;
-        //public Song dayMusic;
 
         private List<GameObject1> gameObjects = new List<GameObject1>();
         private PlayerBuilder playerBuilder;
