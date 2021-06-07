@@ -42,6 +42,7 @@ namespace SystemShutdown.States
 
         private void Button_Close_Clicked(object sender, EventArgs e)
         {
+            GameWorld.Instance.clickButton2.Play();
             GameWorld.ChangeState(GameWorld.Instance.menuState);
         }
 

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,6 +36,8 @@ namespace SystemShutdown.States
         private Vector2 quitGameOrigin;
         private Vector2 savedScorePos;
         private Vector2 enterInitialPos;
+
+        private Song gameOverMusic;
 
         private bool scoreSaved = false;
 
@@ -71,6 +74,11 @@ namespace SystemShutdown.States
             savedScoreText = content.Load<Texture2D>("Controls/scoresaved");
             enterInitialText = content.Load<Texture2D>("Controls/enterinitials");
 
+            gameOverMusic = content.Load<Song>("Sounds/song03");
+
+            MediaPlayer.Play(gameOverMusic);
+            MediaPlayer.IsRepeating = true;
+
             components = new List<StateComponent>()
             {
                 new Button(buttonTexture, buttonFont)
@@ -95,11 +103,13 @@ namespace SystemShutdown.States
 
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            GameWorld.Instance.thisGameWorld.Exit();
+            GameWorld.Instance.Exit();
         }
 
         private void Button_SaveHighscore_Clicked(object sender, EventArgs e)
         {
+            GameWorld.Instance.clickButton2.Play();
+
             if (!scoreSaved)
             {
                 GameWorld.Instance.repo.Open();
@@ -115,6 +125,8 @@ namespace SystemShutdown.States
 
         private void CreateInitialsButton_Clicked(object sender, EventArgs e)
         {
+            GameWorld.Instance.clickButton.Play();
+
             if (!hasChosenInitials)
             {
                 GameWorld.Instance.SetInitials();
@@ -157,7 +169,7 @@ namespace SystemShutdown.States
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
 
-                GameWorld.Instance.thisGameWorld.Exit();
+                GameWorld.Instance.Exit();
             }
         }
 

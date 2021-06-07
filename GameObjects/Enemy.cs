@@ -111,6 +111,29 @@ namespace SystemShutdown.GameObjects
         {
             if (health <= 0)
             {
+                if (!IsTrojan)
+                {
+                    Random rand = new Random();
+                    var switchEffect = rand.Next(1, 3);
+
+                    if (switchEffect == 1)
+                    {
+                        GameWorld.Instance.killEffect.Play();
+                    }
+                    if (switchEffect == 2)
+                    {
+                        GameWorld.Instance.killEffect2.Play();
+                    }
+                    if (switchEffect == 3)
+                    {
+                        GameWorld.Instance.killEffect3.Play();
+                    }
+                }
+                else
+                {
+                    GameWorld.Instance.horseEffect2.Play();
+                }
+
                 Random rnd = new Random();
                 var moddrop = rnd.Next(1, 3);
                 if (moddrop == 2)
@@ -138,6 +161,7 @@ namespace SystemShutdown.GameObjects
                         playerTarget = true;
                         isGoalFound = false;
 
+                        GameWorld.Instance.enemyEffect.Play();
                     }
                     else
                     {

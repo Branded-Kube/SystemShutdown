@@ -21,6 +21,9 @@ namespace SystemShutdown
         public int Effect { get; set; }
 
         public string Name { get; set; }
+
+
+
         //double despawnTimer = 0.0;
 
 
@@ -105,14 +108,15 @@ namespace SystemShutdown
 
             Effects choseneffect = pickupable[randomeffect];
 
-            Debug.WriteLine($"{choseneffect.Effectname}");
+        Debug.WriteLine($"{choseneffect.Effectname}");
             //Effect = choseneffect.Effect;
             //ModFKID = choseneffect.ModFK;
             if (choseneffect.ModFK == 1)
             {
                 GameWorld.Instance.gameState.playerBuilder.player.dmg += choseneffect.Effect;
                 //GameWorld.Instance.gameState.DmgColor = Color.GreenYellow;
-                GameWorld.Instance.gameState.ChangeColor();
+                //GameWorld.Instance.gameState.ChangeDmgColor();
+                GameWorld.Instance.gameState.dmgColorTimer = true;
             }
             else if (choseneffect.ModFK == 2)
             {
@@ -126,7 +130,9 @@ namespace SystemShutdown
             {
                 GameWorld.Instance.gameState.playerBuilder.player.Health += choseneffect.Effect;
                 //GameWorld.Instance.gameState.HealthColor = Color.GreenYellow;
-                GameWorld.Instance.gameState.ChangeColor();
+                //GameWorld.Instance.gameState.ChangeHealthColor();
+                GameWorld.Instance.gameState.healthColorTimer = true;
+
             }
 
 

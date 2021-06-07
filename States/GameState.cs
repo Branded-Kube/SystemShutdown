@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using SystemShutdown.AStar;
 using SystemShutdown.BuildPattern;
 using SystemShutdown.Buttons;
@@ -31,6 +31,9 @@ namespace SystemShutdown.States
         public static SpriteFont font;
         public bool running = true;
         private string enemyID = "";
+
+        public Song nightMusic;
+        //public Song dayMusic;
 
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
@@ -79,9 +82,12 @@ namespace SystemShutdown.States
         public Color KillsColor { get { return _killsColor; } set { _killsColor = value; } }
         public Color MsColor { get { return _msColor; } set { _msColor = value; } }
 
-        public Color color = Color.White;
-        public float timer = 5f;
-        public float countDown = 1f;
+        public float dmgTimer = 2f;
+        public float healthTimer = 2f;
+        public float countDown = 0.05f;
+
+        public bool dmgColorTimer { get; set; }
+        public bool healthColorTimer { get; set; }
 
         #endregion
 
@@ -112,22 +118,29 @@ namespace SystemShutdown.States
         }
         #endregion
 
-        public void ChangeColor()
+        public void ChangeDmgColor()
         {
-            color = Color.YellowGreen;
+            DmgColor = Color.YellowGreen;
+            
+        }
+        public void ChangeHealthColor()
+        {
+            HealthColor = Color.YellowGreen;
 
-            timer -= countDown;
-
-            if (timer <= 0)
-            {
-                color = Color.White;
-            }
         }
 
         public override void LoadContent()
         {
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
+            
+            // Backgrounds music
+            //dayMusic = content.Load<Song>("Sounds/song1");
+            
+            nightMusic = content.Load<Song>("Sounds/song02");
+
+            MediaPlayer.Play(nightMusic);
+            MediaPlayer.IsRepeating = true;
 
             Director directorCPU = new Director(cpuBuilder);
             gameObjects.Add(directorCPU.Contruct());
@@ -296,6 +309,34 @@ namespace SystemShutdown.States
                 }
             }
 
+            if (dmgColorTimer == true)
+            {
+                ChangeDmgColor();
+
+                dmgTimer -= countDown;
+
+                if (dmgTimer <= 0)
+                {
+                    dmgColorTimer = false;
+                    Debug.WriteLine("IT WORKS!!!");
+                    DmgColor = Color.White;
+                }
+            }
+            if (healthColorTimer == true)
+            {
+                ChangeHealthColor();
+
+                healthTimer -= countDown;
+
+                if (healthTimer <= 0)
+                {
+                    healthColorTimer = false;
+                    Debug.WriteLine("IT WORKS for health aswell!!!");
+                    HealthColor = Color.White;
+                }
+            }
+
+
             GameOver();
         }
 
@@ -417,9 +458,9 @@ namespace SystemShutdown.States
 
             //Draws cursor
             spriteBatch.Draw(cursorSprite, cursorPosition, Color.White);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), color/*_killsColor*/);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), color/*_healthColor*/);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), color/*_dmgColor*/);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.kills} kills", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 0), _killsColor);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.Health} health points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y +20), _healthColor);
+            spriteBatch.DrawString(font, $"{GameWorld.Instance.gameState.playerBuilder.Player.dmg} dmg points", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X , playerBuilder.Player.GameObject.Transform.Position.Y +40), _dmgColor);
             spriteBatch.DrawString(font, $"{days} Days gone", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
             spriteBatch.DrawString(font, $"{playerBuilder.Player.playersMods.Count} Mods", new Vector2(playerBuilder.Player.GameObject.Transform.Position.X, playerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
 
@@ -496,6 +537,8 @@ namespace SystemShutdown.States
         {
             if (GameWorld.Instance.gameState.cpuBuilder.Cpu.Health <= 0 || GameWorld.Instance.gameState.playerBuilder.Player.Health <= 0)
             {
+                GameWorld.Instance.deathEffect.Play();
+
                 ShutdownThreads();
                 GameWorld.Instance.repo.Open();
                 GameWorld.Instance.repo.RemoveTables();
