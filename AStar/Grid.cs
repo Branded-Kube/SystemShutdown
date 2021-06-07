@@ -27,7 +27,7 @@ namespace SystemShutdown.AStar
 
                     //random walls, 30% to make a node not passable (wall)
                     if ((x != 1 && y != 1) && (x != Width - 2 && y != Height - 2) &&
-                        rand.Next(1, 100) < 30)
+                        rand.Next(1, 100) < 31)
                     {
                         nodes[x, y].Passable = false;
                     }

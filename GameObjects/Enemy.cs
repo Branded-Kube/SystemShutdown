@@ -260,7 +260,7 @@ namespace SystemShutdown.GameObjects
         private void ThreadMethod(object callback)
         {
             this.Id = Thread.CurrentThread.ManagedThreadId;
-            while (threadRunning == true)
+            while (threadRunning == true || GameWorld.Instance.gameState.IsThreadsRunning == true)
             {
                 if (AttackingPlayer)
                 {
