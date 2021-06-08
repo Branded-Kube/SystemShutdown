@@ -223,6 +223,14 @@ namespace SystemShutdown.GameObjects
             ShowMapTime += GameWorld.Instance.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
+            if (speed > 600)
+            {
+                speed = 400;
+            }
+            if (shootTime < 0.5f)
+            {
+                shootTime = 0.5f;
+            }
             if (shootTime >= cooldown / 1000)
             {
                 canShoot = true;
