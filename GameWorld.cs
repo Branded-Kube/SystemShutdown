@@ -75,7 +75,6 @@ namespace SystemShutdown
         public SoundEffect clickButton4;
         public SoundEffect clickButton5;
 
-
         public Repository Repo { get { return repo; } set { repo = value; } }
         public int ScreenWidth { get { return screenWidth; } set { screenWidth = value; } }
         public int ScreenHeight { get { return screenHeight; } set { screenHeight = value; } }
@@ -282,14 +281,12 @@ namespace SystemShutdown
                 }
                 if (IsDay == false)
                 {
-
                     if (cyclebarNight.currentBarNight <= 0)
                     {
                         IsDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
                         GameState.Days++;
                         GameState.SpawnEnemiesAcordingToDayNumber();
-
                     }
                     cyclebarNight.Draw(spriteBatch);
                 }
@@ -302,11 +299,12 @@ namespace SystemShutdown
                     }
                     cyclebarDay.Draw(spriteBatch);
                 }
+            GameState.DrawPlayerStats(spriteBatch);
+
             }
             spriteBatch.End();
             base.Draw(gameTime);
         }
-
 
         public void SetInitials()
         {

@@ -135,6 +135,7 @@ namespace SystemShutdown.States
 
 
         /// <summary>
+        /// Ras
         /// Spawn Enemies in start of daycycle.
         /// 5 Bug and 1 Trojan is added to total number of spawns per day 5*daynumber to a maximum of 50 at a time
         /// </summary>
@@ -156,6 +157,7 @@ namespace SystemShutdown.States
 
         }
         /// <summary>
+        /// Ras
         /// Sets enemy start position to one of 4 corners of the grid with a Random (1.5). 
         /// </summary>
         /// <returns></returns>
@@ -207,11 +209,12 @@ namespace SystemShutdown.States
             /// </summary> 
             if (Keyboard.GetState().IsKeyDown(Keys.Back))
             {
-              //  ShutdownThreads();
-                GameWorld.ChangeState(new MenuState());
+               ShutdownThreads();
+                GameWorld.ChangeState(new GameOverState());
             }
 
 #if DEBUG
+            // Spawns a bug in debug by pressing P
             if (currentKeyState.IsKeyDown(Keys.P) && !previousKeyState.IsKeyDown(Keys.P))
             {
                 SpawnBugEnemies(SetEnemySpawnInCorner());
@@ -237,7 +240,6 @@ namespace SystemShutdown.States
             if (dmgColorTimer == true)
             {
                 ChangeDmgColor();
-
                 dmgTimer -= countDown;
 
                 if (dmgTimer <= 0)
@@ -250,7 +252,6 @@ namespace SystemShutdown.States
             if (healthColorTimer == true)
             {
                 ChangeHealthColor();
-
                 healthTimer -= countDown;
 
                 if (healthTimer <= 0)
@@ -292,37 +293,41 @@ namespace SystemShutdown.States
             //Draws cursor
             spriteBatch.Draw(cursorSprite, CursorPosition, Color.White);
 
-            // Draws Player stats
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.PlayerBuilder.Player.kills} kills", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 0), _killsColor);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.PlayerBuilder.Player.Health} health points", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 20), _healthColor);
-            spriteBatch.DrawString(font, $"{GameWorld.Instance.GameState.PlayerBuilder.Player.dmg} dmg points", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 40), _dmgColor);
-            spriteBatch.DrawString(font, $"{Days} Days gone", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 60), Color.White);
-            //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
             // Draws CPU Health
             spriteBatch.DrawString(font, $"CPU health {CpuBuilder.Cpu.Health}", CpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
             spriteBatch.End();
 
         }
-
         /// <summary>
+        /// Draws Player stats
+        /// </summary>
+        public void DrawPlayerStats(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(font, $"| - - Player Stats - - | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 900, PlayerBuilder.Player.GameObject.Transform.Position.Y + 360), _killsColor);
+            spriteBatch.DrawString(font, $"Enemies killed:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 900, PlayerBuilder.Player.GameObject.Transform.Position.Y + 400), _killsColor);
+            spriteBatch.DrawString(font, $"Health Points: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 900, PlayerBuilder.Player.GameObject.Transform.Position.Y + 440), _healthColor);
+            spriteBatch.DrawString(font, $"Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 900, PlayerBuilder.Player.GameObject.Transform.Position.Y + 480), _dmgColor);
+            spriteBatch.DrawString(font, $"Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 640, PlayerBuilder.Player.GameObject.Transform.Position.Y - 390), Color.White);
+            //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
+        }
+        /// <summary>
+        /// Ras
         /// Spawns a Trojan enemy at parameter position. 
         /// </summary>
         /// <param name="position"></param>
         private void SpawnTrojanEnemies(Vector2 position)
         {
-            // GameObject1 go = EnemyPool.Instance.GetObject(position, "Trojan");
             GameObject1 go = EnemyFactory.Instance.Create(position, "Trojan");
             AddGameObject(go);
         }
         /// <summary>
+        /// Ras
         /// Spawns a Bug enemy at parameter position. 
         /// </summary>
         /// <param name="position"></param>
         public void SpawnBugEnemies(Vector2 position)
         {
-            
             GameObject1 go = EnemyFactory.Instance.Create(position, "Bug");
-            //GameObject1 go = EnemyPool.Instance.GetObject(position, "Bug");
             AddGameObject(go);
         }
 

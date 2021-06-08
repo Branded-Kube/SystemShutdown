@@ -28,7 +28,7 @@
 //            throw new NotImplementedException();
 //        }
 
-//        protected override GameObject1 Create(Vector2 position ,string type)
+//        protected override GameObject1 Create(Vector2 position, string type)
 //        {
 //            return EnemyFactory.Instance.Create(position, type);
 

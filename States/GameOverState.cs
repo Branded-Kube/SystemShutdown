@@ -26,6 +26,7 @@ namespace SystemShutdown.States
         private Texture2D quitGameText;
         private Texture2D savedScoreText;
         private Texture2D enterInitialText;
+        private Texture2D returnToMenuText;
         private Vector2 gameOverPosition;
         private Vector2 gameOverOrigin;
         private Vector2 savePosition;
@@ -36,6 +37,8 @@ namespace SystemShutdown.States
         private Vector2 quitGameOrigin;
         private Vector2 savedScorePos;
         private Vector2 enterInitialPos;
+        private Vector2 returnToMenuOrigin;
+        private Vector2 returnToMenuPosition;
 
         private Song gameOverMusic;
 
@@ -73,6 +76,7 @@ namespace SystemShutdown.States
             quitGameText = content.Load<Texture2D>("Controls/quitgame");
             savedScoreText = content.Load<Texture2D>("Controls/scoresaved");
             enterInitialText = content.Load<Texture2D>("Controls/enterinitials");
+            returnToMenuText = content.Load<Texture2D>("Controls/quitgame");
 
             gameOverMusic = content.Load<Song>("Sounds/song03");
 
@@ -97,10 +101,19 @@ namespace SystemShutdown.States
                 {
                     Position = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width + 40, 1000),
                     Click = new EventHandler(Button_Quit_Clicked),
+                },
+                 new Button(buttonTexture, buttonFont)
+                {
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width - 1000, 1000),
+                    Click = new EventHandler(Button_ToMenu_Clicked),
                 }
             };
         }
 
+        private void Button_ToMenu_Clicked(object sender, EventArgs e)
+        {
+            GameWorld.ChangeState(new MenuState());
+        }
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.Exit();
@@ -156,21 +169,20 @@ namespace SystemShutdown.States
             initialOrigin = new Vector2(initialText.Width / 2, initialText.Height / 2);
             quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width + 40, 955);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
+            returnToMenuPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2 + buttonTexture.Width - 1000, 955);
+            returnToMenuOrigin = new Vector2(returnToMenuText.Width / 2, returnToMenuText.Height / 2);
 
             enterInitialPos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 175, 315);
             savedScorePos = new Vector2((GameWorld.Instance.ScreenWidth / 2) - 250, 150);
-            
-
             foreach (var component in components)
             {
                 component.Update(gameTime);
             }
-
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-
                 GameWorld.Instance.Exit();
             }
+          
         }
 
         //public override void PostUpdate(GameTime gameTime)
@@ -210,7 +222,8 @@ namespace SystemShutdown.States
 
             spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(initialText, initialPosition, null, Color.White, 0, initialOrigin, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.White, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.Red, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(returnToMenuText, returnToMenuPosition, null, Color.Green, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
 
             spriteBatch.End();
         }
