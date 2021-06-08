@@ -42,9 +42,6 @@ namespace SystemShutdown.FactoryPattern
             projectileGO.Transform.Position = position;
 
 
-            //switch (type)
-            //{
-            //    case "Player":
                     Projectile projectileClone = playerProjectile.Clone();
                     projectileSR.Origin = new Vector2(projectileSR.Sprite.Width / 2, (projectileSR.Sprite.Height) / 2);
 
@@ -52,8 +49,6 @@ namespace SystemShutdown.FactoryPattern
                     projectileGO.AddComponent(new Collider(projectileSR, projectileClone) { CheckCollisionEvents = true });
                     projectileGO.AddComponent(projectileClone);
                     projectileGO.AddComponent(projectileSR.Clone());
-                    //break;
-           // }
             return projectileGO;
 
         }
