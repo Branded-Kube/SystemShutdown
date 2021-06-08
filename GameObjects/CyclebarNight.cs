@@ -48,7 +48,7 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(darkSprite, GameWorld.Instance.GameState.backgroundPos, null, Color.White, 0, GameWorld.Instance.GameState.backgroundOrigin, 1f, SpriteEffects.None, 0.1f);
+          //  spriteBatch.Draw(darkSprite, GameWorld.Instance.GameState.backgroundPos, null, Color.White, 0, GameWorld.Instance.GameState.backgroundOrigin, 1f, SpriteEffects.None, 0.1f);
 
             spriteBatch.Draw(moonSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
                 GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 475), Color.White);
