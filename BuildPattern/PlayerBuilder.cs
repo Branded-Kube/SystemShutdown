@@ -50,7 +50,7 @@ namespace SystemShutdown.BuildPattern
             playerGO.AddComponent(new Collider(playerSR, player) { CheckCollisionEvents = true } );
             playerGO.AddComponent(player);
             /// Adds player to collider list
-            GameWorld.Instance.gameState.AddGameObject(playerGO);
+            GameWorld.Instance.GameState.AddGameObject(playerGO);
 
             //Load sprite sheet - Frederik
             walk = new Texture2D[6];
@@ -58,7 +58,7 @@ namespace SystemShutdown.BuildPattern
             //Loop animaiton
             for (int g = 0; g < walk.Length; g++)
             {
-                walk[g] = GameWorld.Instance.content.Load<Texture2D>(g + 1 + "player");
+                walk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "player");
             }
             //When loop is finished return to first sprite/Sets default sprite
             playerSR.Sprite = playerSR.Sprite;

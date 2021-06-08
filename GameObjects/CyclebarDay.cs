@@ -10,6 +10,7 @@ namespace SystemShutdown.GameObjects
 {
     public class CyclebarDay
     {
+        public Texture2D sunSprite;
         public Texture2D dayContainer, dayBar;
         public Vector2 dayBarPosition;
         public int fullBarDay;
@@ -29,6 +30,7 @@ namespace SystemShutdown.GameObjects
 
         private void LoadContent(ContentManager content)
         {
+            sunSprite = content.Load<Texture2D>("Textures/sun");
             dayContainer = content.Load<Texture2D>("Textures/HealthbarEmpty");
             dayBar = content.Load<Texture2D>("Textures/Healthbar");
         }
@@ -44,11 +46,15 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(dayBar, new Vector2(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)dayBarPosition.X,
+            spriteBatch.Draw(sunSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 480), Color.White);
+
+            //Draws bar
+            spriteBatch.Draw(dayBar, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)dayBarPosition.X,
                 (int)dayBarPosition.Y, (int)currentBarDay, dayBar.Height), dayBarColor);
-            spriteBatch.Draw(dayContainer, new Vector2(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+            spriteBatch.Draw(dayContainer, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
         }
 
         public void DayColor()

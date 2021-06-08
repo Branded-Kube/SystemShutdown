@@ -13,11 +13,7 @@ namespace SystemShutdown
 {
     public class GameWorld : Game
     {
-        public  GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
         #region Fields
-        private static GameWorld instance;
 
         public static GameWorld Instance
         {
@@ -30,34 +26,35 @@ namespace SystemShutdown
                 return instance;
             }
         }
-        public  ContentManager content;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private static GameWorld instance;
 
+        private bool isGameState;
+        private bool isDay;
 
-        public  RenderTarget2D renderTarget;
-        public  RenderTarget2D minimap;
-        public float scale = 0.4444f;
+        private float deltaTime;
+        private float scale = 0.4444f;
+        private float miniMapScale;
 
-        public float miniMapScale;
-
-        public  int ScreenWidth = 1920;
-        public  int ScreenHeight = 1080;
+        private int screenWidth = 1920;
+        private int screenHeight = 1080;
+        private RenderTarget2D renderTarget;
+        private RenderTarget2D minimap;
+        private Camera camera;
 
         private State currentGameState;
         private static State nextGameState;
-        public  GameState gameState;
-        public  HowToState howToState;
-        public  MenuState menuState;
-        public  GameOverState gameOverState;
-        public  HighscoreState highscoreState;
+        private GameState gameState;
+        private HowToState howToState;
+        private MenuState menuState;
+        private GameOverState gameOverState;
+        private HighscoreState highscoreState;
 
-        private Camera camera;
-
-        private bool isGameState;
-
-        public bool isDay;
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
-        public  Repository repo;
+
+        private Repository repo;
 
         public SoundEffect walkEffect;
         public SoundEffect laserEffect;
@@ -78,10 +75,18 @@ namespace SystemShutdown
         public SoundEffect clickButton4;
         public SoundEffect clickButton5;
 
-        public  float DeltaTime { get; set; }
-        Random rnd = new Random();
-        private CPU cpu;
 
+        public Repository Repo { get { return repo; } set { repo = value; } }
+        public int ScreenWidth { get { return screenWidth; } set { screenWidth = value; } }
+        public int ScreenHeight { get { return screenHeight; } set { screenHeight = value; } }
+        public RenderTarget2D RenderTarget { get { return renderTarget; } set { renderTarget = value; } }
+        public GameOverState GameOverState { get { return gameOverState; } set { gameOverState = value; } }
+        public GameState GameState { get { return gameState; } set { gameState = value; } }
+        public HighscoreState HighscoreState { get { return highscoreState; } set { highscoreState = value; } }
+        public HowToState HowToState { get { return howToState; } set { howToState = value; } }
+        public MenuState MenuState { get { return menuState; } set { menuState = value; } }
+        public bool IsDay { get { return isDay; } set { isDay = value; } }
+        public float DeltaTime { get { return deltaTime; } set { deltaTime = value; } }
         #endregion
 
         #region Methods
@@ -91,37 +96,34 @@ namespace SystemShutdown
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            content = Content;
 
             var mapper = new Mapper();
             var provider = new SQLiteDatabaseProvider("Data Source=SystemShutdown.db;Version=3;new=true");
 
-            repo = new Repository(provider, mapper);
+            Repo = new Repository(provider, mapper);
+            Repo.Open();
+            Repo.AddMods("Dmg"); //ID = 1
+            Repo.AddMods("Movespeed"); //ID = 2
+            Repo.AddMods("Attackspeed"); //ID = 3
+            Repo.AddMods("Health"); //ID = 4
 
-            repo.Open();
+            Repo.AddEffects(5, "dmg1", 1);
+            Repo.AddEffects(10, "dmg2", 1);
+            Repo.AddEffects(15, "dmg3", 1);
 
-            repo.AddMods("Dmg"); //ID = 1
-            repo.AddMods("Movespeed"); //ID = 2
-            repo.AddMods("Attackspeed"); //ID = 3
-            repo.AddMods("Health"); //ID = 4
+            Repo.AddEffects(50, "MoveSpeed1", 2);
+            Repo.AddEffects(100, "MoveSpeed2", 2);
+            Repo.AddEffects(150, "MoveSpeed3", 2);
 
-            repo.AddEffects(10, "dmg1", 1);
-            repo.AddEffects(20, "dmg2", 1);
-            repo.AddEffects(30, "dmg3", 1);
+            Repo.AddEffects(100, "AttackSpeed1", 3);
+            Repo.AddEffects(150, "AttackSpeed2", 3);
+            Repo.AddEffects(300, "AttackSpeed3", 3);
 
-            repo.AddEffects(50, "MoveSpeed1", 2);
-            repo.AddEffects(80, "MoveSpeed2", 2);
-            repo.AddEffects(100, "MoveSpeed3", 2);
+            Repo.AddEffects(5, "Health1", 4);
+            Repo.AddEffects(10, "Health2", 4);
+            Repo.AddEffects(20, "Health3", 4);
 
-            repo.AddEffects(100, "AttackSpeed1", 3);
-            repo.AddEffects(150, "AttackSpeed2", 3);
-            repo.AddEffects(200, "AttackSpeed3", 3);
-
-            repo.AddEffects(5, "Health1", 4);
-            repo.AddEffects(10, "Health2", 4);
-            repo.AddEffects(20, "Health3", 4);
-
-            repo.Close();
+            Repo.Close();
         }
         #endregion
 
@@ -134,76 +136,68 @@ namespace SystemShutdown
         {
             nextGameState = state;
         }
-
         protected override void Initialize()
         {
             graphics.PreferredBackBufferWidth = ScreenWidth;
             graphics.PreferredBackBufferHeight = ScreenHeight;
             graphics.ApplyChanges();
-
             IsMouseVisible = true;
-
-            cyclebarDay = new CyclebarDay(content);
-            cyclebarNight = new CyclebarNight(content);
-            isDay = true;
-
+            cyclebarDay = new CyclebarDay(Content);
+            cyclebarNight = new CyclebarNight(Content);
+            IsDay = true;
             base.Initialize();
         }
-
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //Loads all GameStates
             //Frederik
-            gameState = new GameState();
-            howToState = new HowToState();
-            menuState = new MenuState();
-            gameOverState = new GameOverState();
+            GameState = new GameState();
+            HowToState = new HowToState();
+            MenuState = new MenuState();
+            GameOverState = new GameOverState();
             currentGameState = new MenuState();
-            highscoreState = new HighscoreState();
+            HighscoreState = new HighscoreState();
             currentGameState.LoadContent();
             nextGameState = null;
             ///<summary>
             /// Loads Target Renderer: to run the game in the same resolution, no matter the pc - Frederik
             /// </summary>
-            renderTarget = new RenderTarget2D(GraphicsDevice, 3400, 3400);
-
-            minimap = renderTarget;
-
+            RenderTarget = new RenderTarget2D(GraphicsDevice, 3400, 3400);
+            minimap = RenderTarget;
             camera = new Camera();
 
             // Load soundeffects
-            walkEffect = content.Load<SoundEffect>("Sounds/walk3");
-            laserEffect = content.Load<SoundEffect>("Sounds/laser1");
-            laserEffect2 = content.Load<SoundEffect>("Sounds/laser2");
-            deathEffect = content.Load<SoundEffect>("Sounds/dead");
-            killEffect = content.Load<SoundEffect>("Sounds/kill");
-            killEffect2 = content.Load<SoundEffect>("Sounds/kill2");
-            killEffect3 = content.Load<SoundEffect>("Sounds/kill3");
-            enemyEffect = content.Load<SoundEffect>("Sounds/enemy1");
-            horseEffect = content.Load<SoundEffect>("Sounds/horse");
-            horseEffect2 = content.Load<SoundEffect>("Sounds/horse2");
-            pickedUp = content.Load<SoundEffect>("Sounds/pickup");
-            toggle = content.Load<SoundEffect>("Sounds/toggle");
-            toggle2 = content.Load<SoundEffect>("Sounds/toggle2");
-            clickButton = content.Load<SoundEffect>("Sounds/click");
-            clickButton2 = content.Load<SoundEffect>("Sounds/click2");
-            clickButton3 = content.Load<SoundEffect>("Sounds/click3");
-            clickButton4 = content.Load<SoundEffect>("Sounds/click4");
-            clickButton5 = content.Load<SoundEffect>("Sounds/click5");
+            walkEffect = Content.Load<SoundEffect>("Sounds/walk3");
+            laserEffect = Content.Load<SoundEffect>("Sounds/laser1");
+            laserEffect2 = Content.Load<SoundEffect>("Sounds/laser2");
+            deathEffect = Content.Load<SoundEffect>("Sounds/dead");
+            killEffect = Content.Load<SoundEffect>("Sounds/kill");
+            killEffect2 = Content.Load<SoundEffect>("Sounds/kill2");
+            killEffect3 = Content.Load<SoundEffect>("Sounds/kill3");
+            enemyEffect = Content.Load<SoundEffect>("Sounds/enemy1");
+            horseEffect = Content.Load<SoundEffect>("Sounds/horse");
+            horseEffect2 = Content.Load<SoundEffect>("Sounds/horse2");
+            pickedUp = Content.Load<SoundEffect>("Sounds/pickup");
+            toggle = Content.Load<SoundEffect>("Sounds/toggle");
+            toggle2 = Content.Load<SoundEffect>("Sounds/toggle2");
+            clickButton = Content.Load<SoundEffect>("Sounds/click");
+            clickButton2 = Content.Load<SoundEffect>("Sounds/click2");
+            clickButton3 = Content.Load<SoundEffect>("Sounds/click3");
+            clickButton4 = Content.Load<SoundEffect>("Sounds/click4");
+            clickButton5 = Content.Load<SoundEffect>("Sounds/click5");
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                gameState.ShutdownThreads();
-                repo.Open();
-                repo.RemoveTables();
-                repo.Close();
+                GameState.ShutdownThreads();
+                //repo.Open();
+                //repo.RemoveTables();
+                //repo.Close();
                 this.Exit();
             }
-
             ///<summary>
             /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate
             /// </summary>
@@ -227,43 +221,36 @@ namespace SystemShutdown
             {
                 currentGameState = nextGameState;
                 currentGameState.LoadContent();
-
                 nextGameState = null;
             }
 
             //Updates game
             currentGameState.Update(gameTime);
-
-            //currentGameState.PostUpdate(gameTime);
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (currentGameState is GameState)
             {
                 isGameState = true;
-                camera.Follow(gameState.playerBuilder);
+                camera.Follow(GameState.PlayerBuilder);
 
-                if (isDay == true)
+                if (IsDay == true)
                 {
                     cyclebarDay.Update();
                 }
-                if (isDay == false)
+                if (IsDay == false)
                 {
                     cyclebarNight.Update();
                 }
             }
-
             else
             {
                 isGameState = false;
             }
-
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            //spriteBatch.Begin();
             /// <summary>
             /// This will scale and adjust everything in game to our scale and no matter the size of the window,
             /// the game will always be running in 1080p resolution (or what resolution we choose)
@@ -271,66 +258,52 @@ namespace SystemShutdown
             /// </summary>
             scale = 1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
             miniMapScale = 0.1f / (1080f / graphics.GraphicsDevice.Viewport.Height);
-
-
-            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.SetRenderTarget(RenderTarget);
 
             // Draw game
             currentGameState.Draw(gameTime, spriteBatch);
-
             GraphicsDevice.SetRenderTarget(null);
 
             // Draw TargetRenderer
-
             if (isGameState)
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
-
             }
             else
             {
                 spriteBatch.Begin();
             }
-
-            spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-
+            spriteBatch.Draw(RenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if (isGameState)
             {
-                if (gameState.playerBuilder.Player.showingMap)
+                if (GameState.PlayerBuilder.Player.showingMap)
                 {
                     spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
                 }
-
-
-                if (isDay == false)
+                if (IsDay == false)
                 {
-
 
                     if (cyclebarNight.currentBarNight <= 0)
                     {
-                        isDay = true;
+                        IsDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
-                        gameState.days++;
-                        gameState.SpawnEnemiesAcordingToDayNumber();
+                        GameState.Days++;
+                        GameState.SpawnEnemiesAcordingToDayNumber();
 
                     }
                     cyclebarNight.Draw(spriteBatch);
                 }
-                if (isDay == true)
+                if (IsDay == true)
                 {
-
                     if (cyclebarDay.currentBarDay <= 0)
                     {
-                        isDay = false;
-                        //isNight = true;
+                        IsDay = false;
                         cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
                     }
                     cyclebarDay.Draw(spriteBatch);
                 }
             }
-
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
 

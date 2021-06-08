@@ -133,18 +133,6 @@
 /processorParam:TextureFormat=Color
 /build:6player.png
 
-#begin Backgrounds/blue.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Backgrounds/blue.png
-
 #begin Backgrounds/circuitboard.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -157,7 +145,7 @@
 /processorParam:TextureFormat=Color
 /build:Backgrounds/circuitboard.png
 
-#begin Backgrounds/game.png
+#begin Backgrounds/gameovermenu.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,9 +155,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Backgrounds/game.png
+/build:Backgrounds/gameovermenu.png
 
-#begin Backgrounds/gameover.png
+#begin Backgrounds/howmenu.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -179,9 +167,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Backgrounds/gameover.png
+/build:Backgrounds/howmenu.png
 
-#begin Backgrounds/mainmenu.png
+#begin Backgrounds/menu.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,7 +179,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Backgrounds/mainmenu.png
+/build:Backgrounds/menu.png
+
+#begin Backgrounds/scoremenu.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Backgrounds/scoremenu.png
 
 #begin Controls/back.png
 /importer:TextureImporter
@@ -626,6 +626,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Laser.jpg
 
+#begin Textures/moon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/moon.png
+
 #begin Textures/nogo.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -661,6 +673,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/pl4.png
+
+#begin Textures/sun.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/sun.png
 
 #begin Textures/trojan.png
 /importer:TextureImporter

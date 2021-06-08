@@ -1,61 +1,61 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.GameObjects;
+﻿//using Microsoft.Xna.Framework;
+//using Microsoft.Xna.Framework.Input;
+//using System;
+//using System.Collections.Generic;
+//using System.Text;
+//using SystemShutdown.GameObjects;
 
-namespace SystemShutdown.CommandPattern
-{
-    class InputHandler
-    {
-        private Dictionary<Keys, ICommand> keybinds = new Dictionary<Keys, ICommand>();
+//namespace SystemShutdown.CommandPattern
+//{
+//    class InputHandler
+//    {
+//        private Dictionary<Keys, ICommand> keybinds = new Dictionary<Keys, ICommand>();
 
-        private static InputHandler instance;
+//        private static InputHandler instance;
 
-        public static InputHandler Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new InputHandler();
-                }
-                return instance;
-            }
-        }
+//        public static InputHandler Instance
+//        {
+//            get
+//            {
+//                if (instance == null)
+//                {
+//                    instance = new InputHandler();
+//                }
+//                return instance;
+//            }
+//        }
 
-        public Player Entity { get; set; }
+//        public Player Entity { get; set; }
         
-        /// <summary>
-        /// adds the specific keybinds to the dictionary
-        /// </summary>
-        public InputHandler()
-        {
-            keybinds.Add(Keys.A, new MoveCommand(new Vector2(-1, 0)));
+//        /// <summary>
+//        /// adds the specific keybinds to the dictionary
+//        /// </summary>
+//        public InputHandler()
+//        {
+//            keybinds.Add(Keys.A, new MoveCommand(new Vector2(-1, 0)));
 
-            keybinds.Add(Keys.D, new MoveCommand(new Vector2(1, 0)));
-            keybinds.Add(Keys.W, new MoveCommand(new Vector2(0, -1)));
-            keybinds.Add(Keys.S, new MoveCommand(new Vector2(0, 1)));
+//            keybinds.Add(Keys.D, new MoveCommand(new Vector2(1, 0)));
+//            keybinds.Add(Keys.W, new MoveCommand(new Vector2(0, -1)));
+//            keybinds.Add(Keys.S, new MoveCommand(new Vector2(0, 1)));
 
 
-            //keybinds.Add(Keys.Space, new ShootCommand());
+//            //keybinds.Add(Keys.Space, new ShootCommand());
 
-            keybinds.Add(Keys.M, new MapCommand());
-        }
+//            keybinds.Add(Keys.M, new MapCommand());
+//        }
    
-        public void Execute(/*Player1 player*/)
-        {
-            KeyboardState keyState = Keyboard.GetState();
+//        public void Execute(/*Player1 player*/)
+//        {
+//            KeyboardState keyState = Keyboard.GetState();
    
-            foreach (Keys key in keybinds.Keys)
-            {
-                if (keyState.IsKeyDown(key))
-                {
-                    //keybinds[key].Execute(player);
-                    keybinds[key].Execute(Entity);
-                }
-            }
-        }
-    }
-}
+//            foreach (Keys key in keybinds.Keys)
+//            {
+//                if (keyState.IsKeyDown(key))
+//                {
+//                    //keybinds[key].Execute(player);
+//                    keybinds[key].Execute(Entity);
+//                }
+//            }
+//        }
+//    }
+//}

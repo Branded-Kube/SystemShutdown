@@ -35,7 +35,7 @@ namespace SystemShutdown.FactoryPattern
         {
 
             GameObject1 enemyGO = new GameObject1();
-            GameWorld.Instance.gameState.aliveEnemies++;
+            GameWorld.Instance.GameState.AliveEnemies++;
 
             switch (type)
             {

@@ -52,7 +52,7 @@ namespace SystemShutdown
             // Frederik
             buttonFont = content.Load<SpriteFont>("Fonts/font");
             buttonSprite = content.Load<Texture2D>("Controls/button");
-            sprite = content.Load<Texture2D>("Backgrounds/game");
+            sprite = content.Load<Texture2D>("Backgrounds/menu");
             newGameText = content.Load<Texture2D>("Controls/newgame");
             howToText = content.Load<Texture2D>("Controls/howtoplay");
             highscoreText = content.Load<Texture2D>("Controls/highscore");
@@ -67,25 +67,25 @@ namespace SystemShutdown
             {
                 new Button(buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 390),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 310),
                     Click = new EventHandler(Button_PlayGame_Clicked),
                 },
 
                 new Button(buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 500),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 440),
                     Click = new EventHandler(Button_HowToPlay_Clicked),
                 },
 
                 new Button (buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 610),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 570),
                     Click = new EventHandler(Button_CheckHighscore_Clicked),
                 },
 
                 new Button(buttonSprite, buttonFont)
                 {
-                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 2, 720),
+                    Position = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 700),
                     Click = new EventHandler(Button_Quit_Clicked),
                 }
 
@@ -97,20 +97,22 @@ namespace SystemShutdown
         private void Button_PlayGame_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton5.Play();
-            GameWorld.ChangeState(GameWorld.Instance.gameState);
+            GameState newGameState = new GameState();
+            GameWorld.Instance.GameState = newGameState;
+            GameWorld.ChangeState(GameWorld.Instance.GameState);
         }
 
         // Frederik
         public void Button_HowToPlay_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton3.Play();
-            GameWorld.ChangeState(GameWorld.Instance.howToState);
+            GameWorld.ChangeState(GameWorld.Instance.HowToState);
         }
 
         // Frederik
         private void Button_Quit_Clicked(object sender, EventArgs e)
         {
-            GameWorld.Instance.gameState.ShutdownThreads();
+            GameWorld.Instance.GameState.ShutdownThreads();
             GameWorld.Instance.Exit();
         }
 
@@ -118,7 +120,7 @@ namespace SystemShutdown
         private void Button_CheckHighscore_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton.Play();
-            GameWorld.ChangeState(GameWorld.Instance.highscoreState);
+            GameWorld.ChangeState(GameWorld.Instance.HighscoreState);
         }
 
         public override void Update(GameTime gameTime)
@@ -130,13 +132,13 @@ namespace SystemShutdown
             }
             position = new Vector2(GameWorld.Instance.ScreenWidth / 2, GameWorld.Instance.ScreenHeight / 2);
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
-            newGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 345);
+            newGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 265);
             newGameOrigin = new Vector2(newGameText.Width / 2, newGameText.Height / 2);
-            howToPosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 455);
+            howToPosition = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 395);
             howToOrigin = new Vector2(howToText.Width / 2, howToText.Height / 2);
-            highscorePos = new Vector2(GameWorld.Instance.ScreenWidth / 2, 570);
+            highscorePos = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 530);
             highscoreOrigin = new Vector2(highscoreText.Width / 2, highscoreText.Height / 2);
-            quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 2, 675);
+            quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 655);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
         }
 

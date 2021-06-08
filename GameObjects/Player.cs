@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using SystemShutdown.BuildPattern;
-using SystemShutdown.CommandPattern;
+//using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
@@ -21,7 +21,7 @@ namespace SystemShutdown.GameObjects
         public MouseState mouseState;
         public MouseState lastMouseState;
 
-        static Semaphore MySemaphore = new Semaphore(0, 5);
+        static Semaphore MySemaphore;
 
         private SpriteRenderer spriteRenderer;
         public Vector2 distance;
@@ -42,7 +42,7 @@ namespace SystemShutdown.GameObjects
          public int speed = 250;
 
         public delegate void DamageEventHandler(object source, Enemy enemy, EventArgs e);
-        public static event DamageEventHandler DamagePlayer;
+        public static event DamageEventHandler TakeDamagePlayer;
 
         public bool showingMap;
 
@@ -76,17 +76,27 @@ namespace SystemShutdown.GameObjects
             canToggleMap = true;
             isLooped = false;
             hasShot = false;
-            InputHandler.Instance.Entity = this;
-            GameWorld.Instance.gameState.playerBuilder.fps = 8f;
-
-            Debug.WriteLine("Players semaphore releases (3)");
-            MySemaphore.Release(5);
+            GameWorld.Instance.GameState.PlayerBuilder.fps = 8f;
+            // Closes old semaphore and creates a new one (New gamestate bug, return to menu and resume
+            if (MySemaphore != null)
+            {
+                MySemaphore.Close();
+                MySemaphore = null;
+            }
+            Debug.WriteLine("Players semaphore releases (10)");
+            MySemaphore = new Semaphore(0, 10);
+            MySemaphore.Release(10);
             Health = 100;
             this.speed = 250;
             dmg = 50;
+            TakeDamagePlayer += Player_DamagePlayer;
+
+        }
+        private void Player_DamagePlayer(object source, Enemy enemy, EventArgs e)
+        {
+            Health -= enemy.Dmg;
         }
 
-        
 
         //public void Move(Vector2 velocity)
         //{
@@ -100,7 +110,7 @@ namespace SystemShutdown.GameObjects
         //    GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
         //}
 
-        public void Move()
+        public void Move(KeyboardState keyState)
         {
             oldState = newState;
             newState = Keyboard.GetState();
@@ -283,21 +293,53 @@ namespace SystemShutdown.GameObjects
                     {
                         velocity.Y = 0;
                     }
-
-
                 }
             }
+        }
 
-            // /*collision.GameObject.Transform.Position*/ GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity;
+        public override void Update(GameTime gameTime)
+        {
+            RotatePlayer();
+            shootTime += GameWorld.Instance.DeltaTime;
+            ShowMapTime += GameWorld.Instance.DeltaTime;
+            lastVelocity = GameObject.Transform.Position;
 
-            // velocity *= speed* GameWorld.DeltaTime;
-            GameObject.Transform.Translate(velocity );
-           // GameWorld.gameState.playerBuilder.Player.GameObject.Transform.Position += velocity ;
+            if (shootTime >= cooldown / 1000)
+            {
+                canShoot = true;
+            }
 
-            velocity = Vector2.Zero;
+            if (ShowMapTime >= mapCooldown)
+            {
+                canToggleMap = true;
+            }
 
+            // The active state from the last frame is now old
+            lastMouseState = mouseState;
 
-            
+            // Get the mouse state relevant for this frame
+            mouseState = Mouse.GetState();
+            // Recognize a single click of the left mouse button
+            if (/*lastMouseState.LeftButton == ButtonState.Released &&*/ mouseState.LeftButton == ButtonState.Pressed && canShoot)
+            {
+                Shoot();
+            }
+
+            KeyboardState keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(Keys.A)|| keyState.IsKeyDown(Keys.W)|| keyState.IsKeyDown(Keys.S)|| keyState.IsKeyDown(Keys.D))
+            {
+                Move(keyState);
+                GameWorld.Instance.GameState.PlayerBuilder.Animate(gameTime);
+                PlayerMovementCollider();
+                GameObject.Transform.Translate(velocity);
+                velocity = Vector2.Zero;
+            }
+
+            if (keyState.IsKeyDown(Keys.M))
+            {
+                ToggleMap();
+            }
         }
         //public void ApplyAllMods()
         //{
@@ -362,7 +404,7 @@ namespace SystemShutdown.GameObjects
                 shootTime = 0;
                 GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
 
-                Vector2 movement = new Vector2(GameWorld.Instance.gameState.cursorPosition.X, GameWorld.Instance.gameState.cursorPosition.Y) - laserObject.Transform.Position;
+                Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
                 Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");
@@ -373,7 +415,7 @@ namespace SystemShutdown.GameObjects
 
                 tmpPro.Velocity = movement;
 
-                GameWorld.Instance.gameState.AddGameObject(laserObject);
+                GameWorld.Instance.GameState.AddGameObject(laserObject);
             }
         }
 
@@ -399,10 +441,6 @@ namespace SystemShutdown.GameObjects
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-            //if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
-            //{
-            //  GameObject.Transform.Position = lastVelocity;
-            //}
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
             {
@@ -439,10 +477,10 @@ namespace SystemShutdown.GameObjects
             //Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
 
-            DamagePlayer(null, enemy, EventArgs.Empty);
+            TakeDamagePlayer(null, enemy, EventArgs.Empty);
             Thread.Sleep(100 * randomNumber.Next(0, 15));
 
-          //  Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            //Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
 
         }

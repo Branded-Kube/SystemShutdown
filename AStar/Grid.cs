@@ -13,6 +13,12 @@ namespace SystemShutdown.AStar
         public int Height { get; set; } = 35;
         public int Width { get; set; }= 35;
 
+        /// <summary>
+        /// Creates a grid of nodes.
+        /// Random chance to set a node to not passable. 
+        /// Gameobject node is created at Not passable nodes. (Walls) 
+        /// Walls are cleared or manually created at specific node positions.
+        /// </summary>
         public Grid()
         {
             Random rand = new Random();
@@ -27,7 +33,7 @@ namespace SystemShutdown.AStar
 
                     //random walls, 30% to make a node not passable (wall)
                     if ((x != 1 && y != 1) && (x != Width - 2 && y != Height - 2) &&
-                        rand.Next(1, 100) < 30)
+                        rand.Next(1, 100) < 31)
                     {
                         nodes[x, y].Passable = false;
                     }
@@ -92,7 +98,7 @@ namespace SystemShutdown.AStar
                         nodeSR.Origin = new Vector2(nodeSR.Sprite.Width / 2, (nodeSR.Sprite.Height) / 2);
                         nodeGO.AddComponent(new Collider(nodeSR, nodes[x, y]) { CheckCollisionEvents = false });
                         nodeGO.AddComponent(nodes[x, y]);
-                        GameWorld.Instance.gameState.AddGameObject(nodeGO);
+                        GameWorld.Instance.GameState.AddGameObject(nodeGO);
                     }
 
                 }
@@ -128,7 +134,7 @@ namespace SystemShutdown.AStar
 
                                     nodeGO.AddComponent(new Collider(nodeSR, nodes[item.X, item.Y]) { CheckCollisionEvents = false });
                                     nodeGO.AddComponent(nodes[item.Y, item.Y]);
-                                    GameWorld.Instance.gameState.AddGameObject(nodeGO);
+                                    GameWorld.Instance.GameState.AddGameObject(nodeGO);
                                 }
                             }
                         }
@@ -138,6 +144,12 @@ namespace SystemShutdown.AStar
             }
         }
 
+        /// <summary>
+        /// Gets a node at position x.y in grid. Else return null
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public Node Node(int x, int y)
         {
             if (x >= 0 && x < Width && y >= 0 && y < Height)
@@ -145,7 +157,9 @@ namespace SystemShutdown.AStar
             else
                 return null;
         }
-
+        /// <summary>
+        /// Resets each nodes values 
+        /// </summary>
         public void ResetState()
         {
             for (int y = 0; y < Height; y++)
@@ -155,8 +169,6 @@ namespace SystemShutdown.AStar
                     nodes[x, y].G = 0;
                     nodes[x, y].H = 0;
                     nodes[x, y].CameFrom = null;
-                    nodes[x, y].Open = false;
-                    nodes[x, y].Closed = false;
                 }
         }
     }

@@ -10,6 +10,7 @@ namespace SystemShutdown.GameObjects
 {
     public class CyclebarNight
     {
+        public Texture2D moonSprite;
         public Texture2D nightContainer, nightBar;
         public Vector2 nightBarPosition;
         public int fullBarNight;
@@ -29,6 +30,7 @@ namespace SystemShutdown.GameObjects
 
         private void LoadContent(ContentManager content)
         {
+            moonSprite = content.Load<Texture2D>("Textures/moon");
             nightContainer = content.Load<Texture2D>("Textures/HealthbarEmpty");
             nightBar = content.Load<Texture2D>("Textures/Healthbar");
         }
@@ -44,11 +46,15 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(nightBar, new Vector2(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
+            spriteBatch.Draw(moonSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 475), Color.White);
+
+            //Draws bar
+            spriteBatch.Draw(nightBar, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), new Rectangle((int)nightBarPosition.X,
                 (int)nightBarPosition.Y, (int)currentBarNight, nightBar.Height), nightBarColor);
-            spriteBatch.Draw(nightContainer, new Vector2(GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.X + 635,
-                GameWorld.Instance.gameState.playerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
+            spriteBatch.Draw(nightContainer, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 635,
+                GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
         }
 
         public void NightColor()
