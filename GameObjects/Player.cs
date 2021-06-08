@@ -267,7 +267,7 @@ namespace SystemShutdown.GameObjects
             lastVelocity = GameObject.Transform.Position;
 
 
-            if (speed > 600)
+            if (speed > 400)
             {
                 speed = 400;
             }
