@@ -34,7 +34,7 @@ namespace SystemShutdown.FactoryPattern
             GameObject.Tag = "Projectile";
             alreadyCollided = false;
         }
-
+       
         public override void Update(GameTime gameTime)
         {
             Move();
@@ -59,10 +59,12 @@ namespace SystemShutdown.FactoryPattern
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
             {
+                GameWorld.Instance.GameState.Effects.Add(new ProjectileEffect(new Vector2(GameObject.Transform.Position.X -50, GameObject.Transform.Position.Y -50))) ;
                 GameObject.Destroy();
             }
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy" /*&& !alreadyCollided*/)
             {
+                GameWorld.Instance.GameState.Effects.Add(new ProjectileEffect(new Vector2(GameObject.Transform.Position.X - 50, GameObject.Transform.Position.Y - 50)));
                 GameObject.Destroy();
                 component.GameObject.GetComponent("Enemy").Health -= GameWorld.Instance.GameState.PlayerBuilder.player.dmg;
                 alreadyCollided = true;

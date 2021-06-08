@@ -48,6 +48,17 @@ namespace SystemShutdown.States
         private Color _killsColor = Color.White;
         public Color _msColor = Color.White;
 
+        public List<ProjectileEffect> NewEffects = new List<ProjectileEffect>();
+
+        private List<ProjectileEffect> effects = new List<ProjectileEffect>();
+        //public List<ProjectileEffect> effects = new List<ProjectileEffect>();
+
+        public List<ProjectileEffect> Effects { get { return effects; } set { effects = value; } }
+
+        public Texture2D projektilEffectTexture;
+       
+    double enemySpawnTimer = 0.0;
+
         private float dmgTimer = 2f;
         private float healthTimer = 2f;
         private float countDown = 0.05f;
@@ -97,6 +108,7 @@ namespace SystemShutdown.States
         {
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
+            projektilEffectTexture = GameWorld.Instance.Content.Load<Texture2D>("Textures/cursoren");
 
             // Backgrounds music
             //dayMusic = content.Load<Song>("Sounds/song1");
@@ -128,7 +140,7 @@ namespace SystemShutdown.States
 
             // Enables threads to be run and spawns the first wave of enemies
             IsThreadsRunning = true;
-            SpawnEnemiesAcordingToDayNumber();
+            //SpawnEnemiesAcordingToDayNumber();
         }
 
 
@@ -145,13 +157,36 @@ namespace SystemShutdown.States
             {
                 if (aliveEnemies < 50)
                 {
-                    SpawnBugEnemies(SetEnemySpawnInCorner());
-                    SpawnBugEnemies(SetEnemySpawnInCorner());
-                    SpawnBugEnemies(SetEnemySpawnInCorner());
-                    SpawnBugEnemies(SetEnemySpawnInCorner());
-                    SpawnBugEnemies(SetEnemySpawnInCorner());
-                    SpawnTrojanEnemies(SetEnemySpawnInCorner());
+                    if (GameWorld.Instance.IsDay)
+                    {
+                        SpawnBugEnemies(SetEnemySpawnInCorner());
+                        if (i >= 5)
+                        {
+                            SpawnTrojanEnemies(SetEnemySpawnInCorner());
+                        }
+                    }
+                    else
+                    {
+                        SpawnBugEnemies(SetEnemySpawnInCorner());
+                        SpawnBugEnemies(SetEnemySpawnInCorner());
+                        if (i >= 5)
+                        {
+                            SpawnTrojanEnemies(SetEnemySpawnInCorner());
+                        }
+                    }
+                    
                 }
+
+                //if (aliveEnemies < 50)
+                //{
+                   
+                //    SpawnBugEnemies(SetEnemySpawnInCorner());
+                //    SpawnBugEnemies(SetEnemySpawnInCorner());
+                //    SpawnBugEnemies(SetEnemySpawnInCorner());
+                //    SpawnBugEnemies(SetEnemySpawnInCorner());
+                //    SpawnBugEnemies(SetEnemySpawnInCorner());
+                //    SpawnTrojanEnemies(SetEnemySpawnInCorner());
+                //}
             }
             Debug.WriteLine($"Enemies alive {aliveEnemies}");
 
@@ -193,9 +228,16 @@ namespace SystemShutdown.States
         }
         public override void Update(GameTime gameTime)
         {
+           
+            enemySpawnTimer += GameWorld.Instance.DeltaTime;
+            if (enemySpawnTimer >= 2)
+            {
+                SpawnEnemiesAcordingToDayNumber();
+                enemySpawnTimer = 0.0;
+            }
+
             backgroundPos = new Vector2(GameWorld.Instance.RenderTarget.Width / 2, GameWorld.Instance.RenderTarget.Height / 2);
             backgroundOrigin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2);
-
             ///<summary>
             ///Updates cursors position
             /// </summary>
@@ -261,6 +303,30 @@ namespace SystemShutdown.States
                     HealthColor = Color.White;
                 }
             }
+
+            // effects = Effects;
+            // var tmpEffects = effects;
+            //foreach (ProjectileEffect item in ExpiredEffects)
+            //{
+            //    if (item.timer > 2)
+            //    {
+            //        tmpEffects.Remove(item);
+            //    }
+            //}
+
+            //foreach (ProjectileEffect item in NewEffects)
+            //{
+            //    tmpEffects.Add(item);
+            //}
+            //effects = tmpEffects;
+            // var tmpeffects = effects;
+            // foreach (ProjectileEffect item in tmpeffects.)
+            foreach (ProjectileEffect item in new List<ProjectileEffect>(effects))
+            {
+                item.Update(gameTime);
+            }
+            // NewEffects.Clear();
+            //ExpiredEffects.Clear();
             GameOver();
         }
         
@@ -295,9 +361,16 @@ namespace SystemShutdown.States
 
             // Draws CPU Health
             spriteBatch.DrawString(font, $"CPU health {CpuBuilder.Cpu.Health}", CpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
-            spriteBatch.End();
+            var tmpeffects = effects;
 
+            foreach (ProjectileEffect item in tmpeffects)
+            {
+                item.Draw(spriteBatch);
+            }
+            spriteBatch.End();
+           
         }
+
         /// <summary>
         /// Draws Player stats
         /// </summary>
@@ -310,6 +383,19 @@ namespace SystemShutdown.States
             spriteBatch.DrawString(font, $"Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 640, PlayerBuilder.Player.GameObject.Transform.Position.Y - 390), Color.White);
             //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
         }
+
+        //public void projektilEffects(SpriteBatch spriteBatch)
+        //{
+            
+        //    foreach (ProjectileEffect item in Effects)
+        //    {
+        //        item.Draw(spriteBatch);
+        //    }
+        //    //double timer = GameWorld.Instance.DeltaTime;
+        //    //timer++;
+        //}
+
+
         /// <summary>
         /// Ras
         /// Spawns a Trojan enemy at parameter position. 

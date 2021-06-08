@@ -288,7 +288,7 @@ namespace SystemShutdown
                         GameState.Days++;
                         GameState.SpawnEnemiesAcordingToDayNumber();
                     }
-                    cyclebarNight.Draw(spriteBatch);
+                   // cyclebarNight.Draw(spriteBatch);
                 }
                 if (IsDay == true)
                 {
@@ -298,8 +298,10 @@ namespace SystemShutdown
                         cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
                     }
                     cyclebarDay.Draw(spriteBatch);
+                    //GameState.SpawnEnemiesAcordingToDayNumber();
+
                 }
-            GameState.DrawPlayerStats(spriteBatch);
+                GameState.DrawPlayerStats(spriteBatch);
 
             }
             spriteBatch.End();
