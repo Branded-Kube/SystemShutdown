@@ -164,7 +164,7 @@ namespace SystemShutdown.States
                     if (GameWorld.Instance.IsDay)
                     {
                         SpawnBugEnemies(SetEnemySpawnInCorner());
-                        if (i >= 5)
+                        if (i >= 3)
                         {
                             SpawnTrojanEnemies(SetEnemySpawnInCorner());
                         }
@@ -173,7 +173,7 @@ namespace SystemShutdown.States
                     {
                         SpawnBugEnemies(SetEnemySpawnInCorner());
                         SpawnBugEnemies(SetEnemySpawnInCorner());
-                        if (i >= 5)
+                        if (i >= 3)
                         {
                             SpawnTrojanEnemies(SetEnemySpawnInCorner());
                         }

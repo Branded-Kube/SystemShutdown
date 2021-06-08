@@ -359,22 +359,17 @@ namespace SystemShutdown.GameObjects
                     GameWorld.Instance.laserEffect2.Play();
                     hasShot = false;
                 }
-
                 canShoot = false;
                 shootTime = 0;
                 GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
-
                 Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
                 Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");
                 SpriteRenderer tmpSpriteRenderer = (SpriteRenderer)laserObject.GetComponent("SpriteRenderer");
                 Collider tmpCollider = (Collider)laserObject.GetComponent("Collider");
-
                 tmpSpriteRenderer.Rotation = spriteRenderer.Rotation;
-
                 tmpPro.Velocity = movement;
-
                 GameWorld.Instance.GameState.AddGameObject(laserObject);
             }
         }
@@ -392,27 +387,21 @@ namespace SystemShutdown.GameObjects
                     GameWorld.Instance.toggle2.Play();
                     showingMap = true;
                 }
-
                 else
                     showingMap = false;
-
             }
         }
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
             {
-
                 Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
                 if (!tmpEnemy.IsTrojan)
                 {
                     tmpEnemy.AttackingPlayer = true;
                 }
             }
-
-
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
             {
                 GameWorld.Instance.pickedUp.Play();
