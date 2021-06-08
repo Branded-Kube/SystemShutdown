@@ -19,8 +19,8 @@ namespace SystemShutdown.States
     {
         #region Fields
         private Texture2D backgroundSprite;
-        private Vector2 backgroundPos;
-        private Vector2 backgroundOrigin;
+        public Vector2 backgroundPos;
+        public Vector2 backgroundOrigin;
 
         private Texture2D cursorSprite;
         private Vector2 cursorPosition;
