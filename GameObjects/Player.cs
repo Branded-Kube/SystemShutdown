@@ -86,7 +86,7 @@ namespace SystemShutdown.GameObjects
             Debug.WriteLine("Players semaphore releases (10)");
             MySemaphore = new Semaphore(0, 10);
             MySemaphore.Release(10);
-            Health = 100;
+            Health = 10;
             this.speed = 250;
             dmg = 50;
             TakeDamagePlayer += Player_DamagePlayer;
