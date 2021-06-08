@@ -322,6 +322,7 @@ namespace SystemShutdown.GameObjects
             {
                 Health = 100;
             }
+            
             internalThread = new Thread(ThreadMethod);
             StartThread();
 
