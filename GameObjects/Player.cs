@@ -227,9 +227,9 @@ namespace SystemShutdown.GameObjects
             {
                 speed = 400;
             }
-            if (shootTime < 0.5f)
+            if (cooldown < 500)
             {
-                shootTime = 0.5f;
+                cooldown = 500;
             }
             if (shootTime >= cooldown / 1000)
             {
