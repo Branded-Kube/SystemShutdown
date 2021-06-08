@@ -86,8 +86,8 @@ namespace SystemShutdown.GameObjects
             Debug.WriteLine("Players semaphore releases (10)");
             MySemaphore = new Semaphore(0, 10);
             MySemaphore.Release(10);
-            Health = 10;
-            this.speed = 250;
+            Health = 100;
+            this.speed = 150;
             dmg = 50;
             TakeDamagePlayer += Player_DamagePlayer;
 
@@ -224,6 +224,7 @@ namespace SystemShutdown.GameObjects
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
 
         }
+
         private void PlayerMovementCollider()
         {
             foreach (GameObject1 gameObject in GameWorld.Instance.GameState.GameObjects)
@@ -257,6 +258,7 @@ namespace SystemShutdown.GameObjects
             }
         }
 
+
         public override void Update(GameTime gameTime)
         {
             RotatePlayer();
@@ -264,6 +266,15 @@ namespace SystemShutdown.GameObjects
             ShowMapTime += GameWorld.Instance.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
+
+            if (speed > 400)
+            {
+                speed = 400;
+            }
+            if (cooldown < 500)
+            {
+                cooldown = 500;
+            }
             if (shootTime >= cooldown / 1000)
             {
                 canShoot = true;
@@ -359,22 +370,17 @@ namespace SystemShutdown.GameObjects
                     GameWorld.Instance.laserEffect2.Play();
                     hasShot = false;
                 }
-
                 canShoot = false;
                 shootTime = 0;
                 GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
-
                 Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
                 Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");
                 SpriteRenderer tmpSpriteRenderer = (SpriteRenderer)laserObject.GetComponent("SpriteRenderer");
                 Collider tmpCollider = (Collider)laserObject.GetComponent("Collider");
-
                 tmpSpriteRenderer.Rotation = spriteRenderer.Rotation;
-
                 tmpPro.Velocity = movement;
-
                 GameWorld.Instance.GameState.AddGameObject(laserObject);
             }
         }
@@ -392,38 +398,24 @@ namespace SystemShutdown.GameObjects
                     GameWorld.Instance.toggle2.Play();
                     showingMap = true;
                 }
-
                 else
                     showingMap = false;
-
             }
         }
 
         public void Notify(GameEvent gameEvent, Component component)
         {
-
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
             {
-
                 Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
-                   tmpEnemy.AttackingPlayer = true;
+                if (!tmpEnemy.IsTrojan)
+                {
+                    tmpEnemy.AttackingPlayer = true;
+                }
             }
-
-
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
             {
-                //Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
-                //if (tmpmod.ModFKID == 4)
-                //{
-                //    Health += tmpmod.Effect;
-                //}
-                //else
-                //{
-                //    playersMods.Push(tmpmod);
-                //}
-                // ApplyAllMods();
                 GameWorld.Instance.pickedUp.Play();
-
                 component.GameObject.Destroy();
             }
         }

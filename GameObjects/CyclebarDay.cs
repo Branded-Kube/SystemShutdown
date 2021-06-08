@@ -16,7 +16,9 @@ namespace SystemShutdown.GameObjects
         public int fullBarDay;
         public float currentBarDay;
         //public float dayMeter = 0.025f; //Ca. 3:45 min.
-        public float dayMeter = 1f; 
+        //public float dayMeter = 1f;
+        public float dayMeter = 0.1f;
+
 
         public Color dayBarColor;
 

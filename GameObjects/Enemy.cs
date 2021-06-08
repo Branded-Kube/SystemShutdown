@@ -50,11 +50,9 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         public override void Destroy()
         {
-            //EnemyPool.Instance.RealeaseObject(GameObject);
             GameWorld.Instance.GameState.AliveEnemies--;
             GameWorld.Instance.GameState.PlayerBuilder.player.kills++;
             GameWorld.Instance.GameState.KillsColor = Color.GreenYellow;
-            //GameWorld.Instance.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
         /// <summary>
@@ -133,7 +131,7 @@ namespace SystemShutdown.GameObjects
                 }
 
                 Random rnd = new Random();
-                var moddrop = rnd.Next(1, 3);
+                var moddrop = rnd.Next(1, 4);
                 if (moddrop == 2)
                 {
                     GameObject1 go = ModFactory.Instance.Create(GameObject.Transform.Position, "");
@@ -324,6 +322,7 @@ namespace SystemShutdown.GameObjects
             {
                 Health = 100;
             }
+            
             internalThread = new Thread(ThreadMethod);
             StartThread();
 

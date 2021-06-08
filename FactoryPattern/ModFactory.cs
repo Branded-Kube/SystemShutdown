@@ -30,7 +30,7 @@ namespace SystemShutdown.FactoryPattern
         public override GameObject1 Create(Vector2 position, string type)
         {
             GameObject1 modGO = new GameObject1();
-            SpriteRenderer modSR = new SpriteRenderer("laserBlue05");
+            SpriteRenderer modSR = new SpriteRenderer("Textures/pick");
             modGO.AddComponent(modSR);
             mods = new Mods();
             modGO.AddComponent(new Collider(modSR, mods) { CheckCollisionEvents = true });

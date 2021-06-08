@@ -53,6 +53,7 @@ namespace SystemShutdown
 
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
+        public Texture2D darkSprite;
 
         private Repository repo;
 
@@ -74,7 +75,6 @@ namespace SystemShutdown
         public SoundEffect clickButton3;
         public SoundEffect clickButton4;
         public SoundEffect clickButton5;
-
 
         public Repository Repo { get { return repo; } set { repo = value; } }
         public int ScreenWidth { get { return screenWidth; } set { screenWidth = value; } }
@@ -107,17 +107,17 @@ namespace SystemShutdown
             Repo.AddMods("Attackspeed"); //ID = 3
             Repo.AddMods("Health"); //ID = 4
 
-            Repo.AddEffects(5, "dmg1", 1);
-            Repo.AddEffects(10, "dmg2", 1);
-            Repo.AddEffects(15, "dmg3", 1);
+            Repo.AddEffects(10, "dmg1", 1);
+            Repo.AddEffects(20, "dmg2", 1);
+            Repo.AddEffects(30, "dmg3", 1);
 
             Repo.AddEffects(50, "MoveSpeed1", 2);
-            Repo.AddEffects(100, "MoveSpeed2", 2);
-            Repo.AddEffects(150, "MoveSpeed3", 2);
+            Repo.AddEffects(80, "MoveSpeed2", 2);
+            Repo.AddEffects(100, "MoveSpeed3", 2);
 
             Repo.AddEffects(100, "AttackSpeed1", 3);
             Repo.AddEffects(150, "AttackSpeed2", 3);
-            Repo.AddEffects(300, "AttackSpeed3", 3);
+            Repo.AddEffects(200, "AttackSpeed3", 3);
 
             Repo.AddEffects(5, "Health1", 4);
             Repo.AddEffects(10, "Health2", 4);
@@ -186,6 +186,8 @@ namespace SystemShutdown
             clickButton3 = Content.Load<SoundEffect>("Sounds/click3");
             clickButton4 = Content.Load<SoundEffect>("Sounds/click4");
             clickButton5 = Content.Load<SoundEffect>("Sounds/click5");
+            darkSprite = Content.Load<Texture2D>("darksprite2");
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -251,6 +253,7 @@ namespace SystemShutdown
 
         protected override void Draw(GameTime gameTime)
         {
+
             /// <summary>
             /// This will scale and adjust everything in game to our scale and no matter the size of the window,
             /// the game will always be running in 1080p resolution (or what resolution we choose)
@@ -276,20 +279,24 @@ namespace SystemShutdown
             spriteBatch.Draw(RenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if (isGameState)
             {
+
+                if (!IsDay)
+                {
+                    spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X + 1700, -camera.Transform.Translation.Y + 1700), null, Color.White * 0.4f, 0, GameWorld.Instance.GameState.backgroundOrigin, 1f, SpriteEffects.None, 1f);
+
+                }
                 if (GameState.PlayerBuilder.Player.showingMap)
                 {
                     spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
                 }
                 if (IsDay == false)
                 {
-
                     if (cyclebarNight.currentBarNight <= 0)
                     {
                         IsDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
                         GameState.Days++;
-                        GameState.SpawnEnemiesAcordingToDayNumber();
-
+                        
                     }
                     cyclebarNight.Draw(spriteBatch);
                 }
@@ -302,11 +309,12 @@ namespace SystemShutdown
                     }
                     cyclebarDay.Draw(spriteBatch);
                 }
+                GameState.DrawPlayerStats(spriteBatch);
+
             }
             spriteBatch.End();
             base.Draw(gameTime);
         }
-
 
         public void SetInitials()
         {
