@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +16,12 @@ namespace SystemShutdown.FactoryPattern
         private float speed;
         private Vector2 velocity;
         private bool alreadyCollided = false;
+
+        public Texture2D[] projectiles;
+        public float fps;
+        public float timeElapsed;
+        public int currentIndex;
+
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -23,6 +30,7 @@ namespace SystemShutdown.FactoryPattern
         public Projectile(float speed)
         {
             this.speed = speed;
+            fps = 5;
         }
         public override string ToString()
         {
@@ -33,11 +41,20 @@ namespace SystemShutdown.FactoryPattern
         {
             GameObject.Tag = "Projectile";
             alreadyCollided = false;
+
+            //Load sprite sheet - Frederik
+            projectiles = new Texture2D[7];
+            //Loop animaiton textures
+            for (int g = 0; g < projectiles.Length; g++)
+            {
+                projectiles[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "bit");
+            }
         }
        
         public override void Update(GameTime gameTime)
         {
             Move();
+            Animate(gameTime);
         }
         private void Move()
         {
@@ -68,6 +85,28 @@ namespace SystemShutdown.FactoryPattern
                 GameObject.Destroy();
                 component.GameObject.GetComponent("Enemy").Health -= GameWorld.Instance.GameState.PlayerBuilder.player.dmg;
                 alreadyCollided = true;
+            }
+        }
+
+        /// <summary>
+        /// Animate projectile - Frederik
+        /// </summary>
+        /// <param name="gametime"></param>
+        public void Animate(GameTime gametime)
+        {
+            //Giver tiden, der er gået, siden sidste update
+            timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+            //Beregner currentIndex
+            currentIndex = (int)(timeElapsed * fps);
+            var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            tmpSpriteRenderer.Sprite = projectiles[currentIndex];
+
+            //Checks if animation needs to restart
+            if (currentIndex >= projectiles.Length - 1)
+            {
+                //Resets animation
+                timeElapsed = 0;
+                currentIndex = 0;
             }
         }
     }
