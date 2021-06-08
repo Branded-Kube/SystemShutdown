@@ -50,11 +50,9 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         public override void Destroy()
         {
-            //EnemyPool.Instance.RealeaseObject(GameObject);
             GameWorld.Instance.GameState.AliveEnemies--;
             GameWorld.Instance.GameState.PlayerBuilder.player.kills++;
             GameWorld.Instance.GameState.KillsColor = Color.GreenYellow;
-            //GameWorld.Instance.gameState.RemoveGameObject(GameObject);
             threadRunning = false;
         }
         /// <summary>
@@ -358,7 +356,6 @@ namespace SystemShutdown.GameObjects
                 timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
                 //Beregner currentIndex
                 currentIndex = (int)(timeElapsed * fps);
-                /*GameWorld.Instance.gameState.enemyFactory.enemyBug.Sprite*/
                 var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
                 tmpSpriteRenderer.Sprite = walk[currentIndex];
 

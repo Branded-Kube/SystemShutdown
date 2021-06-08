@@ -417,24 +417,16 @@ namespace SystemShutdown.GameObjects
             {
 
                 Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
-                   tmpEnemy.AttackingPlayer = true;
+                if (!tmpEnemy.IsTrojan)
+                {
+                    tmpEnemy.AttackingPlayer = true;
+                }
             }
 
 
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")
             {
-                //Mods tmpmod = (Mods)component.GameObject.GetComponent("Pickup");
-                //if (tmpmod.ModFKID == 4)
-                //{
-                //    Health += tmpmod.Effect;
-                //}
-                //else
-                //{
-                //    playersMods.Push(tmpmod);
-                //}
-                // ApplyAllMods();
                 GameWorld.Instance.pickedUp.Play();
-
                 component.GameObject.Destroy();
             }
         }
