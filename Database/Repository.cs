@@ -102,7 +102,7 @@ namespace SystemShutdown.Database
 
         public void ScoreHandler()
         {
-            string sql = "SELECT * FROM Highscores";
+            string sql = "SELECT * FROM Highscores ORDER BY Kills DESC";
 
             SQLiteCommand cmd = new SQLiteCommand(sql, (SQLiteConnection)connection);
 
