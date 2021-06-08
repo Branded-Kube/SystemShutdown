@@ -13,7 +13,6 @@ namespace SystemShutdown
 {
     public class Mods : Component, IGameListener
     {
-        private Mods floormod;
 
         public int Id { get; set; }
         public int ModFKID { get; set; }
