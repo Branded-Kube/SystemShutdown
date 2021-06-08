@@ -22,21 +22,11 @@ namespace SystemShutdown.States
         private Vector2 position;
         private Vector2 origin;
 
-      //  private int i = 1;
+        private string score;
 
-        private bool highscoresDrawed = false;
 
         public HighscoreState()
         {
-
-            //GameWorld.Instance.Repo.Open();
-
-            //GameWorld.Instance.Repo.ScoreHandler();
-
-
-
-            //GameWorld.Instance.Repo.Close();
-
         }
 
         public override void LoadContent()
@@ -93,39 +83,22 @@ namespace SystemShutdown.States
 
             GameWorld.Instance.Repo.ScoreHandler();
 
-            //while (GameWorld.Instance.Repo.Reader.Read() /*&& GameWorld.Instance.Repo. <= 10*/)
-            //{
-            //    spriteBatch.DrawString(buttonFont, ("PlayerName: " + GameWorld.Instance.Repo.Reader["PlayerName"]/* + "Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]*/), new Vector2(GameWorld.Instance.ScreenWidth / 2, 200 + (i)), Color.Red);
-
-
-
-            //    //for (int i = 0; i < GameWorld.Instance.Repo.Reader.FieldCount; i++)
-            //    //{
-            //    //    spriteBatch.DrawString(buttonFont, ("PlayerName: " + GameWorld.Instance.Repo.Reader["PlayerName"]/* + "Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]*/), new Vector2(GameWorld.Instance.ScreenWidth / 2, 200 + (i* 50)), Color.Red);
-            //    //    //Debug.WriteLine(("PlayerName: " + GameWorld.Instance.Repo.Reader["PlayerName"] + "Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]));
-            //    //}
-            //}
-
             int i = 0;
             while (GameWorld.Instance.Repo.Reader.Read())
             {
 
-                    Debug.WriteLine("PlayerName: " + GameWorld.Instance.Repo.Reader["PlayerName"] + "Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
-                    GameWorld.Instance.Repo.Score = ("PlayerName: " + GameWorld.Instance.Repo.Reader["PlayerName"] + "Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
+                    score = ("PlayerName:  " + GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
 
-                    spriteBatch.DrawString(buttonFont, (GameWorld.Instance.Repo.Score), new Vector2(GameWorld.Instance.ScreenWidth / 2, 200 + (i * 50)), Color.Red);
+                if (i < 10)
+                {
+                    spriteBatch.DrawString(buttonFont, (score), new Vector2(GameWorld.Instance.ScreenWidth / 2 - 180, 200 + (i * 50)), Color.Red);
+                }
 
-                    i++;
-      
+
+                i++;
             }
 
-
             GameWorld.Instance.Repo.Close();
-
-
-            //   spriteBatch.DrawString(buttonFont, "something to test", new Vector2 (500,500), Color.White);
-
-            //     spriteBatch.DrawString(buttonFont, ($"{}"), new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2), Color.White);
 
 
             spriteBatch.End();

@@ -22,13 +22,8 @@ namespace SystemShutdown.Database
             set { reader = value; }
         }
 
-        private string score;
 
-        public string Score
-        {
-            get { return score; }
-            set { score = value; }
-        }
+
 
         public Repository(IDatabaseProvider provider, IMapper mapper)
         {
@@ -112,15 +107,6 @@ namespace SystemShutdown.Database
             SQLiteCommand cmd = new SQLiteCommand(sql, (SQLiteConnection)connection);
 
             reader = cmd.ExecuteReader();
-
-            //while (reader.Read())
-            //{
-            //    Debug.WriteLine("PlayerName: " + reader["PlayerName"] + "Kills: " + reader["Kills"] + "DaysSurvived: " + reader["DaysSurvived"]);
-            //    score = ("PlayerName: " + reader["PlayerName"] + "Kills: " + reader["Kills"] + "DaysSurvived: " + reader["DaysSurvived"]);
-            //}
-
-
-
 
         }
 

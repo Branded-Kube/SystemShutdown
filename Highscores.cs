@@ -56,9 +56,7 @@ namespace SystemShutdown
                 pressedKey = releasedKey;
             }
 
-
         }
-
 
     }
 }
