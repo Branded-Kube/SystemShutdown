@@ -107,17 +107,17 @@ namespace SystemShutdown
             Repo.AddMods("Attackspeed"); //ID = 3
             Repo.AddMods("Health"); //ID = 4
 
-            Repo.AddEffects(5, "dmg1", 1);
-            Repo.AddEffects(10, "dmg2", 1);
-            Repo.AddEffects(15, "dmg3", 1);
+            Repo.AddEffects(10, "dmg1", 1);
+            Repo.AddEffects(20, "dmg2", 1);
+            Repo.AddEffects(30, "dmg3", 1);
 
             Repo.AddEffects(50, "MoveSpeed1", 2);
-            Repo.AddEffects(100, "MoveSpeed2", 2);
-            Repo.AddEffects(150, "MoveSpeed3", 2);
+            Repo.AddEffects(80, "MoveSpeed2", 2);
+            Repo.AddEffects(100, "MoveSpeed3", 2);
 
             Repo.AddEffects(100, "AttackSpeed1", 3);
             Repo.AddEffects(150, "AttackSpeed2", 3);
-            Repo.AddEffects(300, "AttackSpeed3", 3);
+            Repo.AddEffects(200, "AttackSpeed3", 3);
 
             Repo.AddEffects(5, "Health1", 4);
             Repo.AddEffects(10, "Health2", 4);

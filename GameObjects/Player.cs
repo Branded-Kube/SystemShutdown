@@ -224,6 +224,7 @@ namespace SystemShutdown.GameObjects
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
 
         }
+
         private void PlayerMovementCollider()
         {
             foreach (GameObject1 gameObject in GameWorld.Instance.GameState.GameObjects)
@@ -257,6 +258,7 @@ namespace SystemShutdown.GameObjects
             }
         }
 
+
         public override void Update(GameTime gameTime)
         {
             RotatePlayer();
@@ -264,6 +266,15 @@ namespace SystemShutdown.GameObjects
             ShowMapTime += GameWorld.Instance.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
+
+            if (speed > 400)
+            {
+                speed = 400;
+            }
+            if (cooldown < 500)
+            {
+                cooldown = 500;
+            }
             if (shootTime >= cooldown / 1000)
             {
                 canShoot = true;
