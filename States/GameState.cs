@@ -158,6 +158,7 @@ namespace SystemShutdown.States
         {
             for (int i = 0; i < Days && i < 10; i++)
             {
+                
                 if (aliveEnemies < 50)
                 {
                     if (GameWorld.Instance.IsDay)
@@ -233,7 +234,7 @@ namespace SystemShutdown.States
         {
            
             enemySpawnTimer += GameWorld.Instance.DeltaTime;
-            if (enemySpawnTimer >= 1)
+            if (enemySpawnTimer >= 10)
             {
                 SpawnEnemiesAcordingToDayNumber();
                 enemySpawnTimer = 0.0;

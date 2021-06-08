@@ -53,6 +53,7 @@ namespace SystemShutdown
 
         private CyclebarDay cyclebarDay;
         private CyclebarNight cyclebarNight;
+        public Texture2D darkSprite;
 
         private Repository repo;
 
@@ -185,6 +186,8 @@ namespace SystemShutdown
             clickButton3 = Content.Load<SoundEffect>("Sounds/click3");
             clickButton4 = Content.Load<SoundEffect>("Sounds/click4");
             clickButton5 = Content.Load<SoundEffect>("Sounds/click5");
+            darkSprite = Content.Load<Texture2D>("darksprite2");
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -250,6 +253,7 @@ namespace SystemShutdown
 
         protected override void Draw(GameTime gameTime)
         {
+
             /// <summary>
             /// This will scale and adjust everything in game to our scale and no matter the size of the window,
             /// the game will always be running in 1080p resolution (or what resolution we choose)
@@ -275,6 +279,12 @@ namespace SystemShutdown
             spriteBatch.Draw(RenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if (isGameState)
             {
+
+                if (!IsDay)
+                {
+                    spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X + 1700, -camera.Transform.Translation.Y + 1700), null, Color.White * 0.4f, 0, GameWorld.Instance.GameState.backgroundOrigin, 1f, SpriteEffects.None, 1f);
+
+                }
                 if (GameState.PlayerBuilder.Player.showingMap)
                 {
                     spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
@@ -286,7 +296,7 @@ namespace SystemShutdown
                         IsDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
                         GameState.Days++;
-                      //  GameState.SpawnEnemiesAcordingToDayNumber();
+                        
                     }
                     cyclebarNight.Draw(spriteBatch);
                 }
@@ -298,8 +308,6 @@ namespace SystemShutdown
                         cyclebarNight.currentBarNight = cyclebarNight.fullBarNight;
                     }
                     cyclebarDay.Draw(spriteBatch);
-                    //GameState.SpawnEnemiesAcordingToDayNumber();
-
                 }
                 GameState.DrawPlayerStats(spriteBatch);
 

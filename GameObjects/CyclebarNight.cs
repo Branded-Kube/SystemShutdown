@@ -10,14 +10,16 @@ namespace SystemShutdown.GameObjects
 {
     public class CyclebarNight
     {
-        public Texture2D darkSprite;
+       // public Texture2D darkSprite;
         public Texture2D moonSprite;
         public Texture2D nightContainer, nightBar;
         public Vector2 nightBarPosition;
         public int fullBarNight;
         public float currentBarNight;
         //public float nightMeter = 0.05f; //Ca. 1:50 min.
-        public float nightMeter = 1f;
+       // public float nightMeter = 1f;
+        public float nightMeter = 0.3f;
+
 
         public Color nightBarColor;
 
@@ -31,7 +33,7 @@ namespace SystemShutdown.GameObjects
 
         private void LoadContent(ContentManager content)
         {
-            darkSprite = content.Load<Texture2D>("Textures/dark");
+            //darkSprite = content.Load<Texture2D>("Textures/dark");
             moonSprite = content.Load<Texture2D>("Textures/moon");
             nightContainer = content.Load<Texture2D>("Textures/HealthbarEmpty");
             nightBar = content.Load<Texture2D>("Textures/Healthbar");
@@ -48,7 +50,7 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(darkSprite, GameWorld.Instance.GameState.backgroundPos, null, Color.White, 0, GameWorld.Instance.GameState.backgroundOrigin, 1f, SpriteEffects.None, 0.1f);
+          //  spriteBatch.Draw(darkSprite, GameWorld.Instance.GameState.backgroundPos, null, Color.White, 0, GameWorld.Instance.GameState.backgroundOrigin, 1f, SpriteEffects.None, 0.1f);
 
             spriteBatch.Draw(moonSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
                 GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 475), Color.White);
