@@ -358,7 +358,6 @@ namespace SystemShutdown.GameObjects
                 timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
                 //Beregner currentIndex
                 currentIndex = (int)(timeElapsed * fps);
-                /*GameWorld.Instance.gameState.enemyFactory.enemyBug.Sprite*/
                 var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
                 tmpSpriteRenderer.Sprite = walk[currentIndex];
 
