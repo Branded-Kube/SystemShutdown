@@ -13,7 +13,6 @@ namespace SystemShutdown
 {
     public class Mods : Component, IGameListener
     {
-        private Mods floormod;
 
         public int Id { get; set; }
         public int ModFKID { get; set; }
@@ -24,7 +23,7 @@ namespace SystemShutdown
 
 
 
-        //double despawnTimer = 0.0;
+        double despawnTimer = 0.0;
 
 
         //public GameObject1 Create()
@@ -83,11 +82,11 @@ namespace SystemShutdown
         //}
         public override void Update(GameTime gameTime)
         {
-            //despawnTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            //if (despawnTimer > 10)
-            //{
-            //    GameObject.Destroy();
-            //}
+            despawnTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            if (despawnTimer > 15)
+            {
+                GameObject.Destroy();
+            }
         }
         public void ApplyMod()
         {
