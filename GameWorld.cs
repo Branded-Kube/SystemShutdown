@@ -286,9 +286,9 @@ namespace SystemShutdown
                         IsDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
                         GameState.Days++;
-                        GameState.SpawnEnemiesAcordingToDayNumber();
+                      //  GameState.SpawnEnemiesAcordingToDayNumber();
                     }
-                   // cyclebarNight.Draw(spriteBatch);
+                    cyclebarNight.Draw(spriteBatch);
                 }
                 if (IsDay == true)
                 {

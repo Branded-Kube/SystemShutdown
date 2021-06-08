@@ -148,8 +148,11 @@ namespace SystemShutdown.States
 
         /// <summary>
         /// Ras
-        /// Spawn Enemies in start of daycycle.
-        /// 5 Bug and 1 Trojan is added to total number of spawns per day 5*daynumber to a maximum of 50 at a time
+        /// Spawn Enemies acording to daynumber and day/ night cycle.
+        /// Spawns a enemy each day for each days passed.
+        /// Double spawns in night cycle
+        /// If day is > 5, trojan anemies is spawned aswell
+        /// maximum numbers of enemies is 50. 
         /// </summary>
         public void SpawnEnemiesAcordingToDayNumber()
         {
@@ -230,7 +233,7 @@ namespace SystemShutdown.States
         {
            
             enemySpawnTimer += GameWorld.Instance.DeltaTime;
-            if (enemySpawnTimer >= 2)
+            if (enemySpawnTimer >= 1)
             {
                 SpawnEnemiesAcordingToDayNumber();
                 enemySpawnTimer = 0.0;
@@ -348,8 +351,6 @@ namespace SystemShutdown.States
         {
             spriteBatch.Begin();
             spriteBatch.Draw(backgroundSprite, backgroundPos, null, Color.White, 0, backgroundOrigin, 1f, SpriteEffects.None, 0.1f);
-            //Draw selected Enemy ID
-            spriteBatch.DrawString(font, $"Enemy: {enemyID} selected", new Vector2(300, 100), Color.Black);
 
             for (int i = 0; i < GameObjects.Count; i++)
             {
