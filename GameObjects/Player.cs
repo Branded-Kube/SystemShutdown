@@ -225,48 +225,9 @@ namespace SystemShutdown.GameObjects
 
         }
 
-
-        public override void Update(GameTime gameTime)
+        private void PlayerMovementCollider()
         {
-
-            shootTime += GameWorld.Instance.DeltaTime;
-            ShowMapTime += GameWorld.Instance.DeltaTime;
-            lastVelocity = GameObject.Transform.Position;
-
-            if (speed > 600)
-            {
-                speed = 400;
-            }
-            if (cooldown < 500)
-            {
-                cooldown = 500;
-            }
-            if (shootTime >= cooldown / 1000)
-            {
-                canShoot = true;
-            }
-
-            if (ShowMapTime >= mapCooldown)
-            {
-                canToggleMap = true;
-            }
-
-            // The active state from the last frame is now old
-            lastMouseState = mouseState;
-
-            // Get the mouse state relevant for this frame
-            mouseState = Mouse.GetState();
-            // Recognize a single click of the left mouse button
-            if (/*lastMouseState.LeftButton == ButtonState.Released &&*/ mouseState.LeftButton == ButtonState.Pressed && canShoot)
-            {
-                Shoot();
-            }
-
-            Move();
-
-            GameWorld.Instance.gameState.playerBuilder.Animate(gameTime);
-            
-            foreach (GameObject1 gameObject in GameWorld.Instance.gameState.gameObjects)
+            foreach (GameObject1 gameObject in GameWorld.Instance.GameState.GameObjects)
             {
                 if (gameObject.Tag == "Node")
                 {
@@ -297,6 +258,7 @@ namespace SystemShutdown.GameObjects
             }
         }
 
+
         public override void Update(GameTime gameTime)
         {
             RotatePlayer();
@@ -304,6 +266,15 @@ namespace SystemShutdown.GameObjects
             ShowMapTime += GameWorld.Instance.DeltaTime;
             lastVelocity = GameObject.Transform.Position;
 
+
+            if (speed > 600)
+            {
+                speed = 400;
+            }
+            if (cooldown < 500)
+            {
+                cooldown = 500;
+            }
             if (shootTime >= cooldown / 1000)
             {
                 canShoot = true;
