@@ -60,7 +60,7 @@ namespace SystemShutdown.States
 
         public Texture2D projektilEffectTexture;
        
-    double enemySpawnTimer = 0.0;
+        double enemySpawnTimer = 0.0;
 
         private float dmgTimer = 2f;
         private float healthTimer = 2f;
@@ -111,8 +111,8 @@ namespace SystemShutdown.States
         {
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
-            projektilEffectTexture = GameWorld.Instance.Content.Load<Texture2D>("Textures/cursoren");
-            modboard = GameWorld.Instance.Content.Load<Texture2D>("modboard");
+            //projektilEffectTexture = GameWorld.Instance.Content.Load<Texture2D>("Textures/cursoren");
+            modboard = content.Load<Texture2D>("modboard");
 
 
             // Backgrounds music
