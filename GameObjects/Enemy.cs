@@ -131,7 +131,7 @@ namespace SystemShutdown.GameObjects
                 }
 
                 Random rnd = new Random();
-                var moddrop = rnd.Next(1, 3);
+                var moddrop = rnd.Next(1, 4);
                 if (moddrop == 2)
                 {
                     GameObject1 go = ModFactory.Instance.Create(GameObject.Transform.Position, "");

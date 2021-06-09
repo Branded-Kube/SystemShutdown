@@ -24,6 +24,9 @@ namespace SystemShutdown.States
 
         private Texture2D cursorSprite;
         private Vector2 cursorPosition;
+        private Texture2D modboard;
+        private Vector2 statWindowPosition;
+
 
         private static SpriteFont font;
         private string enemyID = "";
@@ -109,6 +112,8 @@ namespace SystemShutdown.States
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
             projektilEffectTexture = GameWorld.Instance.Content.Load<Texture2D>("Textures/cursoren");
+            modboard = GameWorld.Instance.Content.Load<Texture2D>("modboard");
+
 
             // Backgrounds music
             //dayMusic = content.Load<Song>("Sounds/song1");
@@ -164,7 +169,7 @@ namespace SystemShutdown.States
                     if (GameWorld.Instance.IsDay)
                     {
                         SpawnBugEnemies(SetEnemySpawnInCorner());
-                        if (i >= 5)
+                        if (i >= 3)
                         {
                             SpawnTrojanEnemies(SetEnemySpawnInCorner());
                         }
@@ -173,24 +178,13 @@ namespace SystemShutdown.States
                     {
                         SpawnBugEnemies(SetEnemySpawnInCorner());
                         SpawnBugEnemies(SetEnemySpawnInCorner());
-                        if (i >= 5)
+                        if (i >= 3)
                         {
                             SpawnTrojanEnemies(SetEnemySpawnInCorner());
                         }
                     }
                     
                 }
-
-                //if (aliveEnemies < 50)
-                //{
-                   
-                //    SpawnBugEnemies(SetEnemySpawnInCorner());
-                //    SpawnBugEnemies(SetEnemySpawnInCorner());
-                //    SpawnBugEnemies(SetEnemySpawnInCorner());
-                //    SpawnBugEnemies(SetEnemySpawnInCorner());
-                //    SpawnBugEnemies(SetEnemySpawnInCorner());
-                //    SpawnTrojanEnemies(SetEnemySpawnInCorner());
-                //}
             }
             Debug.WriteLine($"Enemies alive {aliveEnemies}");
 
@@ -242,6 +236,7 @@ namespace SystemShutdown.States
 
             backgroundPos = new Vector2(GameWorld.Instance.RenderTarget.Width / 2, GameWorld.Instance.RenderTarget.Height / 2);
             backgroundOrigin = new Vector2(backgroundSprite.Width / 2, backgroundSprite.Height / 2);
+
             ///<summary>
             ///Updates cursors position
             /// </summary>
@@ -369,6 +364,8 @@ namespace SystemShutdown.States
             {
                 item.Draw(spriteBatch);
             }
+
+
             spriteBatch.End();
            
         }
@@ -378,17 +375,21 @@ namespace SystemShutdown.States
         /// </summary>
         public void DrawPlayerStats(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, $"| - - Player Stats - - | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 900, PlayerBuilder.Player.GameObject.Transform.Position.Y + 360), _killsColor);
-            spriteBatch.DrawString(font, $"Enemies killed:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 900, PlayerBuilder.Player.GameObject.Transform.Position.Y + 400), _killsColor);
-            spriteBatch.DrawString(font, $"Health Points: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 900, PlayerBuilder.Player.GameObject.Transform.Position.Y + 440), _healthColor);
-            spriteBatch.DrawString(font, $"Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 900, PlayerBuilder.Player.GameObject.Transform.Position.Y + 480), _dmgColor);
-            spriteBatch.DrawString(font, $"Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 640, PlayerBuilder.Player.GameObject.Transform.Position.Y - 390), Color.White);
+            spriteBatch.Draw(modboard, new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 910, PlayerBuilder.Player.GameObject.Transform.Position.Y + 240), Color.White);
+            spriteBatch.DrawString(font, $"  | Player Stats | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 350), _killsColor);
+            spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 370), _killsColor);
+            spriteBatch.DrawString(font, $"  Health: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 390), _healthColor);
+            spriteBatch.DrawString(font, $"  Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 410), _dmgColor);
+            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 430), _dmgColor);
+            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 450), _dmgColor);
+            spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 640, PlayerBuilder.Player.GameObject.Transform.Position.Y - 390), Color.White);
+
             //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
         }
 
         //public void projektilEffects(SpriteBatch spriteBatch)
         //{
-            
+
         //    foreach (ProjectileEffect item in Effects)
         //    {
         //        item.Draw(spriteBatch);
