@@ -95,7 +95,6 @@ namespace SystemShutdown.States
         public void ChangeHealthColor()
         {
             HealthColor = Color.YellowGreen;
-
         }
 
         public override void LoadContent()
@@ -135,9 +134,6 @@ namespace SystemShutdown.States
             // Enables threads to be run and spawns the first wave of enemies
             IsThreadsRunning = true;
         }
-
-
-
 
         /// <summary>
         /// Ras
