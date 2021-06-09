@@ -120,10 +120,14 @@ namespace SystemShutdown
             else if (choseneffect.ModFK == 2)
             {
                 GameWorld.Instance.GameState.PlayerBuilder.player.speed += choseneffect.Effect;
+                GameWorld.Instance.GameState.msColorTimer = true;
+
             }
             else if (choseneffect.ModFK == 3)
             {
                 GameWorld.Instance.GameState.PlayerBuilder.player.cooldown -= choseneffect.Effect;
+                GameWorld.Instance.GameState.asColorTimer = true;
+
             }
             else if (choseneffect.ModFK == 4)
             {

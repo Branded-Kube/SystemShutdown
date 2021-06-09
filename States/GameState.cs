@@ -50,6 +50,7 @@ namespace SystemShutdown.States
         private Color _dmgColor = Color.White;
         private Color _killsColor = Color.White;
         public Color _msColor = Color.White;
+        public Color _asColor = Color.White;
 
         public List<ProjectileEffect> NewEffects = new List<ProjectileEffect>();
 
@@ -64,11 +65,16 @@ namespace SystemShutdown.States
 
         private float dmgTimer = 2f;
         private float healthTimer = 2f;
+        private float asTimer = 2f;
+        private float msTimer = 2f;
+        private float killsTimer = 2f;
         private float countDown = 0.05f;
         public Color HealthColor { get { return _healthColor; } set { _healthColor = value; } }
         public Color DmgColor { get { return _dmgColor; } set { _dmgColor = value; } }
         public Color KillsColor { get { return _killsColor; } set { _killsColor = value; } }
         public Color MsColor { get { return _msColor; } set { _msColor = value; } }
+        public Color AsColor { get { return _asColor; } set { _asColor = value; } }
+
         public int AliveEnemies { get { return aliveEnemies; } set { aliveEnemies = value; } }
         public List<Collider> Colliders { get { return colliders; } set { colliders = value; } }
         public CPUBuilder CpuBuilder { get { return cpuBuilder; } set { cpuBuilder = value; } }
@@ -81,6 +87,9 @@ namespace SystemShutdown.States
 
         public bool dmgColorTimer { get; set; }
         public bool healthColorTimer { get; set; }
+        public bool msColorTimer { get; set; }
+        public bool asColorTimer { get; set; }
+        public bool killsColorTimer { get; set; }
 
         #endregion
 
@@ -105,6 +114,19 @@ namespace SystemShutdown.States
         {
             HealthColor = Color.YellowGreen;
 
+        }
+        public void ChangeAsColor()
+        {
+            AsColor = Color.YellowGreen;
+
+        }
+        public void ChangeMsColor()
+        {
+            MsColor = Color.YellowGreen;
+        }
+        public void ChangeKillsColor()
+        {
+            KillsColor = Color.YellowGreen;
         }
 
         public override void LoadContent()
@@ -288,6 +310,7 @@ namespace SystemShutdown.States
                     dmgColorTimer = false;
                     Debug.WriteLine("IT WORKS!!!");
                     DmgColor = Color.White;
+                    dmgTimer = 2f;
                 }
             }
             if (healthColorTimer == true)
@@ -300,6 +323,46 @@ namespace SystemShutdown.States
                     healthColorTimer = false;
                     Debug.WriteLine("IT WORKS for health aswell!!!");
                     HealthColor = Color.White;
+                    healthTimer = 2f;
+                }
+            }
+            if (msColorTimer == true)
+            {
+                ChangeMsColor();
+                msTimer -= countDown;
+
+                if (msTimer <= 0)
+                {
+                    msColorTimer = false;
+                    Debug.WriteLine("IT WORKS for move speed aswell!!!");
+                    MsColor = Color.White;
+                    msTimer = 2f;
+                }
+            }
+            if (asColorTimer == true)
+            {
+                ChangeAsColor();
+                asTimer -= countDown;
+
+                if (asTimer <= 0)
+                {
+                    asColorTimer = false;
+                    Debug.WriteLine("IT WORKS for attack speed aswell!!!");
+                    AsColor = Color.White;
+                    asTimer = 2f;
+                }
+            }
+            if (killsColorTimer == true)
+            {
+                ChangeKillsColor();
+                killsTimer -= countDown;
+
+                if (killsTimer <= 0)
+                {
+                    killsColorTimer = false;
+                    Debug.WriteLine("IT WORKS for kills aswell!!!");
+                    KillsColor = Color.White;
+                    killsTimer = 2f;
                 }
             }
 
@@ -376,12 +439,12 @@ namespace SystemShutdown.States
         public void DrawPlayerStats(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(modboard, new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 910, PlayerBuilder.Player.GameObject.Transform.Position.Y + 240), Color.White);
-            spriteBatch.DrawString(font, $"  | Player Stats | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 350), _killsColor);
+            spriteBatch.DrawString(font, $"  | Player Stats | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 350), Color.White);
             spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 370), _killsColor);
             spriteBatch.DrawString(font, $"  Health: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 390), _healthColor);
             spriteBatch.DrawString(font, $"  Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 410), _dmgColor);
-            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 430), _dmgColor);
-            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 450), _dmgColor);
+            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 430), _asColor);
+            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 450), _msColor);
             spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 640, PlayerBuilder.Player.GameObject.Transform.Position.Y - 390), Color.White);
 
             //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);

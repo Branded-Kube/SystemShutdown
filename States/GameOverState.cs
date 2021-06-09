@@ -201,10 +201,11 @@ namespace SystemShutdown.States
             }
 
             spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
-            
+
             //spriteBatch.DrawString(buttonFont, "Save highscore" , new Vector2 (GameWorld.Instance.ScreenWidth / 2, 380), Color.White);
 
             //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
+            spriteBatch.DrawString(buttonFont, "Game created by: \n Frederik Rennow Gam\n Soeren Kubel Moelsted Joergensen\n Lau Noerlund Joergensen\n Ras Brandt", new Vector2(300, 500), Color.White);
 
 
             if (isSetttingInitials)
