@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +16,12 @@ namespace SystemShutdown.GameObjects
         public delegate void DamageEventHandler(object source,Enemy enemy, EventArgs e);
         public static event DamageEventHandler TakeDamageCPU;
         static Semaphore MySemaphore;
+
+        private float animateTimer = 20f;
+        private float countDown = 0.05f;
+
+        private bool AnimateTimer { get; set; }
+
         /// <summary>
         /// Releases Semaphore (how many that may enter at a time)
         /// 3 Threads can enter
@@ -33,12 +40,13 @@ namespace SystemShutdown.GameObjects
 
             Health = 1000;
             TakeDamageCPU += CPU_DamageCPU;
+
+            GameWorld.Instance.GameState.CpuBuilder.fps = 8;
         }
 
         private void CPU_DamageCPU(object source, Enemy enemy, EventArgs e)
         {
             Health -= enemy.Dmg;
-
         }
 
         /// <summary>
@@ -59,14 +67,31 @@ namespace SystemShutdown.GameObjects
             MySemaphore.Release();
         }
 
-
-
         public override void Awake()
         {
             GameObject.Tag = "CPU";
 
             GameObject.Transform.Position = new Vector2(1700, 1700);
-          //  spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            //  spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (AnimateTimer == true)
+            {
+                GameWorld.Instance.GameState.CpuBuilder.Animate(gameTime);
+                animateTimer -= countDown;
+
+                if (animateTimer <= 0)
+                {
+                    AnimateTimer = false;
+                }
+            }
+            else if (AnimateTimer == false)
+            {
+                animateTimer = 30f;
+                GameWorld.Instance.GameState.CpuBuilder.sr.Sprite = GameWorld.Instance.GameState.CpuBuilder.colors[0];
+            }
         }
 
         public override string ToString()
@@ -79,6 +104,8 @@ namespace SystemShutdown.GameObjects
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
             {
                 Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
+
+                AnimateTimer = true;
 
                 if (tmpEnemy.IsTrojan)
                 {

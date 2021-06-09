@@ -76,8 +76,8 @@ namespace SystemShutdown.States
         public Vector2 CursorPosition { get { return cursorPosition; } set { cursorPosition = value; } }
         public int Days { get { return days; } set { days = value; } }
 
-        public bool dmgColorTimer { get; set; }
-        public bool healthColorTimer { get; set; }
+        public bool DmgColorTimer { get; set; }
+        public bool HealthColorTimer { get; set; }
 
         #endregion
 
@@ -283,26 +283,26 @@ namespace SystemShutdown.States
                 }
             }
 
-            if (dmgColorTimer == true)
+            if (DmgColorTimer == true)
             {
                 ChangeDmgColor();
                 dmgTimer -= countDown;
 
                 if (dmgTimer <= 0)
                 {
-                    dmgColorTimer = false;
+                    DmgColorTimer = false;
                     Debug.WriteLine("IT WORKS!!!");
                     DmgColor = Color.White;
                 }
             }
-            if (healthColorTimer == true)
+            if (HealthColorTimer == true)
             {
                 ChangeHealthColor();
                 healthTimer -= countDown;
 
                 if (healthTimer <= 0)
                 {
-                    healthColorTimer = false;
+                    HealthColorTimer = false;
                     Debug.WriteLine("IT WORKS for health aswell!!!");
                     HealthColor = Color.White;
                 }

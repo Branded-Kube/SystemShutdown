@@ -76,7 +76,7 @@ namespace SystemShutdown.States
             quitGameText = content.Load<Texture2D>("Controls/quitgame");
             savedScoreText = content.Load<Texture2D>("Controls/scoresaved");
             enterInitialText = content.Load<Texture2D>("Controls/enterinitials");
-            returnToMenuText = content.Load<Texture2D>("Controls/quitgame");
+            returnToMenuText = content.Load<Texture2D>("Controls/mainmenu");
 
             gameOverMusic = content.Load<Song>("Sounds/song03");
 
