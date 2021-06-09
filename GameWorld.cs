@@ -87,6 +87,8 @@ namespace SystemShutdown
         public MenuState MenuState { get { return menuState; } set { menuState = value; } }
         public bool IsDay { get { return isDay; } set { isDay = value; } }
         public float DeltaTime { get { return deltaTime; } set { deltaTime = value; } }
+
+
         #endregion
 
         #region Methods
@@ -188,6 +190,7 @@ namespace SystemShutdown
             clickButton5 = Content.Load<SoundEffect>("Sounds/click5");
             darkSprite = Content.Load<Texture2D>("darksprite2");
 
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -285,10 +288,11 @@ namespace SystemShutdown
                     spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X + 1700, -camera.Transform.Translation.Y + 1700), null, Color.White * 0.4f, 0, GameWorld.Instance.GameState.backgroundOrigin, 1f, SpriteEffects.None, 1f);
 
                 }
-                if (GameState.PlayerBuilder.Player.showingMap)
+                if (GameState.PlayerBuilder.Player.ShowingMap)
                 {
                     spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
                 }
+
                 if (IsDay == false)
                 {
                     if (cyclebarNight.currentBarNight <= 0)

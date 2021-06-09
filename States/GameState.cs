@@ -384,6 +384,14 @@ namespace SystemShutdown.States
             spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 450), _dmgColor);
             spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 640, PlayerBuilder.Player.GameObject.Transform.Position.Y - 390), Color.White);
 
+            if (!PlayerBuilder.player.HasUsedMap)
+            {
+
+                spriteBatch.DrawString(font, "Click M to hide the map", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X -750, PlayerBuilder.Player.GameObject.Transform.Position.Y - 150), Color.Red);
+
+
+            }
+
             //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
         }
 

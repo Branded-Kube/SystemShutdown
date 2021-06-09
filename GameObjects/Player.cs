@@ -44,7 +44,22 @@ namespace SystemShutdown.GameObjects
         public delegate void DamageEventHandler(object source, Enemy enemy, EventArgs e);
         public static event DamageEventHandler TakeDamagePlayer;
 
-        public bool showingMap;
+        private bool showingMap = true;
+
+        public bool ShowingMap
+        {
+            get { return showingMap; }
+            private set {; }
+        }
+
+        private bool hasUsedMap;
+
+        public bool HasUsedMap
+        {
+            get { return hasUsedMap; }
+            private set {; }
+        }
+
 
         //protected Texture2D[] sprites, upWalk;
         //protected float fps;
@@ -96,19 +111,6 @@ namespace SystemShutdown.GameObjects
         {
             Health -= enemy.Dmg;
         }
-
-
-        //public void Move(Vector2 velocity)
-        //{
-        //    currentDir = velocity;
-
-        //    if (velocity != Vector2.Zero)
-        //    {
-        //        velocity.Normalize();
-        //    }
-        //    velocity *= speed;
-        //    GameObject.Transform.Translate(velocity * GameWorld.DeltaTime);
-        //}
 
         public void Move(KeyboardState keyState)
         {
@@ -400,6 +402,7 @@ namespace SystemShutdown.GameObjects
                 }
                 else
                     showingMap = false;
+                    hasUsedMap = true;
             }
         }
 
