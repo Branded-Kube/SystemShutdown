@@ -15,7 +15,7 @@ namespace SystemShutdown.BuildPattern
     {
         private GameObject1 playerGO;
 
-        private SpriteRenderer playerSR;
+        public SpriteRenderer playerSR;
 
         public Texture2D[] walk;
         public float fps;
@@ -61,7 +61,7 @@ namespace SystemShutdown.BuildPattern
                 walk[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "player");
             }
             //When loop is finished return to first sprite/Sets default sprite
-            playerSR.Sprite = playerSR.Sprite;
+            playerSR.Sprite = walk[0];
         }
 
         /// <summary>
