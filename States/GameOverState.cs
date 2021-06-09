@@ -1,15 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
-using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.States
 {
@@ -51,11 +47,11 @@ namespace SystemShutdown.States
         private bool isSetttingInitials = false;
 
 
-        public bool IsSettingInitials
-        {
-            get { return isSetttingInitials; }
-            set { isSetttingInitials = value; }
-        }
+        //public bool IsSettingInitials
+        //{
+        //    get { return isSetttingInitials; }
+        //    set { isSetttingInitials = value; }
+        //}
 
         #endregion
 
@@ -154,12 +150,6 @@ namespace SystemShutdown.States
             }
         }
 
-
-        //public void SetInitials()
-        //{
-        //    Window.TextInput += UserLogin.CreateUsernameInput;
-        //}
-
         public override void Update(GameTime gameTime)
         {
             // Frederik
@@ -189,11 +179,6 @@ namespace SystemShutdown.States
 
         }
 
-        //public override void PostUpdate(GameTime gameTime)
-        //{
-        //    //(unload game-specific content)
-        //}
-
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Frederik
@@ -206,22 +191,17 @@ namespace SystemShutdown.States
 
             spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
             
-            //spriteBatch.DrawString(buttonFont, "Save highscore" , new Vector2 (GameWorld.Instance.ScreenWidth / 2, 380), Color.White);
-
-            //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
 
 
             if (isSetttingInitials)
             {
                 spriteBatch.Draw(enterInitialText, enterInitialPos, null, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                //spriteBatch.DrawString(buttonFont, "Enter your initials", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 550), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                 spriteBatch.DrawString(buttonFont, Highscores.PlayerNameInput, new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 425), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
             }
 
             if (scoreSaved)
             {
                 spriteBatch.Draw(savedScoreText, savedScorePos, null, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                //spriteBatch.DrawString(buttonFont, "Your score has been saved", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 100), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
             }
 
             spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);

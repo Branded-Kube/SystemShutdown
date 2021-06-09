@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.GameObjects;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.Components
@@ -30,8 +26,6 @@ namespace SystemShutdown.Components
                     );
             }
         }
-
-      
 
         public Collider(SpriteRenderer spriteRenderer, IGameListener gameListener)
         {

@@ -8,7 +8,6 @@ namespace SystemShutdown.AStar
     public class Node : Component, IGameListener
     {
         public bool Passable { get; set; } = true;
-
         public int X { get; set; } = 0;
         public int Y { get; set; } = 0;
         public double F { get; set; } = 0;

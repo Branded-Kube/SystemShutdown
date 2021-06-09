@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.States;
 
 namespace SystemShutdown.ComponentPattern
 {
@@ -34,13 +31,7 @@ namespace SystemShutdown.ComponentPattern
                 component.Awake();
             }
         }
-        public void Start()
-        {
-            foreach (Component component in components.Values)
-            {
-                component.Start();
-            }
-        }
+     
 
         
 

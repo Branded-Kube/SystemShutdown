@@ -67,8 +67,10 @@ namespace SystemShutdown.FactoryPattern
         }
 
         /// <summary>
+        /// Collision with Node:
         /// Destroys itself on impact with a Node object (wall) or enemy
-        /// If enemy, damages enemys health with players dmg. Bool AlreadyCollided causes projektile to only hit 1 enemy at a time. 
+        /// Collision with Enemy:
+        /// Damages enemys health with players dmg. Bool AlreadyCollided causes projektile to only hit 1 enemy at a time. 
         /// </summary>
         /// <param name="gameEvent"></param>
         /// <param name="component"></param>
@@ -94,9 +96,8 @@ namespace SystemShutdown.FactoryPattern
         /// <param name="gametime"></param>
         public void Animate(GameTime gametime)
         {
-            //Giver tiden, der er gået, siden sidste update
             timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-            //Beregner currentIndex
+            //Calculates currentIndex
             currentIndex = (int)(timeElapsed * fps);
             var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             tmpSpriteRenderer.Sprite = projectiles[currentIndex];

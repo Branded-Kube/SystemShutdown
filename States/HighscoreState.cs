@@ -9,10 +9,9 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.States
 {
-   public class HighscoreState : State
+    public class HighscoreState : State
     {
         private List<StateComponent> components;
-
         private SpriteFont buttonFont;
         private Texture2D buttonSprite;
         private Texture2D sprite;
@@ -21,9 +20,7 @@ namespace SystemShutdown.States
         private Vector2 backOrigin;
         private Vector2 position;
         private Vector2 origin;
-
         private string score;
-
 
         public HighscoreState()
         {
@@ -52,8 +49,6 @@ namespace SystemShutdown.States
             GameWorld.ChangeState(GameWorld.Instance.MenuState);
         }
 
-
-
         public override void Update(GameTime gameTime)
         {
             foreach (var component in components)
@@ -77,8 +72,6 @@ namespace SystemShutdown.States
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, 1f, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(backText, backPosition, null, Color.White, 0, backOrigin, 1f, SpriteEffects.None, 0f);
 
-
-
             GameWorld.Instance.Repo.Open();
 
             GameWorld.Instance.Repo.ScoreHandler();
@@ -86,21 +79,14 @@ namespace SystemShutdown.States
             int i = 0;
             while (GameWorld.Instance.Repo.Reader.Read())
             {
-
-                    score = ("PlayerName:  " + GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
-
+                score = ("PlayerName:  " + GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
                 if (i < 10)
                 {
                     spriteBatch.DrawString(buttonFont, (score), new Vector2(GameWorld.Instance.ScreenWidth / 2 - 180, 200 + (i * 50)), Color.Red);
                 }
-
-
                 i++;
             }
-
             GameWorld.Instance.Repo.Close();
-
-
             spriteBatch.End();
         }
 

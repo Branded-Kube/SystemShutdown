@@ -312,10 +312,8 @@ namespace SystemShutdown.GameObjects
             {
                 Health = 100;
             }
-            
             internalThread = new Thread(ThreadMethod);
             StartThread();
-
             //Load sprite sheet - Frederik
             walk = new Texture2D[3];
             //Loop animaiton textures
@@ -343,9 +341,9 @@ namespace SystemShutdown.GameObjects
         /// <param name="gametime"></param>
         public void Animate(GameTime gametime)
         {
-                //Giver tiden, der er gået, siden sidste update
+             
                 timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-                //Beregner currentIndex
+                //Calculates currentIndex
                 currentIndex = (int)(timeElapsed * fps);
                 var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
                 tmpSpriteRenderer.Sprite = walk[currentIndex];

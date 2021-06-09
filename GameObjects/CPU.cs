@@ -24,7 +24,7 @@ namespace SystemShutdown.GameObjects
 
         /// <summary>
         /// Releases Semaphore (how many that may enter at a time)
-        /// 3 Threads can enter
+        /// 10 Threads can enter
         /// </summary>
         public CPU()
         {
@@ -44,13 +44,19 @@ namespace SystemShutdown.GameObjects
             GameWorld.Instance.GameState.CpuBuilder.fps = 6;
         }
 
+        /// <summary>
+        /// Cpu health minus enemy damage
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="enemy"></param>
+        /// <param name="e"></param>
         private void CPU_DamageCPU(object source, Enemy enemy, EventArgs e)
         {
             Health -= enemy.Dmg;
         }
 
         /// <summary>
-        /// Tells worker to wait for empty space using semaphore, and then start harvesting from the palmtree - Soeren
+        /// Tells Enemy thread to wait for empty space using semaphore, and then start damaging CPU Health
         /// </summary>
         /// <param name="id"></param>
         public static void Enter(Object id, Enemy enemy)
@@ -70,9 +76,7 @@ namespace SystemShutdown.GameObjects
         public override void Awake()
         {
             GameObject.Tag = "CPU";
-
             GameObject.Transform.Position = new Vector2(1700, 1700);
-            //  spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
 
         public override void Update(GameTime gameTime)
@@ -93,12 +97,19 @@ namespace SystemShutdown.GameObjects
                 GameWorld.Instance.GameState.CpuBuilder.sr.Sprite = GameWorld.Instance.GameState.CpuBuilder.colors[0];
             }
         }
-
         public override string ToString()
         {
             return "CPU";
         }
 
+        /// <summary>
+        /// Collision with Enemy Bug:
+        /// Enables enemy damage bool. 
+        /// Collision with Enemy Trojan:
+        /// Enemy destroys itself and 3 Bug enemies are spawned in its position 
+        /// </summary>
+        /// <param name="gameEvent"></param>
+        /// <param name="component"></param>
         public void Notify(GameEvent gameEvent, Component component)
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")

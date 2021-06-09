@@ -2,10 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SystemShutdown.Components;
 
 namespace SystemShutdown.Buttons
@@ -32,9 +28,6 @@ namespace SystemShutdown.Buttons
 
         public EventHandler Click;
 
-        //public bool Clicked { get; private set; }
-
-        //public float Layer { get; set; }
 
         // Frederik
         public Vector2 Origin
@@ -86,14 +79,6 @@ namespace SystemShutdown.Buttons
             }
 
             spriteBatch.Draw(_texture, Rectangle, color);
-
-            //if (!string.IsNullOrEmpty(Text))
-            //{
-            //    var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
-            //    var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
-
-                //spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, Layer + 0.2f);
-            //}
         }
 
         public override void Update(GameTime gameTime)

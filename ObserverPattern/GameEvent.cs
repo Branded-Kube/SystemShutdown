@@ -15,7 +15,6 @@ namespace SystemShutdown.ObserverPattern
         {
             this.Title = title;
         }
-
         public void Attach(IGameListener listener)
         {
             listeners.Add(listener);
