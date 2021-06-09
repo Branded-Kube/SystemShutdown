@@ -638,12 +638,6 @@
 /processorParam:Quality=Best
 /build:Sounds/enemy1.wav
 
-#begin Sounds/feets.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/feets.wav
-
 #begin Sounds/horse.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -716,24 +710,6 @@
 /processorParam:Quality=Best
 /build:Sounds/song03.mp3
 
-#begin Sounds/song1.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/song1.mp3
-
-#begin Sounds/song2.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/song2.mp3
-
-#begin Sounds/song3.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/song3.mp3
-
 #begin Sounds/toggle.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -745,12 +721,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/toggle2.wav
-
-#begin Sounds/walk.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/walk.wav
 
 #begin Sounds/walk3.wav
 /importer:WavImporter
@@ -878,18 +848,6 @@
 /processorParam:TextureFormat=Color
 /build:Textures/HealthbarEmpty.png
 
-#begin Textures/Laser.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Laser.jpg
-
 #begin Textures/modboard.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -901,18 +859,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/modboard.png
-
-#begin Textures/ModPickup.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/ModPickup.png
 
 #begin Textures/moon.png
 /importer:TextureImporter
@@ -949,30 +895,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/pick.png
-
-#begin Textures/pl1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/pl1.png
-
-#begin Textures/pl4.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/pl4.png
 
 #begin Textures/sun.png
 /importer:TextureImporter
@@ -1021,16 +943,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/wall2.png
-
-#begin Textures/worker.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/worker.png
 

@@ -178,7 +178,7 @@ namespace SystemShutdown
             killEffect2 = Content.Load<SoundEffect>("Sounds/kill2");
             killEffect3 = Content.Load<SoundEffect>("Sounds/kill3");
             enemyEffect = Content.Load<SoundEffect>("Sounds/enemy1");
-            horseEffect = Content.Load<SoundEffect>("Sounds/horse");
+            //horseEffect = Content.Load<SoundEffect>("Sounds/horse");
             horseEffect2 = Content.Load<SoundEffect>("Sounds/horse2");
             pickedUp = Content.Load<SoundEffect>("Sounds/pickup");
             toggle = Content.Load<SoundEffect>("Sounds/toggle");
