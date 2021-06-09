@@ -41,7 +41,7 @@ namespace SystemShutdown.GameObjects
             Health = 1000;
             TakeDamageCPU += CPU_DamageCPU;
 
-            GameWorld.Instance.GameState.CpuBuilder.fps = 6;
+            GameWorld.Instance.GameState.CpuBuilder.fps = 5;
         }
 
         private void CPU_DamageCPU(object source, Enemy enemy, EventArgs e)
