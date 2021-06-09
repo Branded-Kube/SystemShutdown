@@ -102,7 +102,7 @@ namespace SystemShutdown.States
         {
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
-            modboard = GameWorld.Instance.Content.Load<Texture2D>("modboard");
+            modboard = content.Load<Texture2D>("modboard");
 
             // Backgrounds music
             //dayMusic = content.Load<Song>("Sounds/song1");
