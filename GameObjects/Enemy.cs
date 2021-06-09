@@ -2,13 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using SystemShutdown.AStar;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
-//using SystemShutdown.ObjectPool;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects

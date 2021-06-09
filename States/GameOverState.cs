@@ -39,6 +39,8 @@ namespace SystemShutdown.States
         private Vector2 enterInitialPos;
         private Vector2 returnToMenuOrigin;
         private Vector2 returnToMenuPosition;
+        private KeyboardState currentKeyState;
+        private KeyboardState previousKeyState;
 
         private Song gameOverMusic;
 
@@ -178,11 +180,13 @@ namespace SystemShutdown.States
             {
                 component.Update(gameTime);
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            previousKeyState = currentKeyState;
+            currentKeyState = Keyboard.GetState();
+            if (currentKeyState.IsKeyDown(Keys.Escape) && !previousKeyState.IsKeyDown(Keys.Escape))
             {
-                GameWorld.Instance.Exit();
+                GameWorld.ChangeState(new MenuState());
             }
-          
+
         }
 
         //public override void PostUpdate(GameTime gameTime)

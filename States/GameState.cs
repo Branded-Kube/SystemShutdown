@@ -107,7 +107,6 @@ namespace SystemShutdown.States
         {
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
-            //projektilEffectTexture = GameWorld.Instance.Content.Load<Texture2D>("Textures/cursoren");
             modboard = content.Load<Texture2D>("Textures/modboard");
 
             // Backgrounds music
@@ -154,7 +153,7 @@ namespace SystemShutdown.States
         {
             for (int i = 0; i < Days && i < 10; i++)
             {
-                
+
                 if (aliveEnemies < 50)
                 {
                     if (GameWorld.Instance.IsDay)
@@ -174,7 +173,7 @@ namespace SystemShutdown.States
                             SpawnTrojanEnemies(SetEnemySpawnInCorner());
                         }
                     }
-                    
+
                 }
             }
             Debug.WriteLine($"Enemies alive {aliveEnemies}");
@@ -217,7 +216,7 @@ namespace SystemShutdown.States
         }
         public override void Update(GameTime gameTime)
         {
-           
+
             enemySpawnTimer += GameWorld.Instance.DeltaTime;
             if (enemySpawnTimer >= 10)
             {
@@ -237,11 +236,11 @@ namespace SystemShutdown.States
             currentKeyState = Keyboard.GetState();
 
             ///<summary>
-            /// Goes back to main menu and shuts down all Threads - Frederik
+            /// Goes to gameover menu and shuts down all Threads - Frederik
             /// </summary> 
-            if (Keyboard.GetState().IsKeyDown(Keys.Back))
+            if (currentKeyState.IsKeyUp(Keys.Escape) && !previousKeyState.IsKeyUp(Keys.Escape))
             {
-               ShutdownThreads();
+                ShutdownThreads();
                 GameWorld.ChangeState(new GameOverState());
             }
 
@@ -313,7 +312,7 @@ namespace SystemShutdown.States
             }
             GameOver();
         }
-        
+
         //public override void PostUpdate(GameTime gameTime)
         //{
         //    //// When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
@@ -351,7 +350,7 @@ namespace SystemShutdown.States
             //spriteBatch.Draw(cursorSprite, CursorPosition, Color.White);
 
             spriteBatch.End();
-           
+
         }
 
         /// <summary>
@@ -379,7 +378,7 @@ namespace SystemShutdown.States
             //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
         }
 
-       
+
 
         /// <summary>
         /// Ras
