@@ -91,7 +91,7 @@ namespace SystemShutdown.States
 
                 if (i < 10)
                 {
-                    spriteBatch.DrawString(buttonFont, (score), new Vector2(GameWorld.Instance.ScreenWidth / 2 - 180, 200 + (i * 50)), Color.Red);
+                    spriteBatch.DrawString(buttonFont, (score), new Vector2(GameWorld.Instance.ScreenWidth / 2 - 375, 200 + (i * 50)), Color.Red, 0.0f, Vector2.Zero, 2f, SpriteEffects.None, 0.0f);
                 }
 
 

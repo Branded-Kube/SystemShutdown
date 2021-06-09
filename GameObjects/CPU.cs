@@ -89,7 +89,7 @@ namespace SystemShutdown.GameObjects
             }
             else if (AnimateTimer == false)
             {
-                animateTimer = 30f;
+                animateTimer = 5f;
                 GameWorld.Instance.GameState.CpuBuilder.sr.Sprite = GameWorld.Instance.GameState.CpuBuilder.colors[0];
             }
         }
