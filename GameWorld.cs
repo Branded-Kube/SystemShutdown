@@ -195,14 +195,11 @@ namespace SystemShutdown
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                GameState.ShutdownThreads();
-                //repo.Open();
-                //repo.RemoveTables();
-                //repo.Close();
-                this.Exit();
-            }
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //{
+            //    GameState.ShutdownThreads();
+            //    this.Exit();
+            //}
             ///<summary>
             /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate
             /// </summary>

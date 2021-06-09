@@ -2,13 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using SystemShutdown.AStar;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
-//using SystemShutdown.ObjectPool;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
@@ -100,7 +98,7 @@ namespace SystemShutdown.GameObjects
         }
         /// <summary>
         /// Destroys a enemys gameobject of health is below 0. 
-        /// Also have 50 % to drop a mod on current position on death
+        /// Also have 33 % to drop a mod on current position on death
         /// </summary>
         /// <param name="health"></param>
         private void IsAlive(int health)
@@ -271,16 +269,8 @@ namespace SystemShutdown.GameObjects
                     Thread.Sleep(1000);
                     AttackingPlayer = false;
                     AttackingCPU = false;
-                    Random rnd = new Random();
-                    if (rnd.Next(1, 3) == 1 && GameWorld.Instance.GameState.PlayerBuilder.player.playersMods.Count > 0)
-                    {
-                        // GameWorld.gameState.playerBuilder.player.playersMods.Pop();
-                        //GameWorld.gameState.playerBuilder.player.ApplyAllMods();
-                    }
-                    else
-                    {
+                   
                         CPU.Enter(internalThread, this);
-                    }
                 }
                 else
                 {

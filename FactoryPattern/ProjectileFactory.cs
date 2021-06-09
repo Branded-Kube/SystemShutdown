@@ -29,7 +29,6 @@ namespace SystemShutdown.FactoryPattern
         {
             CreatePrototype(ref projectileSR, ref playerProjectile, "Textures/4bit", 600);
         }
-        //laserBlue05
         private void CreatePrototype(ref SpriteRenderer spriteRenderer, ref Projectile projectile, string sprite, float speed)
         {
             projectile = new Projectile(speed);
@@ -42,13 +41,13 @@ namespace SystemShutdown.FactoryPattern
             projectileGO.Transform.Position = position;
 
 
-                    Projectile projectileClone = playerProjectile.Clone();
-                    projectileSR.Origin = new Vector2(projectileSR.Sprite.Width / 2, (projectileSR.Sprite.Height) / 2);
+            Projectile projectileClone = playerProjectile.Clone();
+            projectileSR.Origin = new Vector2(projectileSR.Sprite.Width / 2, (projectileSR.Sprite.Height) / 2);
 
 
-                    projectileGO.AddComponent(new Collider(projectileSR, projectileClone) { CheckCollisionEvents = true });
-                    projectileGO.AddComponent(projectileClone);
-                    projectileGO.AddComponent(projectileSR.Clone());
+            projectileGO.AddComponent(new Collider(projectileSR, projectileClone) { CheckCollisionEvents = true });
+            projectileGO.AddComponent(projectileClone);
+            projectileGO.AddComponent(projectileSR.Clone());
             return projectileGO;
 
         }

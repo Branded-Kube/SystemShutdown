@@ -27,7 +27,6 @@ namespace SystemShutdown.States
         private Texture2D modboard;
         private Vector2 statWindowPosition;
 
-
         private static SpriteFont font;
         private string enemyID = "";
         public bool IsThreadsRunning;
@@ -51,20 +50,13 @@ namespace SystemShutdown.States
         private Color _killsColor = Color.White;
         public Color _msColor = Color.White;
 
-        public List<ProjectileEffect> NewEffects = new List<ProjectileEffect>();
-
         private List<ProjectileEffect> effects = new List<ProjectileEffect>();
-        //public List<ProjectileEffect> effects = new List<ProjectileEffect>();
-
-        public List<ProjectileEffect> Effects { get { return effects; } set { effects = value; } }
-
-        public Texture2D projektilEffectTexture;
-       
-        double enemySpawnTimer = 0.0;
+        private double enemySpawnTimer = 0.0;
 
         private float dmgTimer = 2f;
         private float healthTimer = 2f;
         private float countDown = 0.05f;
+        public List<ProjectileEffect> Effects { get { return effects; } set { effects = value; } }
         public Color HealthColor { get { return _healthColor; } set { _healthColor = value; } }
         public Color DmgColor { get { return _dmgColor; } set { _dmgColor = value; } }
         public Color KillsColor { get { return _killsColor; } set { _killsColor = value; } }
@@ -72,7 +64,6 @@ namespace SystemShutdown.States
         public int AliveEnemies { get { return aliveEnemies; } set { aliveEnemies = value; } }
         public List<Collider> Colliders { get { return colliders; } set { colliders = value; } }
         public CPUBuilder CpuBuilder { get { return cpuBuilder; } set { cpuBuilder = value; } }
-
         public PlayerBuilder PlayerBuilder { get { return playerBuilder; } set { playerBuilder = value; } }
         public Grid Grid { get { return grid; } set { grid = value; } }
         public List<GameObject1> GameObjects { get { return gameObjects; } set { gameObjects = value; } }
@@ -105,7 +96,6 @@ namespace SystemShutdown.States
         public void PlusHealthColor()
         {
             HealthColor = Color.YellowGreen;
-
         }
 
         public void MinusHealthColor()
@@ -117,9 +107,7 @@ namespace SystemShutdown.States
         {
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
-            //projektilEffectTexture = GameWorld.Instance.Content.Load<Texture2D>("Textures/cursoren");
             modboard = content.Load<Texture2D>("Textures/modboard");
-
 
             // Backgrounds music
             //dayMusic = content.Load<Song>("Sounds/song1");
@@ -151,11 +139,7 @@ namespace SystemShutdown.States
 
             // Enables threads to be run and spawns the first wave of enemies
             IsThreadsRunning = true;
-            //SpawnEnemiesAcordingToDayNumber();
         }
-
-
-
 
         /// <summary>
         /// Ras
@@ -169,7 +153,7 @@ namespace SystemShutdown.States
         {
             for (int i = 0; i < Days && i < 10; i++)
             {
-                
+
                 if (aliveEnemies < 50)
                 {
                     if (GameWorld.Instance.IsDay)
@@ -189,7 +173,7 @@ namespace SystemShutdown.States
                             SpawnTrojanEnemies(SetEnemySpawnInCorner());
                         }
                     }
-                    
+
                 }
             }
             Debug.WriteLine($"Enemies alive {aliveEnemies}");
@@ -232,7 +216,7 @@ namespace SystemShutdown.States
         }
         public override void Update(GameTime gameTime)
         {
-           
+
             enemySpawnTimer += GameWorld.Instance.DeltaTime;
             if (enemySpawnTimer >= 10)
             {
@@ -252,11 +236,11 @@ namespace SystemShutdown.States
             currentKeyState = Keyboard.GetState();
 
             ///<summary>
-            /// Goes back to main menu and shuts down all Threads - Frederik
+            /// Goes to gameover menu and shuts down all Threads - Frederik
             /// </summary> 
-            if (Keyboard.GetState().IsKeyDown(Keys.Back))
+            if (currentKeyState.IsKeyUp(Keys.Escape) && !previousKeyState.IsKeyUp(Keys.Escape))
             {
-               ShutdownThreads();
+                ShutdownThreads();
                 GameWorld.ChangeState(new GameOverState());
             }
 
@@ -322,32 +306,13 @@ namespace SystemShutdown.States
                 }
             }
 
-            // effects = Effects;
-            // var tmpEffects = effects;
-            //foreach (ProjectileEffect item in ExpiredEffects)
-            //{
-            //    if (item.timer > 2)
-            //    {
-            //        tmpEffects.Remove(item);
-            //    }
-            //}
-
-            //foreach (ProjectileEffect item in NewEffects)
-            //{
-            //    tmpEffects.Add(item);
-            //}
-            //effects = tmpEffects;
-            // var tmpeffects = effects;
-            // foreach (ProjectileEffect item in tmpeffects.)
             foreach (ProjectileEffect item in new List<ProjectileEffect>(effects))
             {
                 item.Update(gameTime);
             }
-            // NewEffects.Clear();
-            //ExpiredEffects.Clear();
             GameOver();
         }
-        
+
         //public override void PostUpdate(GameTime gameTime)
         //{
         //    //// When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
@@ -385,7 +350,7 @@ namespace SystemShutdown.States
             //spriteBatch.Draw(cursorSprite, CursorPosition, Color.White);
 
             spriteBatch.End();
-           
+
         }
 
         /// <summary>
@@ -413,16 +378,6 @@ namespace SystemShutdown.States
             //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
         }
 
-        //public void projektilEffects(SpriteBatch spriteBatch)
-        //{
-
-        //    foreach (ProjectileEffect item in Effects)
-        //    {
-        //        item.Draw(spriteBatch);
-        //    }
-        //    //double timer = GameWorld.Instance.DeltaTime;
-        //    //timer++;
-        //}
 
 
         /// <summary>
@@ -483,7 +438,6 @@ namespace SystemShutdown.States
             {
                 GameWorld.Instance.deathEffect.Play();
                 ShutdownThreads();
-                //
                 //GameWorld.Instance.repo.Open();
                 //GameWorld.Instance.repo.RemoveTables();
                 //GameWorld.Instance.repo.Close();

@@ -6,6 +6,7 @@ using System.Text;
 
 namespace SystemShutdown
 {
+    //Ras
    public class ProjectileEffect
     {
         private Texture2D effectTexture;
@@ -21,7 +22,6 @@ namespace SystemShutdown
         {
             fps = 6f;
             this.effectVector = effectVector;
-           // effectTexture = GameWorld.Instance.GameState.projektilEffectTexture;
             walk = new Texture2D[3];
 
             //Loop animaiton textures
