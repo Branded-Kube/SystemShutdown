@@ -22,8 +22,8 @@ namespace SystemShutdown.States
         public Vector2 backgroundPos;
         public Vector2 backgroundOrigin;
 
-        private Texture2D cursorSprite;
-        private Vector2 cursorPosition;
+        public Texture2D cursorSprite;
+        public Vector2 cursorPosition;
         private Texture2D modboard;
         private Vector2 statWindowPosition;
 
@@ -112,7 +112,7 @@ namespace SystemShutdown.States
             backgroundSprite = content.Load<Texture2D>("Backgrounds/circuitboard");
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
             //projektilEffectTexture = GameWorld.Instance.Content.Load<Texture2D>("Textures/cursoren");
-            modboard = content.Load<Texture2D>("modboard");
+            modboard = content.Load<Texture2D>("Textures/modboard");
 
 
             // Backgrounds music
@@ -353,11 +353,8 @@ namespace SystemShutdown.States
                 GameObjects[i].Draw(spriteBatch);
             }
 
-            //Draws cursor
-            spriteBatch.Draw(cursorSprite, CursorPosition, Color.White);
-
             // Draws CPU Health
-            spriteBatch.DrawString(font, $"CPU health {CpuBuilder.Cpu.Health}", CpuBuilder.Cpu.GameObject.Transform.Position, Color.White);
+            spriteBatch.DrawString(font, $"CPU Health: {CpuBuilder.Cpu.Health}", new Vector2(CpuBuilder.Cpu.GameObject.Transform.Position.X - 120, CpuBuilder.Cpu.GameObject.Transform.Position.Y + 140), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             var tmpeffects = effects;
 
             foreach (ProjectileEffect item in tmpeffects)
@@ -365,6 +362,8 @@ namespace SystemShutdown.States
                 item.Draw(spriteBatch);
             }
 
+            ////Draws cursor
+            //spriteBatch.Draw(cursorSprite, CursorPosition, Color.White);
 
             spriteBatch.End();
            
@@ -375,14 +374,14 @@ namespace SystemShutdown.States
         /// </summary>
         public void DrawPlayerStats(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(modboard, new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 910, PlayerBuilder.Player.GameObject.Transform.Position.Y + 240), Color.White);
-            spriteBatch.DrawString(font, $"  | Player Stats | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 350), _killsColor);
-            spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 370), _killsColor);
-            spriteBatch.DrawString(font, $"  Health: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 390), _healthColor);
-            spriteBatch.DrawString(font, $"  Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 410), _dmgColor);
-            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 430), _dmgColor);
-            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 850, PlayerBuilder.Player.GameObject.Transform.Position.Y + 450), _dmgColor);
-            spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 640, PlayerBuilder.Player.GameObject.Transform.Position.Y - 390), Color.White);
+            spriteBatch.Draw(modboard, new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 916, PlayerBuilder.Player.GameObject.Transform.Position.Y + 206), Color.White);
+            spriteBatch.DrawString(font, $"  | Player Stats | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 306), _killsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 346), _killsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Health: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 371), _healthColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 396), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 530, PlayerBuilder.Player.GameObject.Transform.Position.Y - 385), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
 
             //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
         }

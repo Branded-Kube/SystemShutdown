@@ -300,7 +300,7 @@ namespace SystemShutdown.GameObjects
             if (keyState.IsKeyDown(Keys.A)|| keyState.IsKeyDown(Keys.W)|| keyState.IsKeyDown(Keys.S)|| keyState.IsKeyDown(Keys.D))
             {
                 Move(keyState);
-                
+                GameWorld.Instance.GameState.PlayerBuilder.Animate(gameTime);
                 PlayerMovementCollider();
                 GameObject.Transform.Translate(velocity);
                 velocity = Vector2.Zero;
