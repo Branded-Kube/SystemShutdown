@@ -41,7 +41,7 @@ namespace SystemShutdown.GameObjects
             Health = 1000;
             TakeDamageCPU += CPU_DamageCPU;
 
-            GameWorld.Instance.GameState.CpuBuilder.fps = 6;
+            GameWorld.Instance.GameState.CpuBuilder.fps = 5;
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace SystemShutdown.GameObjects
             }
             else if (AnimateTimer == false)
             {
-                animateTimer = 30f;
+                animateTimer = 5f;
                 GameWorld.Instance.GameState.CpuBuilder.sr.Sprite = GameWorld.Instance.GameState.CpuBuilder.colors[0];
             }
         }

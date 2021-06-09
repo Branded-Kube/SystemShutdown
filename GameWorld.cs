@@ -178,7 +178,7 @@ namespace SystemShutdown
             killEffect2 = Content.Load<SoundEffect>("Sounds/kill2");
             killEffect3 = Content.Load<SoundEffect>("Sounds/kill3");
             enemyEffect = Content.Load<SoundEffect>("Sounds/enemy1");
-            horseEffect = Content.Load<SoundEffect>("Sounds/horse");
+            //horseEffect = Content.Load<SoundEffect>("Sounds/horse");
             horseEffect2 = Content.Load<SoundEffect>("Sounds/horse2");
             pickedUp = Content.Load<SoundEffect>("Sounds/pickup");
             toggle = Content.Load<SoundEffect>("Sounds/toggle");
@@ -275,7 +275,8 @@ namespace SystemShutdown
             {
                 if (!IsDay)
                 {
-                    spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X - 40, -camera.Transform.Translation.Y + 20), null, Color.White * 0.8f, 0, gameState.PlayerBuilder.playerSR.Origin, 1f, SpriteEffects.None, 1f);
+                    spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X - 40, -camera.Transform.Translation.Y - 40), null, Color.White * 0.8f, 0, gameState.PlayerBuilder.playerSR.Origin, 1f, SpriteEffects.None, 1f);
+
                 }
                 if (GameState.PlayerBuilder.Player.ShowingMap)
                 {
