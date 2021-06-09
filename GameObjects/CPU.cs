@@ -17,7 +17,7 @@ namespace SystemShutdown.GameObjects
         public static event DamageEventHandler TakeDamageCPU;
         static Semaphore MySemaphore;
 
-        private float animateTimer = 20f;
+        private float animateTimer = 5f;
         private float countDown = 0.05f;
 
         private bool AnimateTimer { get; set; }
@@ -41,7 +41,7 @@ namespace SystemShutdown.GameObjects
             Health = 1000;
             TakeDamageCPU += CPU_DamageCPU;
 
-            GameWorld.Instance.GameState.CpuBuilder.fps = 8;
+            GameWorld.Instance.GameState.CpuBuilder.fps = 6;
         }
 
         private void CPU_DamageCPU(object source, Enemy enemy, EventArgs e)

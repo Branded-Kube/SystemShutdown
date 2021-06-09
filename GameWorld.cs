@@ -87,6 +87,8 @@ namespace SystemShutdown
         public MenuState MenuState { get { return menuState; } set { menuState = value; } }
         public bool IsDay { get { return isDay; } set { isDay = value; } }
         public float DeltaTime { get { return deltaTime; } set { deltaTime = value; } }
+
+
         #endregion
 
         #region Methods
@@ -186,7 +188,8 @@ namespace SystemShutdown
             clickButton3 = Content.Load<SoundEffect>("Sounds/click3");
             clickButton4 = Content.Load<SoundEffect>("Sounds/click4");
             clickButton5 = Content.Load<SoundEffect>("Sounds/click5");
-            darkSprite = Content.Load<Texture2D>("darksprite2");
+            darkSprite = Content.Load<Texture2D>("Textures/darksprite2");
+
 
         }
 
@@ -282,13 +285,14 @@ namespace SystemShutdown
 
                 if (!IsDay)
                 {
-                    spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X + 1700, -camera.Transform.Translation.Y + 1700), null, Color.White * 0.4f, 0, GameWorld.Instance.GameState.backgroundOrigin, 1f, SpriteEffects.None, 1f);
+                    spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X - 40, -camera.Transform.Translation.Y + 20), null, Color.White * 0.8f, 0, gameState.PlayerBuilder.playerSR.Origin, 1f, SpriteEffects.None, 1f);
 
                 }
-                if (GameState.PlayerBuilder.Player.showingMap)
+                if (GameState.PlayerBuilder.Player.ShowingMap)
                 {
                     spriteBatch.Draw(minimap, new Vector2(-camera.Transform.Translation.X, -camera.Transform.Translation.Y), null, Color.White, 0f, Vector2.Zero, miniMapScale, SpriteEffects.None, 0f);
                 }
+
                 if (IsDay == false)
                 {
                     if (cyclebarNight.currentBarNight <= 0)
@@ -310,6 +314,9 @@ namespace SystemShutdown
                     cyclebarDay.Draw(spriteBatch);
                 }
                 GameState.DrawPlayerStats(spriteBatch);
+
+                //Draws cursor
+                spriteBatch.Draw(gameState.cursorSprite, gameState.CursorPosition, Color.White);
 
             }
             spriteBatch.End();
