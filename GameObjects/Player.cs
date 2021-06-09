@@ -60,7 +60,6 @@ namespace SystemShutdown.GameObjects
         private bool isLooped;
         private bool hasShot;
 
-
         public bool IsDead
         {
             get
@@ -301,7 +300,7 @@ namespace SystemShutdown.GameObjects
             if (keyState.IsKeyDown(Keys.A)|| keyState.IsKeyDown(Keys.W)|| keyState.IsKeyDown(Keys.S)|| keyState.IsKeyDown(Keys.D))
             {
                 Move(keyState);
-                GameWorld.Instance.GameState.PlayerBuilder.Animate(gameTime);
+                
                 PlayerMovementCollider();
                 GameObject.Transform.Translate(velocity);
                 velocity = Vector2.Zero;
@@ -399,7 +398,9 @@ namespace SystemShutdown.GameObjects
                     showingMap = true;
                 }
                 else
+                {
                     showingMap = false;
+                }
             }
         }
 
@@ -408,6 +409,7 @@ namespace SystemShutdown.GameObjects
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
             {
                 Enemy tmpEnemy = (Enemy)component.GameObject.GetComponent("Enemy");
+
                 if (!tmpEnemy.IsTrojan)
                 {
                     tmpEnemy.AttackingPlayer = true;
