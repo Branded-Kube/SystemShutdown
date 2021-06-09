@@ -4,7 +4,7 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.FactoryPattern
 {
-    // Ras
+   
     class ModFactory : Factory
     {
         private static ModFactory instance;

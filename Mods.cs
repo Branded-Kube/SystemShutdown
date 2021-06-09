@@ -115,7 +115,7 @@ namespace SystemShutdown
                 GameWorld.Instance.GameState.PlayerBuilder.player.dmg += choseneffect.Effect;
                 //GameWorld.Instance.gameState.DmgColor = Color.GreenYellow;
                 //GameWorld.Instance.gameState.ChangeDmgColor();
-                GameWorld.Instance.GameState.dmgColorTimer = true;
+                GameWorld.Instance.GameState.DmgColorTimer = true;
             }
             else if (choseneffect.ModFK == 2)
             {
@@ -134,7 +134,7 @@ namespace SystemShutdown
                 GameWorld.Instance.GameState.PlayerBuilder.player.Health += choseneffect.Effect;
                 //GameWorld.Instance.gameState.HealthColor = Color.GreenYellow;
                 //GameWorld.Instance.gameState.ChangeHealthColor();
-                GameWorld.Instance.GameState.healthColorTimer = true;
+                GameWorld.Instance.GameState.HealthColorTimerGreen = true;
 
             }
 

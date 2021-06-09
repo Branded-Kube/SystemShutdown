@@ -14,6 +14,17 @@ namespace SystemShutdown.Database
         private readonly IMapper mapper;
         private IDbConnection connection;
 
+        private SQLiteDataReader reader;
+
+        public SQLiteDataReader Reader
+        {
+            get { return reader; }
+            set { reader = value; }
+        }
+
+
+
+
         public Repository(IDatabaseProvider provider, IMapper mapper)
         {
             this.provider = provider;
@@ -87,6 +98,16 @@ namespace SystemShutdown.Database
         {
             var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Highscores (PlayerName, Kills, DaysSurvived) VALUES ('{name}', {kills}, {daysSurvived})", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
+        }
+
+        public void ScoreHandler()
+        {
+            string sql = "SELECT * FROM Highscores ORDER BY Kills DESC";
+
+            SQLiteCommand cmd = new SQLiteCommand(sql, (SQLiteConnection)connection);
+
+            reader = cmd.ExecuteReader();
+
         }
 
 

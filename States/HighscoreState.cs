@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
@@ -20,6 +21,9 @@ namespace SystemShutdown.States
         private Vector2 backOrigin;
         private Vector2 position;
         private Vector2 origin;
+
+        private string score;
+
 
         public HighscoreState()
         {
@@ -73,11 +77,28 @@ namespace SystemShutdown.States
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, 1f, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(backText, backPosition, null, Color.White, 0, backOrigin, 1f, SpriteEffects.None, 0f);
 
-   
 
-         //   spriteBatch.DrawString(buttonFont, "something to test", new Vector2 (500,500), Color.White);
 
-       //     spriteBatch.DrawString(buttonFont, ($"{}"), new Vector2(GameWorld.ScreenWidth / 2, GameWorld.ScreenHeight / 2), Color.White);
+            GameWorld.Instance.Repo.Open();
+
+            GameWorld.Instance.Repo.ScoreHandler();
+
+            int i = 0;
+            while (GameWorld.Instance.Repo.Reader.Read())
+            {
+
+                    score = ("PlayerName:  " + GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
+
+                if (i < 10)
+                {
+                    spriteBatch.DrawString(buttonFont, (score), new Vector2(GameWorld.Instance.ScreenWidth / 2 - 375, 200 + (i * 50)), Color.Red, 0.0f, Vector2.Zero, 2f, SpriteEffects.None, 0.0f);
+                }
+
+
+                i++;
+            }
+
+            GameWorld.Instance.Repo.Close();
 
 
             spriteBatch.End();
