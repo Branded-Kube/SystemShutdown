@@ -130,7 +130,7 @@ namespace SystemShutdown
                 GameWorld.Instance.GameState.PlayerBuilder.player.Health += choseneffect.Effect;
                 //GameWorld.Instance.gameState.HealthColor = Color.GreenYellow;
                 //GameWorld.Instance.gameState.ChangeHealthColor();
-                GameWorld.Instance.GameState.HealthColorTimer = true;
+                GameWorld.Instance.GameState.HealthColorTimerGreen = true;
 
             }
 

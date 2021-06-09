@@ -416,6 +416,7 @@ namespace SystemShutdown.GameObjects
                 if (!tmpEnemy.IsTrojan)
                 {
                     tmpEnemy.AttackingPlayer = true;
+                    GameWorld.Instance.GameState.HealthColorTimerRed = true;
                 }
             }
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Pickup")

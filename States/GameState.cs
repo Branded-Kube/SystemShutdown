@@ -80,7 +80,8 @@ namespace SystemShutdown.States
         public int Days { get { return days; } set { days = value; } }
 
         public bool DmgColorTimer { get; set; }
-        public bool HealthColorTimer { get; set; }
+        public bool HealthColorTimerGreen { get; set; }
+        public bool HealthColorTimerRed { get; set; }
 
         #endregion
 
@@ -101,10 +102,15 @@ namespace SystemShutdown.States
         {
             DmgColor = Color.YellowGreen;
         }
-        public void ChangeHealthColor()
+        public void PlusHealthColor()
         {
             HealthColor = Color.YellowGreen;
 
+        }
+
+        public void MinusHealthColor()
+        {
+            HealthColor = Color.Red;
         }
 
         public override void LoadContent()
@@ -290,16 +296,29 @@ namespace SystemShutdown.States
                     DmgColor = Color.White;
                 }
             }
-            if (HealthColorTimer == true)
+            if (HealthColorTimerGreen == true)
             {
-                ChangeHealthColor();
+                PlusHealthColor();
                 healthTimer -= countDown;
 
                 if (healthTimer <= 0)
                 {
-                    HealthColorTimer = false;
+                    HealthColorTimerGreen = false;
                     Debug.WriteLine("IT WORKS for health aswell!!!");
                     HealthColor = Color.White;
+                }
+            }
+
+            if (HealthColorTimerRed == true)
+            {
+                MinusHealthColor();
+                healthTimer -= countDown;
+
+                if (healthTimer <= 0)
+                {
+                    HealthColorTimerRed = false;
+                    HealthColor = Color.White;
+                    healthTimer = 2f;
                 }
             }
 
@@ -386,7 +405,7 @@ namespace SystemShutdown.States
             if (!PlayerBuilder.player.HasUsedMap)
             {
 
-                spriteBatch.DrawString(font, "Click M to hide the map", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X -750, PlayerBuilder.Player.GameObject.Transform.Position.Y - 150), Color.Red);
+                spriteBatch.DrawString(font, "Click M to hide the map", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 870, PlayerBuilder.Player.GameObject.Transform.Position.Y - 150), Color.Red, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
 
 
             }
