@@ -403,6 +403,7 @@ namespace SystemShutdown.GameObjects
                 {
                     showingMap = false;
                     hasUsedMap = true;
+                }
             }
         }
 
