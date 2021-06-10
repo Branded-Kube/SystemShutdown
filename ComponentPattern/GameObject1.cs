@@ -7,13 +7,13 @@ using SystemShutdown.States;
 
 namespace SystemShutdown.ComponentPattern
 {
-    public class GameObject1
+    public class GameObject
     {
         public Transform Transform { get; private set; }
         private Dictionary<string, Component> components = new Dictionary<string, Component>();
         public string Tag { get; set; }
 
-        public GameObject1()
+        public GameObject()
         {
             Transform = new Transform();
         }

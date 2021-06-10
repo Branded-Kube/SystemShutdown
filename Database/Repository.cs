@@ -36,9 +36,6 @@ namespace SystemShutdown.Database
             var cmd = new SQLiteCommand($"PRAGMA foreign_keys = ON;", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
 
-            cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Player (PlayerID INTEGER PRIMARY KEY, Scrap INTEGER, UNIQUE(PlayerId));", (SQLiteConnection)connection);
-            cmd.ExecuteNonQuery();
-
             cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Mods (ModID INTEGER PRIMARY KEY, Name VARCHAR(50), UNIQUE(Name));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
 

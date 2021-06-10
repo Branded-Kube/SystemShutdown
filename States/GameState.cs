@@ -33,7 +33,7 @@ namespace SystemShutdown.States
 
         private Song nightMusic;
 
-        private List<GameObject1> gameObjects = new List<GameObject1>();
+        private List<GameObject> gameObjects = new List<GameObject>();
         private PlayerBuilder playerBuilder;
         private CPUBuilder cpuBuilder;
 
@@ -72,7 +72,7 @@ namespace SystemShutdown.States
         public CPUBuilder CpuBuilder { get { return cpuBuilder; } set { cpuBuilder = value; } }
         public PlayerBuilder PlayerBuilder { get { return playerBuilder; } set { playerBuilder = value; } }
         public Grid Grid { get { return grid; } set { grid = value; } }
-        public List<GameObject1> GameObjects { get { return gameObjects; } set { gameObjects = value; } }
+        public List<GameObject> GameObjects { get { return gameObjects; } set { gameObjects = value; } }
         public Vector2 CursorPosition { get { return cursorPosition; } set { cursorPosition = value; } }
         public int Days { get { return days; } set { days = value; } }
 
@@ -461,7 +461,7 @@ namespace SystemShutdown.States
         /// <param name="position"></param>
         private void SpawnTrojanEnemies(Vector2 position)
         {
-            GameObject1 go = EnemyFactory.Instance.Create(position, "Trojan");
+            GameObject go = EnemyFactory.Instance.Create(position, "Trojan");
             AddGameObject(go);
         }
         /// <summary>
@@ -471,7 +471,7 @@ namespace SystemShutdown.States
         /// <param name="position"></param>
         public void SpawnBugEnemies(Vector2 position)
         {
-            GameObject1 go = EnemyFactory.Instance.Create(position, "Bug");
+            GameObject go = EnemyFactory.Instance.Create(position, "Bug");
             AddGameObject(go);
         }
 
@@ -481,7 +481,7 @@ namespace SystemShutdown.States
         /// Adds collider component to list of colliders
         /// </summary>
         /// <param name="go"></param>
-        public void AddGameObject(GameObject1 go)
+        public void AddGameObject(GameObject go)
         {
             go.Awake();
             go.Start();
@@ -497,7 +497,7 @@ namespace SystemShutdown.States
         /// Removes a Gameobject from Gameobjects list.
         /// </summary>
         /// <param name="go"></param>
-        public void RemoveGameObject(GameObject1 go)
+        public void RemoveGameObject(GameObject go)
         {
             GameObjects.Remove(go);
         }

@@ -228,7 +228,7 @@ namespace SystemShutdown.GameObjects
 
         private void PlayerMovementCollider()
         {
-            foreach (GameObject1 gameObject in GameWorld.Instance.GameState.GameObjects)
+            foreach (GameObject gameObject in GameWorld.Instance.GameState.GameObjects)
             {
                 if (gameObject.Tag == "Node")
                 {
@@ -373,7 +373,7 @@ namespace SystemShutdown.GameObjects
                 }
                 canShoot = false;
                 shootTime = 0;
-                GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
+                GameObject laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
                 Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - laserObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();

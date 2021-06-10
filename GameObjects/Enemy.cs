@@ -132,7 +132,7 @@ namespace SystemShutdown.GameObjects
                 var moddrop = rnd.Next(1, 4);
                 if (moddrop == 2)
                 {
-                    GameObject1 go = ModFactory.Instance.Create(GameObject.Transform.Position, "");
+                    GameObject go = ModFactory.Instance.Create(GameObject.Transform.Position, "");
                     GameWorld.Instance.GameState.AddGameObject(go);
 
                 }

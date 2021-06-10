@@ -56,7 +56,7 @@ namespace SystemShutdown
 
         public bool IsEnabled { get; set; } = true;
 
-        public GameObject1 GameObject { get; set; }
+        public GameObject GameObject { get; set; }
 
         //public Rectangle _rectangle
         //{

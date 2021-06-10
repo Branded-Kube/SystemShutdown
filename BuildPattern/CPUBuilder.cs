@@ -12,7 +12,7 @@ namespace SystemShutdown.BuildPattern
 {
     public class CPUBuilder : IBuilder
     {
-        private GameObject1 go;
+        private GameObject go;
 
         public SpriteRenderer sr;
 
@@ -37,7 +37,7 @@ namespace SystemShutdown.BuildPattern
 
         public void BuildGameObject()
         {
-            go = new GameObject1();
+            go = new GameObject();
 
             sr = new SpriteRenderer("cpu");
 
@@ -85,7 +85,7 @@ namespace SystemShutdown.BuildPattern
                 }
         }
 
-        public GameObject1 GetResult()
+        public GameObject GetResult()
         {
             return go;
         }

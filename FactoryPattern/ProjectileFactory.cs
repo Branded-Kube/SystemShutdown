@@ -35,9 +35,9 @@ namespace SystemShutdown.FactoryPattern
             spriteRenderer = new SpriteRenderer(sprite);
 
         }
-        public override GameObject1 Create(Vector2 position, string type)
+        public override GameObject Create(Vector2 position, string type)
         {
-            GameObject1 projectileGO = new GameObject1();
+            GameObject projectileGO = new GameObject();
             projectileGO.Transform.Position = position;
 
 

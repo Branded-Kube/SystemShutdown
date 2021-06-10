@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="NameAndType">
+  <Class Name="SystemShutdown.AStar.Astar">
+    <Position X="41.5" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAACAAAAABQAAAAAAEAAAAAAAAAAAAAAAgACg=</HashCode>
+      <FileName>AStar\AStar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.AStar.Grid">
+    <Position X="43.75" Y="9" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAABAAAAAAAEAAAAABAAAAAAAAAAEAIAA=</HashCode>
+      <FileName>AStar\Grid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.AStar.Node">
+    <Position X="10" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AABAAAACAAAAAAAEAAAAAAAAAAAAAABAAAAAGEAAYEA=</HashCode>
+      <FileName>AStar\Node.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemShutdown.BuildPattern.CPUBuilder" BaseTypeListCollapsed="true">
+    <Position X="51.75" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAACAAAAQAAQAAAAAAwCAANIAAACAAAA=</HashCode>
+      <FileName>BuildPattern\CPUBuilder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SystemShutdown.BuildPattern.Director">
+    <Position X="49.5" Y="10.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>BuildPattern\Director.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.BuildPattern.PlayerBuilder" BaseTypeListCollapsed="true">
+    <Position X="49.5" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAQAAACAAAAAAAQAAAAAAQABAHIAAQAAIAA=</HashCode>
+      <FileName>BuildPattern\PlayerBuilder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SystemShutdown.Buttons.Button">
+    <Position X="8.75" Y="30.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAQAAAhAgABAAIAAAAACgAAAAAAQAgAgAAgA=</HashCode>
+      <FileName>Buttons\Button.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.ComponentPattern.GameObject">
+    <Position X="10" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAoAgAAAACABAQAAABAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>ComponentPattern\GameObject1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Components.Collider">
+    <Position X="12.5" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>GAAAAAAAAQAAAgAEAIAAADBgAABAAAAIAAAAAAIAAQA=</HashCode>
+      <FileName>Components\Collider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Components.SpriteRenderer">
+    <Position X="15.25" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAoAEAAAAAAAAAAAAAAAQAAAAAAgAABA=</HashCode>
+      <FileName>Components\SpriteRenderer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Components.StateComponent">
+    <Position X="10" Y="28.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\StateComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Component">
+    <Position X="13.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQQACAIAACAAAgAAAAGAAAAAAABAAAAEAAAAAhMAAEA=</HashCode>
+      <FileName>Components\Component.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.MenuState">
+    <Position X="12.75" Y="22.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>HAQCBCAQAQACAgAEAADQIEBgABAAAAAAAAAAAgEAAIQ=</HashCode>
+      <FileName>States\MenuState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.State">
+    <Position X="8.25" Y="19" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>States\State.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Camera">
+    <Position X="47.25" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Effects">
+    <Position X="6.5" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgAAAAAAAAAAAAAAAAAIAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Effects.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.GameWorld">
+    <Position X="1" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAQQAEAAIkFwBxABIkEggYJHJADEACgkQCAwQFADIAU=</HashCode>
+      <FileName>GameWorld.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Highscores">
+    <Position X="37" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAAAAECAAAAEQAEAAAAAQAAAAAQAAAAQA=</HashCode>
+      <FileName>Highscores.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Mods">
+    <Position X="20.75" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAggAAAAEAAAAAAQAAEAAAABAAAAAAAAAAEA=</HashCode>
+      <FileName>Mods.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemShutdown.Pickup">
+    <Position X="26" Y="7.75" Width="2" />
+    <InheritanceLine Type="SystemShutdown.Component" ManuallyRouted="true">
+      <Path>
+        <Point X="14.75" Y="2.5" />
+        <Point X="14.75" Y="5.625" />
+        <Point X="27" Y="5.625" />
+        <Point X="27" Y="9.819" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAABAAABAQAAAAAAAAAA=</HashCode>
+      <FileName>Pickup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemShutdown.Program">
+    <Position X="45.5" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.ProjectileEffect">
+    <Position X="3.75" Y="34" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQBggAAAAAAAgCAAAAAAAQAAAAAAAAAADAAAAAAAAA=</HashCode>
+      <FileName>ProjectileEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Transform">
+    <Position X="6.5" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAgAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Transform.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.Database.Mapper" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="21.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Database\Mapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SystemShutdown.Database.Repository" BaseTypeListCollapsed="true">
+    <Position X="19.25" Y="21.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAQIAAAIIAECAAgBAAAAAAQAAAAgARAAAACQAAA=</HashCode>
+      <FileName>Database\Repository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SystemShutdown.Database.SQLiteDatabaseProvider" BaseTypeListCollapsed="true">
+    <Position X="22" Y="21.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Database\SQLiteDatabaseProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SystemShutdown.FactoryPattern.EnemyFactory">
+    <Position X="2" Y="31.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAEAAQAAAAAAAAAI=</HashCode>
+      <FileName>FactoryPattern\EnemyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.FactoryPattern.Factory" Collapsed="true">
+    <Position X="6" Y="24.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>FactoryPattern\Factory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.FactoryPattern.ModFactory" Collapsed="true">
+    <Position X="6" Y="25.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAABAAEAAQAAAAAAAAAA=</HashCode>
+      <FileName>FactoryPattern\ModFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.FactoryPattern.ProjectileFactory" Collapsed="true">
+    <Position X="8.25" Y="25.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAgAAAAABAAEAAQAQAAAAAAAA=</HashCode>
+      <FileName>FactoryPattern\ProjectileFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.FactoryPattern.Projectile">
+    <Position X="4.75" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAIBAAACEAAAAAAQAAAAAAQBAABRAAAAEAFA=</HashCode>
+      <FileName>GameObjects\Projectile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemShutdown.GameObjects.CPU">
+    <Position X="7.5" Y="7.75" Width="2" />
+    <NestedTypes>
+      <Delegate Name="SystemShutdown.GameObjects.CPU.DamageEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameObjects\CPU.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgAABAEACAAAAAAAAAEAQBAAAEAIAAAAEA=</HashCode>
+      <FileName>GameObjects\CPU.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemShutdown.GameObjects.CyclebarDay">
+    <Position X="43.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAEABAAQgAAIAQAAAAAACEAAAEAAAAAAgAAAAQ=</HashCode>
+      <FileName>GameObjects\CyclebarDay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.GameObjects.CyclebarNight">
+    <Position X="45.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABQBAAAAAAACAkAAAAAAAAAAgAAEAABACAAAAgAAAAQ=</HashCode>
+      <FileName>GameObjects\CyclebarNight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.GameObjects.Enemy">
+    <Position X="17.75" Y="7.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AUQjgAUKgIICIACEAAACAkQYAABACQRQAHSAAACAAEA=</HashCode>
+      <FileName>GameObjects\Enemy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemShutdown.GameObjects.Player">
+    <Position X="23.25" Y="7.75" Width="2" />
+    <NestedTypes>
+      <Delegate Name="SystemShutdown.GameObjects.Player.DamageEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameObjects\Player.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQEBEBBgKkIBKUkABgAMCQAAGAEAwBAIERgAACAAMA=</HashCode>
+      <FileName>GameObjects\Player.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SystemShutdown.GameObjects.StateObject">
+    <Position X="11" Y="30.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\StateObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.ObserverPattern.GameEvent">
+    <Position X="13" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEIAAAAAAAAAAIAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>ObserverPattern\GameEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.States.GameOverState">
+    <Position X="3.25" Y="22.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AkQiBAgAASQCEkCBAgCAhAhCMAEQAAAgAABAjAEAAAQ=</HashCode>
+      <FileName>States\GameOverState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.States.GameState">
+    <Position X="6" Y="22.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BI5kggikDgZDFnAAAAQMgAaUYKABAOIZQEGA+ECAQgQ=</HashCode>
+      <FileName>States\GameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.States.HighscoreState">
+    <Position X="8.25" Y="22.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CAQDAAAAAQAAAgABAACIIAAAABIAAAAAAAAAAIAAAAQ=</HashCode>
+      <FileName>States\HighscoreState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemShutdown.States.HowToState">
+    <Position X="10.5" Y="22.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAYDAAAQAQAAAgABAACAAAAAAAIAAAAAAAAAAoAAAAQ=</HashCode>
+      <FileName>States\HowToState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SystemShutdown.BuildPattern.IBuilder">
+    <Position X="49.5" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAEAAAAAAAAA=</HashCode>
+      <FileName>BuildPattern\IBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SystemShutdown.Database.IDatabaseProvider">
+    <Position X="19.25" Y="26.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Database\IDatabaseProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SystemShutdown.Database.IMapper">
+    <Position X="22" Y="24" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Database\IMapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SystemShutdown.Database.IRepository">
+    <Position X="22" Y="26" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAEAAAgAAAAAAAAAAAAgAQAAAACAAAA=</HashCode>
+      <FileName>Database\IRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SystemShutdown.ObserverPattern.IGameListener">
+    <Position X="10" Y="11.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>ObserverPattern\IGameListener.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
