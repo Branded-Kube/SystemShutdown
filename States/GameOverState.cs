@@ -199,36 +199,28 @@ namespace SystemShutdown.States
             // Frederik
             spriteBatch.Begin(SpriteSortMode.BackToFront);
 
+            spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
+
             foreach (var component in components)
             {
                 component.Draw(gameTime, spriteBatch);
             }
 
-            spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
-
-            //spriteBatch.DrawString(buttonFont, "Save highscore" , new Vector2 (GameWorld.Instance.ScreenWidth / 2, 380), Color.White);
-
-            //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
-            spriteBatch.DrawString(buttonFont, "Game created by: \n Frederik Rennow Gam\n Soeren Kubel Moelsted Joergensen\n Lau Noerlund Joergensen\n Ras Brandt", new Vector2(300, 500), Color.White);
-
-
             if (isSetttingInitials)
             {
                 spriteBatch.Draw(enterInitialText, enterInitialPos, null, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                //spriteBatch.DrawString(buttonFont, "Enter your initials", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 550), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                 spriteBatch.DrawString(buttonFont, Highscores.PlayerNameInput, new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 425), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
             }
 
             if (scoreSaved)
             {
                 spriteBatch.Draw(savedScoreText, savedScorePos, null, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                //spriteBatch.DrawString(buttonFont, "Your score has been saved", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 100, 100), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
             }
 
-            spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(initialText, initialPosition, null, Color.White, 0, initialOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.Red, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(returnToMenuText, returnToMenuPosition, null, Color.Green, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);
 
             spriteBatch.End();
         }

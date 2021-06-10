@@ -27,7 +27,7 @@ namespace SystemShutdown.States
         private Texture2D modboard;
         private Vector2 statWindowPosition;
 
-        private static SpriteFont font;
+        public /*static*/ SpriteFont font;
         private string enemyID = "";
         public bool IsThreadsRunning;
 
