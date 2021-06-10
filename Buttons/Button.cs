@@ -6,6 +6,7 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.Buttons
 {
+    // Frederik
     internal class Button : StateComponent
     {
         #region Fields
@@ -20,7 +21,7 @@ namespace SystemShutdown.Buttons
 
         private Texture2D _texture;
 
-        public Texture2D buttonTexture;
+      //  public Texture2D buttonTexture;
 
         #endregion
 
@@ -29,7 +30,6 @@ namespace SystemShutdown.Buttons
         public EventHandler Click;
 
 
-        // Frederik
         public Vector2 Origin
         {
             get
@@ -43,7 +43,6 @@ namespace SystemShutdown.Buttons
         public Vector2 Position { get; set; }
 
 
-        // Frederik
         public Rectangle Rectangle
         {
             get
@@ -52,13 +51,11 @@ namespace SystemShutdown.Buttons
             }
         }
 
-        //public string Text { get; set; }
 
         #endregion
 
         #region Methods
 
-        // Frederik
         public Button(Texture2D texture, SpriteFont font)
         {
             _texture = texture;
@@ -70,7 +67,6 @@ namespace SystemShutdown.Buttons
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // Frederik
             var color = Color.White;
 
             if (isHovering)
@@ -83,7 +79,6 @@ namespace SystemShutdown.Buttons
 
         public override void Update(GameTime gameTime)
         {
-            // Frederik
             previousMouse = currentMouse;
             currentMouse = Mouse.GetState();
 

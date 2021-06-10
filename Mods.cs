@@ -2,15 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using SystemShutdown.ComponentPattern;
-using SystemShutdown.Components;
-using SystemShutdown.GameObjects;
 using SystemShutdown.ObserverPattern;
-using SystemShutdown.States;
 
 namespace SystemShutdown
 {
+    // Hovedforfatter: Lau
     public class Mods : Component, IGameListener
     {
 

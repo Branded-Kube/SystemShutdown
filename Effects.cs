@@ -4,6 +4,7 @@ using System.Text;
 
 namespace SystemShutdown
 {
+    // Hovedforfatter: Lau
     public class Effects
     {
         public int Id { get; set; }

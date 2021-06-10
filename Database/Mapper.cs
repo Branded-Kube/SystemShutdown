@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SystemShutdown.Database
 {
+    // Hovedforfatter Lau
     public class Mapper : IMapper
     {
         public List<Mods> MapModsFromReader(IDataReader reader)

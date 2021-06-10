@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
@@ -11,7 +9,7 @@ namespace SystemShutdown.BuildPattern
     // Søren
     public class CPUBuilder : IBuilder
     {
-        private GameObject1 go;
+        private GameObject go;
 
         public SpriteRenderer sr;
 
@@ -36,7 +34,7 @@ namespace SystemShutdown.BuildPattern
 
         public void BuildGameObject()
         {
-            go = new GameObject1();
+            go = new GameObject();
 
             sr = new SpriteRenderer("cpu");
 
@@ -84,7 +82,7 @@ namespace SystemShutdown.BuildPattern
                 }
         }
 
-        public GameObject1 GetResult()
+        public GameObject GetResult()
         {
             return go;
         }

@@ -15,6 +15,8 @@ using SystemShutdown.States;
 
 namespace SystemShutdown
 {
+    // Hovedforfatter: Frederik
+    // Bidragsyder: Søren
     public class MenuState : State
     {
         private List<StateComponent> components;

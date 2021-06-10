@@ -6,8 +6,8 @@ using System.Text;
 
 namespace SystemShutdown
 {
-    //Ras
-   public class ProjectileEffect
+    // Hovedforfatter: Ras
+    public class ProjectileEffect
     {
         private Texture2D effectTexture;
        private Vector2 effectVector;

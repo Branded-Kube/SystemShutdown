@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.SQLite;
-using System.Text;
 
 namespace SystemShutdown.Database
 {
+    // Hovedforfatter: Lau
     public class SQLiteDatabaseProvider : IDatabaseProvider
     {
         private readonly string connectionString;

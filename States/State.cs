@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace SystemShutdown
 {
+    // Hovedforfatter: Frederik
     public abstract class State
     {
         #region Fields

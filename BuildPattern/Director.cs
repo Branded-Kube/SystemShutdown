@@ -2,6 +2,7 @@
 
 namespace SystemShutdown.BuildPattern
 {
+    // Frederik
    public class Director
     {
         private IBuilder builder;
@@ -11,7 +12,7 @@ namespace SystemShutdown.BuildPattern
             this.builder = builder;
         }
 
-        public GameObject1 Contruct()
+        public GameObject Contruct()
         {
             builder.BuildGameObject();
             return builder.GetResult();

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SystemShutdown
 {
+    // Hovedforfatter: Frederik
     public class Transform
     {
         public Vector2 Position { get; set; }

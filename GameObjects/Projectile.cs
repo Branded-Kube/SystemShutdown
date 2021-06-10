@@ -10,7 +10,8 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.FactoryPattern
 {
-    // Ras & ? 
+    // Hovedforfatter: Frederik
+    // Bidragsyder: Ras
     class Projectile : Component, IGameListener
     {
         private float speed;

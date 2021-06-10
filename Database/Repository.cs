@@ -8,6 +8,8 @@ using System.Text;
 
 namespace SystemShutdown.Database
 {
+    // Hovedforfatter Lau
+    // Bidragsyder Lau
     public class Repository : IRepository
     {
         private readonly IDatabaseProvider provider;
@@ -53,11 +55,7 @@ namespace SystemShutdown.Database
             var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Mods (Name) VALUES ('{name}')", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
-        public void AddEffects(int effect, string effectname, int modfk)
-        {
-            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Effects (Effect, EffectName, ModFK) VALUES ({effect}, '{effectname}', {modfk})", (SQLiteConnection)connection);
-            cmd.ExecuteNonQuery();
-        }
+      
         public Mods FindMods(string name)
         {
             var cmd = new SQLiteCommand($"SELECT * from Mods WHERE Name = '{name}'", (SQLiteConnection)connection);
