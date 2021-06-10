@@ -87,11 +87,11 @@ namespace SystemShutdown.States
             while (GameWorld.Instance.Repo.Reader.Read())
             {
 
-                    score = ("PlayerName:  " + GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
+                    score = (/*"PlayerName:  " + */GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
 
                 if (i < 10)
                 {
-                    spriteBatch.DrawString(buttonFont, (score), new Vector2(GameWorld.Instance.ScreenWidth / 2 - 375, 200 + (i * 50)), Color.Red, 0.0f, Vector2.Zero, 2f, SpriteEffects.None, 0.0f);
+                    spriteBatch.DrawString(buttonFont, (score), new Vector2(GameWorld.Instance.ScreenWidth / 2 - 280, 200 + (i * 50)), Color.Red, 0.0f, Vector2.Zero, 2f, SpriteEffects.None, 0.0f);
                 }
 
 
