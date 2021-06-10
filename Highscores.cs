@@ -8,21 +8,18 @@ namespace SystemShutdown
     // Lead author: Søren
     public class Highscores
     {
-
+        #region Fields
         public int Id { get; set; }
-
         public string Name { get; set; }
-
         public int Kills { get; set; }
-
         public int DaysSurvived { get; set; }
-
-
         static public StringBuilder PlayerNameInput = new StringBuilder("UserName");
         public static bool user = true;
         static KeyboardState releasedKey;
         static KeyboardState pressedKey;
+        #endregion
 
+        #region Methods
         public static void CreateUsernameInput(object sender, TextInputEventArgs e)
         {
             pressedKey = Keyboard.GetState();
@@ -54,6 +51,6 @@ namespace SystemShutdown
             }
 
         }
-
+        #endregion
     }
 }

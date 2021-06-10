@@ -10,6 +10,7 @@ namespace SystemShutdown.FactoryPattern
     // Lead author: Ras
     public class EnemyFactory : Factory
     {
+        #region Fields
         private static EnemyFactory instance;
         private Enemy enemy;
 
@@ -25,7 +26,9 @@ namespace SystemShutdown.FactoryPattern
                 return instance;
             }
         }
-
+        #endregion
+       
+        #region Methods
         /// <summary>
         /// Creates a gameobject and adds 3 component to it. A Enemy, a SpriteRenderer and a Collider.
         /// Adds a number to aliveEnemies
@@ -64,7 +67,7 @@ namespace SystemShutdown.FactoryPattern
             return enemyGO;
         }
 
-        
+        #endregion
     }
 }
 

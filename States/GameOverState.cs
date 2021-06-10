@@ -52,11 +52,6 @@ namespace SystemShutdown.States
         #endregion
 
         #region Methods
-
-        #region Constructor
-
-        #endregion
-
         public override void LoadContent()
         {
             //Frederik

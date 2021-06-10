@@ -12,6 +12,7 @@ namespace SystemShutdown.States
     // Lead author: Frederik
     public class HowToState : State
     {
+        #region Fields
         private List<StateComponent> components;
 
         private SpriteFont buttonFont;
@@ -22,6 +23,9 @@ namespace SystemShutdown.States
         private Vector2 howToOrigin;
         private Vector2 backPosition;
         private Vector2 backOrigin;
+        #endregion
+
+        #region Methods
 
         public override void LoadContent()
         {
@@ -71,5 +75,6 @@ namespace SystemShutdown.States
 
             spriteBatch.End();
         }
+        #endregion
     }
 }

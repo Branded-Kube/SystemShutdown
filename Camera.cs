@@ -6,11 +6,14 @@ namespace SystemShutdown
     // Lead author: Søren
     public class Camera
     {
+        #region Fields
         public Matrix offset;
-
         public Matrix position;
-
         public Matrix Transform { get; private set; }
+        #endregion
+        #region Methods
+        
+
 
         public void Follow(PlayerBuilder target)
         {
@@ -23,5 +26,6 @@ namespace SystemShutdown
                 0);
             Transform = position * offset;
         }
+        #endregion
     }
 }

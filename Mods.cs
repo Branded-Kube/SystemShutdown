@@ -10,15 +10,13 @@ namespace SystemShutdown
     // Lead author: Lau
     public class Mods : Component, IGameListener
     {
-
+        #region Fields
         public int Id { get; set; }
-
         public string Name { get; set; }
-
-
-
         double despawnTimer = 0.0;
+        #endregion
 
+        #region Methods
         public override void Awake()
         {
             GameObject.Tag = "Pickup";
@@ -54,7 +52,7 @@ namespace SystemShutdown
 
             Effects choseneffect = pickupable[randomeffect];
 
-        Debug.WriteLine($"{choseneffect.Effectname}");
+            Debug.WriteLine($"{choseneffect.Effectname}");
             if (choseneffect.ModFK == 1)
             {
                 GameWorld.Instance.GameState.PlayerBuilder.player.dmg += choseneffect.Effect;
@@ -89,5 +87,6 @@ namespace SystemShutdown
                 GameObject.Destroy();
             }
         }
+        #endregion
     }
 }

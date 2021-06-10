@@ -5,6 +5,7 @@ namespace SystemShutdown
     // Lead author: Lau
     class Pickup : Component, IGameListener
     {
+      
         private Mods floormod;
         private static Pickup instance;
 

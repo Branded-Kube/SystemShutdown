@@ -8,6 +8,7 @@ namespace SystemShutdown.FactoryPattern
     // Contributor: Lau
     class ModFactory : Factory
     {
+        #region Fields
         private static ModFactory instance;
         private Mods mods;
         // Modfactory Singleton
@@ -22,6 +23,10 @@ namespace SystemShutdown.FactoryPattern
                 return instance;
             }
         }
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Creates a gameobject and adds 3 component to it. A Mod, a SpriteRenderer and a Collider.
         /// </summary>
@@ -39,5 +44,6 @@ namespace SystemShutdown.FactoryPattern
             modGO.AddComponent(mods);
             return modGO;
         }
+        #endregion
     }
 }

@@ -16,6 +16,7 @@ namespace SystemShutdown.GameObjects
     // Contributor: Søren
     public class Player : Component, IGameListener
     {
+        #region Fields
         public delegate void DamageEventHandler(object source, Enemy enemy, EventArgs e);
         public static event DamageEventHandler TakeDamagePlayer;
 
@@ -46,14 +47,15 @@ namespace SystemShutdown.GameObjects
         private KeyboardState oldState;
         private KeyboardState newState;
 
-        
         public int dmg { get; set; }
         public int Speed { get { return speed; } set { speed = value; } }
         public int Kills { get { return kills; } set { kills = value; } }
         public float Cooldown { get { return cooldown; } set { cooldown = value; } }
-        public bool ShowingMap { get { return showingMap; } private set {; }}
-        public bool HasUsedMap { get { return hasUsedMap; }private set {; }}
+        public bool ShowingMap { get { return showingMap; } private set {; } }
+        public bool HasUsedMap { get { return hasUsedMap; } private set {; } }
+        #endregion
 
+        #region Constructor
         public Player()
         {
             canShoot = true;
@@ -76,6 +78,10 @@ namespace SystemShutdown.GameObjects
             TakeDamagePlayer += Player_DamagePlayer;
 
         }
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Ras
         /// Player Health minus Enemy damage.
@@ -403,5 +409,6 @@ namespace SystemShutdown.GameObjects
             //Debug.WriteLine("Enemy " + tmp + " is leaving (Player)");
             MySemaphore.Release();
         }
+        #endregion
     }
 }

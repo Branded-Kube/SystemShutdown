@@ -7,6 +7,7 @@ namespace SystemShutdown
     // Lead author: Ras
     public class ProjectileEffect
     {
+        #region Fields
         private Texture2D effectTexture;
         private Vector2 effectVector;
         private Double timer = 0.0;
@@ -15,7 +16,9 @@ namespace SystemShutdown
         public float fps;
         public float timeElapsed;
         public int currentIndex;
+        #endregion
 
+        #region Constructor
         public ProjectileEffect(Vector2 effectVector)
         {
             fps = 6f;
@@ -29,6 +32,10 @@ namespace SystemShutdown
             }
             effectTexture = walk[0];
         }
+        #endregion
+
+        #region Methods
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(effectTexture, effectVector, Color.White);
@@ -60,5 +67,6 @@ namespace SystemShutdown
                 currentIndex = 0;
             }
         }
+        #endregion
     }
 }

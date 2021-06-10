@@ -13,6 +13,7 @@ namespace SystemShutdown
     // Contributor: Søren
     public class MenuState : State
     {
+        #region Fields
         private List<StateComponent> components;
 
         private SpriteFont buttonFont;
@@ -35,9 +36,10 @@ namespace SystemShutdown
 
         private Song menuMusic;
 
+        #endregion
+
         #region Methods
 
-      
 
         public override void LoadContent()
         {
@@ -149,6 +151,7 @@ namespace SystemShutdown
 
             spriteBatch.End();
         }
+
         #endregion
     }
 }

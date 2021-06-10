@@ -14,6 +14,7 @@ namespace SystemShutdown.GameObjects
     // Lead author: Ras
     public class Enemy : Component, IGameListener
     {
+        #region Fields
         private bool playerTarget = false;
         private bool isGoalFound = false;
         private bool threadRunning = true;
@@ -41,7 +42,10 @@ namespace SystemShutdown.GameObjects
         public bool IsTrojan { get; set; }
         public bool AttackingPlayer { get; set; }
         public bool AttackingCPU { get; set; }
-      
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Removes enemy gameobject from list of gameobjects, -1 to alive enemies and +1 to player kills. Stops threads while loop with bool threadRunning
         /// </summary>
@@ -267,8 +271,8 @@ namespace SystemShutdown.GameObjects
                     Thread.Sleep(1000);
                     AttackingPlayer = false;
                     AttackingCPU = false;
-                   
-                        CPU.Enter(internalThread, this);
+
+                    CPU.Enter(internalThread, this);
                 }
                 else
                 {
@@ -354,5 +358,6 @@ namespace SystemShutdown.GameObjects
                 currentIndex = 0;
             }
         }
+        #endregion
     }
 }

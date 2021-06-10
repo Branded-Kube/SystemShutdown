@@ -7,6 +7,7 @@ namespace SystemShutdown.GameObjects
     // Lead author: Frederik
     public class CyclebarNight
     {
+        #region Fields
         public Texture2D moonSprite;
         public Texture2D nightContainer, nightBar;
         public Vector2 nightBarPosition;
@@ -14,14 +15,18 @@ namespace SystemShutdown.GameObjects
         public float currentBarNight;
         public float nightMeter = 0.15f;
         public Color nightBarColor;
+        #endregion
 
+        #region Constructor
         public CyclebarNight(ContentManager content)
         {
             LoadContent(content);
-
-
             resetNight();
         }
+        #endregion
+
+        #region Methods
+
         public void resetNight()
         {
             fullBarNight = nightBar.Width;
@@ -68,5 +73,6 @@ namespace SystemShutdown.GameObjects
             else
                 nightBarColor = Color.Yellow;
         }
+        #endregion
     }
 }

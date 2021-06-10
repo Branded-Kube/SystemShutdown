@@ -9,8 +9,7 @@ namespace SystemShutdown.Buttons
     //  Lead author: Frederik
     internal class Button : StateComponent
     {
-        #region Fields & Properties
-
+        #region Fields
         private MouseState currentMouse;
 
         private SpriteFont _font;
@@ -46,13 +45,6 @@ namespace SystemShutdown.Buttons
                 return new Rectangle((int)Position.X - ((int)Origin.X), (int)Position.Y - (int)Origin.Y - (int)Origin.Y, _texture.Width, _texture.Height);
             }
         }
-
-        #endregion
-
-        #region Properties
-
-
-
         #endregion
 
         #region Constructor

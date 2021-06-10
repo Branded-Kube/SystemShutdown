@@ -87,8 +87,6 @@ namespace SystemShutdown.States
 
         #endregion
 
-        #region Methods
-
         #region Constructor
         /// <summary>
         /// Instantiates a Player and a CPU builder
@@ -100,6 +98,7 @@ namespace SystemShutdown.States
         }
         #endregion
 
+        #region Methods
         public void ChangeDmgColor()
         {
             DmgColor = Color.YellowGreen;

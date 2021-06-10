@@ -11,6 +11,7 @@ namespace SystemShutdown.Database
     // Contributor: Søren
     public class Repository : IRepository
     {
+        #region Fields
         private readonly IDatabaseProvider provider;
         private readonly IMapper mapper;
         private IDbConnection connection;
@@ -22,13 +23,17 @@ namespace SystemShutdown.Database
             get { return reader; }
             set { reader = value; }
         }
+        #endregion
 
+        #region Constructor
         public Repository(IDatabaseProvider provider, IMapper mapper)
         {
             this.provider = provider;
             this.mapper = mapper;
         }
+        #endregion
 
+        #region Methods
         private void CreateDatabaseTables()
         {
             var cmd = new SQLiteCommand($"PRAGMA foreign_keys = ON;", (SQLiteConnection)connection);
@@ -47,14 +52,14 @@ namespace SystemShutdown.Database
             cmd.ExecuteNonQuery();
         }
 
-      
-       
+
+
         public void AddMods(string name)
         {
             var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Mods (Name) VALUES ('{name}')", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
-      
+
         public Mods FindMods(string name)
         {
             var cmd = new SQLiteCommand($"SELECT * from Mods WHERE Name = '{name}'", (SQLiteConnection)connection);
@@ -64,7 +69,7 @@ namespace SystemShutdown.Database
             return result;
         }
 
-        public List <Effects> FindEffects(int modfk)
+        public List<Effects> FindEffects(int modfk)
         {
             var cmd = new SQLiteCommand($"SELECT * from Effects WHERE ModFK = '{modfk}'", (SQLiteConnection)connection);
             var reader = cmd.ExecuteReader();
@@ -80,7 +85,7 @@ namespace SystemShutdown.Database
         }
 
         //Søren
-        public void SaveScore (string name ,int kills, int daysSurvived)
+        public void SaveScore(string name, int kills, int daysSurvived)
         {
             var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Highscores (PlayerName, Kills, DaysSurvived) VALUES ('{name}', {kills}, {daysSurvived})", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
@@ -123,6 +128,6 @@ namespace SystemShutdown.Database
         {
             connection.Close();
         }
-
+        #endregion
     }
 }
