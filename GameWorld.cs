@@ -99,7 +99,8 @@ namespace SystemShutdown
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            //Lau
+            //opens the database repository and adds the mods/effects
             var mapper = new Mapper();
             var provider = new SQLiteDatabaseProvider("Data Source=SystemShutdown.db;Version=3;new=true");
 

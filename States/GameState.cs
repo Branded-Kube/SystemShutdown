@@ -99,11 +99,18 @@ namespace SystemShutdown.States
             CpuBuilder = new CPUBuilder();
         }
         #endregion
-
+        /// <summary>
+        /// Lau
+        /// changes the color of the dmg stat shown ingame
+        /// </summary>
         public void ChangeDmgColor()
         {
             DmgColor = Color.YellowGreen;
         }
+        /// <summary>
+        /// Lau
+        /// changes the color of the health stat shown ingame
+        /// </summary>
         public void PlusHealthColor()
         {
             HealthColor = Color.YellowGreen;

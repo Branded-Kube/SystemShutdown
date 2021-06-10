@@ -18,7 +18,9 @@ namespace SystemShutdown
 
 
         double despawnTimer = 0.0;
-
+        /// <summary>
+        /// gives the mods the tag (pickup) which enables the collision event
+        /// </summary>
         public override void Awake()
         {
             GameObject.Tag = "Pickup";
@@ -28,6 +30,11 @@ namespace SystemShutdown
         {
             return "Pickup";
         }
+        /// <summary>
+        /// Lau
+        /// despawn the dropped mods after 15 seconds
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             despawnTimer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -36,6 +43,13 @@ namespace SystemShutdown
                 GameObject.Destroy();
             }
         }
+        /// <summary>
+        /// Lau
+        /// we create a random between 1,5 to be able to pick from the 4 different effects
+        /// then we make a new list of pickupable effects
+        /// we create a new random from 0,3 so we can get the different strengths from the picked effect
+        /// then we make an if else statement to determine what mod/effect was picked, and adds the value to desired stat
+        /// </summary>
         public void ApplyMod()
         {
 
@@ -81,6 +95,11 @@ namespace SystemShutdown
 
 
         }
+        /// <summary>
+        /// uses collision between player and mod to apply the mod and destroy the gameobject
+        /// </summary>
+        /// <param name="gameEvent"></param>
+        /// <param name="component"></param>
         public void Notify(GameEvent gameEvent, Component component)
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Player")
