@@ -73,7 +73,7 @@ namespace SystemShutdown.GameObjects
             MySemaphore = new Semaphore(0, 10);
             MySemaphore.Release(10);
             Health = 100;
-            this.Speed = 150;
+            Speed = 150;
             dmg = 50;
             TakeDamagePlayer += Player_DamagePlayer;
 

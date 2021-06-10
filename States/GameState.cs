@@ -470,7 +470,7 @@ namespace SystemShutdown.States
             {
                 GameWorld.Instance.deathEffect.Play();
                 ShutdownThreads();
-                GameWorld.ChangeState(GameWorld.Instance.GameOverState);
+                GameWorld.ChangeState(new GameOverState());
             }
         }
 
