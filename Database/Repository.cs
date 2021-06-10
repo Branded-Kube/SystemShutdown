@@ -76,12 +76,19 @@ namespace SystemShutdown.Database
             return result;
         }
 
+        public void AddEffects(int effect, string effectname, int modfk)
+        {
+            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Effects (Effect, EffectName, ModFK) VALUES ({effect}, '{effectname}', {modfk})", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+        }
+
+        //Søren
         public void SaveScore (string name ,int kills, int daysSurvived)
         {
             var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Highscores (PlayerName, Kills, DaysSurvived) VALUES ('{name}', {kills}, {daysSurvived})", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
-
+        //Søren
         public void ScoreHandler()
         {
             string sql = "SELECT * FROM Highscores ORDER BY Kills DESC";

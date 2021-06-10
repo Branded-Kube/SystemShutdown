@@ -24,7 +24,8 @@ namespace SystemShutdown.States
         public Vector2 cursorPosition;
         private Texture2D modboard;
 
-        private static SpriteFont font;
+        public /*static*/ SpriteFont font;
+        private string enemyID = "";
         public bool IsThreadsRunning;
 
         private Song nightMusic;
@@ -45,18 +46,24 @@ namespace SystemShutdown.States
         private Color _dmgColor = Color.White;
         private Color _killsColor = Color.White;
         public Color _msColor = Color.White;
+        public Color _asColor = Color.White;
 
         private List<ProjectileEffect> effects = new List<ProjectileEffect>();
         private double enemySpawnTimer = 0.0;
 
         private float dmgTimer = 2f;
         private float healthTimer = 2f;
+        private float asTimer = 2f;
+        private float msTimer = 2f;
+        private float killsTimer = 2f;
         private float countDown = 0.05f;
         public List<ProjectileEffect> Effects { get { return effects; } set { effects = value; } }
         public Color HealthColor { get { return _healthColor; } set { _healthColor = value; } }
         public Color DmgColor { get { return _dmgColor; } set { _dmgColor = value; } }
         public Color KillsColor { get { return _killsColor; } set { _killsColor = value; } }
         public Color MsColor { get { return _msColor; } set { _msColor = value; } }
+        public Color AsColor { get { return _asColor; } set { _asColor = value; } }
+
         public int AliveEnemies { get { return aliveEnemies; } set { aliveEnemies = value; } }
         public List<Collider> Colliders { get { return colliders; } set { colliders = value; } }
         public CPUBuilder CpuBuilder { get { return cpuBuilder; } set { cpuBuilder = value; } }
@@ -66,6 +73,11 @@ namespace SystemShutdown.States
         public Vector2 CursorPosition { get { return cursorPosition; } set { cursorPosition = value; } }
         public int Days { get { return days; } set { days = value; } }
 
+        public bool dmgColorTimer { get; set; }
+        public bool healthColorTimer { get; set; }
+        public bool msColorTimer { get; set; }
+        public bool asColorTimer { get; set; }
+        public bool killsColorTimer { get; set; }
         public bool DmgColorTimer { get; set; }
         public bool HealthColorTimerGreen { get; set; }
         public bool HealthColorTimerRed { get; set; }
@@ -97,6 +109,19 @@ namespace SystemShutdown.States
         public void MinusHealthColor()
         {
             HealthColor = Color.Red;
+        }
+        public void ChangeAsColor()
+        {
+            AsColor = Color.YellowGreen;
+
+        }
+        public void ChangeMsColor()
+        {
+            MsColor = Color.YellowGreen;
+        }
+        public void ChangeKillsColor()
+        {
+            KillsColor = Color.YellowGreen;
         }
 
         public override void LoadContent()
@@ -268,6 +293,7 @@ namespace SystemShutdown.States
                     DmgColorTimer = false;
                     Debug.WriteLine("IT WORKS!!!");
                     DmgColor = Color.White;
+                    dmgTimer = 2f;
                 }
             }
             if (HealthColorTimerGreen == true)
@@ -280,9 +306,48 @@ namespace SystemShutdown.States
                     HealthColorTimerGreen = false;
                     Debug.WriteLine("IT WORKS for health aswell!!!");
                     HealthColor = Color.White;
+                    healthTimer = 2f;
                 }
             }
+            if (msColorTimer == true)
+            {
+                ChangeMsColor();
+                msTimer -= countDown;
 
+                if (msTimer <= 0)
+                {
+                    msColorTimer = false;
+                    Debug.WriteLine("IT WORKS for move speed aswell!!!");
+                    MsColor = Color.White;
+                    msTimer = 2f;
+                }
+            }
+            if (asColorTimer == true)
+            {
+                ChangeAsColor();
+                asTimer -= countDown;
+
+                if (asTimer <= 0)
+                {
+                    asColorTimer = false;
+                    Debug.WriteLine("IT WORKS for attack speed aswell!!!");
+                    AsColor = Color.White;
+                    asTimer = 2f;
+                }
+            }
+            if (killsColorTimer == true)
+            {
+                ChangeKillsColor();
+                killsTimer -= countDown;
+
+                if (killsTimer <= 0)
+                {
+                    killsColorTimer = false;
+                    Debug.WriteLine("IT WORKS for kills aswell!!!");
+                    KillsColor = Color.White;
+                    killsTimer = 2f;
+                }
+            }
             if (HealthColorTimerRed == true)
             {
                 MinusHealthColor();
@@ -295,6 +360,16 @@ namespace SystemShutdown.States
                     healthTimer = 2f;
                 }
             }
+
+            // effects = Effects;
+            // var tmpEffects = effects;
+            //foreach (ProjectileEffect item in ExpiredEffects)
+            //{
+            //    if (item.timer > 2)
+            //    {
+            //        tmpEffects.Remove(item);
+            //    }
+            //}
 
             foreach (ProjectileEffect item in new List<ProjectileEffect>(effects))
             {
@@ -333,8 +408,8 @@ namespace SystemShutdown.States
             spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 346), _killsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Health: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 371), _healthColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 396), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _asColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _msColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 530, PlayerBuilder.Player.GameObject.Transform.Position.Y - 385), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
 
             if (!PlayerBuilder.player.HasUsedMap)

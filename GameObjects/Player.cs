@@ -357,7 +357,7 @@ namespace SystemShutdown.GameObjects
                 GameWorld.Instance.GameState.AddGameObject(projectileObject);
             }
         }
-
+        //Søren
         public void ToggleMap()
         {
             if (canToggleMap)

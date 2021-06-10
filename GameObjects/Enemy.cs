@@ -50,7 +50,7 @@ namespace SystemShutdown.GameObjects
         {
             GameWorld.Instance.GameState.AliveEnemies--;
             GameWorld.Instance.GameState.PlayerBuilder.player.kills++;
-            GameWorld.Instance.GameState.KillsColor = Color.GreenYellow;
+            GameWorld.Instance.GameState.killsColorTimer = true;
             threadRunning = false;
         }
         /// <summary>

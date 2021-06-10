@@ -110,6 +110,10 @@ namespace SystemShutdown.States
 
         private void Button_ToMenu_Clicked(object sender, EventArgs e)
         {
+            GameWorld.Instance.StopSettingInitials();
+            Highscores.PlayerNameInput = new StringBuilder("UserName");
+
+            Highscores.user = true;
             GameWorld.ChangeState(new MenuState());
         }
         private void Button_Quit_Clicked(object sender, EventArgs e)
@@ -117,6 +121,7 @@ namespace SystemShutdown.States
             GameWorld.Instance.Exit();
         }
 
+        //Søren
         private void Button_SaveHighscore_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton2.Play();
@@ -134,6 +139,7 @@ namespace SystemShutdown.States
             
         }
 
+        //Søren
         private void CreateInitialsButton_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton.Play();
@@ -184,6 +190,8 @@ namespace SystemShutdown.States
             // Frederik
             spriteBatch.Begin(SpriteSortMode.BackToFront);
 
+            spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
+
             foreach (var component in components)
             {
                 component.Draw(gameTime, spriteBatch);
@@ -191,6 +199,12 @@ namespace SystemShutdown.States
 
             spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
             
+
+
+            //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
+
+
+            //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
 
 
             if (isSetttingInitials)
@@ -204,10 +218,10 @@ namespace SystemShutdown.States
                 spriteBatch.Draw(savedScoreText, savedScorePos, null, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
 
-            spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(initialText, initialPosition, null, Color.White, 0, initialOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(quitGameText, quitGamePosition, null, Color.Red, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(returnToMenuText, returnToMenuPosition, null, Color.Green, 0, quitGameOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(saveText, savePosition, null, Color.White, 0, saveOrigin, 1f, SpriteEffects.None, 0f);
 
             spriteBatch.End();
         }
