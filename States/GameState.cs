@@ -357,6 +357,18 @@ namespace SystemShutdown.States
                     killsTimer = 2f;
                 }
             }
+            if (HealthColorTimerRed == true)
+            {
+                MinusHealthColor();
+                healthTimer -= countDown;
+
+                if (healthTimer <= 0)
+                {
+                    HealthColorTimerRed = false;
+                    HealthColor = Color.White;
+                    healthTimer = 2f;
+                }
+            }
 
             // effects = Effects;
             // var tmpEffects = effects;
@@ -425,8 +437,8 @@ namespace SystemShutdown.States
             spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 346), _killsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Health: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 371), _healthColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 396), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _asColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _msColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 530, PlayerBuilder.Player.GameObject.Transform.Position.Y - 385), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
 
             if (!PlayerBuilder.player.HasUsedMap)
