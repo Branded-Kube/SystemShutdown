@@ -10,25 +10,30 @@ namespace SystemShutdown.FactoryPattern
     // Contributor: Ras
     class Projectile : Component, IGameListener
     {
+        #region Fields
         private float speed;
         private Vector2 velocity;
         private bool alreadyCollided = false;
-
         public Texture2D[] projectiles;
         public float fps;
         public float timeElapsed;
         public int currentIndex;
-
         public Vector2 Velocity
         {
             get { return velocity; }
             set { velocity = value; }
         }
+        #endregion
+
+        #region Constructor
         public Projectile(float speed)
         {
             this.speed = speed;
             fps = 5;
         }
+        #endregion
+
+        #region Methods
         public override string ToString()
         {
             return "Projectile";
@@ -47,7 +52,7 @@ namespace SystemShutdown.FactoryPattern
                 projectiles[g] = GameWorld.Instance.Content.Load<Texture2D>(g + 1 + "bit");
             }
         }
-       
+
         public override void Update(GameTime gameTime)
         {
             Move();
@@ -57,7 +62,7 @@ namespace SystemShutdown.FactoryPattern
         {
             GameObject.Transform.Translate(velocity * speed * GameWorld.Instance.DeltaTime);
         }
-      
+
         public Projectile Clone()
         {
             return (Projectile)this.MemberwiseClone();
@@ -75,7 +80,7 @@ namespace SystemShutdown.FactoryPattern
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Node")
             {
-                GameWorld.Instance.GameState.Effects.Add(new ProjectileEffect(new Vector2(GameObject.Transform.Position.X -50, GameObject.Transform.Position.Y -50))) ;
+                GameWorld.Instance.GameState.Effects.Add(new ProjectileEffect(new Vector2(GameObject.Transform.Position.X - 50, GameObject.Transform.Position.Y - 50)));
                 GameObject.Destroy();
             }
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy" && !alreadyCollided)
@@ -108,5 +113,6 @@ namespace SystemShutdown.FactoryPattern
                 currentIndex = 0;
             }
         }
+        #endregion
     }
 }

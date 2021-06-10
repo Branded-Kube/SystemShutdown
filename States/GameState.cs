@@ -87,8 +87,6 @@ namespace SystemShutdown.States
 
         #endregion
 
-        #region Methods
-
         #region Constructor
         /// <summary>
         /// Instantiates a Player and a CPU builder
@@ -99,6 +97,8 @@ namespace SystemShutdown.States
             CpuBuilder = new CPUBuilder();
         }
         #endregion
+
+        #region Methods
         /// <summary>
         /// Lau
         /// changes the color of the dmg stat shown ingame

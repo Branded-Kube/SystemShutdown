@@ -92,8 +92,6 @@ namespace SystemShutdown
 
         #endregion
 
-        #region Methods
-
         #region Constructor
         public GameWorld()
         {
@@ -130,6 +128,10 @@ namespace SystemShutdown
             Repo.Close();
         }
         #endregion
+
+        #region Methods
+
+
 
         /// <summary>
         /// ChangeState changes GameState

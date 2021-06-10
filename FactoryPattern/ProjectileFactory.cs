@@ -11,10 +11,10 @@ namespace SystemShutdown.FactoryPattern
 
     class ProjectileFactory : Factory
     {
+        #region Fields
         private Projectile playerProjectile;
         private SpriteRenderer projectileSR;
         private static ProjectileFactory instance;
-
         public static ProjectileFactory Instance
         {
             get
@@ -26,10 +26,18 @@ namespace SystemShutdown.FactoryPattern
                 return instance;
             }
         }
+        #endregion
+
+        #region Constructor
         private ProjectileFactory()
         {
             CreatePrototype(ref projectileSR, ref playerProjectile, "Textures/4bit", 600);
         }
+        #endregion
+
+        #region Methods
+
+
         private void CreatePrototype(ref SpriteRenderer spriteRenderer, ref Projectile projectile, string sprite, float speed)
         {
             projectile = new Projectile(speed);
@@ -50,5 +58,6 @@ namespace SystemShutdown.FactoryPattern
             return projectileGO;
 
         }
+        #endregion
     }
 }

@@ -8,6 +8,7 @@ namespace SystemShutdown.Components
     // Contributor: Ras
     public class Collider : Component
     {
+        #region Fields
         public bool CheckCollisionEvents { get; set; }
 
         private GameEvent onCollisionEvent = new GameEvent("Collision");
@@ -28,7 +29,9 @@ namespace SystemShutdown.Components
                     );
             }
         }
+        #endregion
 
+        #region Constructor
         public Collider(SpriteRenderer spriteRenderer, IGameListener gameListener)
         {
             onCollisionEvent.Attach(gameListener);
@@ -36,7 +39,9 @@ namespace SystemShutdown.Components
             this.size = new Vector2(spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
             _texture = GameWorld.Instance.Content.Load<Texture2D>("Textures/CollisionBox");
         }
+        #endregion
 
+        #region Methods
 
         public void OnCollisionEnter(Collider other)
         {
@@ -50,7 +55,7 @@ namespace SystemShutdown.Components
                     }
                 }
             }
-           
+
         }
 
         public override void Destroy()
@@ -71,7 +76,6 @@ namespace SystemShutdown.Components
             return "Collider";
         }
 
-        #region Collision
 
         //Is touching left
         public bool IsTouchingLeft(Collider collider)
@@ -108,7 +112,6 @@ namespace SystemShutdown.Components
                          this.CollisionBox.Right > collider.CollisionBox.Left &&
                          this.CollisionBox.Left < collider.CollisionBox.Right;
         }
-
         #endregion
     }
 }

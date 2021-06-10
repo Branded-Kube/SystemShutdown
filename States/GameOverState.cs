@@ -44,6 +44,8 @@ namespace SystemShutdown.States
 
         private Song gameOverMusic;
 
+        private bool invalidCharacter = false;
+
         private bool scoreSaved = false;
 
         public bool hasChosenInitials = false;
@@ -53,11 +55,6 @@ namespace SystemShutdown.States
         #endregion
 
         #region Methods
-
-        #region Constructor
-
-        #endregion
-
         public override void LoadContent()
         {
             //Frederik
@@ -121,7 +118,7 @@ namespace SystemShutdown.States
         {
             GameWorld.Instance.clickButton2.Play();
 
-            if (!scoreSaved)
+            if (!scoreSaved && !invalidCharacter)
             {
                 GameWorld.Instance.Repo.Open();
 
@@ -178,6 +175,11 @@ namespace SystemShutdown.States
                 GameWorld.ChangeState(new MenuState());
             }
 
+            if (invalidCharacter)
+            {
+                Debug.WriteLine("Invalid character used");
+            }
+
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -200,11 +202,13 @@ namespace SystemShutdown.States
                 try
                 {
                     spriteBatch.DrawString(buttonFont, Highscores.PlayerNameInput, new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 425), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    invalidCharacter = false;
                 }
 
                 catch (ArgumentException) 
                 {
                     spriteBatch.DrawString(buttonFont, "Invalid character used", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 360), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    invalidCharacter = true;
                 }
             }
 

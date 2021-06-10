@@ -10,15 +10,16 @@ namespace SystemShutdown.GameObjects
     // Lead author: Søren
     public class CPU : Component, IGameListener
     {
-        public delegate void DamageEventHandler(object source,Enemy enemy, EventArgs e);
+        #region Fields
+        public delegate void DamageEventHandler(object source, Enemy enemy, EventArgs e);
         public static event DamageEventHandler TakeDamageCPU;
         static Semaphore MySemaphore;
-
         private float animateTimer = 5f;
         private float countDown = 0.05f;
-
         private bool AnimateTimer { get; set; }
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Releases Semaphore (how many that may enter at a time)
         /// 10 Threads can enter
@@ -28,7 +29,7 @@ namespace SystemShutdown.GameObjects
             // Closes old semaphore and creates a new one (New gamestate bug, return to menu and resume
             if (MySemaphore != null)
             {
-            MySemaphore.Close();
+                MySemaphore.Close();
                 MySemaphore = null;
             }
             Debug.WriteLine("CPU semaphore releases (10)");
@@ -40,6 +41,9 @@ namespace SystemShutdown.GameObjects
 
             GameWorld.Instance.GameState.CpuBuilder.fps = 5;
         }
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Cpu health minus enemy damage
@@ -60,13 +64,13 @@ namespace SystemShutdown.GameObjects
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
 
-           // Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+            // Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
             MySemaphore.WaitOne();
-           // Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+            // Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
             Random randomNumber = new Random();
             Thread.Sleep(50 * randomNumber.Next(0, 15));
             TakeDamageCPU(null, enemy, EventArgs.Empty);
-          //  Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            //  Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
             MySemaphore.Release();
         }
 
@@ -132,5 +136,6 @@ namespace SystemShutdown.GameObjects
                 }
             }
         }
+        #endregion
     }
 }

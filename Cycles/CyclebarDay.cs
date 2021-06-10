@@ -8,6 +8,7 @@ namespace SystemShutdown.GameObjects
     // Lead author: Frederik
     public class CyclebarDay
     {
+        #region Fields
         public Texture2D sunSprite;
         public Texture2D dayContainer, dayBar;
         public Vector2 dayBarPosition;
@@ -15,13 +16,18 @@ namespace SystemShutdown.GameObjects
         public float currentBarDay;
         public float dayMeter = 0.1f;
         public Color dayBarColor;
+        #endregion
 
+        #region Constructor
         public CyclebarDay(ContentManager content)
         {
             LoadContent(content);
-
             resetDay();
         }
+        #endregion
+
+        #region Methods
+
         public void resetDay()
         {
             fullBarDay = dayBar.Width;
@@ -68,5 +74,6 @@ namespace SystemShutdown.GameObjects
             else
                 dayBarColor = Color.DarkBlue;
         }
+        #endregion
     }
 }

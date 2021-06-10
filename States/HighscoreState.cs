@@ -7,9 +7,11 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.States
 {
+
     // Lead author: Søren
     public class HighscoreState : State
     {
+        #region Fields
         private List<StateComponent> components;
         private SpriteFont buttonFont;
         private Texture2D buttonSprite;
@@ -20,7 +22,9 @@ namespace SystemShutdown.States
         private Vector2 position;
         private Vector2 origin;
         private string score;
+        #endregion
 
+        #region Methods
         public override void LoadContent()
         {
             buttonFont = content.Load<SpriteFont>("Fonts/font");
@@ -75,7 +79,7 @@ namespace SystemShutdown.States
             while (GameWorld.Instance.Repo.Reader.Read())
             {
 
-                    score = (GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
+                score = (GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
 
                 if (i < 10)
                 {
@@ -86,6 +90,6 @@ namespace SystemShutdown.States
             GameWorld.Instance.Repo.Close();
             spriteBatch.End();
         }
-
+        #endregion
     }
 }
