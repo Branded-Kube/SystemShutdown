@@ -24,7 +24,7 @@ namespace SystemShutdown.States
         public Vector2 cursorPosition;
         private Texture2D modboard;
 
-        public /*static*/ SpriteFont font;
+        public static SpriteFont font;
         private string enemyID = "";
         public bool IsThreadsRunning;
 

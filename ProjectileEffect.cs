@@ -47,17 +47,17 @@ namespace SystemShutdown
         }
         public void Animate(GameTime gametime)
         {
-            //Giver tiden, der er gået, siden sidste update
+            // Gives time that has passed since last update
             timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-            //Beregner currentIndex
+            // Calculates currentIndex
             currentIndex = (int)(timeElapsed * fps);
 
             effectTexture = walk[currentIndex];
 
-            //Checks if animation needs to restart
+            // Checks if animation needs to restart
             if (currentIndex >= walk.Length - 1)
             {
-                //Resets animation
+                // Resets animation
                 timeElapsed = 0;
                 currentIndex = 0;
             }
