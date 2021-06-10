@@ -1,13 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.BuildPattern;
 
 namespace SystemShutdown.GameObjects
 {
+    // Hovedforfatter: Frederik
     public class CyclebarNight
     {
         public Texture2D moonSprite;

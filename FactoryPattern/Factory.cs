@@ -6,9 +6,10 @@ using SystemShutdown.ComponentPattern;
 
 namespace SystemShutdown.FactoryPattern
 {
+    // Hovedforfatter: Frederik
     public abstract class Factory
     {
-        public abstract GameObject1 Create(Vector2 position, string type);
+        public abstract GameObject Create(Vector2 position, string type);
 
     }
 }

@@ -32,9 +32,9 @@ namespace SystemShutdown.FactoryPattern
         /// <param name="position"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public override GameObject1 Create(Vector2 position, string type)
+        public override GameObject Create(Vector2 position, string type)
         {
-            GameObject1 enemyGO = new GameObject1();
+            GameObject enemyGO = new GameObject();
             GameWorld.Instance.GameState.AliveEnemies++;
             switch (type)
             {

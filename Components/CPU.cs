@@ -11,7 +11,8 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
-   public class CPU : Component, IGameListener
+    // Hovedforfatter: Søren
+    public class CPU : Component, IGameListener
     {
         public delegate void DamageEventHandler(object source,Enemy enemy, EventArgs e);
         public static event DamageEventHandler TakeDamageCPU;

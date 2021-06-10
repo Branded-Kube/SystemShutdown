@@ -4,13 +4,14 @@ using System.Collections.Generic;
 
 namespace SystemShutdown.ComponentPattern
 {
-    public class GameObject1
+    // Frederik
+    public class GameObject
     {
         public Transform Transform { get; private set; }
         private Dictionary<string, Component> components = new Dictionary<string, Component>();
         public string Tag { get; set; }
 
-        public GameObject1()
+        public GameObject()
         {
             Transform = new Transform();
         }
@@ -32,9 +33,6 @@ namespace SystemShutdown.ComponentPattern
             }
         }
      
-
-        
-
         public void Update(GameTime gameTime)
         {
             foreach (Component component in components.Values)

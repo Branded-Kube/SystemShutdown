@@ -9,8 +9,8 @@ using SystemShutdown.States;
 
 namespace SystemShutdown
 {
-   public class Camera
-
+    // Hovedforfatter: Søren
+    public class Camera
     {
         public Matrix offset;
 

@@ -7,9 +7,10 @@ using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.BuildPattern
 {
+    // Frederik
     public class PlayerBuilder : IBuilder
     {
-        private GameObject1 playerGO;
+        private GameObject playerGO;
 
         public SpriteRenderer playerSR;
 
@@ -34,7 +35,7 @@ namespace SystemShutdown.BuildPattern
 
         public void BuildGameObject()
         {
-            playerGO = new GameObject1();
+            playerGO = new GameObject();
 
             playerSR = new SpriteRenderer("1player");
 
@@ -85,7 +86,7 @@ namespace SystemShutdown.BuildPattern
             }
         }
 
-        public GameObject1 GetResult()
+        public GameObject GetResult()
         {
             return playerGO;
         }

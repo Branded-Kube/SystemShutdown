@@ -91,7 +91,7 @@ namespace SystemShutdown.AStar
                     // Creates a node gameobject (wall) for each node that are not passable
                     if (nodes[x, y].Passable == false)
                     {
-                        GameObject1 nodeGO = new GameObject1();
+                        GameObject nodeGO = new GameObject();
                         SpriteRenderer nodeSR = new SpriteRenderer("Textures/wall");
                         nodeGO.AddComponent(nodeSR);
                         nodeGO.Transform.Position = new Vector2(x * 100, y * 100);
@@ -126,7 +126,7 @@ namespace SystemShutdown.AStar
                                 if (nodesBottom == null || nodesBottom.Passable == false)
                                 {
                                     item.Passable = false;
-                                    GameObject1 nodeGO = new GameObject1();
+                                    GameObject nodeGO = new GameObject();
                                     SpriteRenderer nodeSR = new SpriteRenderer("Textures/wall");
                                     nodeGO.AddComponent(nodeSR);
                                     nodeGO.Transform.Position = new Vector2(item.X * 100, item.Y * 100);

@@ -4,11 +4,14 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
 
 namespace SystemShutdown.States
 {
+    // Hovedforfatter: Frederik
+    // Bidragsyder: Søren
     public class GameOverState : State
     {
         #region Fields
@@ -46,21 +49,12 @@ namespace SystemShutdown.States
 
         private bool isSetttingInitials = false;
 
-
-        //public bool IsSettingInitials
-        //{
-        //    get { return isSetttingInitials; }
-        //    set { isSetttingInitials = value; }
-        //}
-
         #endregion
 
         #region Methods
 
         #region Constructor
-        public GameOverState()
-        {
-        }
+       
         #endregion
 
         public override void LoadContent()

@@ -4,7 +4,8 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.FactoryPattern
 {
-   
+    // Hovedforfatter: Ras
+    // Bidragsyder: Lau
     class ModFactory : Factory
     {
         private static ModFactory instance;
@@ -27,9 +28,9 @@ namespace SystemShutdown.FactoryPattern
         /// <param name="position"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public override GameObject1 Create(Vector2 position, string type)
+        public override GameObject Create(Vector2 position, string type)
         {
-            GameObject1 modGO = new GameObject1();
+            GameObject modGO = new GameObject();
             SpriteRenderer modSR = new SpriteRenderer("Textures/pick");
             modGO.AddComponent(modSR);
             mods = new Mods();

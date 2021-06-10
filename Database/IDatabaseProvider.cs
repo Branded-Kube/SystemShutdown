@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SystemShutdown.Database
 {
+    // Lau
     public interface IDatabaseProvider
     {
         IDbConnection CreateConnection();

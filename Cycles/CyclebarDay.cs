@@ -8,6 +8,7 @@ using SystemShutdown.BuildPattern;
 
 namespace SystemShutdown.GameObjects
 {
+    // Hovedforfatter: Frederik
     public class CyclebarDay
     {
         public Texture2D sunSprite;

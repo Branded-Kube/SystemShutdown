@@ -5,6 +5,7 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.ObserverPattern
 {
+    // Hovedforfatter: Frederik
     public class GameEvent
     {
         private List<IGameListener> listeners = new List<IGameListener>();
@@ -18,11 +19,6 @@ namespace SystemShutdown.ObserverPattern
         public void Attach(IGameListener listener)
         {
             listeners.Add(listener);
-        }
-
-        public void Detach(IGameListener listener)
-        {
-            listeners.Remove(listener);
         }
 
         public void Notify(Component other)

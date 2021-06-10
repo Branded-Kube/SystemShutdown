@@ -4,6 +4,8 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.Components
 {
+    // Hovedforfatter: Frederik 
+    // BidragsYder: Ras
     public class Collider : Component
     {
         public bool CheckCollisionEvents { get; set; }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SystemShutdown.Database
 {
+    // Lau
     public interface IMapper
     {
         List<Mods> MapModsFromReader(IDataReader reader);

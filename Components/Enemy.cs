@@ -11,7 +11,7 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
-    //Ras
+    // Hovedforfatter: Ras
     public class Enemy : Component, IGameListener
     {
         private bool playerTarget = false;
@@ -132,7 +132,7 @@ namespace SystemShutdown.GameObjects
                 var moddrop = rnd.Next(1, 4);
                 if (moddrop == 2)
                 {
-                    GameObject1 go = ModFactory.Instance.Create(GameObject.Transform.Position, "");
+                    GameObject go = ModFactory.Instance.Create(GameObject.Transform.Position, "");
                     GameWorld.Instance.GameState.AddGameObject(go);
 
                 }
@@ -187,7 +187,7 @@ namespace SystemShutdown.GameObjects
             aStar.Search(currentPositionAsNode, goal, path);
             if (path.Count > 0)
             {
-                node = path.Pop();
+                Node node = path.Pop();
                 int x = node.X * GameWorld.Instance.GameState.Grid.NodeSize;
                 int y = node.Y * GameWorld.Instance.GameState.Grid.NodeSize;
                 nextpos = new Vector2(x, y);

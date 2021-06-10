@@ -5,10 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
-using SystemShutdown.BuildPattern;
-//using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
@@ -16,6 +13,10 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
+    // Hovedforfatter: Frederik
+    // Bidragsyder: Ras
+    // Bidragsyder: Lau
+    // Bidragsyder: Søren
     public class Player : Component, IGameListener
     {
         public MouseState mouseState;
@@ -68,14 +69,6 @@ namespace SystemShutdown.GameObjects
 
         private bool isLooped;
         private bool hasShot;
-
-        //public bool IsDead
-        //{
-        //    get
-        //    {
-        //        return Health <= 0;
-        //    }
-        //}
 
         public Player()
         {
@@ -234,7 +227,7 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         private void PlayerMovementCollider()
         {
-            foreach (GameObject1 gameObject in GameWorld.Instance.GameState.GameObjects)
+            foreach (GameObject gameObject in GameWorld.Instance.GameState.GameObjects)
             {
                 if (gameObject.Tag == "Node")
                 {
@@ -345,7 +338,7 @@ namespace SystemShutdown.GameObjects
                 }
                 canShoot = false;
                 shootTime = 0;
-                GameObject1 projectileObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
+                GameObject projectileObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
                 Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - projectileObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();

@@ -9,8 +9,8 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.States
 {
-    // Søren
-   public class HighscoreState : State
+    // Hovedforfatter: Søren
+    public class HighscoreState : State
     {
         private List<StateComponent> components;
         private SpriteFont buttonFont;
@@ -22,10 +22,6 @@ namespace SystemShutdown.States
         private Vector2 position;
         private Vector2 origin;
         private string score;
-
-        public HighscoreState()
-        {
-        }
 
         public override void LoadContent()
         {

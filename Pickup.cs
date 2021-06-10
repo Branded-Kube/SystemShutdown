@@ -11,6 +11,7 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown
 {
+    // Hovedforfatter: Lau
     class Pickup : Component, IGameListener
     {
         private Mods floormod;

@@ -2,9 +2,10 @@
 
 namespace SystemShutdown.BuildPattern
 {
-   public interface IBuilder
+    // Frederik
+    public interface IBuilder
     {
-        GameObject1 GetResult();
+        GameObject GetResult();
 
         void BuildGameObject();
     }
