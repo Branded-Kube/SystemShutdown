@@ -9,6 +9,7 @@ namespace SystemShutdown.BuildPattern
     //  Lead author: Søren
     public class CPUBuilder : IBuilder
     {
+        #region Fields
         private GameObject go;
 
         public SpriteRenderer sr;
@@ -17,14 +18,10 @@ namespace SystemShutdown.BuildPattern
         public float fps;
         public float timeElapsed;
         public int currentIndex;
-
-        public SpriteRenderer Sr
-        {
-            get { return sr; }
-            set { sr = value; }
-        }
-
         private CPU cpu;
+        #endregion
+
+        #region Methods
 
         public CPU Cpu
         {
@@ -43,7 +40,7 @@ namespace SystemShutdown.BuildPattern
 
             cpu = new CPU();
 
-            go.AddComponent(new Collider(sr, cpu) { CheckCollisionEvents = true } );
+            go.AddComponent(new Collider(sr, cpu) { CheckCollisionEvents = true });
             go.AddComponent(cpu);
             /// Adds CPU to collider list
             GameWorld.Instance.GameState.AddGameObject(go);
@@ -86,5 +83,6 @@ namespace SystemShutdown.BuildPattern
         {
             return go;
         }
+        #endregion
     }
 }

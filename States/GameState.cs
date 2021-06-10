@@ -260,7 +260,13 @@ namespace SystemShutdown.States
             {
                 ShutdownThreads();
                 GameWorld.ChangeState(new GameOverState());
+                GameWorld.Instance.IsDay = true;
+
+                GameWorld.Instance.cyclebarDay.resetDay();
+                GameWorld.Instance.cyclebarNight.resetNight();
+
             }
+
 
 #if DEBUG
             // Spawns a bug in debug by pressing P
@@ -470,7 +476,10 @@ namespace SystemShutdown.States
             {
                 GameWorld.Instance.deathEffect.Play();
                 ShutdownThreads();
-                GameWorld.ChangeState(new GameOverState());
+                GameWorld.ChangeState(GameWorld.Instance.GameOverState);
+                GameWorld.Instance.IsDay = true;
+                GameWorld.Instance.cyclebarDay.resetDay();
+                GameWorld.Instance.cyclebarNight.resetNight();
             }
         }
 

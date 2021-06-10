@@ -12,16 +12,16 @@ namespace SystemShutdown
     // Lead author: Frederik
     public abstract class State
     {
-        #region Fields
 
         protected ContentManager content = GameWorld.Instance.Content;
 
+        #region Fields
+        #endregion
+
+        #region Constructor
         #endregion
 
         #region Methods
-
-        #region Constructor
-      
         #endregion
 
         public abstract void LoadContent();
@@ -31,6 +31,6 @@ namespace SystemShutdown
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
 
-        #endregion
+        
     }
 }

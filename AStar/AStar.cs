@@ -6,9 +6,14 @@ namespace SystemShutdown.AStar
     // Lead author: Ras
     class Astar
     {
+        #region Fields
         private List<Node> closedList = new List<Node>();
         private List<Node> openList = new List<Node>();
         private bool finished = true;
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Clears Astar open and closed lists and sets finished bool to false
         /// </summary>
@@ -104,7 +109,7 @@ namespace SystemShutdown.AStar
                 {
                     neighbors[7] = GameWorld.Instance.GameState.Grid.Node(node.X + 1, node.Y - 1);
                 }
-               
+
             }
             return neighbors;
         }
@@ -137,7 +142,7 @@ namespace SystemShutdown.AStar
         public void Search(Node start, Node end, Stack<Node> path)
         {
             start.F = EuclideanDistance(start.X, start.Y, end.X, end.Y);
-            
+
             openList.Add(start);
 
             while (!finished)
@@ -179,7 +184,7 @@ namespace SystemShutdown.AStar
                 {
                     Finish(current, path);
                 }
-              
+
                 // removes current node from openList and adds it to closedList, and flips sets bools open to false and closed to true.
                 openList.Remove(current);
                 closedList.Add(current);
@@ -202,7 +207,7 @@ namespace SystemShutdown.AStar
             Node[] neighbors = GetNeighbors(GameWorld.Instance.GameState.Grid, current);
             foreach (Node neighbor in neighbors)
             {
-                
+
                 if (neighbor == null)
                 {
                     continue;
@@ -244,7 +249,7 @@ namespace SystemShutdown.AStar
             }
         }
 
-      
+
         /// <summary>.
         /// Uses Camefrom to track backwards from finish to start position and pushes the paths to the enemys stack of paths. 
         /// When start position is reached it has a null Camefrom node and while loop is finished.
@@ -264,7 +269,6 @@ namespace SystemShutdown.AStar
             finished = true;
 
         }
-
-
+        #endregion
     }
 }

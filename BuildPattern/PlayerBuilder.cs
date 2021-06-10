@@ -10,6 +10,7 @@ namespace SystemShutdown.BuildPattern
     //  Lead author: Frederik
     public class PlayerBuilder : IBuilder
     {
+        #region Fields
         private GameObject playerGO;
 
         public SpriteRenderer playerSR;
@@ -32,6 +33,9 @@ namespace SystemShutdown.BuildPattern
             get { return player; }
             set { player = value; }
         }
+        #endregion
+
+        #region Methods
 
         public void BuildGameObject()
         {
@@ -44,7 +48,7 @@ namespace SystemShutdown.BuildPattern
 
             player = new Player();
 
-            playerGO.AddComponent(new Collider(playerSR, player) { CheckCollisionEvents = true } );
+            playerGO.AddComponent(new Collider(playerSR, player) { CheckCollisionEvents = true });
             playerGO.AddComponent(player);
             /// Adds player to collider list
             GameWorld.Instance.GameState.AddGameObject(playerGO);
@@ -90,5 +94,6 @@ namespace SystemShutdown.BuildPattern
         {
             return playerGO;
         }
+        #endregion
     }
 }

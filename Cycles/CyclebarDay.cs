@@ -20,6 +20,10 @@ namespace SystemShutdown.GameObjects
         {
             LoadContent(content);
 
+            resetDay();
+        }
+        public void resetDay()
+        {
             fullBarDay = dayBar.Width;
             currentBarDay = fullBarDay;
         }
