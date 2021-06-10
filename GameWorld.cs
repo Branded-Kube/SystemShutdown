@@ -52,8 +52,8 @@ namespace SystemShutdown
         private GameOverState gameOverState;
         private HighscoreState highscoreState;
 
-        private CyclebarDay cyclebarDay;
-        private CyclebarNight cyclebarNight;
+        public CyclebarDay cyclebarDay;
+        public CyclebarNight cyclebarNight;
         public Texture2D darkSprite;
 
         private Repository repo;
@@ -276,7 +276,6 @@ namespace SystemShutdown
                 if (!IsDay)
                 {
                     spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X - 40, -camera.Transform.Translation.Y - 40), null, Color.White * 0.8f, 0, gameState.PlayerBuilder.playerSR.Origin, 1f, SpriteEffects.None, 1f);
-
                 }
                 if (GameState.PlayerBuilder.Player.ShowingMap)
                 {

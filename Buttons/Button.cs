@@ -9,7 +9,7 @@ namespace SystemShutdown.Buttons
     //  Lead author: Frederik
     internal class Button : StateComponent
     {
-        #region Fields
+        #region Fields & Properties
 
         private MouseState currentMouse;
 
@@ -21,11 +21,7 @@ namespace SystemShutdown.Buttons
 
         private Texture2D _texture;
 
-      //  public Texture2D buttonTexture;
-
-        #endregion
-
-        #region Properties
+        //  public Texture2D buttonTexture;
 
         public EventHandler Click;
 
@@ -51,11 +47,15 @@ namespace SystemShutdown.Buttons
             }
         }
 
+        #endregion
+
+        #region Properties
+
+
 
         #endregion
 
-        #region Methods
-
+        #region Constructor
         public Button(Texture2D texture, SpriteFont font)
         {
             _texture = texture;
@@ -64,6 +64,11 @@ namespace SystemShutdown.Buttons
 
             PenColor = Color.Black;
         }
+
+        #endregion
+
+        #region Methods
+
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

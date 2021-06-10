@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SystemShutdown.AStar;
 using SystemShutdown.ComponentPattern;
 
 namespace SystemShutdown
@@ -8,9 +7,6 @@ namespace SystemShutdown
     // Lead author: Frederik 
     public abstract class Component
     {
-        public Vector2 previousPosition;
-        public Vector2 currentDir;
-        protected float rotation;
         public int Health { get; set; }
      
         public bool IsEnabled { get; set; } = true;

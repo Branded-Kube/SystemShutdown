@@ -42,8 +42,6 @@ namespace SystemShutdown.GameObjects
 
         private bool showingMap = true;
         private bool hasUsedMap;
-        private Rectangle rectangle;
-        private Vector2 lastVelocity;
 
         private KeyboardState oldState;
         private KeyboardState newState;
@@ -250,7 +248,6 @@ namespace SystemShutdown.GameObjects
             RotatePlayer();
             shootTime += GameWorld.Instance.DeltaTime;
             ShowMapTime += GameWorld.Instance.DeltaTime;
-            lastVelocity = GameObject.Transform.Position;
 
 
             if (Speed > 400)

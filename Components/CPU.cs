@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
 using SystemShutdown.ComponentPattern;
-using SystemShutdown.Components;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects

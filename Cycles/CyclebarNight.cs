@@ -19,6 +19,11 @@ namespace SystemShutdown.GameObjects
         {
             LoadContent(content);
 
+
+            resetNight();
+        }
+        public void resetNight()
+        {
             fullBarNight = nightBar.Width;
             currentBarNight = fullBarNight;
         }

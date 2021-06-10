@@ -19,7 +19,6 @@ namespace SystemShutdown.GameObjects
         private bool threadRunning = true;
         private bool searching = false;
 
-        private int Id;
         private float vision;
         private float speed;
         private double updateTimer = 0.0;
@@ -254,7 +253,6 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         private void ThreadMethod(object callback)
         {
-            this.Id = Thread.CurrentThread.ManagedThreadId;
             while (threadRunning == true && GameWorld.Instance.GameState.IsThreadsRunning == true)
             {
                 if (AttackingPlayer)
