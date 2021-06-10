@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.Components;
 
 namespace SystemShutdown.ObserverPattern
 {
-    // Hovedforfatter: Frederik
+    // Lead author: Frederik
     public class GameEvent
     {
         private List<IGameListener> listeners = new List<IGameListener>();

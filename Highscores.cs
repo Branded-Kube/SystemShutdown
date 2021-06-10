@@ -5,8 +5,8 @@ using System.Text;
 
 namespace SystemShutdown
 {
-    // Hovedforfatter: Søren
-   public class Highscores
+    // Lead author: Søren
+    public class Highscores
     {
 
         public int Id { get; set; }

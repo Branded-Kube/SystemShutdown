@@ -2,8 +2,8 @@
 
 namespace SystemShutdown.BuildPattern
 {
-    // Frederik
-   public class Director
+    // Lead author: Frederik
+    public class Director
     {
         private IBuilder builder;
 

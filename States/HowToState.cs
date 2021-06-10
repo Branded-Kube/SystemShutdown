@@ -9,7 +9,7 @@ using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.States
 {
-    // Hovedforfatter: Frederik
+    // Lead author: Frederik
     public class HowToState : State
     {
         private List<StateComponent> components;

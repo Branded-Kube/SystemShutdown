@@ -4,12 +4,11 @@ using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace SystemShutdown.Database
 {
-    // Hovedforfatter Lau
-    // Bidragsyder Lau
+    // Lead author: Lau
+    // Contributor: Søren
     public class Repository : IRepository
     {
         private readonly IDatabaseProvider provider;

@@ -1,17 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using SystemShutdown.Components;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.FactoryPattern
 {
-    // Hovedforfatter: Frederik
-    // Bidragsyder: Ras
+    // Lead author: Frederik
+    // Contributor: Ras
     class Projectile : Component, IGameListener
     {
         private float speed;

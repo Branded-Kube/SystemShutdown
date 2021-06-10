@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
-using SystemShutdown.FactoryPattern;
 
 namespace SystemShutdown.FactoryPattern
 {
-    // Hovedforfatter: Frederik
-    // Bidragsyder: Lau
-    // Bidragsyder: Ras
+    // Lead author: Frederik
+    // Contributor: Lau
+    // Contributor: Ras
 
     class ProjectileFactory : Factory
     {

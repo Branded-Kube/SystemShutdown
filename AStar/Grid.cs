@@ -5,7 +5,7 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.AStar
 {
-    //Ras
+    // Lead author: Ras
     public class Grid
     {
         private Node[,] nodes;

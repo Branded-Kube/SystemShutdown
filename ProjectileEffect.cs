@@ -1,17 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SystemShutdown
 {
-    // Hovedforfatter: Ras
+    // Lead author: Ras
     public class ProjectileEffect
     {
         private Texture2D effectTexture;
-       private Vector2 effectVector;
-       private Double timer = 0.0;
+        private Vector2 effectVector;
+        private Double timer = 0.0;
 
         public Texture2D[] walk;
         public float fps;
@@ -25,17 +23,17 @@ namespace SystemShutdown
             walk = new Texture2D[3];
 
             //Loop animaiton textures
-            for (int g = 0; g<walk.Length; g++)
+            for (int g = 0; g < walk.Length; g++)
             {
                 walk[g] = GameWorld.Instance.Content.Load<Texture2D>($"projectileEffect{g + 1}");
             }
             effectTexture = walk[0];
-}
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(effectTexture, effectVector, Color.White);
         }
-       
+
         public void Update(GameTime gameTime)
         {
             if (timer >= 0.3)

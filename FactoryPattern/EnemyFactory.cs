@@ -2,10 +2,12 @@
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
+using System;
+
 
 namespace SystemShutdown.FactoryPattern
 {
-   // Ras
+    // Lead author: Ras
     public class EnemyFactory : Factory
     {
         private static EnemyFactory instance;

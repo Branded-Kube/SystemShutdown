@@ -2,7 +2,7 @@
 
 namespace SystemShutdown.BuildPattern
 {
-    // Frederik
+    //  Lead author: Frederik
     public interface IBuilder
     {
         GameObject GetResult();

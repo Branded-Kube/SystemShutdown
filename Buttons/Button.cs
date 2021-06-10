@@ -6,7 +6,7 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.Buttons
 {
-    // Frederik
+    //  Lead author: Frederik
     internal class Button : StateComponent
     {
         #region Fields

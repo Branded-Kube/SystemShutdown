@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SystemShutdown.GameObjects
 {
-    // Hovedforfatter: Frederik
+    // Lead author: Frederik
     public class CyclebarNight
     {
         public Texture2D moonSprite;

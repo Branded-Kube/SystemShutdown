@@ -13,10 +13,10 @@ using SystemShutdown.FactoryPattern;
 
 namespace SystemShutdown.States
 {
-    // Hovedforfatter: Frederik
-    // Bidragsyder: Ras
-    // Bidragsyder: Lau
-    // Bidragsyder: Søren
+    // Lead author: Frederik
+    // Contributor: Ras
+    // Contributor: Lau
+    // Contributor: Søren
     public class GameState : State
     {
         #region Fields
@@ -29,7 +29,6 @@ namespace SystemShutdown.States
         private Texture2D modboard;
 
         public static SpriteFont font;
-        private string enemyID = "";
         public bool IsThreadsRunning;
 
         private Song nightMusic;
@@ -153,7 +152,7 @@ namespace SystemShutdown.States
             {
                 GameObjects[i].Awake();
             }
-           
+
             // Frederik
 
             font = content.Load<SpriteFont>("Fonts/font");
@@ -249,8 +248,8 @@ namespace SystemShutdown.States
             ///<summary>
             ///Updates cursors position
             /// </summary>
-            CursorPosition = new Vector2(PlayerBuilder.player.distance.X - cursorSprite.Width / 2,
-                PlayerBuilder.player.distance.Y) + PlayerBuilder.player.GameObject.Transform.Position;
+            CursorPosition = new Vector2(PlayerBuilder.player.Distance.X - cursorSprite.Width / 2,
+                PlayerBuilder.player.Distance.Y) + PlayerBuilder.player.GameObject.Transform.Position;
             previousKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
 
@@ -399,11 +398,11 @@ namespace SystemShutdown.States
         {
             spriteBatch.Draw(modboard, new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 916, PlayerBuilder.Player.GameObject.Transform.Position.Y + 206), Color.White);
             spriteBatch.DrawString(font, $"  | Player Stats | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 306), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 346), _killsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.Kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 346), _killsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Health: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 371), _healthColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 396), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _asColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _msColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.Cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _asColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.Speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _msColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 530, PlayerBuilder.Player.GameObject.Transform.Position.Y - 385), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
 
             if (!PlayerBuilder.player.HasUsedMap)

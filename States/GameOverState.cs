@@ -10,8 +10,8 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.States
 {
-    // Hovedforfatter: Frederik
-    // Bidragsyder: Søren
+    // Lead author: Frederik
+    // Contributor: Søren
     public class GameOverState : State
     {
         #region Fields
@@ -54,7 +54,7 @@ namespace SystemShutdown.States
         #region Methods
 
         #region Constructor
-       
+
         #endregion
 
         public override void LoadContent()
@@ -124,13 +124,13 @@ namespace SystemShutdown.States
             {
                 GameWorld.Instance.Repo.Open();
 
-                GameWorld.Instance.Repo.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.GameState.PlayerBuilder.Player.kills, GameWorld.Instance.GameState.Days);
+                GameWorld.Instance.Repo.SaveScore(Highscores.PlayerNameInput.ToString(), GameWorld.Instance.GameState.PlayerBuilder.Player.Kills, GameWorld.Instance.GameState.Days);
 
                 GameWorld.Instance.Repo.Close();
 
                 scoreSaved = true;
             }
-            
+
         }
 
         //Søren
@@ -190,16 +190,7 @@ namespace SystemShutdown.States
             {
                 component.Draw(gameTime, spriteBatch);
             }
-
             spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
-            
-
-
-            //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
-
-
-            //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
-
 
             if (isSetttingInitials)
             {

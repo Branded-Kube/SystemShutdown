@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SystemShutdown
 {
-    // Hovedforfatter: Lau
+    // Lead author: Lau
     public class Effects
     {
         public int Id { get; set; }

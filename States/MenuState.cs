@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
-using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
 namespace SystemShutdown
 {
-    // Hovedforfatter: Frederik
-    // Bidragsyder: Søren
+    // Lead author: Frederik
+    // Contributor: Søren
     public class MenuState : State
     {
         private List<StateComponent> components;
@@ -43,11 +37,7 @@ namespace SystemShutdown
 
         #region Methods
 
-        #region Constructor
-        public MenuState()
-        {
-        }
-        #endregion
+      
 
         public override void LoadContent()
         {

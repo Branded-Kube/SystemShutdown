@@ -11,7 +11,7 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
-    // Hovedforfatter: Ras
+    // Lead author: Ras
     public class Enemy : Component, IGameListener
     {
         private bool playerTarget = false;
@@ -49,7 +49,7 @@ namespace SystemShutdown.GameObjects
         public override void Destroy()
         {
             GameWorld.Instance.GameState.AliveEnemies--;
-            GameWorld.Instance.GameState.PlayerBuilder.player.kills++;
+            GameWorld.Instance.GameState.PlayerBuilder.player.Kills++;
             GameWorld.Instance.GameState.killsColorTimer = true;
             threadRunning = false;
         }

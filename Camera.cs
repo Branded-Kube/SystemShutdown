@@ -1,15 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SystemShutdown.BuildPattern;
-using SystemShutdown.GameObjects;
-using SystemShutdown.States;
 
 namespace SystemShutdown
 {
-    // Hovedforfatter: Søren
+    // Lead author: Søren
     public class Camera
     {
         public Matrix offset;

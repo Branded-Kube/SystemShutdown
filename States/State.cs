@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SystemShutdown
 {
-    // Hovedforfatter: Frederik
+    // Lead author: Frederik
     public abstract class State
     {
         #region Fields
@@ -21,10 +21,7 @@ namespace SystemShutdown
         #region Methods
 
         #region Constructor
-        public State()
-        {
-           
-        }
+      
         #endregion
 
         public abstract void LoadContent();

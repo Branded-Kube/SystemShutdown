@@ -4,7 +4,7 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.AStar
 {
-    //Ras
+    // Lead author: Ras
     public class Node : Component, IGameListener
     {
         public bool Passable { get; set; } = true;

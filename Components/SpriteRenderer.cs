@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SystemShutdown.Components
 {
-    // Frederik
+    // Lead author: Frederik
     public class SpriteRenderer : Component
     {
         public Texture2D Sprite { get; set; }

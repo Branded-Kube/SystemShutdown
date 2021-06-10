@@ -3,7 +3,7 @@ using System.Data.SQLite;
 
 namespace SystemShutdown.Database
 {
-    // Hovedforfatter: Lau
+    // Lead author: Lau
     public class SQLiteDatabaseProvider : IDatabaseProvider
     {
         private readonly string connectionString;

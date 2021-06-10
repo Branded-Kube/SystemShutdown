@@ -5,8 +5,8 @@ using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.BuildPattern
-{
-    // Søren
+{ 
+    //  Lead author: Søren
     public class CPUBuilder : IBuilder
     {
         private GameObject go;

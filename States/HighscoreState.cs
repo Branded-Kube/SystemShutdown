@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
 
 namespace SystemShutdown.States
 {
-    // Hovedforfatter: Søren
+    // Lead author: Søren
     public class HighscoreState : State
     {
         private List<StateComponent> components;

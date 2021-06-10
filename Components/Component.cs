@@ -5,7 +5,7 @@ using SystemShutdown.ComponentPattern;
 
 namespace SystemShutdown
 {
-    // Hovedforfatter: Frederik 
+    // Lead author: Frederik 
     public abstract class Component
     {
         public Vector2 previousPosition;

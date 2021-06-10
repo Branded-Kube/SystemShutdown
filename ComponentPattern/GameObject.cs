@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SystemShutdown.ComponentPattern
 {
-    // Frederik
+    // Lead author: Frederik
     public class GameObject
     {
         public Transform Transform { get; private set; }
@@ -32,7 +32,7 @@ namespace SystemShutdown.ComponentPattern
                 component.Awake();
             }
         }
-     
+
         public void Update(GameTime gameTime)
         {
             foreach (Component component in components.Values)

@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
@@ -13,62 +10,51 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
-    // Hovedforfatter: Frederik
-    // Bidragsyder: Ras
-    // Bidragsyder: Lau
-    // Bidragsyder: Søren
+    // Lead author: Frederik
+    // Contributor: Ras
+    // Contributor: Lau
+    // Contributor: Søren
     public class Player : Component, IGameListener
     {
-        public MouseState mouseState;
-        public MouseState lastMouseState;
-
-        static Semaphore MySemaphore;
-
-        private SpriteRenderer spriteRenderer;
-        public Vector2 distance;
-        private bool canShoot;
-        private float shootTime;
-        public float cooldown = 2000f;
-
-        private bool canToggleMap;
-        private float ShowMapTime;
-        private float mapCooldown = 1;
-
-        public Vector2 velocity = new Vector2(0f, 0f);
-
-        public Stack<Mods> playersMods = new Stack<Mods>();
-        public int dmg { get; set; }
-        public int hp { get; set; }
-        public int kills = 0;
-         public int speed = 250;
-
         public delegate void DamageEventHandler(object source, Enemy enemy, EventArgs e);
         public static event DamageEventHandler TakeDamagePlayer;
 
+        private MouseState mouseState;
+        private MouseState lastMouseState;
+
+        private static Semaphore MySemaphore;
+
+        private SpriteRenderer spriteRenderer;
+        private bool canShoot;
+        private bool canToggleMap;
+        private bool isLooped;
+        private bool hasShot;
+
+        private float shootTime;
+        private float cooldown = 2000f;
+        private float ShowMapTime;
+        private float mapCooldown = 1;
+        private int kills = 0;
+        private int speed = 250;
+
+        public Vector2 velocity = new Vector2(0f, 0f);
+        public Vector2 Distance;
+
         private bool showingMap = true;
-
-        public bool ShowingMap
-        {
-            get { return showingMap; }
-            private set {; }
-        }
-
         private bool hasUsedMap;
-
-        public bool HasUsedMap
-        {
-            get { return hasUsedMap; }
-            private set {; }
-        }
-
-        public Rectangle rectangle;
-        public Vector2 lastVelocity;
+        private Rectangle rectangle;
+        private Vector2 lastVelocity;
 
         private KeyboardState oldState;
         private KeyboardState newState;
 
-        private bool isLooped;
-        private bool hasShot;
+        
+        public int dmg { get; set; }
+        public int Speed { get { return speed; } set { speed = value; } }
+        public int Kills { get { return kills; } set { kills = value; } }
+        public float Cooldown { get { return cooldown; } set { cooldown = value; } }
+        public bool ShowingMap { get { return showingMap; } private set {; }}
+        public bool HasUsedMap { get { return hasUsedMap; }private set {; }}
 
         public Player()
         {
@@ -87,7 +73,7 @@ namespace SystemShutdown.GameObjects
             MySemaphore = new Semaphore(0, 10);
             MySemaphore.Release(10);
             Health = 100;
-            this.speed = 150;
+            this.Speed = 150;
             dmg = 50;
             TakeDamagePlayer += Player_DamagePlayer;
 
@@ -198,7 +184,7 @@ namespace SystemShutdown.GameObjects
             {
                 velocity.Normalize();
             }
-            velocity *= speed * GameWorld.Instance.DeltaTime;
+            velocity *= Speed * GameWorld.Instance.DeltaTime;
         }
 
         /// <summary>
@@ -206,10 +192,10 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         public void RotatePlayer()
         {
-            distance.X = mouseState.X - GameWorld.Instance.ScreenWidth / 2 + 45;
-            distance.Y = mouseState.Y - GameWorld.Instance.ScreenHeight / 2 + 45;
+            Distance.X = mouseState.X - GameWorld.Instance.ScreenWidth / 2 + 45;
+            Distance.Y = mouseState.Y - GameWorld.Instance.ScreenHeight / 2 + 45;
 
-            spriteRenderer.Rotation = (float)Math.Atan2(distance.Y, distance.X);
+            spriteRenderer.Rotation = (float)Math.Atan2(Distance.Y, Distance.X);
         }
 
         public override void Awake()
@@ -267,15 +253,15 @@ namespace SystemShutdown.GameObjects
             lastVelocity = GameObject.Transform.Position;
 
 
-            if (speed > 400)
+            if (Speed > 400)
             {
-                speed = 400;
+                Speed = 400;
             }
-            if (cooldown < 500)
+            if (Cooldown < 500)
             {
-                cooldown = 500;
+                Cooldown = 500;
             }
-            if (shootTime >= cooldown / 1000)
+            if (shootTime >= Cooldown / 1000)
             {
                 canShoot = true;
             }
@@ -298,7 +284,7 @@ namespace SystemShutdown.GameObjects
 
             KeyboardState keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.A)|| keyState.IsKeyDown(Keys.W)|| keyState.IsKeyDown(Keys.S)|| keyState.IsKeyDown(Keys.D))
+            if (keyState.IsKeyDown(Keys.A) || keyState.IsKeyDown(Keys.W) || keyState.IsKeyDown(Keys.S) || keyState.IsKeyDown(Keys.D))
             {
                 Move(keyState);
                 GameWorld.Instance.GameState.PlayerBuilder.Animate(gameTime);
@@ -312,7 +298,7 @@ namespace SystemShutdown.GameObjects
                 ToggleMap();
             }
         }
-       
+
         public override string ToString()
         {
             return "Player";

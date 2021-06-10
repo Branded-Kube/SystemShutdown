@@ -4,8 +4,8 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.FactoryPattern
 {
-    // Hovedforfatter: Ras
-    // Bidragsyder: Lau
+    // Lead author: Ras
+    // Contributor: Lau
     class ModFactory : Factory
     {
         private static ModFactory instance;

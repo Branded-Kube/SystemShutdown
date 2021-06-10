@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SystemShutdown.AStar
 {
-   // Ras
+    // Lead author: Ras
     class Astar
     {
         private List<Node> closedList = new List<Node>();

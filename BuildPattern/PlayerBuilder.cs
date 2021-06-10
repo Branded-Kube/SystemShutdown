@@ -7,7 +7,7 @@ using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.BuildPattern
 {
-    // Frederik
+    //  Lead author: Frederik
     public class PlayerBuilder : IBuilder
     {
         private GameObject playerGO;
