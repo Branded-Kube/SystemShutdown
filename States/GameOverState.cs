@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
@@ -42,6 +43,8 @@ namespace SystemShutdown.States
         private KeyboardState previousKeyState;
 
         private Song gameOverMusic;
+
+        private bool invalidCharacter = false;
 
         private bool scoreSaved = false;
 
@@ -115,7 +118,7 @@ namespace SystemShutdown.States
         {
             GameWorld.Instance.clickButton2.Play();
 
-            if (!scoreSaved)
+            if (!scoreSaved && !invalidCharacter)
             {
                 GameWorld.Instance.Repo.Open();
 
@@ -172,6 +175,11 @@ namespace SystemShutdown.States
                 GameWorld.ChangeState(new MenuState());
             }
 
+            if (invalidCharacter)
+            {
+                Debug.WriteLine("Invalid character used");
+            }
+
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -190,7 +198,18 @@ namespace SystemShutdown.States
             if (isSetttingInitials)
             {
                 spriteBatch.Draw(enterInitialText, enterInitialPos, null, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(buttonFont, Highscores.PlayerNameInput, new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 425), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+
+                try
+                {
+                    spriteBatch.DrawString(buttonFont, Highscores.PlayerNameInput, new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 425), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    invalidCharacter = false;
+                }
+
+                catch (ArgumentException) 
+                {
+                    spriteBatch.DrawString(buttonFont, "Invalid character used", new Vector2((GameWorld.Instance.ScreenWidth / 2) - 125, 360), Color.Black, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    invalidCharacter = true;
+                }
             }
 
             if (scoreSaved)
