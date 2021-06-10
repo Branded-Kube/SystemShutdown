@@ -66,20 +66,20 @@ namespace SystemShutdown.BuildPattern
         /// <param name="gametime"></param>
         public void Animate(GameTime gametime)
         {
-                //Giver tiden, der er gået, siden sidste update
-                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+            // Gives time that has passed since last update
+            timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-                //Beregner currentIndex
-                currentIndex = (int)(timeElapsed * fps);
-                sr.Sprite = colors[currentIndex];
+            // Calculates currentIndex
+            currentIndex = (int)(timeElapsed * fps);
+            sr.Sprite = colors[currentIndex];
 
-                //Checks if animation needs to restart
-                if (currentIndex >= colors.Length - 1)
-                {
-                    //Resets animation
-                    timeElapsed = 0;
-                    currentIndex = 0;
-                }
+            // Checks if animation needs to restart
+            if (currentIndex >= colors.Length - 1)
+            {
+                // Resets animation
+                timeElapsed = 0;
+                currentIndex = 0;
+            }
         }
 
         public GameObject GetResult()

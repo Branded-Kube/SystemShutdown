@@ -69,17 +69,17 @@ namespace SystemShutdown.BuildPattern
         {
             if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                //Giver tiden, der er gået, siden sidste update
+                // Gives time that has passed since last update
                 timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-                //Beregner currentIndex
+                // Calculates currentIndex
                 currentIndex = (int)(timeElapsed * fps);
                 playerSR.Sprite = walk[currentIndex];
 
-                //Checks if animation needs to restart
+                // Checks if animation needs to restart
                 if (currentIndex >= walk.Length - 1)
                 {
-                    //Resets animation
+                    // Resets animation
                     timeElapsed = 0;
                     currentIndex = 0;
                 }
