@@ -13,9 +13,7 @@ namespace SystemShutdown
     {
         #region Fields
 
-       protected ContentManager content = GameWorld.Instance.Content;
-
-      //  protected GameWorld _game;
+        protected ContentManager content = GameWorld.Instance.Content;
 
         #endregion
 
@@ -24,18 +22,13 @@ namespace SystemShutdown
         #region Constructor
         public State()
         {
-            // Frederik
-            //_game = game;
-
-            //this.content = content;
+           
         }
         #endregion
 
         public abstract void LoadContent();
 
         public abstract void Update(GameTime gameTime);
-
-        //public abstract void PostUpdate(GameTime gameTime);
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 

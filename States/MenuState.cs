@@ -88,8 +88,6 @@ namespace SystemShutdown
                     Position = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 700),
                     Click = new EventHandler(Button_Quit_Clicked),
                 }
-
-           
             };
         }
 
@@ -141,11 +139,6 @@ namespace SystemShutdown
             quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 655);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
         }
-
-        //public override void PostUpdate(GameTime gameTime)
-        //{
-        //    //(unload game - specific content)
-        //}
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

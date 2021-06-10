@@ -195,11 +195,6 @@ namespace SystemShutdown
 
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //{
-            //    GameState.ShutdownThreads();
-            //    this.Exit();
-            //}
             ///<summary>
             /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate
             /// </summary>
@@ -253,7 +248,6 @@ namespace SystemShutdown
 
         protected override void Draw(GameTime gameTime)
         {
-
             /// <summary>
             /// This will scale and adjust everything in game to our scale and no matter the size of the window,
             /// the game will always be running in 1080p resolution (or what resolution we choose)
@@ -279,7 +273,6 @@ namespace SystemShutdown
             spriteBatch.Draw(RenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if (isGameState)
             {
-
                 if (!IsDay)
                 {
                     spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X - 40, -camera.Transform.Translation.Y - 40), null, Color.White * 0.8f, 0, gameState.PlayerBuilder.playerSR.Origin, 1f, SpriteEffects.None, 1f);
@@ -314,7 +307,6 @@ namespace SystemShutdown
 
                 //Draws cursor
                 spriteBatch.Draw(gameState.cursorSprite, gameState.CursorPosition, Color.White);
-
             }
             spriteBatch.End();
             base.Draw(gameTime);

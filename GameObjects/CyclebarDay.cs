@@ -15,10 +15,7 @@ namespace SystemShutdown.GameObjects
         public Vector2 dayBarPosition;
         public int fullBarDay;
         public float currentBarDay;
-        //public float dayMeter = 0.025f; //Ca. 3:45 min.
         public float dayMeter = 0.1f;
-
-
         public Color dayBarColor;
 
         public CyclebarDay(ContentManager content)

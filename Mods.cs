@@ -47,29 +47,6 @@ namespace SystemShutdown
         {
             GameObject.Tag = "Pickup";
 
-
-            //Random rnd = new Random();
-            //int randomnumber = rnd.Next(1, 5);
-
-            //List<Effects> pickupable = new List<Effects>();
-
-            //GameWorld.repo.Open();
-            //pickupable = GameWorld.repo.FindEffects(randomnumber);
-
-            ////playerBuilder.player.dmg += pickupAble.Effect;
-            //GameWorld.repo.Close();
-
-            //Random rndeffect = new Random();
-            //int randomeffect = rndeffect.Next(0, 3);
-
-            //Effects choseneffect = pickupable[randomeffect];
-
-            //Debug.WriteLine($"{choseneffect.Effectname}");
-            //Effect = choseneffect.Effect;
-            //ModFKID = choseneffect.ModFK;
-            //// GameObject.Transform.Position = new Vector2(400, 200);
-            //// this.position = GameObject.Transform.Position;
-            ////spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         }
         public override string ToString()
         {
@@ -108,8 +85,6 @@ namespace SystemShutdown
             Effects choseneffect = pickupable[randomeffect];
 
         Debug.WriteLine($"{choseneffect.Effectname}");
-            //Effect = choseneffect.Effect;
-            //ModFKID = choseneffect.ModFK;
             if (choseneffect.ModFK == 1)
             {
                 GameWorld.Instance.GameState.PlayerBuilder.player.dmg += choseneffect.Effect;

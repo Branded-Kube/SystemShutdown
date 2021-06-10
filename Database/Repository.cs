@@ -22,9 +22,6 @@ namespace SystemShutdown.Database
             set { reader = value; }
         }
 
-
-
-
         public Repository(IDatabaseProvider provider, IMapper mapper)
         {
             this.provider = provider;
@@ -45,24 +42,22 @@ namespace SystemShutdown.Database
             cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Effects (EffectID INTEGER PRIMARY KEY, Effect INTEGER, EffectName VARCHAR(50), ModFK INTEGER REFERENCES Mods(ModID), UNIQUE(EffectName));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
 
-
-            //cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Highscores (PlayerName VARCHAR(50) PRIMARY KEY, Kills INTEGER, DaysSurvived INTEGER ,UNIQUE(PlayerName));", (SQLiteConnection)connection);
             cmd = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS Highscores (PlayerId INTEGER PRIMARY KEY, PlayerName VARCHAR(50) ,Kills INTEGER, DaysSurvived INTEGER ,UNIQUE(PlayerId));", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
 
-        public void RemoveTables()
+      
+       
+        public void AddMods(string name)
         {
-            var cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Effects;", (SQLiteConnection)connection);
+            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Mods (Name) VALUES ('{name}')", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
-
-            cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Mods;", (SQLiteConnection)connection);
-            cmd.ExecuteNonQuery();
-
-            Debug.WriteLine("tables dropped.");
-
         }
-
+        public void AddEffects(int effect, string effectname, int modfk)
+        {
+            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Effects (Effect, EffectName, ModFK) VALUES ({effect}, '{effectname}', {modfk})", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+        }
         public Mods FindMods(string name)
         {
             var cmd = new SQLiteCommand($"SELECT * from Mods WHERE Name = '{name}'", (SQLiteConnection)connection);
@@ -70,12 +65,6 @@ namespace SystemShutdown.Database
 
             var result = mapper.MapModsFromReader(reader).First();
             return result;
-        }
-
-        public void AddMods(string name)
-        {
-            var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Mods (Name) VALUES ('{name}')", (SQLiteConnection)connection);
-            cmd.ExecuteNonQuery();
         }
 
         public List <Effects> FindEffects(int modfk)
@@ -107,6 +96,17 @@ namespace SystemShutdown.Database
             SQLiteCommand cmd = new SQLiteCommand(sql, (SQLiteConnection)connection);
 
             reader = cmd.ExecuteReader();
+
+        }
+        public void RemoveTables()
+        {
+            var cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Effects;", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+
+            cmd = new SQLiteCommand($"DROP TABLE IF EXISTS Mods;", (SQLiteConnection)connection);
+            cmd.ExecuteNonQuery();
+
+            Debug.WriteLine("tables dropped.");
 
         }
 

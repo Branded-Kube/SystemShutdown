@@ -1,15 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
-using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.States
 {
@@ -51,11 +47,11 @@ namespace SystemShutdown.States
         private bool isSetttingInitials = false;
 
 
-        public bool IsSettingInitials
-        {
-            get { return isSetttingInitials; }
-            set { isSetttingInitials = value; }
-        }
+        //public bool IsSettingInitials
+        //{
+        //    get { return isSetttingInitials; }
+        //    set { isSetttingInitials = value; }
+        //}
 
         #endregion
 
@@ -160,12 +156,6 @@ namespace SystemShutdown.States
             }
         }
 
-
-        //public void SetInitials()
-        //{
-        //    Window.TextInput += UserLogin.CreateUsernameInput;
-        //}
-
         public override void Update(GameTime gameTime)
         {
             // Frederik
@@ -195,11 +185,6 @@ namespace SystemShutdown.States
 
         }
 
-        //public override void PostUpdate(GameTime gameTime)
-        //{
-        //    //(unload game-specific content)
-        //}
-
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Frederik
@@ -211,6 +196,16 @@ namespace SystemShutdown.States
             {
                 component.Draw(gameTime, spriteBatch);
             }
+
+            spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
+            
+
+
+            //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
+
+
+            //spriteBatch.DrawString(buttonFont, "Set initials", new Vector2(GameWorld.Instance.ScreenWidth / 2, 500), Color.White);
+
 
             if (isSetttingInitials)
             {

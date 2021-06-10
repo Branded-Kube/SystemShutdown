@@ -28,10 +28,6 @@ namespace SystemShutdown
                 GameWorld.Instance.ScreenHeight / 2,
                 0);
             Transform = position * offset;
-
         }
-
     }
-
-
 }

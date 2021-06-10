@@ -10,6 +10,7 @@ namespace SystemShutdown.FactoryPattern
     {
         private static EnemyFactory instance;
         private Enemy enemy;
+
         // EnemyFactoy Singleton
         public static EnemyFactory Instance
         {
@@ -33,10 +34,8 @@ namespace SystemShutdown.FactoryPattern
         /// <returns></returns>
         public override GameObject1 Create(Vector2 position, string type)
         {
-
             GameObject1 enemyGO = new GameObject1();
             GameWorld.Instance.GameState.AliveEnemies++;
-
             switch (type)
             {
                 case "Bug":

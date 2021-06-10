@@ -67,8 +67,10 @@ namespace SystemShutdown.FactoryPattern
         }
 
         /// <summary>
+        /// Collision with Node:
         /// Destroys itself on impact with a Node object (wall) or enemy
-        /// If enemy, damages enemys health with players dmg. Bool AlreadyCollided causes projektile to only hit 1 enemy at a time. 
+        /// Collision with Enemy:
+        /// Damages enemys health with players dmg. Bool AlreadyCollided causes projektile to only hit 1 enemy at a time. 
         /// </summary>
         /// <param name="gameEvent"></param>
         /// <param name="component"></param>

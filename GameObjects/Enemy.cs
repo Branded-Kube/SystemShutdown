@@ -312,10 +312,8 @@ namespace SystemShutdown.GameObjects
             {
                 Health = 100;
             }
-            
             internalThread = new Thread(ThreadMethod);
             StartThread();
-
             //Load sprite sheet - Frederik
             walk = new Texture2D[3];
             //Loop animaiton textures

@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SystemShutdown.Components
 {
@@ -13,22 +10,10 @@ namespace SystemShutdown.Components
 
         public float Rotation { get; set; }
 
-       // public Rectangle rectangle { get; set; }
-
-
-        //public SpriteRenderer()
-        //{
-        //}
-
         public SpriteRenderer(string spriteName)
         {
             SetSprite(spriteName);
         }
-
-        //public SpriteRenderer()
-        //{
-        //}
-
         public void SetSprite(string spriteName)
         {
             Sprite = GameWorld.Instance.Content.Load<Texture2D>(spriteName);
@@ -37,8 +22,6 @@ namespace SystemShutdown.Components
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Sprite, GameObject.Transform.Position, null, Color.White, Rotation, Origin, 1, SpriteEffects.None, 0);
-            //spriteBatch.Draw(Sprite, GameObject.Transform.Position, rectangle, Color.White, 0, Origin, 1, SpriteEffects.None, 0);
-            
         }
 
         

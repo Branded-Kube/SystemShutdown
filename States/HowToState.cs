@@ -61,11 +61,6 @@ namespace SystemShutdown.States
             backOrigin = new Vector2(backText.Width / 2, backText.Height / 2);
         }
 
-        //public override void PostUpdate(GameTime gameTime)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.BackToFront);

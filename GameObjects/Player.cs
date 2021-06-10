@@ -60,12 +60,6 @@ namespace SystemShutdown.GameObjects
             private set {; }
         }
 
-
-        //protected Texture2D[] sprites, upWalk;
-        //protected float fps;
-        //private float timeElapsed;
-        //private int currentIndex;
-
         public Rectangle rectangle;
         public Vector2 lastVelocity;
 
@@ -75,29 +69,28 @@ namespace SystemShutdown.GameObjects
         private bool isLooped;
         private bool hasShot;
 
-        public bool IsDead
-        {
-            get
-            {
-                return Health <= 0;
-            }
-        }
+        //public bool IsDead
+        //{
+        //    get
+        //    {
+        //        return Health <= 0;
+        //    }
+        //}
 
         public Player()
         {
-            
             canShoot = true;
             canToggleMap = true;
             isLooped = false;
             hasShot = false;
             GameWorld.Instance.GameState.PlayerBuilder.fps = 8f;
-            // Closes old semaphore and creates a new one (New gamestate bug, return to menu and resume
+            // Closes old semaphore and creates a new one (New gamestate bug, return to menu and resume)
             if (MySemaphore != null)
             {
                 MySemaphore.Close();
                 MySemaphore = null;
             }
-            Debug.WriteLine("Players semaphore releases (10)");
+            //Debug.WriteLine("Players semaphore releases (10)");
             MySemaphore = new Semaphore(0, 10);
             MySemaphore.Release(10);
             Health = 100;
@@ -106,11 +99,23 @@ namespace SystemShutdown.GameObjects
             TakeDamagePlayer += Player_DamagePlayer;
 
         }
+        /// <summary>
+        /// Ras
+        /// Player Health minus Enemy damage.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="enemy"></param>
+        /// <param name="e"></param>
         private void Player_DamagePlayer(object source, Enemy enemy, EventArgs e)
         {
             Health -= enemy.Dmg;
         }
 
+        /// <summary>
+        /// Ras & Frederik
+        /// Moves the player. WASD style. 
+        /// </summary>
+        /// <param name="keyState"></param>
         public void Move(KeyboardState keyState)
         {
             oldState = newState;
@@ -219,13 +224,14 @@ namespace SystemShutdown.GameObjects
             GameObject.Tag = "Player";
 
             GameObject.Transform.Position = new Vector2(2200, 1700);
-
-            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
-            //this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
 
         }
 
+        /// <summary>
+        /// Ras & Frederik
+        /// Checks for collisions on each side. 
+        /// </summary>
         private void PlayerMovementCollider()
         {
             foreach (GameObject1 gameObject in GameWorld.Instance.GameState.GameObjects)
@@ -292,7 +298,7 @@ namespace SystemShutdown.GameObjects
             // Get the mouse state relevant for this frame
             mouseState = Mouse.GetState();
             // Recognize a single click of the left mouse button
-            if (/*lastMouseState.LeftButton == ButtonState.Released &&*/ mouseState.LeftButton == ButtonState.Pressed && canShoot)
+            if (mouseState.LeftButton == ButtonState.Pressed && canShoot)
             {
                 Shoot();
             }
@@ -313,42 +319,7 @@ namespace SystemShutdown.GameObjects
                 ToggleMap();
             }
         }
-        //public void ApplyAllMods()
-        //{
-
-        //    this.speed = 600;
-        //    dmg = 50;
-        //    hp = 10;
-        //    foreach (Mods mods in playersMods)
-        //    {
-        //        if (mods.ModFKID == 1)
-        //        {
-        //            dmg += mods.Effect;
-
-        //        }
-        //        if (mods.ModFKID == 2)
-        //        {
-        //            if (speed > 500)
-        //            {
-        //                speed += mods.Effect;
-        //            }
-        //        }
-        //        if (mods.ModFKID == 3)
-        //        {
-        //            if (cooldown > 0.1)
-        //            {
-        //                cooldown -= mods.Effect;
-        //            }
-
-        //        }
-
-        //    }
-        //}
-        public override void Start()
-        {
-            
-        }
-
+       
         public override string ToString()
         {
             return "Player";
@@ -356,6 +327,7 @@ namespace SystemShutdown.GameObjects
 
         /// <summary>
         /// Ras 
+        /// Creates a projektile gameobject with a moving vector in dircting player is facing
         /// </summary>
         public void Shoot()
         {
@@ -373,16 +345,16 @@ namespace SystemShutdown.GameObjects
                 }
                 canShoot = false;
                 shootTime = 0;
-                GameObject1 laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
-                Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - laserObject.Transform.Position;
+                GameObject1 projectileObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
+                Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - projectileObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
-                Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");
-                SpriteRenderer tmpSpriteRenderer = (SpriteRenderer)laserObject.GetComponent("SpriteRenderer");
-                Collider tmpCollider = (Collider)laserObject.GetComponent("Collider");
+                Projectile tmpPro = (Projectile)projectileObject.GetComponent("Projectile");
+                SpriteRenderer tmpSpriteRenderer = (SpriteRenderer)projectileObject.GetComponent("SpriteRenderer");
+                Collider tmpCollider = (Collider)projectileObject.GetComponent("Collider");
                 tmpSpriteRenderer.Rotation = spriteRenderer.Rotation;
                 tmpPro.Velocity = movement;
-                GameWorld.Instance.GameState.AddGameObject(laserObject);
+                GameWorld.Instance.GameState.AddGameObject(projectileObject);
             }
         }
         //Søren
@@ -407,6 +379,14 @@ namespace SystemShutdown.GameObjects
             }
         }
 
+        /// <summary>
+        /// Collision with Enemy:
+        /// Enemy attack bool sat to true and thread runs players enter method. Player health stat is reduced and colored red 
+        /// Collision with Pickup:
+        /// Pickup is destroyed and a sound effect is played
+        /// </summary>
+        /// <param name="gameEvent"></param>
+        /// <param name="component"></param>
         public void Notify(GameEvent gameEvent, Component component)
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
@@ -426,21 +406,26 @@ namespace SystemShutdown.GameObjects
             }
         }
 
+        /// <summary>
+        /// Method which enemy threads use. Accessor to shared resource.
+        /// semaphore lock tells thread to wait if semaphore is full. 
+        /// Tells semaphore to release 1 after resource has been accessed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="enemy"></param>
         public void Enter(Object id, Enemy enemy)
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
-            
-            //Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+            //Debug.WriteLine($"Enemy {tmp} Waiting to enter (Player)");
             MySemaphore.WaitOne();
-            //Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+            //Debug.WriteLine("Enemy " + tmp + " damages (Player)");
             Random randomNumber = new Random();
 
             TakeDamagePlayer(null, enemy, EventArgs.Empty);
             Thread.Sleep(100 * randomNumber.Next(0, 15));
 
-            //Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            //Debug.WriteLine("Enemy " + tmp + " is leaving (Player)");
             MySemaphore.Release();
-
         }
     }
 }
