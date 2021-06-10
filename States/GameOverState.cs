@@ -114,6 +114,10 @@ namespace SystemShutdown.States
 
         private void Button_ToMenu_Clicked(object sender, EventArgs e)
         {
+            GameWorld.Instance.StopSettingInitials();
+            Highscores.PlayerNameInput = new StringBuilder("UserName");
+
+            Highscores.user = true;
             GameWorld.ChangeState(new MenuState());
         }
         private void Button_Quit_Clicked(object sender, EventArgs e)
@@ -121,6 +125,7 @@ namespace SystemShutdown.States
             GameWorld.Instance.Exit();
         }
 
+        //Søren
         private void Button_SaveHighscore_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton2.Play();
@@ -138,6 +143,7 @@ namespace SystemShutdown.States
             
         }
 
+        //Søren
         private void CreateInitialsButton_Clicked(object sender, EventArgs e)
         {
             GameWorld.Instance.clickButton.Play();

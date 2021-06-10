@@ -10,6 +10,7 @@ using SystemShutdown.States;
 
 namespace SystemShutdown.BuildPattern
 {
+    // Søren
     public class CPUBuilder : IBuilder
     {
         private GameObject1 go;

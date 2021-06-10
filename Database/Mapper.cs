@@ -33,6 +33,7 @@ namespace SystemShutdown.Database
             return result;
         }
 
+        //Søren
         public List<Highscores> MapHighscoresReader(IDataReader reader)
         {
             var result = new List<Highscores>();

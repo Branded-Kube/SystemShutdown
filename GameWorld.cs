@@ -324,6 +324,11 @@ namespace SystemShutdown
         {
             Window.TextInput += Highscores.CreateUsernameInput;
         }
+        public void StopSettingInitials()
+        {
+            Window.TextInput -= Highscores.CreateUsernameInput;
+        }
+
         #endregion
     }
 }

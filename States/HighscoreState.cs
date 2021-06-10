@@ -9,6 +9,7 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.States
 {
+    // Søren
    public class HighscoreState : State
     {
         private List<StateComponent> components;
@@ -87,7 +88,7 @@ namespace SystemShutdown.States
             while (GameWorld.Instance.Repo.Reader.Read())
             {
 
-                    score = (/*"PlayerName:  " + */GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
+                    score = (GameWorld.Instance.Repo.Reader["PlayerName"] + "  Kills: " + GameWorld.Instance.Repo.Reader["Kills"] + "  DaysSurvived: " + GameWorld.Instance.Repo.Reader["DaysSurvived"]);
 
                 if (i < 10)
                 {
