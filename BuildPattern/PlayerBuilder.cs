@@ -1,18 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
-using SystemShutdown.States;
 
 namespace SystemShutdown.BuildPattern
 {
+    //  Lead author: Frederik
     public class PlayerBuilder : IBuilder
     {
+        #region Fields
         private GameObject playerGO;
 
         public SpriteRenderer playerSR;
@@ -35,6 +33,9 @@ namespace SystemShutdown.BuildPattern
             get { return player; }
             set { player = value; }
         }
+        #endregion
+
+        #region Methods
 
         public void BuildGameObject()
         {
@@ -47,7 +48,7 @@ namespace SystemShutdown.BuildPattern
 
             player = new Player();
 
-            playerGO.AddComponent(new Collider(playerSR, player) { CheckCollisionEvents = true } );
+            playerGO.AddComponent(new Collider(playerSR, player) { CheckCollisionEvents = true });
             playerGO.AddComponent(player);
             /// Adds player to collider list
             GameWorld.Instance.GameState.AddGameObject(playerGO);
@@ -72,17 +73,17 @@ namespace SystemShutdown.BuildPattern
         {
             if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                //Giver tiden, der er gået, siden sidste update
+                // Gives time that has passed since last update
                 timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-                //Beregner currentIndex
+                // Calculates currentIndex
                 currentIndex = (int)(timeElapsed * fps);
                 playerSR.Sprite = walk[currentIndex];
 
-                //Checks if animation needs to restart
+                // Checks if animation needs to restart
                 if (currentIndex >= walk.Length - 1)
                 {
-                    //Resets animation
+                    // Resets animation
                     timeElapsed = 0;
                     currentIndex = 0;
                 }
@@ -93,5 +94,6 @@ namespace SystemShutdown.BuildPattern
         {
             return playerGO;
         }
+        #endregion
     }
 }

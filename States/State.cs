@@ -9,37 +9,28 @@ using System.Threading.Tasks;
 
 namespace SystemShutdown
 {
+    // Lead author: Frederik
     public abstract class State
     {
+
+        protected ContentManager content = GameWorld.Instance.Content;
+
         #region Fields
+        #endregion
 
-       protected ContentManager content = GameWorld.Instance.Content;
-
-      //  protected GameWorld _game;
-
+        #region Constructor
         #endregion
 
         #region Methods
-
-        #region Constructor
-        public State()
-        {
-            // Frederik
-            //_game = game;
-
-            //this.content = content;
-        }
         #endregion
 
         public abstract void LoadContent();
 
         public abstract void Update(GameTime gameTime);
 
-        //public abstract void PostUpdate(GameTime gameTime);
-
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
 
-        #endregion
+        
     }
 }

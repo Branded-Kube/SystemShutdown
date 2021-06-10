@@ -11,7 +11,7 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
-    //Ras
+    // Lead author: Ras
     public class Enemy : Component, IGameListener
     {
         private bool playerTarget = false;
@@ -19,7 +19,6 @@ namespace SystemShutdown.GameObjects
         private bool threadRunning = true;
         private bool searching = false;
 
-        private int Id;
         private float vision;
         private float speed;
         private double updateTimer = 0.0;
@@ -49,7 +48,7 @@ namespace SystemShutdown.GameObjects
         public override void Destroy()
         {
             GameWorld.Instance.GameState.AliveEnemies--;
-            GameWorld.Instance.GameState.PlayerBuilder.player.kills++;
+            GameWorld.Instance.GameState.PlayerBuilder.player.Kills++;
             GameWorld.Instance.GameState.killsColorTimer = true;
             threadRunning = false;
         }
@@ -187,7 +186,7 @@ namespace SystemShutdown.GameObjects
             aStar.Search(currentPositionAsNode, goal, path);
             if (path.Count > 0)
             {
-                node = path.Pop();
+                Node node = path.Pop();
                 int x = node.X * GameWorld.Instance.GameState.Grid.NodeSize;
                 int y = node.Y * GameWorld.Instance.GameState.Grid.NodeSize;
                 nextpos = new Vector2(x, y);
@@ -254,7 +253,6 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         private void ThreadMethod(object callback)
         {
-            this.Id = Thread.CurrentThread.ManagedThreadId;
             while (threadRunning == true && GameWorld.Instance.GameState.IsThreadsRunning == true)
             {
                 if (AttackingPlayer)
@@ -312,10 +310,8 @@ namespace SystemShutdown.GameObjects
             {
                 Health = 100;
             }
-            
             internalThread = new Thread(ThreadMethod);
             StartThread();
-
             //Load sprite sheet - Frederik
             walk = new Texture2D[3];
             //Loop animaiton textures
@@ -343,20 +339,20 @@ namespace SystemShutdown.GameObjects
         /// <param name="gametime"></param>
         public void Animate(GameTime gametime)
         {
-                //Giver tiden, der er gået, siden sidste update
-                timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-                //Beregner currentIndex
-                currentIndex = (int)(timeElapsed * fps);
-                var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
-                tmpSpriteRenderer.Sprite = walk[currentIndex];
+            // Gives time that has passed since last update
+            timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+            // Calculates currentIndex
+            currentIndex = (int)(timeElapsed * fps);
+            var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+            tmpSpriteRenderer.Sprite = walk[currentIndex];
 
-                //Checks if animation needs to restart
-                if (currentIndex >= walk.Length - 1)
-                {
-                    //Resets animation
-                    timeElapsed = 0;
-                    currentIndex = 0;
-                }
+            // Checks if animation needs to restart
+            if (currentIndex >= walk.Length - 1)
+            {
+                // Resets animation
+                timeElapsed = 0;
+                currentIndex = 0;
+            }
         }
     }
 }

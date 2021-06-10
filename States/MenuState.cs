@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SystemShutdown.Buttons;
 using SystemShutdown.Components;
-using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
 namespace SystemShutdown
 {
+    // Lead author: Frederik
+    // Contributor: Søren
     public class MenuState : State
     {
         private List<StateComponent> components;
@@ -41,11 +37,7 @@ namespace SystemShutdown
 
         #region Methods
 
-        #region Constructor
-        public MenuState()
-        {
-        }
-        #endregion
+      
 
         public override void LoadContent()
         {
@@ -88,8 +80,6 @@ namespace SystemShutdown
                     Position = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 700),
                     Click = new EventHandler(Button_Quit_Clicked),
                 }
-
-           
             };
         }
 
@@ -141,11 +131,6 @@ namespace SystemShutdown
             quitGamePosition = new Vector2(GameWorld.Instance.ScreenWidth / 4 + 50, 655);
             quitGameOrigin = new Vector2(quitGameText.Width / 2, quitGameText.Height / 2);
         }
-
-        //public override void PostUpdate(GameTime gameTime)
-        //{
-        //    //(unload game - specific content)
-        //}
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

@@ -2,17 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SystemShutdown.Components;
 
 namespace SystemShutdown.Buttons
 {
+    //  Lead author: Frederik
     internal class Button : StateComponent
     {
-        #region Fields
+        #region Fields & Properties
 
         private MouseState currentMouse;
 
@@ -24,19 +21,11 @@ namespace SystemShutdown.Buttons
 
         private Texture2D _texture;
 
-        public Texture2D buttonTexture;
-
-        #endregion
-
-        #region Properties
+        //  public Texture2D buttonTexture;
 
         public EventHandler Click;
 
-        //public bool Clicked { get; private set; }
 
-        //public float Layer { get; set; }
-
-        // Frederik
         public Vector2 Origin
         {
             get
@@ -50,7 +39,6 @@ namespace SystemShutdown.Buttons
         public Vector2 Position { get; set; }
 
 
-        // Frederik
         public Rectangle Rectangle
         {
             get
@@ -59,13 +47,15 @@ namespace SystemShutdown.Buttons
             }
         }
 
-        //public string Text { get; set; }
+        #endregion
+
+        #region Properties
+
+
 
         #endregion
 
-        #region Methods
-
-        // Frederik
+        #region Constructor
         public Button(Texture2D texture, SpriteFont font)
         {
             _texture = texture;
@@ -75,9 +65,13 @@ namespace SystemShutdown.Buttons
             PenColor = Color.Black;
         }
 
+        #endregion
+
+        #region Methods
+
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // Frederik
             var color = Color.White;
 
             if (isHovering)
@@ -86,19 +80,10 @@ namespace SystemShutdown.Buttons
             }
 
             spriteBatch.Draw(_texture, Rectangle, color);
-
-            //if (!string.IsNullOrEmpty(Text))
-            //{
-            //    var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
-            //    var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
-
-                //spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, Layer + 0.2f);
-            //}
         }
 
         public override void Update(GameTime gameTime)
         {
-            // Frederik
             previousMouse = currentMouse;
             currentMouse = Mouse.GetState();
 

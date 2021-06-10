@@ -2,14 +2,17 @@
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.GameObjects;
+using System;
+
 
 namespace SystemShutdown.FactoryPattern
 {
-   // Ras
+    // Lead author: Ras
     public class EnemyFactory : Factory
     {
         private static EnemyFactory instance;
         private Enemy enemy;
+
         // EnemyFactoy Singleton
         public static EnemyFactory Instance
         {
@@ -33,10 +36,8 @@ namespace SystemShutdown.FactoryPattern
         /// <returns></returns>
         public override GameObject Create(Vector2 position, string type)
         {
-
             GameObject enemyGO = new GameObject();
             GameWorld.Instance.GameState.AliveEnemies++;
-
             switch (type)
             {
                 case "Bug":

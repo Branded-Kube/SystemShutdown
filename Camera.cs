@@ -1,16 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SystemShutdown.BuildPattern;
-using SystemShutdown.GameObjects;
-using SystemShutdown.States;
 
 namespace SystemShutdown
 {
-   public class Camera
-
+    // Lead author: Søren
+    public class Camera
     {
         public Matrix offset;
 
@@ -28,10 +22,6 @@ namespace SystemShutdown
                 GameWorld.Instance.ScreenHeight / 2,
                 0);
             Transform = position * offset;
-
         }
-
     }
-
-
 }

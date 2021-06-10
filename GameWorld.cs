@@ -1,16 +1,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using System;
 using SystemShutdown.Database;
 using SystemShutdown.GameObjects;
 using SystemShutdown.States;
 
 namespace SystemShutdown
 {
+    // Contributor: Lau
+    // Contributor: Ras
+    // Contributor: Frederik
+    // Contributor: Søren
+
     public class GameWorld : Game
     {
         #region Fields
@@ -51,8 +52,8 @@ namespace SystemShutdown
         private GameOverState gameOverState;
         private HighscoreState highscoreState;
 
-        private CyclebarDay cyclebarDay;
-        private CyclebarNight cyclebarNight;
+        public CyclebarDay cyclebarDay;
+        public CyclebarNight cyclebarNight;
         public Texture2D darkSprite;
 
         private Repository repo;
@@ -178,7 +179,6 @@ namespace SystemShutdown
             killEffect2 = Content.Load<SoundEffect>("Sounds/kill2");
             killEffect3 = Content.Load<SoundEffect>("Sounds/kill3");
             enemyEffect = Content.Load<SoundEffect>("Sounds/enemy1");
-            //horseEffect = Content.Load<SoundEffect>("Sounds/horse");
             horseEffect2 = Content.Load<SoundEffect>("Sounds/horse2");
             pickedUp = Content.Load<SoundEffect>("Sounds/pickup");
             toggle = Content.Load<SoundEffect>("Sounds/toggle");
@@ -195,11 +195,6 @@ namespace SystemShutdown
 
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //{
-            //    GameState.ShutdownThreads();
-            //    this.Exit();
-            //}
             ///<summary>
             /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate
             /// </summary>
@@ -253,7 +248,6 @@ namespace SystemShutdown
 
         protected override void Draw(GameTime gameTime)
         {
-
             /// <summary>
             /// This will scale and adjust everything in game to our scale and no matter the size of the window,
             /// the game will always be running in 1080p resolution (or what resolution we choose)
@@ -279,11 +273,9 @@ namespace SystemShutdown
             spriteBatch.Draw(RenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if (isGameState)
             {
-
                 if (!IsDay)
                 {
                     spriteBatch.Draw(darkSprite, new Vector2(-camera.Transform.Translation.X - 40, -camera.Transform.Translation.Y - 40), null, Color.White * 0.8f, 0, gameState.PlayerBuilder.playerSR.Origin, 1f, SpriteEffects.None, 1f);
-
                 }
                 if (GameState.PlayerBuilder.Player.ShowingMap)
                 {
@@ -297,7 +289,7 @@ namespace SystemShutdown
                         IsDay = true;
                         cyclebarDay.currentBarDay = cyclebarDay.fullBarDay;
                         GameState.Days++;
-                        
+
                     }
                     cyclebarNight.Draw(spriteBatch);
                 }
@@ -314,7 +306,6 @@ namespace SystemShutdown
 
                 //Draws cursor
                 spriteBatch.Draw(gameState.cursorSprite, gameState.CursorPosition, Color.White);
-
             }
             spriteBatch.End();
             base.Draw(gameTime);
@@ -324,6 +315,11 @@ namespace SystemShutdown
         {
             Window.TextInput += Highscores.CreateUsernameInput;
         }
+        public void StopSettingInitials()
+        {
+            Window.TextInput -= Highscores.CreateUsernameInput;
+        }
+
         #endregion
     }
 }

@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using SystemShutdown.Components;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.FactoryPattern
 {
-    // Ras & ? 
+    // Lead author: Frederik
+    // Contributor: Ras
     class Projectile : Component, IGameListener
     {
         private float speed;
@@ -67,8 +64,10 @@ namespace SystemShutdown.FactoryPattern
         }
 
         /// <summary>
+        /// Collision with Node:
         /// Destroys itself on impact with a Node object (wall) or enemy
-        /// If enemy, damages enemys health with players dmg. Bool AlreadyCollided causes projektile to only hit 1 enemy at a time. 
+        /// Collision with Enemy:
+        /// Damages enemys health with players dmg. Bool AlreadyCollided causes projektile to only hit 1 enemy at a time. 
         /// </summary>
         /// <param name="gameEvent"></param>
         /// <param name="component"></param>
@@ -94,17 +93,17 @@ namespace SystemShutdown.FactoryPattern
         /// <param name="gametime"></param>
         public void Animate(GameTime gametime)
         {
-            //Giver tiden, der er gået, siden sidste update
+            // Gives time that has passed since last update
             timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-            //Beregner currentIndex
+            // Calculates currentIndex
             currentIndex = (int)(timeElapsed * fps);
             var tmpSpriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             tmpSpriteRenderer.Sprite = projectiles[currentIndex];
 
-            //Checks if animation needs to restart
+            // Checks if animation needs to restart
             if (currentIndex >= projectiles.Length - 1)
             {
-                //Resets animation
+                // Resets animation
                 timeElapsed = 0;
                 currentIndex = 0;
             }

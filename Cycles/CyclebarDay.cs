@@ -2,12 +2,10 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.BuildPattern;
 
 namespace SystemShutdown.GameObjects
 {
+    // Lead author: Frederik
     public class CyclebarDay
     {
         public Texture2D sunSprite;
@@ -15,16 +13,17 @@ namespace SystemShutdown.GameObjects
         public Vector2 dayBarPosition;
         public int fullBarDay;
         public float currentBarDay;
-        //public float dayMeter = 0.025f; //Ca. 3:45 min.
         public float dayMeter = 0.1f;
-
-
         public Color dayBarColor;
 
         public CyclebarDay(ContentManager content)
         {
             LoadContent(content);
 
+            resetDay();
+        }
+        public void resetDay()
+        {
             fullBarDay = dayBar.Width;
             currentBarDay = fullBarDay;
         }

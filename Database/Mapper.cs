@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace SystemShutdown.Database
 {
+    // Lead author: Lau
     public class Mapper : IMapper
     {
         public List<Mods> MapModsFromReader(IDataReader reader)
@@ -33,6 +33,7 @@ namespace SystemShutdown.Database
             return result;
         }
 
+        //Søren
         public List<Highscores> MapHighscoresReader(IDataReader reader)
         {
             var result = new List<Highscores>();

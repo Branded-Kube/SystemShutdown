@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
-using SystemShutdown.FactoryPattern;
 
 namespace SystemShutdown.FactoryPattern
 {
+    // Lead author: Frederik
+    // Contributor: Lau
+    // Contributor: Ras
+
     class ProjectileFactory : Factory
     {
         private Projectile playerProjectile;
@@ -40,10 +41,8 @@ namespace SystemShutdown.FactoryPattern
             GameObject projectileGO = new GameObject();
             projectileGO.Transform.Position = position;
 
-
             Projectile projectileClone = playerProjectile.Clone();
             projectileSR.Origin = new Vector2(projectileSR.Sprite.Width / 2, (projectileSR.Sprite.Height) / 2);
-
 
             projectileGO.AddComponent(new Collider(projectileSR, projectileClone) { CheckCollisionEvents = true });
             projectileGO.AddComponent(projectileClone);

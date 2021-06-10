@@ -1,16 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using SystemShutdown.ComponentPattern;
-using SystemShutdown.Components;
-using SystemShutdown.FactoryPattern;
-using SystemShutdown.GameObjects;
-using SystemShutdown.ObserverPattern;
+﻿using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown
 {
+    // Lead author: Lau
     class Pickup : Component, IGameListener
     {
         private Mods floormod;

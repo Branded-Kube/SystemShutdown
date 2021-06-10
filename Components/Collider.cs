@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.GameObjects;
 using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.Components
 {
+    // Lead author: Frederik 
+    // Contributor: Ras
     public class Collider : Component
     {
         public bool CheckCollisionEvents { get; set; }
@@ -30,8 +28,6 @@ namespace SystemShutdown.Components
                     );
             }
         }
-
-      
 
         public Collider(SpriteRenderer spriteRenderer, IGameListener gameListener)
         {

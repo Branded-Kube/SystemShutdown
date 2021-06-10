@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
 namespace SystemShutdown
 {
-   public class Highscores
+    // Lead author: Søren
+    public class Highscores
     {
 
         public int Id { get; set; }
@@ -20,7 +19,6 @@ namespace SystemShutdown
 
 
         static public StringBuilder PlayerNameInput = new StringBuilder("UserName");
-        public static bool pass = false;
         public static bool user = true;
         static KeyboardState releasedKey;
         static KeyboardState pressedKey;
@@ -41,7 +39,7 @@ namespace SystemShutdown
                     }
 
                 }
-                else if (e.Key != Keys.Enter)
+                else if (e.Key != Keys.Enter && length <= 20)
                 {
                     var character = e.Character;
                     PlayerNameInput.Append(character);
@@ -50,7 +48,6 @@ namespace SystemShutdown
                 if (pressedKey.IsKeyDown(Keys.Enter) && releasedKey.IsKeyUp(Keys.Enter))
                 {
                     user = false;
-                    pass = true;
                     Debug.WriteLine($"{PlayerNameInput}");
                 }
                 pressedKey = releasedKey;

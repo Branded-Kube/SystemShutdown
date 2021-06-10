@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.ComponentPattern;
+﻿using SystemShutdown.ComponentPattern;
 
 namespace SystemShutdown.BuildPattern
 {
-   public interface IBuilder
+    //  Lead author: Frederik
+    public interface IBuilder
     {
         GameObject GetResult();
 

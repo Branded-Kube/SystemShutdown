@@ -5,13 +5,18 @@ using SystemShutdown.Components;
 
 namespace SystemShutdown.AStar
 {
-    //Ras
+    // Lead author: Ras
     public class Grid
     {
+        #region Fields
         private Node[,] nodes;
         public int NodeSize { get; set; } = 100;
         public int Height { get; set; } = 35;
-        public int Width { get; set; }= 35;
+        public int Width { get; set; } = 35;
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Creates a grid of nodes.
@@ -171,5 +176,7 @@ namespace SystemShutdown.AStar
                     nodes[x, y].CameFrom = null;
                 }
         }
+        #endregion
+
     }
 }

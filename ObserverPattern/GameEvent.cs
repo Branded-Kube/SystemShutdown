@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using SystemShutdown.Components;
 
 namespace SystemShutdown.ObserverPattern
 {
+    // Lead author: Frederik
     public class GameEvent
     {
         private List<IGameListener> listeners = new List<IGameListener>();
@@ -15,15 +14,9 @@ namespace SystemShutdown.ObserverPattern
         {
             this.Title = title;
         }
-
         public void Attach(IGameListener listener)
         {
             listeners.Add(listener);
-        }
-
-        public void Detach(IGameListener listener)
-        {
-            listeners.Remove(listener);
         }
 
         public void Notify(Component other)

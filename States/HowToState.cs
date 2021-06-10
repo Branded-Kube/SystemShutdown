@@ -9,6 +9,7 @@ using SystemShutdown.GameObjects;
 
 namespace SystemShutdown.States
 {
+    // Lead author: Frederik
     public class HowToState : State
     {
         private List<StateComponent> components;
@@ -21,10 +22,6 @@ namespace SystemShutdown.States
         private Vector2 howToOrigin;
         private Vector2 backPosition;
         private Vector2 backOrigin;
-
-        public HowToState()
-        {
-        }
 
         public override void LoadContent()
         {
@@ -60,11 +57,6 @@ namespace SystemShutdown.States
             backPosition = new Vector2(125, 930);
             backOrigin = new Vector2(backText.Width / 2, backText.Height / 2);
         }
-
-        //public override void PostUpdate(GameTime gameTime)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

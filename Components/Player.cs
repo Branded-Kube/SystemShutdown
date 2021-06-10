@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using System.Threading;
-using SystemShutdown.BuildPattern;
-//using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
@@ -16,101 +10,89 @@ using SystemShutdown.ObserverPattern;
 
 namespace SystemShutdown.GameObjects
 {
+    // Lead author: Frederik
+    // Contributor: Ras
+    // Contributor: Lau
+    // Contributor: Søren
     public class Player : Component, IGameListener
     {
-        public MouseState mouseState;
-        public MouseState lastMouseState;
-
-        static Semaphore MySemaphore;
-
-        private SpriteRenderer spriteRenderer;
-        public Vector2 distance;
-        private bool canShoot;
-        private float shootTime;
-        public float cooldown = 2000f;
-
-        private bool canToggleMap;
-        private float ShowMapTime;
-        private float mapCooldown = 1;
-
-        public Vector2 velocity = new Vector2(0f, 0f);
-
-        public Stack<Mods> playersMods = new Stack<Mods>();
-        public int dmg { get; set; }
-        public int hp { get; set; }
-        public int kills = 0;
-         public int speed = 250;
-
         public delegate void DamageEventHandler(object source, Enemy enemy, EventArgs e);
         public static event DamageEventHandler TakeDamagePlayer;
 
+        private MouseState mouseState;
+        private MouseState lastMouseState;
+
+        private static Semaphore MySemaphore;
+
+        private SpriteRenderer spriteRenderer;
+        private bool canShoot;
+        private bool canToggleMap;
+        private bool isLooped;
+        private bool hasShot;
+
+        private float shootTime;
+        private float cooldown = 2000f;
+        private float ShowMapTime;
+        private float mapCooldown = 1;
+        private int kills = 0;
+        private int speed = 250;
+
+        public Vector2 velocity = new Vector2(0f, 0f);
+        public Vector2 Distance;
+
         private bool showingMap = true;
-
-        public bool ShowingMap
-        {
-            get { return showingMap; }
-            private set {; }
-        }
-
         private bool hasUsedMap;
-
-        public bool HasUsedMap
-        {
-            get { return hasUsedMap; }
-            private set {; }
-        }
-
-
-        //protected Texture2D[] sprites, upWalk;
-        //protected float fps;
-        //private float timeElapsed;
-        //private int currentIndex;
-
-        public Rectangle rectangle;
-        public Vector2 lastVelocity;
 
         private KeyboardState oldState;
         private KeyboardState newState;
 
-        private bool isLooped;
-        private bool hasShot;
-
-        public bool IsDead
-        {
-            get
-            {
-                return Health <= 0;
-            }
-        }
+        
+        public int dmg { get; set; }
+        public int Speed { get { return speed; } set { speed = value; } }
+        public int Kills { get { return kills; } set { kills = value; } }
+        public float Cooldown { get { return cooldown; } set { cooldown = value; } }
+        public bool ShowingMap { get { return showingMap; } private set {; }}
+        public bool HasUsedMap { get { return hasUsedMap; }private set {; }}
 
         public Player()
         {
-            
             canShoot = true;
             canToggleMap = true;
             isLooped = false;
             hasShot = false;
             GameWorld.Instance.GameState.PlayerBuilder.fps = 8f;
-            // Closes old semaphore and creates a new one (New gamestate bug, return to menu and resume
+            // Closes old semaphore and creates a new one (New gamestate bug, return to menu and resume)
             if (MySemaphore != null)
             {
                 MySemaphore.Close();
                 MySemaphore = null;
             }
-            Debug.WriteLine("Players semaphore releases (10)");
+            //Debug.WriteLine("Players semaphore releases (10)");
             MySemaphore = new Semaphore(0, 10);
             MySemaphore.Release(10);
             Health = 100;
-            this.speed = 150;
+            Speed = 150;
             dmg = 50;
             TakeDamagePlayer += Player_DamagePlayer;
 
         }
+        /// <summary>
+        /// Ras
+        /// Player Health minus Enemy damage.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="enemy"></param>
+        /// <param name="e"></param>
         private void Player_DamagePlayer(object source, Enemy enemy, EventArgs e)
         {
             Health -= enemy.Dmg;
         }
 
+        /// <summary>
+        /// Ras & Frederik
+        /// Moves the player. WASD style. 
+        /// </summary>
+        /// <param name="keyState"></param>
         public void Move(KeyboardState keyState)
         {
             oldState = newState;
@@ -200,7 +182,7 @@ namespace SystemShutdown.GameObjects
             {
                 velocity.Normalize();
             }
-            velocity *= speed * GameWorld.Instance.DeltaTime;
+            velocity *= Speed * GameWorld.Instance.DeltaTime;
         }
 
         /// <summary>
@@ -208,10 +190,10 @@ namespace SystemShutdown.GameObjects
         /// </summary>
         public void RotatePlayer()
         {
-            distance.X = mouseState.X - GameWorld.Instance.ScreenWidth / 2 + 45;
-            distance.Y = mouseState.Y - GameWorld.Instance.ScreenHeight / 2 + 45;
+            Distance.X = mouseState.X - GameWorld.Instance.ScreenWidth / 2 + 45;
+            Distance.Y = mouseState.Y - GameWorld.Instance.ScreenHeight / 2 + 45;
 
-            spriteRenderer.Rotation = (float)Math.Atan2(distance.Y, distance.X);
+            spriteRenderer.Rotation = (float)Math.Atan2(Distance.Y, Distance.X);
         }
 
         public override void Awake()
@@ -219,13 +201,14 @@ namespace SystemShutdown.GameObjects
             GameObject.Tag = "Player";
 
             GameObject.Transform.Position = new Vector2(2200, 1700);
-
-            //GameObject.Transform.Position = new Vector2(GameWorld.graphics.GraphicsDevice.Viewport.Width / 2, GameWorld.graphics.GraphicsDevice.Viewport.Height);
-            //this.position = GameObject.Transform.Position;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
 
         }
 
+        /// <summary>
+        /// Ras & Frederik
+        /// Checks for collisions on each side. 
+        /// </summary>
         private void PlayerMovementCollider()
         {
             foreach (GameObject gameObject in GameWorld.Instance.GameState.GameObjects)
@@ -265,18 +248,17 @@ namespace SystemShutdown.GameObjects
             RotatePlayer();
             shootTime += GameWorld.Instance.DeltaTime;
             ShowMapTime += GameWorld.Instance.DeltaTime;
-            lastVelocity = GameObject.Transform.Position;
 
 
-            if (speed > 400)
+            if (Speed > 400)
             {
-                speed = 400;
+                Speed = 400;
             }
-            if (cooldown < 500)
+            if (Cooldown < 500)
             {
-                cooldown = 500;
+                Cooldown = 500;
             }
-            if (shootTime >= cooldown / 1000)
+            if (shootTime >= Cooldown / 1000)
             {
                 canShoot = true;
             }
@@ -292,14 +274,14 @@ namespace SystemShutdown.GameObjects
             // Get the mouse state relevant for this frame
             mouseState = Mouse.GetState();
             // Recognize a single click of the left mouse button
-            if (/*lastMouseState.LeftButton == ButtonState.Released &&*/ mouseState.LeftButton == ButtonState.Pressed && canShoot)
+            if (mouseState.LeftButton == ButtonState.Pressed && canShoot)
             {
                 Shoot();
             }
 
             KeyboardState keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.A)|| keyState.IsKeyDown(Keys.W)|| keyState.IsKeyDown(Keys.S)|| keyState.IsKeyDown(Keys.D))
+            if (keyState.IsKeyDown(Keys.A) || keyState.IsKeyDown(Keys.W) || keyState.IsKeyDown(Keys.S) || keyState.IsKeyDown(Keys.D))
             {
                 Move(keyState);
                 GameWorld.Instance.GameState.PlayerBuilder.Animate(gameTime);
@@ -313,41 +295,6 @@ namespace SystemShutdown.GameObjects
                 ToggleMap();
             }
         }
-        //public void ApplyAllMods()
-        //{
-
-        //    this.speed = 600;
-        //    dmg = 50;
-        //    hp = 10;
-        //    foreach (Mods mods in playersMods)
-        //    {
-        //        if (mods.ModFKID == 1)
-        //        {
-        //            dmg += mods.Effect;
-
-        //        }
-        //        if (mods.ModFKID == 2)
-        //        {
-        //            if (speed > 500)
-        //            {
-        //                speed += mods.Effect;
-        //            }
-        //        }
-        //        if (mods.ModFKID == 3)
-        //        {
-        //            if (cooldown > 0.1)
-        //            {
-        //                cooldown -= mods.Effect;
-        //            }
-
-        //        }
-
-        //    }
-        //}
-        public override void Start()
-        {
-            
-        }
 
         public override string ToString()
         {
@@ -356,6 +303,7 @@ namespace SystemShutdown.GameObjects
 
         /// <summary>
         /// Ras 
+        /// Creates a projektile gameobject with a moving vector in dircting player is facing
         /// </summary>
         public void Shoot()
         {
@@ -373,19 +321,19 @@ namespace SystemShutdown.GameObjects
                 }
                 canShoot = false;
                 shootTime = 0;
-                GameObject laserObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
-                Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - laserObject.Transform.Position;
+                GameObject projectileObject = ProjectileFactory.Instance.Create(GameObject.Transform.Position, "default");
+                Vector2 movement = new Vector2(GameWorld.Instance.GameState.CursorPosition.X, GameWorld.Instance.GameState.CursorPosition.Y) - projectileObject.Transform.Position;
                 if (movement != Vector2.Zero)
                     movement.Normalize();
-                Projectile tmpPro = (Projectile)laserObject.GetComponent("Projectile");
-                SpriteRenderer tmpSpriteRenderer = (SpriteRenderer)laserObject.GetComponent("SpriteRenderer");
-                Collider tmpCollider = (Collider)laserObject.GetComponent("Collider");
+                Projectile tmpPro = (Projectile)projectileObject.GetComponent("Projectile");
+                SpriteRenderer tmpSpriteRenderer = (SpriteRenderer)projectileObject.GetComponent("SpriteRenderer");
+                Collider tmpCollider = (Collider)projectileObject.GetComponent("Collider");
                 tmpSpriteRenderer.Rotation = spriteRenderer.Rotation;
                 tmpPro.Velocity = movement;
-                GameWorld.Instance.GameState.AddGameObject(laserObject);
+                GameWorld.Instance.GameState.AddGameObject(projectileObject);
             }
         }
-
+        //Søren
         public void ToggleMap()
         {
             if (canToggleMap)
@@ -407,6 +355,14 @@ namespace SystemShutdown.GameObjects
             }
         }
 
+        /// <summary>
+        /// Collision with Enemy:
+        /// Enemy attack bool sat to true and thread runs players enter method. Player health stat is reduced and colored red 
+        /// Collision with Pickup:
+        /// Pickup is destroyed and a sound effect is played
+        /// </summary>
+        /// <param name="gameEvent"></param>
+        /// <param name="component"></param>
         public void Notify(GameEvent gameEvent, Component component)
         {
             if (gameEvent.Title == "Collision" && component.GameObject.Tag == "Enemy")
@@ -426,21 +382,26 @@ namespace SystemShutdown.GameObjects
             }
         }
 
+        /// <summary>
+        /// Method which enemy threads use. Accessor to shared resource.
+        /// semaphore lock tells thread to wait if semaphore is full. 
+        /// Tells semaphore to release 1 after resource has been accessed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="enemy"></param>
         public void Enter(Object id, Enemy enemy)
         {
             int tmp = Thread.CurrentThread.ManagedThreadId;
-            
-            //Debug.WriteLine($"Enemy {tmp} Waiting to enter (CPU)");
+            //Debug.WriteLine($"Enemy {tmp} Waiting to enter (Player)");
             MySemaphore.WaitOne();
-            //Debug.WriteLine("Enemy " + tmp + " Starts harvesting power (CPU)");
+            //Debug.WriteLine("Enemy " + tmp + " damages (Player)");
             Random randomNumber = new Random();
 
             TakeDamagePlayer(null, enemy, EventArgs.Empty);
             Thread.Sleep(100 * randomNumber.Next(0, 15));
 
-            //Debug.WriteLine("Enemy " + tmp + " is leaving (CPU)");
+            //Debug.WriteLine("Enemy " + tmp + " is leaving (Player)");
             MySemaphore.Release();
-
         }
     }
 }

@@ -7,14 +7,16 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SystemShutdown.AStar;
 using SystemShutdown.BuildPattern;
-//using SystemShutdown.CommandPattern;
 using SystemShutdown.ComponentPattern;
 using SystemShutdown.Components;
 using SystemShutdown.FactoryPattern;
-//using SystemShutdown.ObjectPool;
 
 namespace SystemShutdown.States
 {
+    // Lead author: Frederik
+    // Contributor: Ras
+    // Contributor: Lau
+    // Contributor: Søren
     public class GameState : State
     {
         #region Fields
@@ -25,10 +27,8 @@ namespace SystemShutdown.States
         public Texture2D cursorSprite;
         public Vector2 cursorPosition;
         private Texture2D modboard;
-        private Vector2 statWindowPosition;
 
-        private static SpriteFont font;
-        private string enemyID = "";
+        public static SpriteFont font;
         public bool IsThreadsRunning;
 
         private Song nightMusic;
@@ -152,10 +152,7 @@ namespace SystemShutdown.States
             {
                 GameObjects[i].Awake();
             }
-            for (int i = 0; i < GameObjects.Count; i++)
-            {
-                GameObjects[i].Start();
-            }
+
             // Frederik
 
             font = content.Load<SpriteFont>("Fonts/font");
@@ -177,7 +174,6 @@ namespace SystemShutdown.States
         {
             for (int i = 0; i < Days && i < 10; i++)
             {
-
                 if (aliveEnemies < 50)
                 {
                     if (GameWorld.Instance.IsDay)
@@ -197,7 +193,6 @@ namespace SystemShutdown.States
                             SpawnTrojanEnemies(SetEnemySpawnInCorner());
                         }
                     }
-
                 }
             }
             Debug.WriteLine($"Enemies alive {aliveEnemies}");
@@ -240,7 +235,6 @@ namespace SystemShutdown.States
         }
         public override void Update(GameTime gameTime)
         {
-
             enemySpawnTimer += GameWorld.Instance.DeltaTime;
             if (enemySpawnTimer >= 10)
             {
@@ -254,8 +248,8 @@ namespace SystemShutdown.States
             ///<summary>
             ///Updates cursors position
             /// </summary>
-            CursorPosition = new Vector2(PlayerBuilder.player.distance.X - cursorSprite.Width / 2,
-                PlayerBuilder.player.distance.Y) + PlayerBuilder.player.GameObject.Transform.Position;
+            CursorPosition = new Vector2(PlayerBuilder.player.Distance.X - cursorSprite.Width / 2,
+                PlayerBuilder.player.Distance.Y) + PlayerBuilder.player.GameObject.Transform.Position;
             previousKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
 
@@ -266,7 +260,13 @@ namespace SystemShutdown.States
             {
                 ShutdownThreads();
                 GameWorld.ChangeState(new GameOverState());
+                GameWorld.Instance.IsDay = true;
+
+                GameWorld.Instance.cyclebarDay.resetDay();
+                GameWorld.Instance.cyclebarNight.resetNight();
+
             }
+
 
 #if DEBUG
             // Spawns a bug in debug by pressing P
@@ -369,37 +369,13 @@ namespace SystemShutdown.States
                     healthTimer = 2f;
                 }
             }
-
-            // effects = Effects;
-            // var tmpEffects = effects;
-            //foreach (ProjectileEffect item in ExpiredEffects)
-            //{
-            //    if (item.timer > 2)
-            //    {
-            //        tmpEffects.Remove(item);
-            //    }
-            //}
-
+            // Ras
             foreach (ProjectileEffect item in new List<ProjectileEffect>(effects))
             {
                 item.Update(gameTime);
             }
             GameOver();
         }
-
-        //public override void PostUpdate(GameTime gameTime)
-        //{
-        //    //// When sprites collide = attacks colliding with enemy (killing them) (unload game-specific content)
-
-        //    //// If player is dead, show game over screen
-        //    //// Frederik
-        //    //if (players.All(c => c.IsDead))
-        //    //{
-        //    //    //highscores can also be added here (to be shown in the game over screen)
-
-        //    //    _game.ChangeState(new GameOverState(_game, content));
-        //    //}
-        //}
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -414,17 +390,11 @@ namespace SystemShutdown.States
             // Draws CPU Health
             spriteBatch.DrawString(font, $"CPU Health: {CpuBuilder.Cpu.Health}", new Vector2(CpuBuilder.Cpu.GameObject.Transform.Position.X - 120, CpuBuilder.Cpu.GameObject.Transform.Position.Y + 140), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             var tmpeffects = effects;
-
             foreach (ProjectileEffect item in tmpeffects)
             {
                 item.Draw(spriteBatch);
             }
-
-            ////Draws cursor
-            //spriteBatch.Draw(cursorSprite, CursorPosition, Color.White);
-
             spriteBatch.End();
-
         }
 
         /// <summary>
@@ -434,22 +404,17 @@ namespace SystemShutdown.States
         {
             spriteBatch.Draw(modboard, new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 916, PlayerBuilder.Player.GameObject.Transform.Position.Y + 206), Color.White);
             spriteBatch.DrawString(font, $"  | Player Stats | ", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 306), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 346), _killsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Kills:  {PlayerBuilder.Player.Kills}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 346), _killsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Health: {PlayerBuilder.Player.Health}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 371), _healthColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Damage:  {PlayerBuilder.Player.dmg}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 396), _dmgColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _asColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _msColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Fire rate:  {PlayerBuilder.Player.Cooldown}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 421), _asColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.Speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _msColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 530, PlayerBuilder.Player.GameObject.Transform.Position.Y - 385), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
 
             if (!PlayerBuilder.player.HasUsedMap)
             {
-
                 spriteBatch.DrawString(font, "Click M to hide the map", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 870, PlayerBuilder.Player.GameObject.Transform.Position.Y - 150), Color.Red, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-
-
             }
-
-            //spriteBatch.DrawString(font, $"{PlayerBuilder.Player.playersMods.Count} Mods", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X, PlayerBuilder.Player.GameObject.Transform.Position.Y + 80), Color.White);
         }
 
 
@@ -484,7 +449,6 @@ namespace SystemShutdown.States
         public void AddGameObject(GameObject go)
         {
             go.Awake();
-            go.Start();
             GameObjects.Add(go);
             Collider c = (Collider)go.GetComponent("Collider");
             if (c != null)
@@ -512,16 +476,15 @@ namespace SystemShutdown.States
             {
                 GameWorld.Instance.deathEffect.Play();
                 ShutdownThreads();
-                //GameWorld.Instance.repo.Open();
-                //GameWorld.Instance.repo.RemoveTables();
-                //GameWorld.Instance.repo.Close();
                 GameWorld.ChangeState(GameWorld.Instance.GameOverState);
+                GameWorld.Instance.IsDay = true;
+                GameWorld.Instance.cyclebarDay.resetDay();
+                GameWorld.Instance.cyclebarNight.resetNight();
             }
         }
 
         /// <summary>
-        /// Shutdown all enemy threads and clears enemies from draw/update list
-        /// Used both as a button for testing and at game exit
+        /// Shutdown all enemy threads 
         /// </summary>
         public void ShutdownThreads()
         {
