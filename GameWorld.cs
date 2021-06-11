@@ -167,7 +167,7 @@ namespace SystemShutdown
             currentGameState.LoadContent();
             nextGameState = null;
             ///<summary>
-            /// Loads Target Renderer: to run the game in the same resolution, no matter the pc - Frederik
+            /// Loads Target Renderer: to run the game in the same resolution, no matter the window size - Frederik
             /// </summary>
             RenderTarget = new RenderTarget2D(GraphicsDevice, 3400, 3400);
             minimap = RenderTarget;
@@ -199,7 +199,7 @@ namespace SystemShutdown
         protected override void Update(GameTime gameTime)
         {
             ///<summary>
-            /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate
+            /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate - Frederik
             /// </summary>
             if (currentGameState is HowToState)
             {
@@ -264,7 +264,7 @@ namespace SystemShutdown
             currentGameState.Draw(gameTime, spriteBatch);
             GraphicsDevice.SetRenderTarget(null);
 
-            // Draw TargetRenderer
+            // Uses the spritebatch with the cameras transform for the drawing matrix - Søren
             if (isGameState)
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
@@ -313,11 +313,16 @@ namespace SystemShutdown
             spriteBatch.End();
             base.Draw(gameTime);
         }
-
+        /// <summary>
+        /// Sets the text window so the input for the highscore can be given. - Søren
+        /// </summary>
         public void SetInitials()
         {
             Window.TextInput += Highscores.CreateUsernameInput;
         }
+        /// <summary>
+        /// Unsubscribes the delegate. - Søren
+        /// </summary>
         public void StopSettingInitials()
         {
             Window.TextInput -= Highscores.CreateUsernameInput;

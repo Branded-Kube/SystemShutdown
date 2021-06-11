@@ -26,7 +26,7 @@ namespace SystemShutdown.BuildPattern
             set { playerSR = value; }
         }
 
-        public Player player;
+        private Player player;
 
         public Player Player
         {
@@ -37,6 +37,9 @@ namespace SystemShutdown.BuildPattern
 
         #region Methods
 
+        /// <summary>
+        /// Builds player gameobject and sets its origin - Frederik
+        /// </summary>
         public void BuildGameObject()
         {
             playerGO = new GameObject();

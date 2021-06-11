@@ -52,7 +52,7 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sunSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
+            spriteBatch.Draw(sunSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 525,
                 GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 480), Color.White);
 
             //Draws bar
@@ -63,6 +63,9 @@ namespace SystemShutdown.GameObjects
                 GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
         }
 
+        /// <summary>
+        /// Changes color by % as bars goes down
+        /// </summary>
         public void DayColor()
         {
             if (currentBarDay >= dayBar.Width * 0.70)

@@ -14,7 +14,10 @@ namespace SystemShutdown
         #region Methods
         
 
-
+        /// <summary>
+        /// Will follow the player.
+        /// </summary>
+        /// <param name="target"></param>
         public void Follow(PlayerBuilder target)
         {
             position = Matrix.CreateTranslation(-target.Player.GameObject.Transform.Position.X - (target.Sr.Sprite.Width / 2),

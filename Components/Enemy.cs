@@ -52,7 +52,7 @@ namespace SystemShutdown.GameObjects
         public override void Destroy()
         {
             GameWorld.Instance.GameState.AliveEnemies--;
-            GameWorld.Instance.GameState.PlayerBuilder.player.Kills++;
+            GameWorld.Instance.GameState.PlayerBuilder.Player.Kills++;
             GameWorld.Instance.GameState.killsColorTimer = true;
             threadRunning = false;
         }

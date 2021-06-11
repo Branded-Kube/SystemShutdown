@@ -20,8 +20,6 @@ namespace SystemShutdown.Buttons
 
         private Texture2D _texture;
 
-        //  public Texture2D buttonTexture;
-
         public EventHandler Click;
 
 
@@ -66,6 +64,7 @@ namespace SystemShutdown.Buttons
         {
             var color = Color.White;
 
+            // Make button gray when hovering over - Frederik
             if (isHovering)
             {
                 color = Color.Gray;
@@ -83,6 +82,9 @@ namespace SystemShutdown.Buttons
 
             isHovering = false;
 
+            ///<summary>
+            /// If mouse hovers over button, make it gray, and set up button click event - Frederik
+            /// </summary>
             if (mouseRectangle.Intersects(Rectangle))
             {
                 isHovering = true;

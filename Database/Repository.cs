@@ -81,13 +81,20 @@ namespace SystemShutdown.Database
             cmd.ExecuteNonQuery();
         }
 
-        //Søren
+        /// <summary>
+        /// Saves the chosen name, number of kills and days survived to the highscores table. - Søren
+        /// </summary>
+        /// <param name="name">test</param>
+        /// <param name="kills"></param>
+        /// <param name="daysSurvived"></param>
         public void SaveScore(string name, int kills, int daysSurvived)
         {
             var cmd = new SQLiteCommand($"INSERT OR IGNORE INTO Highscores (PlayerName, Kills, DaysSurvived) VALUES ('{name}', {kills}, {daysSurvived})", (SQLiteConnection)connection);
             cmd.ExecuteNonQuery();
         }
-        //Søren
+        /// <summary>
+        /// Selects everything from the highscores table and sorts the table by kills in descending order. - Søren
+        /// </summary>
         public void ScoreHandler()
         {
             string sql = "SELECT * FROM Highscores ORDER BY Kills DESC";
