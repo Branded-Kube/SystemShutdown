@@ -198,7 +198,7 @@ namespace SystemShutdown
         protected override void Update(GameTime gameTime)
         {
             ///<summary>
-            /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate
+            /// Sets Mouse to visible/invisible, and Updates/Loads current gamestate - Frederik
             /// </summary>
             if (currentGameState is HowToState)
             {
