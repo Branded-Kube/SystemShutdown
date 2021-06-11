@@ -195,6 +195,8 @@ namespace SystemShutdown.States
             }
             spriteBatch.Draw(gameOverSprite, gameOverPosition, null, Color.White, 0, gameOverOrigin, 1f, SpriteEffects.None, 0.1f);
 
+
+            /// Will only draw the username if the player has pressed the button. Has a try catch to prevent crash when typing a character not supported by the normal spritefont - Søren 
             if (isSetttingInitials)
             {
                 spriteBatch.Draw(enterInitialText, enterInitialPos, null, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0f);

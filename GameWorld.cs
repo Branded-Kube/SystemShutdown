@@ -263,7 +263,7 @@ namespace SystemShutdown
             currentGameState.Draw(gameTime, spriteBatch);
             GraphicsDevice.SetRenderTarget(null);
 
-            // Draw TargetRenderer
+            // Uses the spritebatch with the cameras transform for the drawing matrix - Søren
             if (isGameState)
             {
                 spriteBatch.Begin(transformMatrix: camera.Transform);
@@ -312,11 +312,16 @@ namespace SystemShutdown
             spriteBatch.End();
             base.Draw(gameTime);
         }
-
+        /// <summary>
+        /// Sets the text window so the input for the highscore can be given. - Søren
+        /// </summary>
         public void SetInitials()
         {
             Window.TextInput += Highscores.CreateUsernameInput;
         }
+        /// <summary>
+        /// Unsubscribes the delegate. - Søren
+        /// </summary>
         public void StopSettingInitials()
         {
             Window.TextInput -= Highscores.CreateUsernameInput;

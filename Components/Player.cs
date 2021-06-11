@@ -339,7 +339,9 @@ namespace SystemShutdown.GameObjects
                 GameWorld.Instance.GameState.AddGameObject(projectileObject);
             }
         }
-        //Søren
+        /// <summary>
+        /// Will toggle the map if the cooldown is over - Søren
+        /// </summary>
         public void ToggleMap()
         {
             if (canToggleMap)

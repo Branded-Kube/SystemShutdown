@@ -55,24 +55,24 @@ namespace SystemShutdown
             Debug.WriteLine($"{choseneffect.Effectname}");
             if (choseneffect.ModFK == 1)
             {
-                GameWorld.Instance.GameState.PlayerBuilder.player.dmg += choseneffect.Effect;
+                GameWorld.Instance.GameState.PlayerBuilder.Player.dmg += choseneffect.Effect;
                 GameWorld.Instance.GameState.DmgColorTimer = true;
             }
             else if (choseneffect.ModFK == 2)
             {
-                GameWorld.Instance.GameState.PlayerBuilder.player.Speed += choseneffect.Effect;
+                GameWorld.Instance.GameState.PlayerBuilder.Player.Speed += choseneffect.Effect;
                 GameWorld.Instance.GameState.msColorTimer = true;
 
             }
             else if (choseneffect.ModFK == 3)
             {
-                GameWorld.Instance.GameState.PlayerBuilder.player.Cooldown -= choseneffect.Effect;
+                GameWorld.Instance.GameState.PlayerBuilder.Player.Cooldown -= choseneffect.Effect;
                 GameWorld.Instance.GameState.asColorTimer = true;
 
             }
             else if (choseneffect.ModFK == 4)
             {
-                GameWorld.Instance.GameState.PlayerBuilder.player.Health += choseneffect.Effect;
+                GameWorld.Instance.GameState.PlayerBuilder.Player.Health += choseneffect.Effect;
                 GameWorld.Instance.GameState.HealthColorTimerGreen = true;
 
             }
