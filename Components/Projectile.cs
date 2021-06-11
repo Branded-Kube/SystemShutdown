@@ -87,7 +87,7 @@ namespace SystemShutdown.FactoryPattern
             {
                 GameWorld.Instance.GameState.Effects.Add(new ProjectileEffect(new Vector2(GameObject.Transform.Position.X - 50, GameObject.Transform.Position.Y - 50)));
                 GameObject.Destroy();
-                component.GameObject.GetComponent("Enemy").Health -= GameWorld.Instance.GameState.PlayerBuilder.player.dmg;
+                component.GameObject.GetComponent("Enemy").Health -= GameWorld.Instance.GameState.PlayerBuilder.Player.dmg;
                 alreadyCollided = true;
             }
         }

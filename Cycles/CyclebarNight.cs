@@ -51,7 +51,7 @@ namespace SystemShutdown.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(moonSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.player.GameObject.Transform.Position.X + 525,
+            spriteBatch.Draw(moonSprite, new Vector2(GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.X + 525,
                 GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 475), Color.White);
 
             //Draws bar

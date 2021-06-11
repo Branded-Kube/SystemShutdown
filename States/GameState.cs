@@ -244,8 +244,8 @@ namespace SystemShutdown.States
             ///<summary>
             ///Updates cursors position
             /// </summary>
-            CursorPosition = new Vector2(PlayerBuilder.player.Distance.X - cursorSprite.Width / 2,
-                PlayerBuilder.player.Distance.Y) + PlayerBuilder.player.GameObject.Transform.Position;
+            CursorPosition = new Vector2(PlayerBuilder.Player.Distance.X - cursorSprite.Width / 2,
+                PlayerBuilder.Player.Distance.Y) + PlayerBuilder.Player.GameObject.Transform.Position;
             previousKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
 
@@ -407,7 +407,7 @@ namespace SystemShutdown.States
             spriteBatch.DrawString(font, $"  Speed:  {PlayerBuilder.Player.Speed}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 845, PlayerBuilder.Player.GameObject.Transform.Position.Y + 446), _msColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(font, $"  Day:  {Days}", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X + 530, PlayerBuilder.Player.GameObject.Transform.Position.Y - 385), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
 
-            if (!PlayerBuilder.player.HasUsedMap)
+            if (!PlayerBuilder.Player.HasUsedMap)
             {
                 spriteBatch.DrawString(font, "Click M to hide the map", new Vector2(PlayerBuilder.Player.GameObject.Transform.Position.X - 870, PlayerBuilder.Player.GameObject.Transform.Position.Y - 150), Color.Red, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             }

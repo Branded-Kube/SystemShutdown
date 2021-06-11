@@ -26,7 +26,7 @@ namespace SystemShutdown.BuildPattern
             set { playerSR = value; }
         }
 
-        public Player player;
+        private Player player;
 
         public Player Player
         {

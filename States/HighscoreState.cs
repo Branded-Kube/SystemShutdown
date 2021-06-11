@@ -74,11 +74,12 @@ namespace SystemShutdown.States
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, 1f, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(backText, backPosition, null, Color.White, 0, backOrigin, 1f, SpriteEffects.None, 0f);
 
+
             GameWorld.Instance.Repo.Open();
-
             GameWorld.Instance.Repo.ScoreHandler();
-
+            
             int i = 0;
+            /// 
             while (GameWorld.Instance.Repo.Reader.Read())
             {
 

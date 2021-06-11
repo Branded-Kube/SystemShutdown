@@ -20,6 +20,11 @@ namespace SystemShutdown
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Enter the username to be saved in the highscore table.
+        /// </summary>
+        /// <param name="sender"></param> test
+        /// <param name="e"></param>
         public static void CreateUsernameInput(object sender, TextInputEventArgs e)
         {
             pressedKey = Keyboard.GetState();
