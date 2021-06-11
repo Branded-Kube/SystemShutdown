@@ -34,6 +34,9 @@ namespace SystemShutdown.States
             howToSprite = content.Load<Texture2D>("Backgrounds/howmenu");
             backText = content.Load<Texture2D>("Controls/back");
 
+            ///<summary>
+            /// Create Button
+            ///</summary>
             components = new List<StateComponent>()
             {
                 new Button(buttonSprite, buttonFont)

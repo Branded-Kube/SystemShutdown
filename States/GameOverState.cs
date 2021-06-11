@@ -73,6 +73,9 @@ namespace SystemShutdown.States
             MediaPlayer.Play(gameOverMusic);
             MediaPlayer.IsRepeating = true;
 
+            ///<summary>
+            /// Create Buttons
+            /// </summary>
             components = new List<StateComponent>()
             {
                 new Button(buttonTexture, buttonFont)

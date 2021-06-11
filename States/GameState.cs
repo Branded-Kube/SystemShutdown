@@ -132,9 +132,6 @@ namespace SystemShutdown.States
             cursorSprite = content.Load<Texture2D>("Textures/cursoren");
             modboard = content.Load<Texture2D>("Textures/modboard");
 
-            // Backgrounds music
-            //dayMusic = content.Load<Song>("Sounds/song1");
-
             nightMusic = content.Load<Song>("Sounds/song02");
 
             MediaPlayer.Play(nightMusic);
