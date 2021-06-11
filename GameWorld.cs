@@ -219,7 +219,7 @@ namespace SystemShutdown
             }
             if (nextGameState != null)
             {
-                currentGameState = nextGameState;
+                currentGameState = nextGameState;   
                 currentGameState.LoadContent();
                 nextGameState = null;
             }

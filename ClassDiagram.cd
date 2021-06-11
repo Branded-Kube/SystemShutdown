@@ -308,6 +308,14 @@
       <FileName>States\HowToState.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="SystemShutdown.Pickup">
+    <Position X="58" Y="9.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAABAAABAQAAAAAAAAAA=</HashCode>
+      <FileName>Pickup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="SystemShutdown.BuildPattern.IBuilder">
     <Position X="31" Y="7.75" Width="1.5" />
     <TypeIdentifier>
