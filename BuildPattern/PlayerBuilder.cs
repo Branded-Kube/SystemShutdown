@@ -37,6 +37,9 @@ namespace SystemShutdown.BuildPattern
 
         #region Methods
 
+        /// <summary>
+        /// Builds player gameobject and sets its origin - Frederik
+        /// </summary>
         public void BuildGameObject()
         {
             playerGO = new GameObject();

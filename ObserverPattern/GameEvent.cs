@@ -19,6 +19,10 @@ namespace SystemShutdown.ObserverPattern
             listeners.Add(listener);
         }
 
+        /// <summary>
+        /// Nofity other objects - Used for collision detection
+        /// </summary>
+        /// <param name="other"></param>
         public void Notify(Component other)
         {
             foreach (IGameListener listener in listeners)

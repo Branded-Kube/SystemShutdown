@@ -63,6 +63,9 @@ namespace SystemShutdown.GameObjects
                 GameWorld.Instance.GameState.PlayerBuilder.Player.GameObject.Transform.Position.Y - 455), Color.White);
         }
 
+        /// <summary>
+        /// Changes color by % as bars goes down
+        /// </summary>
         public void DayColor()
         {
             if (currentBarDay >= dayBar.Width * 0.70)

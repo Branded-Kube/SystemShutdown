@@ -37,13 +37,26 @@ namespace SystemShutdown.FactoryPattern
 
         #region Methods
 
-
+        /// <summary>
+        /// Ref to projectile speed and spriterenderer to create prototype of projectile
+        /// </summary>
+        /// <param name="spriteRenderer"></param>
+        /// <param name="projectile"></param>
+        /// <param name="sprite"></param>
+        /// <param name="speed"></param>
         private void CreatePrototype(ref SpriteRenderer spriteRenderer, ref Projectile projectile, string sprite, float speed)
         {
             projectile = new Projectile(speed);
             spriteRenderer = new SpriteRenderer(sprite);
 
         }
+
+        /// <summary>
+        /// Creates protoype of projectile
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public override GameObject Create(Vector2 position, string type)
         {
             GameObject projectileGO = new GameObject();

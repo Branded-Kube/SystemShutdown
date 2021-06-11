@@ -57,6 +57,9 @@ namespace SystemShutdown
             MediaPlayer.Play(menuMusic);
             MediaPlayer.IsRepeating = true;
 
+            ///<summary>
+            /// Create Buttons
+            ///</summary>
             components = new List<StateComponent>()
             {
                 new Button(buttonSprite, buttonFont)

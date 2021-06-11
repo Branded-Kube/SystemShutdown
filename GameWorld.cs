@@ -166,7 +166,7 @@ namespace SystemShutdown
             currentGameState.LoadContent();
             nextGameState = null;
             ///<summary>
-            /// Loads Target Renderer: to run the game in the same resolution, no matter the pc - Frederik
+            /// Loads Target Renderer: to run the game in the same resolution, no matter the window size - Frederik
             /// </summary>
             RenderTarget = new RenderTarget2D(GraphicsDevice, 3400, 3400);
             minimap = RenderTarget;
